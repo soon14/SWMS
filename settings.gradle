@@ -6,4 +6,5 @@ include 'swms-receiving'
 include 'swms-stock'
 include 'swms-shipping'
 include 'swms-order'
+include 'swms-extend'
 
