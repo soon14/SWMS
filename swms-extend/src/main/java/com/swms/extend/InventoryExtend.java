@@ -1,4 +1,4 @@
-package com.swms.inventory.extend;
+package com.swms.extend;
 
 public interface InventoryExtend {
 }
