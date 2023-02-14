@@ -85,11 +85,7 @@ persistence/logs
 commitlint.config.js
 .commitlintrc.js
 package.json
-node_modules
-package-lock.json
 
-.history
-web-project/iwms-standard/.history
 
 */logs/*
 
