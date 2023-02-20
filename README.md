@@ -2,12 +2,47 @@
 
 super warehouse management system
 
-### Picking Model:
+### Extends Model
+
+> This is the customization if you found some function is not fit for you. In this model, all files are interface, you need to implement them.
+
+### Outbound Model
+
+##### Order process - sub model
 
 Entities:
 
+- Order: Representing a customer order, including the customer information, the items ordered, the quantities, and the
+  status of the order.
+- Customer: Representing a customer of the warehouse, including their name, address, and contact information.
+
+Value Objects:
+
+- Order Item: Representing a single item that has been ordered by a customer.
+- Shipping Address: Representing the address where an order is to be shipped.
+
+Aggregates:
+
+- Order Process: Representing the overall process of managing customer orders, including creating orders, processing
+  payments, and shipping orders.
+
+Services:
+
+- Order Management: Representing the process of managing customer orders, including creating new orders, updating the
+  status of orders, and processing payments.
+- Order Query: Representing the process of querying the order process for information about customer orders, such as the
+  status of an order, the items ordered, and the shipping information.
+
+> These entities, value objects, aggregates, and services form the core components of the Order process in the WMS domain and would be used to drive the design of the system. The implementation of each component would be influenced by the specific requirements of the WMS domain, and the design would need to be refined and iterated as new information becomes available.
+
+##### Picking Model - sub model
+
+Entities:
+
+- Outbound Order:
 - Picking Order: Represents a request to pick a certain number of items from the warehouse for shipment. This entity
   contains information such as the customer name, shipping address, and the items to be picked.
+- Shipment Order:
 
 Value Objects:
 
@@ -26,6 +61,32 @@ Services:
   inventory and shipment of the picked items.
 
 > This is just one example of a Picking model in a WMS and the specific design can vary depending on the requirements and constraints of the system.
+
+##### Shipping process - sub model
+
+Entities:
+
+- Shipping Order: Representing an order to ship items to a customer.
+- Shipped Item: Representing a single item that has been shipped.
+
+Value Objects:
+
+- Shipping Information: Representing information about a shipment, including the shipping method, shipping address, and
+  shipping cost.
+
+Aggregates:
+
+- Shipping Process: Representing the overall process of shipping items to customers, including packing items, preparing
+  shipping labels, and arranging for shipping.
+
+Services:
+
+- Shipping Management: Representing the process of managing the shipping of items to customers, including creating
+  shipping orders, generating shipping labels, and tracking the progress of the shipping process.
+- Shipping Query: Representing the process of querying the shipping process for information about shipments, such as the
+  status of a shipment, the shipping address, and the shipping method.
+
+> These entities, value objects, aggregates, and services form the core components of the Shipping process in the WMS domain and would be used to drive the design of the system. The implementation of each component would be influenced by the specific requirements of the WMS domain, and the design would need to be refined and iterated as new information becomes available.
 
 ### Warehouse Management:
 
@@ -108,58 +169,6 @@ Services:
 
 > These entities, value objects, aggregates, and services form the core components of the Receiving process in the WMS domain and would be used to drive the design of the system. The implementation of each component would be influenced by the specific requirements of the WMS domain, and the design would need to be refined and iterated as new information becomes available.
 
-### Shipping process
-
-Entities:
-
-- Shipping Order: Representing an order to ship items to a customer.
-- Shipped Item: Representing a single item that has been shipped.
-
-Value Objects:
-
-- Shipping Information: Representing information about a shipment, including the shipping method, shipping address, and
-  shipping cost.
-
-Aggregates:
-
-- Shipping Process: Representing the overall process of shipping items to customers, including packing items, preparing
-  shipping labels, and arranging for shipping.
-
-Services:
-
-- Shipping Management: Representing the process of managing the shipping of items to customers, including creating
-  shipping orders, generating shipping labels, and tracking the progress of the shipping process.
-- Shipping Query: Representing the process of querying the shipping process for information about shipments, such as the
-  status of a shipment, the shipping address, and the shipping method.
-
-> These entities, value objects, aggregates, and services form the core components of the Shipping process in the WMS domain and would be used to drive the design of the system. The implementation of each component would be influenced by the specific requirements of the WMS domain, and the design would need to be refined and iterated as new information becomes available.
-
-### Order process
-
-Entities:
-
-- Order: Representing a customer order, including the customer information, the items ordered, the quantities, and the
-  status of the order.
-- Customer: Representing a customer of the warehouse, including their name, address, and contact information.
-
-Value Objects:
-
-- Order Item: Representing a single item that has been ordered by a customer.
-- Shipping Address: Representing the address where an order is to be shipped.
-
-Aggregates:
-
-- Order Process: Representing the overall process of managing customer orders, including creating orders, processing
-  payments, and shipping orders.
-
-Services:
-
-- Order Management: Representing the process of managing customer orders, including creating new orders, updating the
-  status of orders, and processing payments.
-- Order Query: Representing the process of querying the order process for information about customer orders, such as the
-  status of an order, the items ordered, and the shipping information.
-
-> These entities, value objects, aggregates, and services form the core components of the Order process in the WMS domain and would be used to drive the design of the system. The implementation of each component would be influenced by the specific requirements of the WMS domain, and the design would need to be refined and iterated as new information becomes available.
 
 ## Inventory
 

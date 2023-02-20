@@ -1,10 +1,8 @@
 rootProject.name = 'SWMS'
 include 'swms-inventory'
 include 'swms-warehouse'
-include 'swms-picking'
-include 'swms-receiving'
+include 'swms-outbound'
+include 'swms-inbound'
 include 'swms-stock'
-include 'swms-shipping'
-include 'swms-order'
 include 'swms-extend'
 
