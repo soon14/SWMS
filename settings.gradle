@@ -5,4 +5,7 @@ include 'swms-outbound'
 include 'swms-inbound'
 include 'swms-stock-movement'
 include 'swms-extend'
+include 'swms-station'
+include 'swms-report'
+include 'swms-rule'
 
