@@ -3,6 +3,6 @@ include 'swms-inventory'
 include 'swms-warehouse'
 include 'swms-outbound'
 include 'swms-inbound'
-include 'swms-stock'
+include 'swms-stock-movement'
 include 'swms-extend'
 

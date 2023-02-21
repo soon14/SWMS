@@ -143,7 +143,7 @@ Services:
 
 > These entities, value objects, aggregates, and services form the core components of the Stock Movement process in the WMS domain and would be used to drive the design of the system. The implementation of each component would be influenced by the specific requirements of the WMS domain, and the design would need to be refined and iterated as new information becomes available.
 
-### Receiving process
+### Inbound Module
 
 Entities:
 
