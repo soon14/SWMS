@@ -7,5 +7,5 @@ public interface HandlerExecutor {
      *
      * @param body
      */
-    Object execute(String apiCode, String body);
+    void execute(String apiCode, String body);
 }

@@ -12,7 +12,7 @@ import java.util.Map;
 @Component
 public class BusinessHandlerFactory implements InitializingBean {
 
-    private static Map<String, IBusinessHandler> map = new HashMap<>();
+    private static final Map<String, IBusinessHandler> map = new HashMap<>();
 
     @Autowired
     private List<IBusinessHandler> handlerList;

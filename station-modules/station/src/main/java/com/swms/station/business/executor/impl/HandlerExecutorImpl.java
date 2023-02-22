@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class HandlerExecutorImpl implements HandlerExecutor {
     @Override
-    public Object execute(String apiCode, String body) {
+    public void execute(String apiCode, String body) {
         IBusinessHandler businessHandler = BusinessHandlerFactory.getHandler(apiCode);
-        return businessHandler.execute(body);
+        businessHandler.execute(body);
     }
 }
