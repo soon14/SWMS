@@ -1,17 +1,138 @@
 plugins {
     id 'java'
+    id "io.spring.dependency-management" version "1.1.0"
+    id "org.springframework.boot" version "3.0.2"
 }
 
 group 'com.swms'
 version '1.0-SNAPSHOT'
 
-repositories {
-    mavenCentral()
+allprojects {
+    apply plugin: 'java'
+    apply plugin: 'idea'
+    apply plugin: 'jacoco'
+
+    tasks.withType(JavaCompile) {
+        options.encoding = 'UTF-8'
+    }
+    repositories {
+        maven { url 'https://maven.aliyun.com/nexus/content/groups/public/' }
+        mavenCentral()
+    }
 }
 
-dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+subprojects {
+    sourceCompatibility = 17
+    targetCompatibility = 17
+    apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'org.springframework.boot'
+
+    test {
+        useJUnitPlatform()
+        ignoreFailures = true
+    }
+
+    // 这个里面的东西就是所有的子项目都要用的，当然，如果子项目不想用的话，也可以排除掉
+    dependencies {
+        compileOnly 'org.projectlombok:lombok:1.18.8'
+        annotationProcessor 'org.projectlombok:lombok:1.18.8'
+        testCompileOnly 'org.projectlombok:lombok:1.18.8'
+        testAnnotationProcessor 'org.projectlombok:lombok:1.18.8'
+
+//        testImplementation('org.springframework.boot:spring-boot-starter-test') {
+//            exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+//        }
+    }
+
+    dependencyManagement {
+        imports {
+            mavenBom 'org.springframework.cloud:spring-cloud-dependencies:2022.0.1'
+        }
+
+        imports {
+            mavenBom(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES)
+        }
+
+        resolutionStrategy {
+            cacheChangingModulesFor 0, 'seconds'
+        }
+
+        dependencies {
+
+            /******************************** Spring 相关依赖 ***********************/
+            dependency group: 'org.springframework.boot', name: 'spring-boot-starter-data-redis', version: '3.0.2'
+            dependency group: 'org.springframework.boot', name: 'spring-boot-starter-websocket', version: '3.0.2'
+
+
+            /********************************  使用apache dubbo starter **************/
+            // dependency group: 'com.alibaba.cloud', name: 'spring-cloud-starter-dubbo', version: '2.2.6.RELEASE'
+            dependency group: 'com.alibaba.cloud', name: 'spring-cloud-starter-alibaba-nacos-config', version: '2022.0.0.0-RC1'
+            dependency group: 'com.alibaba.cloud', name: 'spring-cloud-starter-alibaba-nacos-discovery', version: '2022.0.0.0-RC1'
+
+
+            /******************************** 依赖工具*******************************/
+            dependency group: 'org.projectlombok', name: 'lombok', version: '1.18.26'
+            dependency group: 'com.google.guava', name: 'guava', version: '31.1-jre'
+
+            dependency group: 'org.apache.commons', name: 'commons-lang3', version: '3.12.0'
+            dependency group: 'org.apache.commons', name: 'commons-collections4', version: '4.4'
+            dependency group: 'org.apache.commons', name: 'commons-pool2', version: '2.9.0'
+            dependency group: 'org.apache.commons', name: 'commons-text', version: '1.9'
+            dependency group: 'org.apache.commons', name: 'commons-math3', version: '3.6.1'
+            dependency group: 'org.apache.commons', name: 'commons-compress', version: '1.20'
+
+            dependency group: 'commons-codec', name: 'commons-codec', version: '1.15'
+            dependency group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.11.3'
+            dependency group: 'mysql', name: 'mysql-connector-java', version: '8.0.32'
+
+            /******************************** 依赖swagger*******************************/
+            dependency group: 'io.springfox', name: 'springfox-swagger2', version: '3.0.0'
+            dependency group: 'io.springfox', name: 'springfox-swagger-ui', version: '3.0.0'
+            dependency group: 'io.swagger.core.v3', name: 'swagger-models', version: '2.2.8'
+            dependency group: 'io.swagger.core.v3', name: 'swagger-annotations', version: '2.2.8'
+
+
+            /******************************** 依赖queryDsl*******************************/
+            dependency "com.querydsl:querydsl-core:4.2.1"
+            dependency "com.querydsl:querydsl-jpa:4.2.1"
+            dependency "com.querydsl:querydsl-mongodb:4.2.1"
+            dependency "com.querydsl:querydsl-apt:4.2.1"
+
+
+            /******************************** 依赖hibernate*******************************/
+            dependency group: 'com.vladmihalcea', name: 'hibernate-types-52', version: '2.11.1'
+            dependency group: 'org.hibernate.javax.persistence', name: 'hibernate-jpa-2.1-api', version: '1.0.2.Final'
+            dependency group: 'org.lazyluke', name: 'log4jdbc-remix', version: '0.2.7'
+
+
+            /********************************  fluent dependency *******************************/
+            dependency group: 'org.fluentd', name: 'fluent-logger', version: '0.3.4'
+            dependency 'com.sndyuk:logback-more-appenders:1.8.4'
+
+
+            /********************************  mapstruct *******************************/
+            dependency group: 'org.mapstruct', name: 'mapstruct', version: '1.4.2.Final'
+            dependency group: 'org.mapstruct', name: 'mapstruct-processor', version: '1.4.2.Final'
+            dependency group: 'org.projectlombok', name: 'lombok-mapstruct-binding', version: '0.2.0'
+            dependency group: 'org.redisson', name: 'redisson-spring-boot-starter', version: '3.15.3'
+
+
+            /********************************  工具类 *******************************/
+            dependency "org.apache.poi:poi:5.2.3"
+            dependency "org.apache.poi:poi-ooxml:5.2.3"
+            dependency group: 'org.redisson', name: 'redisson-spring-boot-starter', version: '3.19.3'
+            dependency group: 'org.apache.skywalking', name: 'apm-toolkit-logback-1.x', version: '8.14.0'
+            dependency group: 'jakarta.validation', name: 'jakarta.validation-api', version: '3.0.2'
+
+
+            /********************************  导入导出功能用 *******************************/
+            dependency group: 'cn.afterturn', name: 'easypoi-web', version: '4.4.0'
+            dependency group: 'commons-net', name: 'commons-net', version: '3.9'
+
+        }
+
+    }
+
 }
 
 test {
