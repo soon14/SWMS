@@ -12,6 +12,13 @@ repositories {
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+
+    implementation project(path: ":swms-common", configuration: 'default')
+
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-websocket'
+    implementation group: 'com.google.guava', name: 'guava'
+    implementation group: 'org.apache.commons', name: 'commons-lang3'
 }
 
 test {
