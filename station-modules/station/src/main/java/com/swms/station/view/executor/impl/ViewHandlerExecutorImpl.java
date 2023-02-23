@@ -1,4 +1,13 @@
 package com.swms.station.view.executor.impl;
 
-public class ViewHandlerExecutorImpl {
+import com.swms.station.view.executor.ViewHandlerExecutor;
+import org.springframework.stereotype.Service;
+
+@Service
+public class ViewHandlerExecutorImpl implements ViewHandlerExecutor {
+
+    @Override
+    public void containerArrived(String body) {
+
+    }
 }
