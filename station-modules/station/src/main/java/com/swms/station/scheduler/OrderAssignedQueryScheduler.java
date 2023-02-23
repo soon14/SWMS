@@ -8,6 +8,6 @@ public class OrderAssignedQueryScheduler {
 
     @Scheduled
     public void queryOrderAssigned() {
-
+        // TODO document why this method is empty
     }
 }
