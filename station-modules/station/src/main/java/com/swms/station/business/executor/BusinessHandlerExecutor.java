@@ -1,6 +1,6 @@
 package com.swms.station.business.executor;
 
-public interface HandlerExecutor {
+public interface BusinessHandlerExecutor {
 
     /**
      * 执行业务
