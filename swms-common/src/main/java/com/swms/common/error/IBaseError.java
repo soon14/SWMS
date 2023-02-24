@@ -9,7 +9,19 @@ package com.swms.common.error;
  * <p>
  * example: IN010001
  */
-public interface IBaseErrorCode {
+public interface IBaseError {
 
+    /**
+     * 获取代码
+     *
+     * @return {@link String}
+     */
+    String getCode();
 
+    /**
+     * 得到desc
+     *
+     * @return {@link String}
+     */
+    String getDesc();
 }

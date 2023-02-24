@@ -1,11 +1,10 @@
 package com.swms.common.http;
 
+import com.swms.common.error.IBaseError;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.ArrayList;
 
 @Data
 @Builder
@@ -14,7 +13,7 @@ import java.util.ArrayList;
 public class Response {
 
     /**
-     * @see com.swms.common.error.IBaseErrorCode
+     * @see IBaseError
      */
     @Builder.Default
     private String code = "0";
