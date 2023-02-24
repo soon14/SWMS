@@ -1,4 +1,4 @@
-package com.swms.common.error.excepiton;
+package com.swms.common.error.exception;
 
 import com.swms.common.error.IBaseError;
 import lombok.*;
