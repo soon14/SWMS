@@ -18,7 +18,7 @@ public class ApiController {
     private HandlerExecutor handlerExecutor;
 
     @PostMapping
-    public Response execute(@RequestParam String apiCode, @RequestBody(required = false) String body) {
+    public Response<Object> execute(@RequestParam String apiCode, @RequestBody(required = false) String body) {
         Preconditions.checkArgument(StringUtils.isNotEmpty(apiCode));
         handlerExecutor.execute(apiCode, body);
         return Response.success();

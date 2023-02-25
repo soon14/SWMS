@@ -6,36 +6,77 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serial;
+import java.io.Serializable;
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Response {
+@SuppressWarnings("unchecked")
+public final class Response<T> implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 9140878780328792981L;
+    /**
+     * 默认成功代码
+     */
+    private static final String SUCCESS_CODE = "0";
+    /**
+     * 默认成功信息
+     */
+    private static final String SUCCESS_MSG = "success";
+    /**
+     * 默认失败代码
+     */
+    private static final String FAIL_CODE = "1";
+    /**
+     * 默认失败信息
+     */
+    private static final String FAILED_MSG = "failed";
+
 
     /**
      * @see IBaseError
      */
     @Builder.Default
-    private String code = "0";
+    private String code = SUCCESS_CODE;
 
     /**
      * Code对应的msg，提示给用户
      */
     @Builder.Default
-    private String msg = "success";
+    private String msg = SUCCESS_MSG;
 
     /**
      * 存储返回前端的数据
      */
-    private Object data;
+    private T data;
 
-    /**
-     * 是前后端错误追踪机制的体现，可以在前端输出到 type="hidden"文字类控件中，或者用户端的日志中，帮助我们快速地定位出问题。
-     */
-    @Builder.Default
-    private String detailMessage = "";
+    public Response(String code, String msg) {
+        this.code = code;
+        this.msg = msg;
+    }
 
-    public static Response success() {
-        return Response.builder().code("0").msg("success").build();
+    public static <T> Response<T> success(IBaseError baseEr) {
+        return (Response<T>) Response.builder().code(baseEr.getCode()).msg(baseEr.getDesc()).build();
+    }
+
+    public static <T> Response<T> success() {
+        return ((Response<T>) Response.builder().code(SUCCESS_CODE).msg(SUCCESS_MSG).build());
+    }
+
+    public static <T> Response<T> success(T t) {
+        final Response<T> success = success();
+        success.setData(t);
+        return success;
+    }
+
+    public static <T> Response<T> fail(IBaseError baseEr) {
+        return ((Response<T>) Response.builder().code(baseEr.getCode()).msg(baseEr.getDesc()).build());
+    }
+
+    public static <T> Response<T> fail() {
+        return ((Response<T>) Response.builder().code(FAIL_CODE).msg(FAILED_MSG).build());
     }
 }
