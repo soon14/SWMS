@@ -1,6 +1,5 @@
-package com.swms.common.error.code_enum;
+package com.swms.common.exception.code_enum;
 
-import com.swms.common.error.IBaseError;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

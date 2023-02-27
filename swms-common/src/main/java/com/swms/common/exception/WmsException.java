@@ -1,6 +1,6 @@
-package com.swms.common.error.exception;
+package com.swms.common.exception;
 
-import com.swms.common.error.IBaseError;
+import com.swms.common.exception.code_enum.IBaseError;
 import lombok.*;
 
 import java.io.Serial;

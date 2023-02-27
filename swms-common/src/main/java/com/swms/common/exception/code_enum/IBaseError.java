@@ -1,4 +1,4 @@
-package com.swms.common.error;
+package com.swms.common.exception.code_enum;
 
 /**
  * ErrorCode规范：
