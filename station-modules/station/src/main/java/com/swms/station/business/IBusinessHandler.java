@@ -1,5 +1,7 @@
 package com.swms.station.business;
 
+import com.swms.station.api.ApiCodeEnum;
+
 public interface IBusinessHandler {
 
 
@@ -12,6 +14,6 @@ public interface IBusinessHandler {
      */
     Object execute(String body);
 
-    String getApiCode();
+    ApiCodeEnum getApiCode();
 
 }

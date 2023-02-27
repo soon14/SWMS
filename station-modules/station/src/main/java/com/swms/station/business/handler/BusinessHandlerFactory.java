@@ -1,5 +1,6 @@
 package com.swms.station.business.handler;
 
+import com.swms.station.api.ApiCodeEnum;
 import com.swms.station.business.IBusinessHandler;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,7 @@ import java.util.Map;
 @Component
 public class BusinessHandlerFactory implements InitializingBean {
 
-    private static final Map<String, IBusinessHandler> map = new HashMap<>();
+    private static final Map<ApiCodeEnum, IBusinessHandler> map = new HashMap<>();
 
     @Autowired
     private List<IBusinessHandler> handlerList;
@@ -24,7 +25,7 @@ public class BusinessHandlerFactory implements InitializingBean {
         }
     }
 
-    public static IBusinessHandler getHandler(String apiType) {
+    public static IBusinessHandler getHandler(ApiCodeEnum apiType) {
         return map.get(apiType);
     }
 }
