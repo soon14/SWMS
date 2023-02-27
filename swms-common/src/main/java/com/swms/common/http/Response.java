@@ -58,10 +58,6 @@ public final class Response<T> implements Serializable {
         this.msg = msg;
     }
 
-    public static <T> Response<T> success(IBaseError baseEr) {
-        return (Response<T>) Response.builder().code(baseEr.getCode()).msg(baseEr.getDesc()).build();
-    }
-
     public static <T> Response<T> success() {
         return ((Response<T>) Response.builder().code(SUCCESS_CODE).msg(SUCCESS_MSG).build());
     }
@@ -72,11 +68,10 @@ public final class Response<T> implements Serializable {
         return success;
     }
 
-    public static <T> Response<T> fail(IBaseError baseEr) {
-        return ((Response<T>) Response.builder().code(baseEr.getCode()).msg(baseEr.getDesc()).build());
-    }
-
     public static <T> Response<T> fail() {
         return ((Response<T>) Response.builder().code(FAIL_CODE).msg(FAILED_MSG).build());
+    }
+    public static <T> Response<T> fail(IBaseError baseEr) {
+        return ((Response<T>) Response.builder().code(baseEr.getCode()).msg(baseEr.getDesc()).build());
     }
 }
