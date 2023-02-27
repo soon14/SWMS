@@ -1,5 +1,7 @@
 package com.swms.station.business.model;
 
+import com.swms.common.constants.WorkLocationType;
+import com.swms.common.constants.WorkStationOperationTypeEnum;
 import lombok.Data;
 
 import java.util.List;
@@ -13,20 +15,14 @@ public class WorkLocation {
     /**
      * like SHELF, ROBOT, CONVEYOR and so on
      */
-    private String workLocationType;
-
-    private String businessType;
-
-    private String warehouseCode;
-    private String warehouseLogicCode;
-    private String warehouseAreaCode;
+    private WorkLocationType workLocationType;
 
     private String workLocationCode;
     private String robotCode;
 
     private List<Layout> layouts;
 
-    private String stationStatus;
+    private boolean enable;
 
     @Data
     private static class Layout {

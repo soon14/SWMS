@@ -4,7 +4,11 @@ import com.swms.station.api.ApiCodeEnum;
 import com.swms.station.business.IBusinessHandler;
 import com.swms.station.business.handler.BusinessHandlerFactory;
 import com.swms.station.executor.HandlerExecutor;
+import com.swms.station.view.ViewHelper;
+import com.swms.station.view.handler.IViewHandler;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class HandlerExecutorImpl implements HandlerExecutor {
@@ -14,7 +18,7 @@ public class HandlerExecutorImpl implements HandlerExecutor {
         IBusinessHandler businessHandler = BusinessHandlerFactory.getHandler(apiCode);
         businessHandler.execute(body);
 
-        // execute view handler
-        //TODO
+        List<IViewHandler> viewHandlers = ViewHelper.getViewHandlers(apiCode);
+        viewHandlers.forEach(IViewHandler::buildView);
     }
 }
