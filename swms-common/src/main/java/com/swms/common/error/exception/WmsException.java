@@ -3,6 +3,8 @@ package com.swms.common.error.exception;
 import com.swms.common.error.IBaseError;
 import lombok.*;
 
+import java.io.Serial;
+import java.text.MessageFormat;
 import java.util.function.Supplier;
 
 /**
@@ -18,6 +20,9 @@ import java.util.function.Supplier;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public final class WmsException extends RuntimeException {
+    @Serial
+    private static final long serialVersionUID = -8192643659977363045L;
+
     /**
      * 代码
      */
@@ -61,6 +66,22 @@ public final class WmsException extends RuntimeException {
                 .build();
     }
 
+
+    /**
+     * 抛出wms异常，带有具体字段错误信息
+     *
+     * @param iBaseError 基本错误
+     * @param args       具体参数
+     *
+     * @return {@link WmsException}
+     */
+    public static WmsException throwWmsException(IBaseError iBaseError, Object... args) {
+        return WmsException.builder()
+            .code(iBaseError.getCode())
+            .message(MessageFormat.format(iBaseError.getDesc(), args))
+            .build();
+    }
+
     /**
      * 抛出wms异常
      *
@@ -72,6 +93,21 @@ public final class WmsException extends RuntimeException {
                 .code(iBaseError.getCode())
                 .message(iBaseError.getDesc())
                 .build();
+    }
+
+    /**
+     * 抛出wms异常,带有具体字段错误信息
+     *
+     * @param iBaseError 基本错误
+     * @param args       参数
+     *
+     * @return {@link Supplier}<{@link WmsException}>
+     */
+    public static Supplier<WmsException> throwWmsExceptionSup(IBaseError iBaseError,Object... args) {
+        return () -> WmsException.builder()
+            .code(iBaseError.getCode())
+            .message(MessageFormat.format(iBaseError.getDesc(), args))
+            .build();
     }
 
 }
