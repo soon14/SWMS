@@ -1,6 +1,7 @@
 package com.swms.station.business.model;
 
 import com.swms.common.constants.WorkStationOperationTypeEnum;
+import com.swms.common.constants.WorkStationStatusEnum;
 import lombok.Data;
 
 import java.util.List;
@@ -13,6 +14,8 @@ public class WorkStation {
 
     private String stationCode;
 
+    private WorkStationStatusEnum workStationStatus;
+
     private String warehouseCode;
     private String warehouseLogicCode;
     private String warehouseAreaCode;
@@ -22,4 +25,7 @@ public class WorkStation {
     private List<WorkLocation> workLocations;
 
     private List<PutWall> putWalls;
+
+    private List<OperateTask> operateTasks;
+
 }

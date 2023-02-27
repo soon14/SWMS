@@ -18,7 +18,7 @@ import java.util.Objects;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class WorkStationView {
+public class WorkStationVO {
 
     private String stationCode;
     private WorkStationStatusEnum stationStatus;

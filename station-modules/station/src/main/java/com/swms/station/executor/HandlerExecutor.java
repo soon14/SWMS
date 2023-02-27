@@ -4,6 +4,6 @@ import com.swms.station.api.ApiCodeEnum;
 
 public interface HandlerExecutor {
 
-    void execute(ApiCodeEnum apiCode, String body);
+    void execute(ApiCodeEnum apiCode, String body, String stationCode);
 
 }

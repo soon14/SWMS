@@ -1,7 +1,6 @@
 package com.swms.station.business.model;
 
 import com.swms.common.constants.WorkLocationType;
-import com.swms.common.constants.WorkStationOperationTypeEnum;
 import lombok.Data;
 
 import java.util.List;
