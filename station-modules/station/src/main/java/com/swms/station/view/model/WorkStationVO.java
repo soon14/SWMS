@@ -2,10 +2,11 @@ package com.swms.station.view.model;
 
 import com.swms.common.constants.WorkStationOperationTypeEnum;
 import com.swms.common.constants.WorkStationStatusEnum;
+import com.swms.station.business.model.PutWall;
+import com.swms.station.business.model.WorkLocation;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -27,7 +28,7 @@ public class WorkStationVO {
 
     private List<Tip> tips;
 
-    private ContainerArea containerArea;
+    private WorkLocationArea workLocationArea;
     private SkuArea skuArea;
     private PutWallArea putWallArea;
     private OrderArea orderArea;
@@ -101,8 +102,8 @@ public class WorkStationVO {
     @Builder
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class ContainerArea {
-        private List<ContainerView> containerViews;
+    public static class WorkLocationArea {
+        private List<WorkLocation> workLocationViews;
     }
 
     @Data
@@ -121,18 +122,7 @@ public class WorkStationVO {
     @NoArgsConstructor
     public static class PutWallArea {
         private String putWallDisplayStyle;
-        private List<PutWallView> putWallViews;
-    }
-
-    @Data
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public static class ContainerView {
-        private String containerCarrier;
-        private String machineType;
-        private String groupCode;
-        private boolean active;
-        private CarrierDesc carrierDesc;
+        private List<PutWall> putWallViews;
     }
 
     @Data
@@ -157,68 +147,6 @@ public class WorkStationVO {
 
         private String subContainerCode;
         private String subContainerName;
-    }
-
-    @Data
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public static class PutWallView {
-        private String putWallCode;
-        private int level;
-        private int bay;
-        private String location;
-        private boolean active;
-        private List<PutWallSlotView> putWallSlotViews;
-    }
-
-    @EqualsAndHashCode(callSuper = true)
-    @Data
-    @SuperBuilder(toBuilder = true)
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public static class PutWallSlotView extends SubContainerVO {
-        private String transferContainerCode;
-        private Integer dispatchQty;
-        //        private List<PageConfigDetail> putWallSlotDesc;
-        private String status;
-        private boolean allowSplit;
-        //        private AmountDisplayRule amountDisplayRule;
-        private List<Long> orderIds;
-    }
-
-    @Data
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public static class CarrierDesc {
-        private Integer level;
-        private Integer bay;
-        private List<CarrierSlotView> carrierSlots;
-    }
-
-    @EqualsAndHashCode(callSuper = true)
-    @Data
-    @SuperBuilder(toBuilder = true)
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public static class CarrierSlotView extends SubContainerVO {
-        private String subContainerCode;
-        private ContainerDesc containerDesc;
-        private String abnormalFlag;
-        private String abnormalDesc;
-    }
-
-    @Data
-    @Builder
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public static class ContainerDesc {
-        private String containerCode;
-        private String containerType;
-        private Integer level;
-        private Integer bay;
-        private List<SubContainerVO> subContainers;
-        private String face;
-        private Integer rotationAngle;
     }
 
     @Data

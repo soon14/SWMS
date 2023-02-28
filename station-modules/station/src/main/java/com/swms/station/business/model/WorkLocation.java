@@ -15,21 +15,14 @@ public class WorkLocation {
      * like SHELF, ROBOT, CONVEYOR and so on
      */
     private WorkLocationType workLocationType;
-
     private String workLocationCode;
-    private String robotCode;
-
     private List<Layout> layouts;
 
     private boolean enable;
 
     @Data
-    private static class Layout {
-        private Integer level;
-        private Integer bay;
-        private String code;
-        private String containerCode;
-        private String containerType;
-        private String containerFace;
+    public static class Layout {
+        private String layoutCode;
+        private List<Slot> slots;
     }
 }
