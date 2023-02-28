@@ -13,7 +13,7 @@ import java.util.Map;
 @Component
 public class ViewHelper {
 
-    private static Map<String, WorkStationVO> workStationVOMap = Maps.newHashMap();
+    private static final Map<String, WorkStationVO> workStationVOMap = Maps.newHashMap();
 
     private ViewHelper() {
     }

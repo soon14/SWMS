@@ -21,8 +21,8 @@ import java.util.Objects;
 public class WorkStationVO {
 
     private String stationCode;
-    private WorkStationStatusEnum stationStatus;
-    private WorkStationOperationTypeEnum stationOperationType;
+    private WorkStationStatusEnum workStationStatus;
+    private WorkStationOperationTypeEnum operationType;
     private String chooseArea;
 
     private List<Tip> tips;
@@ -40,6 +40,7 @@ public class WorkStationVO {
         CONTAINER_AREA("containerArea"),
         PUT_WALL_AREA("putWallArea"),
         SCAN_AREA("scanArea"), // 主要用于非缓存货架的空箱出库
+        ORDER_AREA("orderArea"),
         TIPS("tips");
         private final String value;
     }
@@ -111,7 +112,7 @@ public class WorkStationVO {
     public static class SkuArea {
         private String pickType;
         private String totalToBePickedQty;
-        private List<PickingView> pickingViews;
+        private List<SkuView> pickingViews;
     }
 
     @Data
@@ -138,20 +139,22 @@ public class WorkStationVO {
     @SuperBuilder
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class PickingView {
+    public static class SkuView {
         private Long skuBatchId;
         private String skuCode;
         private String skuName;
+        private String imageUrl;
+        private boolean processed;
+
         //        private List<SnInfo> snInfos;
         private Map<String, Object> batchAttributeJson;
+
         //        private List<PageConfigDetail> skuDesc;
         private Integer requiredQty;
-        private Integer pickedQty;
-        private Integer shortAmount;
-        private Integer toBePickedQty;
+        private Integer operatedQty;
+        private Integer toBeOperateQty;
         //        private AmountDisplayRule amountDisplayRule;
-        private String imageUrl;
-        private boolean isScanned;
+
         private String subContainerCode;
         private String subContainerName;
     }
@@ -165,8 +168,7 @@ public class WorkStationVO {
         private int bay;
         private String location;
         private boolean active;
-        private boolean showHasTask;
-        private List<PutWallSlotView> putWallSlotView;
+        private List<PutWallSlotView> putWallSlotViews;
     }
 
     @EqualsAndHashCode(callSuper = true)

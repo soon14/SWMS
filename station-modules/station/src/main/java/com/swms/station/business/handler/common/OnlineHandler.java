@@ -1,14 +1,21 @@
 package com.swms.station.business.handler.common;
 
+import com.google.common.base.Preconditions;
+import com.swms.common.constants.WorkStationOperationTypeEnum;
+import com.swms.common.constants.WorkStationStatusEnum;
 import com.swms.station.api.ApiCodeEnum;
 import com.swms.station.business.handler.IBusinessHandler;
 import com.swms.station.business.model.WorkStation;
 import com.swms.station.business.model.WorkStationManagement;
+import com.swms.wms.api.warehouse.WorkStationApi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class OnlineHandler implements IBusinessHandler {
+
+    @Autowired
+    private WorkStationApi workStationApi;
 
     @Autowired
     private WorkStationManagement workStationManagement;
@@ -17,7 +24,13 @@ public class OnlineHandler implements IBusinessHandler {
     public Object execute(String body, String stationCode) {
 
         WorkStation workStation = workStationManagement.getWorkStation(stationCode);
+        if (workStation == null) {
+            workStation = workStationManagement.initWorkStation(stationCode);
+        }
 
+        Preconditions.checkState(workStation.getWorkStationStatus() == WorkStationStatusEnum.OFFLINE);
+
+        workStationApi.online(stationCode, WorkStationOperationTypeEnum.valueOf(body));
 
         return null;
     }

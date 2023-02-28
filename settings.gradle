@@ -7,6 +7,7 @@ include 'wms-modules:wms-stock-movement'
 include 'wms-modules:wms-extend'
 include 'wms-modules:wms-report'
 include 'wms-modules:wms-rule'
+include 'wms-modules:wms-api'
 
 include 'station-modules:station'
 include 'station-modules:station-extend'

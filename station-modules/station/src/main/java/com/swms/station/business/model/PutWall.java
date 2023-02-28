@@ -20,5 +20,6 @@ public class PutWall {
         private Integer level;
         private Integer bay;
         private String transferContainerCode;
+        private List<Long> orderIds;
     }
 }

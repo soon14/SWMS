@@ -17,8 +17,8 @@ public class WorkStation {
     private WorkStationStatusEnum workStationStatus;
 
     private String warehouseCode;
-    private String warehouseLogicCode;
     private String warehouseAreaCode;
+    private String warehouseLogicCode;
 
     private WorkStationOperationTypeEnum operationType;
 
@@ -27,5 +27,7 @@ public class WorkStation {
     private List<PutWall> putWalls;
 
     private List<OperateTask> operateTasks;
+
+    private WorkStationConfig workStationConfig;
 
 }
