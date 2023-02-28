@@ -2,6 +2,7 @@ package com.swms.station.view.model;
 
 import com.swms.common.constants.WorkStationOperationTypeEnum;
 import com.swms.common.constants.WorkStationStatusEnum;
+import com.swms.station.business.model.OperateTask;
 import com.swms.station.business.model.PutWall;
 import com.swms.station.business.model.WorkLocation;
 import lombok.AllArgsConstructor;
@@ -9,10 +10,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 @Data
@@ -113,7 +112,7 @@ public class WorkStationVO {
     public static class SkuArea {
         private String pickType;
         private String totalToBePickedQty;
-        private List<SkuView> pickingViews;
+        private List<OperateTask> pickingViews;
     }
 
     @Data
@@ -123,30 +122,6 @@ public class WorkStationVO {
     public static class PutWallArea {
         private String putWallDisplayStyle;
         private List<PutWall> putWallViews;
-    }
-
-    @Data
-    @SuperBuilder
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public static class SkuView {
-        private Long skuBatchId;
-        private String skuCode;
-        private String skuName;
-        private String imageUrl;
-        private boolean processed;
-
-        //        private List<SnInfo> snInfos;
-        private Map<String, Object> batchAttributeJson;
-
-        //        private List<PageConfigDetail> skuDesc;
-        private Integer requiredQty;
-        private Integer operatedQty;
-        private Integer toBeOperateQty;
-        //        private AmountDisplayRule amountDisplayRule;
-
-        private String subContainerCode;
-        private String subContainerName;
     }
 
     @Data
