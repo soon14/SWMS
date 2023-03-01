@@ -2,7 +2,9 @@ package com.swms.station.business.model;
 
 import com.swms.common.constants.WorkStationOperationTypeEnum;
 import com.swms.common.constants.WorkStationStatusEnum;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
@@ -10,6 +12,8 @@ import java.util.List;
  * definition：a place that operators working, only support one station one Operation Type at a time.
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class WorkStation {
 
     private String stationCode;

@@ -127,7 +127,6 @@ public class WorkStationVO {
     @Data
     @Builder
     @AllArgsConstructor
-    @NoArgsConstructor
     public static class OrderArea {
 
     }

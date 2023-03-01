@@ -2,7 +2,7 @@ package com.swms.wms.api.warehouse;
 
 import com.swms.common.constants.WorkStationOperationTypeEnum;
 
-public interface WorkStationApi {
+public interface IWorkStationApi {
 
     void online(String stationCode, WorkStationOperationTypeEnum operationType);
 
@@ -11,4 +11,6 @@ public interface WorkStationApi {
     void pause(String stationCode);
 
     void resume(String stationCode);
+
+    Object queryWorkStation(String stationCode);
 }

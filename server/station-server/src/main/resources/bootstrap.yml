@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: station
+  profiles:
+    active: prod
+  cloud:
+    nacos:
+      config:
+        server-addr: ${nacos.hairoutech.com:192.168.83.128}:${nacos.port:8848}
+        prefix: ${spring.application.name}
+        file-extension: yml
+        namespace: ${spring.profiles.active}
+        group: swms
+        username: nacos
+        password: nacos
+server:
+  port: 9090

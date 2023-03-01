@@ -22,6 +22,9 @@ public class ApiController {
     @Autowired
     private HandlerExecutor handlerExecutor;
 
+    @Autowired
+    private ViewHelper viewHelper;
+
     @PutMapping
     public Response<Object> execute(@RequestParam ApiCodeEnum apiCode, @RequestBody(required = false) String body) {
         String stationCode = HttpContext.getStationCode();
@@ -32,6 +35,6 @@ public class ApiController {
     @GetMapping
     public Response<Object> getWorkStationVO() {
         String stationCode = HttpContext.getStationCode();
-        return Response.success(ViewHelper.getWorkStationVO(stationCode));
+        return Response.success(viewHelper.getWorkStationVO(stationCode));
     }
 }

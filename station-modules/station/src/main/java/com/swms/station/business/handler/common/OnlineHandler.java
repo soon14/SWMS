@@ -7,21 +7,22 @@ import com.swms.station.api.ApiCodeEnum;
 import com.swms.station.business.handler.IBusinessHandler;
 import com.swms.station.business.model.WorkStation;
 import com.swms.station.business.model.WorkStationManagement;
-import com.swms.wms.api.warehouse.WorkStationApi;
+import com.swms.wms.api.warehouse.IWorkStationApi;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class OnlineHandler implements IBusinessHandler {
 
-    @Autowired
-    private WorkStationApi workStationApi;
+    @DubboReference
+    private IWorkStationApi iWorkStationApi;
 
     @Autowired
     private WorkStationManagement workStationManagement;
 
     @Override
-    public Object execute(String body, String stationCode) {
+    public void execute(String body, String stationCode) {
 
         WorkStation workStation = workStationManagement.getWorkStation(stationCode);
         if (workStation == null) {
@@ -30,9 +31,10 @@ public class OnlineHandler implements IBusinessHandler {
 
         Preconditions.checkState(workStation.getWorkStationStatus() == WorkStationStatusEnum.OFFLINE);
 
-        workStationApi.online(stationCode, WorkStationOperationTypeEnum.valueOf(body));
+        iWorkStationApi.online(stationCode, WorkStationOperationTypeEnum.valueOf(body));
 
-        return null;
+        workStation.setWorkStationStatus(WorkStationStatusEnum.ONLINE);
+        workStation.setOperationType(WorkStationOperationTypeEnum.valueOf(body));
     }
 
     @Override

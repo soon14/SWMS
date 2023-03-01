@@ -89,6 +89,8 @@ subprojects {
             dependency group: 'io.swagger.core.v3', name: 'swagger-models', version: '2.2.8'
             dependency group: 'io.swagger.core.v3', name: 'swagger-annotations', version: '2.2.8'
 
+            dependency 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.0'
+
             /********************************  fluent dependency *******************************/
             dependency group: 'org.fluentd', name: 'fluent-logger', version: '0.7.0'
             dependency 'com.sndyuk:logback-more-appenders:1.8.4'

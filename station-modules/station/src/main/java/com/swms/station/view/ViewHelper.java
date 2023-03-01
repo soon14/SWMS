@@ -1,9 +1,11 @@
 package com.swms.station.view;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.swms.station.api.ApiCodeEnum;
 import com.swms.station.view.handler.IViewHandler;
 import com.swms.station.view.model.WorkStationVO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -15,15 +17,17 @@ public class ViewHelper {
 
     private static final Map<String, WorkStationVO> workStationVOMap = Maps.newHashMap();
 
-    private ViewHelper() {
-    }
+    @Autowired
+    private List<IViewHandler> iViewHandlers;
 
-    public static void buildView(ApiCodeEnum apiCode, String stationCode) {
+    public void buildView(ApiCodeEnum apiCode, String stationCode) {
 
         WorkStationVO workStationVO = getWorkStationVO(stationCode);
         if (workStationVO == null) {
             workStationVO = new WorkStationVO();
             workStationVO.setStationCode(stationCode);
+
+            workStationVOMap.put(stationCode, workStationVO);
         }
 
         List<IViewHandler> viewHandlers = getViewHandlers(apiCode);
@@ -34,15 +38,15 @@ public class ViewHelper {
         updateWorkStationVO(workStationVO);
     }
 
-    public static List<IViewHandler> getViewHandlers(ApiCodeEnum apiCode) {
-        return new ArrayList<>();
+    public List<IViewHandler> getViewHandlers(ApiCodeEnum apiCode) {
+        return iViewHandlers;
     }
 
-    public static WorkStationVO getWorkStationVO(String stationCode) {
+    public WorkStationVO getWorkStationVO(String stationCode) {
         return workStationVOMap.get(stationCode);
     }
 
-    private static void updateWorkStationVO(WorkStationVO workStationVO) {
+    private void updateWorkStationVO(WorkStationVO workStationVO) {
         workStationVOMap.put(workStationVO.getStationCode(), workStationVO);
     }
 }
