@@ -9,12 +9,8 @@ import org.springframework.stereotype.Service;
 @Service
 public abstract class BaseAreaHandler implements IViewHandler {
 
-    @Autowired
-    private WorkStationManagement workStationManagement;
-
     @Override
-    public void buildView(WorkStationVO workStationVO) {
-        WorkStation workStation = workStationManagement.getWorkStation(workStationVO.getStationCode());
+    public void buildView(WorkStationVO workStationVO, WorkStation workStation) {
         workStationVO.setWorkStationStatus(workStation.getWorkStationStatus());
         workStationVO.setOperationType(workStation.getOperationType());
     }

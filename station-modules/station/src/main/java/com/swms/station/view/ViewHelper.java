@@ -3,6 +3,8 @@ package com.swms.station.view;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.swms.station.api.ApiCodeEnum;
+import com.swms.station.business.model.WorkStation;
+import com.swms.station.business.model.WorkStationManagement;
 import com.swms.station.view.handler.IViewHandler;
 import com.swms.station.view.model.WorkStationVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +22,15 @@ public class ViewHelper {
     @Autowired
     private List<IViewHandler> iViewHandlers;
 
+    @Autowired
+    private WorkStationManagement workStationManagement;
+
     public void buildView(ApiCodeEnum apiCode, String stationCode) {
+        WorkStation workStation = workStationManagement.getWorkStation(stationCode);
+        if (workStation == null) {
+            removeWorkStationVO(stationCode);
+            return;
+        }
 
         WorkStationVO workStationVO = getWorkStationVO(stationCode);
         if (workStationVO == null) {
@@ -32,7 +42,7 @@ public class ViewHelper {
 
         List<IViewHandler> viewHandlers = getViewHandlers(apiCode);
         for (IViewHandler viewHandler : viewHandlers) {
-            viewHandler.buildView(workStationVO);
+            viewHandler.buildView(workStationVO, workStation);
         }
 
         updateWorkStationVO(workStationVO);
@@ -48,5 +58,9 @@ public class ViewHelper {
 
     private void updateWorkStationVO(WorkStationVO workStationVO) {
         workStationVOMap.put(workStationVO.getStationCode(), workStationVO);
+    }
+
+    private void removeWorkStationVO(String stationCode) {
+        workStationVOMap.put(stationCode, null);
     }
 }

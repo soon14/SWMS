@@ -2,8 +2,7 @@ package com.swms.station.business.model;
 
 import com.google.common.collect.Maps;
 import com.swms.common.utils.JsonUtils;
-import com.swms.wms.api.warehouse.IWorkStationApi;
-import org.apache.dubbo.config.annotation.DubboReference;
+import com.swms.station.remote.WorkStationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,12 +13,12 @@ public class WorkStationManagement {
 
     private static final Map<String, WorkStation> workStationMap = Maps.newConcurrentMap();
 
-    @DubboReference
-    private IWorkStationApi iWorkStationApi;
+    @Autowired
+    private WorkStationService workStationService;
 
     public synchronized WorkStation initWorkStation(String stationCode) {
 
-        Object workStationObj = iWorkStationApi.queryWorkStation(stationCode);
+        Object workStationObj = workStationService.queryWorkStation(stationCode);
         WorkStation workStation = JsonUtils.string2Object(JsonUtils.obj2String(workStationObj), WorkStation.class);
         workStationMap.put(stationCode, workStation);
 
@@ -28,6 +27,10 @@ public class WorkStationManagement {
 
     public WorkStation getWorkStation(String stationCode) {
         return workStationMap.get(stationCode);
+    }
+
+    public void removeWorkStation(String stationCode) {
+        workStationMap.remove(stationCode);
     }
 
 }

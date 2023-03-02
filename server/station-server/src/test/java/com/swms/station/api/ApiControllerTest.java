@@ -1,47 +1,36 @@
 package com.swms.station.api;
 
-import static org.mockito.Mockito.mock;
-
 import com.swms.common.constants.WorkStationOperationTypeEnum;
-import com.swms.common.constants.WorkStationStatusEnum;
-import com.swms.common.utils.JsonUtils;
-import com.swms.station.business.model.WorkStation;
+import com.swms.station.StationTestApplication;
+import com.swms.station.remote.WorkStationService;
 import com.swms.station.view.ViewHelper;
 import com.swms.station.view.model.WorkStationVO;
 import com.swms.station.websocket.utils.HttpContext;
 import com.swms.wms.api.warehouse.IWorkStationApi;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.event.annotation.BeforeTestClass;
-import org.springframework.test.context.event.annotation.BeforeTestMethod;
+import org.springframework.context.ApplicationContext;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = StationTestApplication.class)
 class ApiControllerTest {
 
     @Autowired
     private ApiController apiController;
 
-    @MockBean
-    private IWorkStationApi iWorkStationApi;
-
     @Autowired
     private ViewHelper viewHelper;
 
+    @Autowired
+    private ApplicationContext applicationContext;
+
     @BeforeEach
     public void initBean() {
-
-        WorkStation workStation = new WorkStation();
-        workStation.setStationCode("1");
-        workStation.setWorkStationStatus(WorkStationStatusEnum.OFFLINE);
-
-        Mockito.when(iWorkStationApi.queryWorkStation(Mockito.isA(String.class))).thenReturn(workStation);
-        Mockito.doNothing().when(iWorkStationApi).online(Mockito.isA(String.class), Mockito.isA(WorkStationOperationTypeEnum.class));
+        WorkStationService workStationService = applicationContext.getBean(WorkStationService.class);
+        IWorkStationApi iWorkStationApi = applicationContext.getBean(IWorkStationApi.class);
+        workStationService.setWorkStationApi(iWorkStationApi);
     }
 
     @Test
@@ -53,4 +42,13 @@ class ApiControllerTest {
         Assertions.assertThat(workStationVO).isNotNull();
     }
 
+
+    @Test
+    void testOffline() {
+        testOnline();
+
+        apiController.execute(ApiCodeEnum.OFFLINE, null);
+        WorkStationVO workStationVO = viewHelper.getWorkStationVO("1");
+        Assertions.assertThat(workStationVO).isNull();
+    }
 }

@@ -9,12 +9,8 @@ import org.springframework.stereotype.Service;
 @Service
 public abstract class PutWallAreaHandler implements IViewHandler {
 
-    @Autowired
-    private WorkStationManagement workStationManagement;
-
     @Override
-    public void buildView(WorkStationVO workStationVO) {
-        WorkStation workStation = workStationManagement.getWorkStation(workStationVO.getStationCode());
+    public void buildView(WorkStationVO workStationVO, WorkStation workStation) {
         workStationVO.getPutWallArea().setPutWallViews(workStation.getPutWalls());
     }
 }

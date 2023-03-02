@@ -9,12 +9,8 @@ import org.springframework.stereotype.Service;
 @Service
 public abstract class ContainerAreaHandler implements IViewHandler {
 
-    @Autowired
-    private WorkStationManagement workStationManagement;
-
     @Override
-    public void buildView(WorkStationVO workStationVO) {
-        WorkStation workStation = workStationManagement.getWorkStation(workStationVO.getStationCode());
+    public void buildView(WorkStationVO workStationVO, WorkStation workStation) {
         workStationVO.getWorkLocationArea().setWorkLocationViews(workStation.getWorkLocations());
     }
 }
