@@ -5,14 +5,14 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
 @Component
 public class BusinessHandlerFactory implements InitializingBean {
 
-    private static final Map<ApiCodeEnum, IBusinessHandler> map = new HashMap<>();
+    private static final Map<ApiCodeEnum, IBusinessHandler> map = new EnumMap<>(ApiCodeEnum.class);
 
     @Autowired
     private List<IBusinessHandler> handlerList;

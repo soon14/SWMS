@@ -1,6 +1,7 @@
 package com.swms.station.api;
 
 import com.swms.common.constants.WorkStationOperationTypeEnum;
+import com.swms.common.constants.WorkStationStatusEnum;
 import com.swms.station.StationTestApplication;
 import com.swms.station.remote.WorkStationService;
 import com.swms.station.view.ViewHelper;
@@ -42,7 +43,6 @@ class ApiControllerTest {
         Assertions.assertThat(workStationVO).isNotNull();
     }
 
-
     @Test
     void testOffline() {
         testOnline();
@@ -50,5 +50,26 @@ class ApiControllerTest {
         apiController.execute(ApiCodeEnum.OFFLINE, null);
         WorkStationVO workStationVO = viewHelper.getWorkStationVO("1");
         Assertions.assertThat(workStationVO).isNull();
+    }
+
+    @Test
+    void testPause() {
+        testOnline();
+
+        apiController.execute(ApiCodeEnum.PAUSE, null);
+        WorkStationVO workStationVO = viewHelper.getWorkStationVO("1");
+        Assertions.assertThat(workStationVO).isNotNull();
+        Assertions.assertThat(workStationVO.getWorkStationStatus()).isEqualTo(WorkStationStatusEnum.PAUSED);
+    }
+
+    @Test
+    void testResume() {
+        testPause();
+
+        apiController.execute(ApiCodeEnum.RESUME, null);
+        WorkStationVO workStationVO = viewHelper.getWorkStationVO("1");
+        Assertions.assertThat(workStationVO).isNotNull();
+        Assertions.assertThat(workStationVO.getWorkStationStatus()).isEqualTo(WorkStationStatusEnum.ONLINE);
+
     }
 }

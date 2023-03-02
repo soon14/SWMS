@@ -12,5 +12,8 @@ public interface IWorkStationApi {
 
     void resume(String stationCode);
 
+    void callRobot(String stationCode);
+
     Object queryWorkStation(String stationCode);
+
 }

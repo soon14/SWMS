@@ -35,4 +35,7 @@ public class WorkStationService {
         this.workStationApi = iWorkStationApi;
     }
 
+    public void callRobot(String stationCode) {
+        this.workStationApi.callRobot(stationCode);
+    }
 }
