@@ -27,5 +27,5 @@ public class ArrivedContainer {
     /**
      * 0: unprocessed ,1: processing , 2: processed
      */
-    private Integer processStatus = 0;
+    private Integer processStatus;
 }

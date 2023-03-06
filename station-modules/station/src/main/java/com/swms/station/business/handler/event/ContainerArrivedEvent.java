@@ -10,4 +10,6 @@ public class ContainerArrivedEvent {
     private String robotCode;
     private String robotType;
     private String locationCode;
+
+    private String groupCode;
 }

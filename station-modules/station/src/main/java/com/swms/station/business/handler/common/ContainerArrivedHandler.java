@@ -1,26 +1,19 @@
 package com.swms.station.business.handler.common;
 
 import com.google.common.base.Preconditions;
-import com.swms.common.constants.ContainerLeaveType;
-import com.swms.common.constants.WorkStationOperationTypeEnum;
 import com.swms.common.utils.JsonUtils;
 import com.swms.station.api.ApiCodeEnum;
 import com.swms.station.business.handler.IBusinessHandler;
 import com.swms.station.business.handler.event.ContainerArrivedEvent;
 import com.swms.station.business.model.ArrivedContainer;
-import com.swms.station.business.model.OperateTask;
 import com.swms.station.business.model.WorkStation;
 import com.swms.station.business.model.WorkStationManagement;
 import com.swms.station.remote.ContainerService;
-import com.swms.station.remote.TaskService;
-import com.swms.station.remote.WorkStationService;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class ContainerArrivedHandler implements IBusinessHandler {
@@ -43,8 +36,10 @@ public class ContainerArrivedHandler implements IBusinessHandler {
             arrivedContainer.setLocationCode(containerArrivedEvent.getLocationCode());
             arrivedContainer.setRobotCode(containerArrivedEvent.getRobotCode());
             arrivedContainer.setRobotType(containerArrivedEvent.getRobotType());
+            arrivedContainer.setGroupCode(containerArrivedEvent.getGroupCode());
+            arrivedContainer.setProcessStatus(0);
             return arrivedContainer;
-        }).collect(Collectors.toList());
+        }).toList();
 
         if (CollectionUtils.isEmpty(workStation.getArrivedContainers())) {
             workStation.setArrivedContainers(arrivedContainers);
