@@ -33,29 +33,39 @@ public class OrderAssignedQueryScheduler {
 
         operatingWorkStations.forEach(stationCode -> {
             List<PutWallSlotDTO> putWallSlots = iWorkStationApi.getPutWallSlots(stationCode);
-
             WorkStation workStation = workStationManagement.getWorkStation(stationCode);
 
             AtomicBoolean refresh = new AtomicBoolean(false);
             workStation.getPutWalls().forEach(putWall -> {
                 // compare cache slots with remote slots, set orderIds and slot status
-                putWall.getPutWallSlots().forEach(cachePutWallSlot ->
-                    putWallSlots.stream().filter(remotePutWallSlot ->
-                            StringUtils.equals(remotePutWallSlot.getSlotCode(), cachePutWallSlot.getSlotCode()) &&
-                                CollectionUtils.isNotEmpty(remotePutWallSlot.getOrderIds())
-                                && CollectionUtils.isEmpty(cachePutWallSlot.getOrderIds()))
-                        .findFirst().ifPresent(remotePutWallSlot -> {
-                            cachePutWallSlot.setOrderIds(remotePutWallSlot.getOrderIds());
-                            cachePutWallSlot.setPutWallSlotStatus(remotePutWallSlot.getPutWallSlotStatus());
+                putWall.getPutWallSlots().forEach(cachePutWallSlot -> {
+                    if (compareAndSet(putWallSlots, cachePutWallSlot)) {
+                        refresh.set(true);
+                    }
+                });
 
-                            refresh.set(true);
-                        });
+                if (refresh.get()) {
+                    StationWebSocketUtils.noticeWebStationStatusChanged(stationCode);
+                }
+            });
+        });
+    }
+
+    private boolean compareAndSet(List<PutWallSlotDTO> remoteOutWallSlots, PutWallSlotDTO cachePutWallSlot) {
+
+        AtomicBoolean refresh = new AtomicBoolean(false);
+        remoteOutWallSlots.stream().filter(remotePutWallSlot ->
+                StringUtils.equals(remotePutWallSlot.getSlotCode(), cachePutWallSlot.getSlotCode()) &&
+                    CollectionUtils.isNotEmpty(remotePutWallSlot.getOrderIds())
+                    && CollectionUtils.isEmpty(cachePutWallSlot.getOrderIds()))
+            .findFirst().ifPresent(remotePutWallSlot -> {
+                cachePutWallSlot.setOrderIds(remotePutWallSlot.getOrderIds());
+                cachePutWallSlot.setPutWallSlotStatus(remotePutWallSlot.getPutWallSlotStatus());
+
+                refresh.set(true);
             });
 
-            if (refresh.get()) {
-                StationWebSocketUtils.noticeWebStationStatusChanged(stationCode);
-            }
-        });
+        return refresh.get();
     }
 
 }
