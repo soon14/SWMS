@@ -8,6 +8,7 @@ import java.util.List;
 public class PutWallSlot {
     private Long id;
     private String putWallCode;
+    private String stationCode;
 
     private String slotCode;
     private String groupCode;

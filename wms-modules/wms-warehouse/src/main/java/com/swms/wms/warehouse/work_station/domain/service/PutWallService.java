@@ -1,5 +1,6 @@
 package com.swms.wms.warehouse.work_station.domain.service;
 
+import com.swms.wms.api.warehouse.dto.PutWallSlotDTO;
 import com.swms.wms.warehouse.work_station.domain.entity.PutWall;
 import com.swms.wms.warehouse.work_station.infrastructure.repository.IPutWallRepository;
 import com.swms.wms.warehouse.work_station.infrastructure.repository.IPutWallSlotRepository;
@@ -29,5 +30,9 @@ public class PutWallService {
 
     public List<PutWall> getPutWallsByStationCode(String stationCode) {
         return iPutWallRepository.findByStationCode(stationCode);
+    }
+
+    public List<PutWallSlotDTO> getPutWallSlotsByStationCode(String stationCode) {
+        return iPutWallSlotRepository.findAllPutWallSlotsByStationCode(stationCode);
     }
 }
