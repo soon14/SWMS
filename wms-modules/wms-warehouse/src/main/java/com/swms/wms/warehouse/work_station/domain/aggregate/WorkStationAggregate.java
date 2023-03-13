@@ -1,7 +1,9 @@
 package com.swms.wms.warehouse.work_station.domain.aggregate;
 
+import com.swms.wms.api.warehouse.dto.WorkStationModelDTO;
 import com.swms.wms.warehouse.work_station.domain.entity.PutWall;
 import com.swms.wms.warehouse.work_station.domain.entity.WorkLocation;
+import com.swms.wms.warehouse.work_station.domain.entity.WorkStation;
 import com.swms.wms.warehouse.work_station.domain.entity.WorkStationConfig;
 import com.swms.wms.warehouse.work_station.domain.service.PutWallService;
 import com.swms.wms.warehouse.work_station.domain.service.WorkLocationService;
@@ -21,43 +23,14 @@ public class WorkStationAggregate {
     private PutWallService putWallService;
     private WorkStationConfigService workStationConfigService;
 
-    public List<WorkLocation> getWorkLocations() {
-        return workLocationService.getWorkLocationsByStationCode(stationCode);
+    public WorkStationModelDTO getStationMode() {
+
+        WorkStation workStation = workStationService.getStation(stationCode);
+        List<WorkLocation> workLocations = workLocationService.getWorkLocationsByStationCode(stationCode);
+        List<PutWall> putWalls = putWallService.getPutWallsByStationCode(stationCode);
+        WorkStationConfig workStationConfig = workStationConfigService.getWorkStationConfigByStationCode(stationCode);
+
+        return WorkStationModelDTO.builder().build();
     }
 
-    public void addWorkLocation(WorkLocation workLocation) {
-        workLocationService.addWorkLocation(workLocation);
-    }
-
-    public void updateWorkLocation(WorkLocation workLocation) {
-        workLocationService.updateWorkLocation(workLocation);
-    }
-
-    public void removeWorkLocation(Long workLocationId) {
-        workLocationService.removeWorkLocation(workLocationId);
-    }
-
-    public List<PutWall> getPutWalls() {
-        return putWallService.getPutWallsByStationCode(stationCode);
-    }
-
-    public void addPutWall(PutWall putWall) {
-        putWallService.addPutWall(putWall);
-    }
-
-    public void updatePutWall(PutWall putWall) {
-        putWallService.updatePutWall(putWall);
-    }
-
-    public WorkStationConfig getWorkStationConfig() {
-        return workStationConfigService.getWorkStationConfigByStationCode(stationCode);
-    }
-
-    public void addWorkStationConfig(WorkStationConfig workStationConfig) {
-        workStationConfigService.addWorkStationConfig(workStationConfig);
-    }
-
-    public void updateWorkStationConfig(WorkStationConfig workStationConfig) {
-        workStationConfigService.updateWorkStationConfig(workStationConfig);
-    }
 }

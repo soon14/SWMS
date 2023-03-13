@@ -1,6 +1,6 @@
 package com.swms.station.remote;
 
-import com.swms.common.constants.WorkStationOperationTypeEnum;
+import com.swms.wms.api.warehouse.constants.WorkStationOperationTypeEnum;
 import com.swms.wms.api.warehouse.IWorkStationApi;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.stereotype.Service;
@@ -28,7 +28,7 @@ public class WorkStationService {
     }
 
     public Object queryWorkStation(String stationCode) {
-        return workStationApi.queryWorkStation(stationCode);
+        return workStationApi.queryWorkStationModel(stationCode);
     }
 
     public void setWorkStationApi(IWorkStationApi iWorkStationApi) {

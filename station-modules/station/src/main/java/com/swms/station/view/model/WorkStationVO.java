@@ -1,7 +1,7 @@
 package com.swms.station.view.model;
 
-import com.swms.common.constants.WorkStationOperationTypeEnum;
-import com.swms.common.constants.WorkStationStatusEnum;
+import com.swms.wms.api.warehouse.constants.WorkStationOperationTypeEnum;
+import com.swms.wms.api.warehouse.constants.WorkStationStatusEnum;
 import com.swms.station.business.model.OperateTask;
 import com.swms.station.business.model.PutWall;
 import com.swms.station.business.model.WorkLocation;

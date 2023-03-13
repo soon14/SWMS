@@ -1,16 +1,14 @@
 package com.swms.station.business.model;
 
-import com.google.common.collect.Lists;
-import com.swms.common.constants.ContainerLeaveType;
-import com.swms.common.constants.WorkStationOperationTypeEnum;
-import com.swms.common.constants.WorkStationStatusEnum;
+import com.swms.wms.api.warehouse.constants.ContainerLeaveType;
+import com.swms.wms.api.warehouse.constants.WorkStationOperationTypeEnum;
+import com.swms.wms.api.warehouse.constants.WorkStationStatusEnum;
 import com.swms.station.remote.EquipmentService;
 import com.swms.station.remote.TaskService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

@@ -1,6 +1,6 @@
 package com.swms.station.business.model;
 
-import com.swms.common.constants.WorkLocationType;
+import com.swms.wms.api.warehouse.constants.WorkLocationType;
 import lombok.Data;
 
 import java.util.List;

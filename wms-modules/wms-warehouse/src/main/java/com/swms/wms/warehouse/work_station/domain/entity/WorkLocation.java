@@ -1,10 +1,7 @@
 package com.swms.wms.warehouse.work_station.domain.entity;
 
-import com.swms.common.constants.WorkLocationType;
-import com.swms.wms.warehouse.work_station.infrastructure.repository.IWorkLocationRepository;
-import com.swms.wms.warehouse.work_station.infrastructure.repository.IWorkLocationSlotRepository;
+import com.swms.wms.api.warehouse.constants.WorkLocationType;
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 

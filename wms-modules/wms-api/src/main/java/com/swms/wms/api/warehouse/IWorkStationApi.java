@@ -1,6 +1,7 @@
 package com.swms.wms.api.warehouse;
 
-import com.swms.common.constants.WorkStationOperationTypeEnum;
+import com.swms.wms.api.warehouse.constants.WorkStationOperationTypeEnum;
+import com.swms.wms.api.warehouse.dto.WorkStationModelDTO;
 
 public interface IWorkStationApi {
 
@@ -14,6 +15,6 @@ public interface IWorkStationApi {
 
     void callRobot(String stationCode);
 
-    Object queryWorkStation(String stationCode);
+    WorkStationModelDTO queryWorkStationModel(String stationCode);
 
 }

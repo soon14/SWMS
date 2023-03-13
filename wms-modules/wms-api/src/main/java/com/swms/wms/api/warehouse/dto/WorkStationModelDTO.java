@@ -1,13 +1,16 @@
-package com.swms.wms.warehouse.work_station.domain.entity;
+package com.swms.wms.api.warehouse.dto;
 
 import com.swms.wms.api.warehouse.constants.WorkStationOperationTypeEnum;
 import com.swms.wms.api.warehouse.constants.WorkStationStatusEnum;
+import lombok.Builder;
 import lombok.Data;
 
-@Data
-public class WorkStation {
+import java.util.List;
 
-    private Long id;
+@Data
+@Builder
+public class WorkStationModelDTO {
+
     private String stationCode;
 
     private WorkStationStatusEnum workStationStatus;
@@ -17,4 +20,8 @@ public class WorkStation {
     private String warehouseLogicCode;
 
     private WorkStationOperationTypeEnum operationType;
+
+    private List<WorkLocationDTO> workLocations;
+    private List<PutWallDTO> putWallS;
+    private WorkStationConfigDTO workStationConfig;
 }

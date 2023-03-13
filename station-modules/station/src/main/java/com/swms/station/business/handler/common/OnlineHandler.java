@@ -1,8 +1,8 @@
 package com.swms.station.business.handler.common;
 
 import com.google.common.base.Preconditions;
-import com.swms.common.constants.WorkStationOperationTypeEnum;
-import com.swms.common.constants.WorkStationStatusEnum;
+import com.swms.wms.api.warehouse.constants.WorkStationOperationTypeEnum;
+import com.swms.wms.api.warehouse.constants.WorkStationStatusEnum;
 import com.swms.station.api.ApiCodeEnum;
 import com.swms.station.business.handler.IBusinessHandler;
 import com.swms.station.business.model.WorkStation;

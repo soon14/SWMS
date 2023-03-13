@@ -1,4 +1,4 @@
-package com.swms.common.constants;
+package com.swms.wms.api.warehouse.constants;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
