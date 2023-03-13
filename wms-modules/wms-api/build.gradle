@@ -10,7 +10,6 @@ repositories {
 }
 
 dependencies {
-    implementation project(path: ":swms-common", configuration: 'default')
 }
 
 test {

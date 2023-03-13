@@ -15,8 +15,6 @@ dependencies {
 
     implementation project(path: ":wms-modules:wms-api", configuration: 'default')
 
-    implementation project(path: ":swms-common", configuration: 'default')
-
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-web-services'
 }

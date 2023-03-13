@@ -1,7 +1,7 @@
 package com.swms.station.api;
 
-import com.swms.common.constants.WorkStationOperationTypeEnum;
-import com.swms.common.constants.WorkStationStatusEnum;
+import com.swms.wms.api.warehouse.constants.WorkStationOperationTypeEnum;
+import com.swms.wms.api.warehouse.constants.WorkStationStatusEnum;
 import com.swms.station.StationTestApplication;
 import com.swms.station.remote.WorkStationService;
 import com.swms.station.view.ViewHelper;
