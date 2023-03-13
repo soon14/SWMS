@@ -1,6 +1,6 @@
 spring:
   application:
-    name: station
+    name: wms
   profiles:
     active: prod
   cloud:
@@ -14,4 +14,4 @@ spring:
         username: nacos
         password: nacos
 server:
-  port: 9001
+  port: 9000

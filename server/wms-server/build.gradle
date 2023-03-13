@@ -12,6 +12,15 @@ repositories {
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation project(path: ":wms-modules:wms-warehouse", configuration: 'default')
+    implementation project(path: ":swms-utils", configuration: 'default')
+
+    implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
+    implementation group: 'org.apache.skywalking', name: 'apm-toolkit-logback-1.x'
+
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui'
 }
 
 test {

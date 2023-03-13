@@ -22,6 +22,6 @@ public class WorkStationModelDTO {
     private WorkStationOperationTypeEnum operationType;
 
     private List<WorkLocationDTO> workLocations;
-    private List<PutWallDTO> putWallS;
+    private List<PutWallDTO> putWalls;
     private WorkStationConfigDTO workStationConfig;
 }

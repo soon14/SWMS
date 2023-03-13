@@ -5,8 +5,10 @@ import com.swms.station.business.model.WorkStationManagement;
 import com.swms.station.websocket.utils.StationWebSocketUtils;
 import com.swms.wms.api.warehouse.IWorkStationApi;
 import com.swms.wms.api.warehouse.dto.PutWallSlotDTO;
+import com.swms.wms.api.warehouse.dto.WorkStationModelDTO;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -18,13 +20,13 @@ import java.util.concurrent.atomic.AtomicBoolean;
 @Component
 public class OrderAssignedQueryScheduler {
 
-    @Autowired
+    @DubboReference
     private IWorkStationApi iWorkStationApi;
 
     @Autowired
     private WorkStationManagement workStationManagement;
 
-    @Scheduled
+    @Scheduled(cron = "0/3 * * * * ?")
     public void queryAssignedOrders() {
         Set<String> operatingWorkStations = workStationManagement.getOperatingWorkStations();
         if (CollectionUtils.isEmpty(operatingWorkStations)) {

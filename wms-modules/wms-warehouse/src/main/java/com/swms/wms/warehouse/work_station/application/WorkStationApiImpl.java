@@ -7,12 +7,12 @@ import com.swms.wms.api.warehouse.dto.PutWallSlotDTO;
 import com.swms.wms.api.warehouse.dto.ReleasePutWallSlotsDTO;
 import com.swms.wms.api.warehouse.dto.WorkStationModelDTO;
 import com.swms.wms.warehouse.work_station.domain.service.PutWallService;
+import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
+@DubboService
 public class WorkStationApiImpl implements IWorkStationApi {
 
     @Autowired
