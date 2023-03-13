@@ -25,5 +25,7 @@ public interface IWorkStationApi {
 
     void assignOrders(List<AssignOrdersDTO> assignOrdersDTOS);
 
+    void appendOrders(List<AssignOrdersDTO> assignOrdersDTOS);
+
     void releasePutWallSlots(List<ReleasePutWallSlotsDTO> releasePutWallSlotsDTOS);
 }

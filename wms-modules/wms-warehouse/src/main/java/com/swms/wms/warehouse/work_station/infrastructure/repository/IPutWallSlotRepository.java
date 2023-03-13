@@ -11,4 +11,6 @@ public interface IPutWallSlotRepository {
     void updateAll(List<PutWallSlot> putWallSlots);
 
     List<PutWallSlotDTO> findAllPutWallSlotsByStationCode(String stationCode);
+
+    PutWallSlot findByStationCodeAndSlotCode(String stationCode, String putWallSlotCode);
 }

@@ -50,7 +50,12 @@ public class WorkStationApiImpl implements IWorkStationApi {
 
     @Override
     public void assignOrders(List<AssignOrdersDTO> assignOrdersDTOS) {
+        putWallService.assignOrders(assignOrdersDTOS);
+    }
 
+    @Override
+    public void appendOrders(List<AssignOrdersDTO> assignOrdersDTOS) {
+        putWallService.appendOrders(assignOrdersDTOS);
     }
 
     @Override
