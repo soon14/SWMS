@@ -1,10 +1,6 @@
 package com.swms.wms.warehouse.work_station.domain.entity;
 
-import com.swms.wms.warehouse.work_station.infrastructure.repository.IPutWallRepository;
-import com.swms.wms.warehouse.work_station.infrastructure.repository.IPutWallSlotRepository;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 

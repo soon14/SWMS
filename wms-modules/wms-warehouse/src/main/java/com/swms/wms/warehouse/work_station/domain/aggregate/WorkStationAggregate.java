@@ -23,7 +23,7 @@ public class WorkStationAggregate {
     private PutWallService putWallService;
     private WorkStationConfigService workStationConfigService;
 
-    public WorkStationModelDTO getStationMode() {
+    public WorkStationModelDTO getWorkStationMode() {
 
         WorkStation workStation = workStationService.getStation(stationCode);
         List<WorkLocation> workLocations = workLocationService.getWorkLocationsByStationCode(stationCode);

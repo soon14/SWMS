@@ -5,6 +5,10 @@ import lombok.Data;
 
 import java.util.List;
 
+/**
+ * ArrivedContainer wouldn't pass to WMS system , it will be restored to redis and memory .
+ * if Station system crashes then it will be got from redis when the system is restarted.
+ */
 @Data
 @Builder
 public class ArrivedContainer {
@@ -16,7 +20,9 @@ public class ArrivedContainer {
     private List<Slot> slots;
     private String locationCode;
 
-    // a set of locations that the container can be put into. it is a logical definition. like robotCode is the groupCode of robot. cache shelf code is the groupCode of cache shelf.
+    // a set of locations that the container can be put into.
+    // it is a logical definition.
+    // like robotCode is the groupCode of robot, cache shelf code is the groupCode of cache shelf.
     private String groupCode;
 
     private String robotCode;

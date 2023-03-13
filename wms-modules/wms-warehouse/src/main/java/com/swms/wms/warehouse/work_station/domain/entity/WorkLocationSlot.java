@@ -12,6 +12,4 @@ public class WorkLocationSlot {
     private Integer level;
     private Integer bay;
     private boolean enable;
-
-    private String containerCode;
 }
