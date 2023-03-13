@@ -6,6 +6,8 @@ import com.swms.wms.api.warehouse.constants.WorkStationStatusEnum;
 import com.swms.station.remote.EquipmentService;
 import com.swms.station.remote.TaskService;
 import com.swms.wms.api.warehouse.dto.PutWallDTO;
+import com.swms.wms.api.warehouse.dto.WorkLocationDTO;
+import com.swms.wms.api.warehouse.dto.WorkStationConfigDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -35,7 +37,7 @@ public class WorkStation {
 
     private WorkStationOperationTypeEnum operationType;
 
-    private List<WorkLocation> workLocations;
+    private List<WorkLocationDTO> workLocations;
 
     private List<PutWallDTO> putWalls;
 
@@ -43,7 +45,7 @@ public class WorkStation {
 
     private List<ArrivedContainer> arrivedContainers;
 
-    private WorkStationConfig workStationConfig;
+    private WorkStationConfigDTO workStationConfig;
 
     @Autowired
     private TaskService taskService;
