@@ -1,6 +1,7 @@
 package com.swms.station.business.handler.common;
 
 import com.google.common.base.Preconditions;
+import com.swms.station.remote.EquipmentService;
 import com.swms.wms.api.warehouse.constants.WorkStationStatusEnum;
 import com.swms.station.api.ApiCodeEnum;
 import com.swms.station.business.handler.IBusinessHandler;
@@ -19,6 +20,9 @@ public class CallRobotHandler implements IBusinessHandler {
     @Autowired
     private WorkStationManagement workStationManagement;
 
+    @Autowired
+    private EquipmentService equipmentService;
+
     @Override
     public void execute(String body, String stationCode) {
 
@@ -26,7 +30,7 @@ public class CallRobotHandler implements IBusinessHandler {
         Preconditions.checkState(workStation != null);
         Preconditions.checkState(workStation.getWorkStationStatus() == WorkStationStatusEnum.ONLINE);
 
-        workStationService.callRobot(stationCode);
+        equipmentService.callRobot(stationCode);
     }
 
     @Override

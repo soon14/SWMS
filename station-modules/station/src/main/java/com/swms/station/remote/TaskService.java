@@ -23,6 +23,6 @@ public class TaskService {
             return null;
         }
         return objects.stream().map(v -> JsonUtils.string2Object(JsonUtils.obj2String(v), OperateTask.class))
-            .collect(Collectors.toList());
+            .toList();
     }
 }

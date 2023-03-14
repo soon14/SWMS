@@ -11,4 +11,8 @@ public class EquipmentService {
 
     }
 
+    public void callRobot(String stationCode) {
+
+    }
+
 }

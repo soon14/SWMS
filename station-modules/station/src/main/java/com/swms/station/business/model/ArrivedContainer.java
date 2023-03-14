@@ -17,8 +17,8 @@ public class ArrivedContainer {
     private String containerType;
     private String face;
     private Integer rotationAngle;
-    private List<Slot> slots;
     private String locationCode;
+//    private List<Slot> slots;
 
     // a set of locations that the container can be put into.
     // it is a logical definition.
