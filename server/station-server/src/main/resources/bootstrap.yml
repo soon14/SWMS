@@ -13,5 +13,7 @@ spring:
         group: swms
         username: nacos
         password: nacos
+
 server:
   port: 9001
+

@@ -1,6 +1,6 @@
 package com.swms.station.remote;
 
-import com.swms.common.utils.JsonUtils;
+import com.swms.utils.utils.JsonUtils;
 import com.swms.station.business.model.ArrivedContainer;
 import com.swms.wms.api.warehouse.IContainerApi;
 import org.apache.dubbo.config.annotation.DubboReference;

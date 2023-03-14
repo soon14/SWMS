@@ -1,7 +1,7 @@
 package com.swms.station.business.handler.common;
 
 import com.google.common.base.Preconditions;
-import com.swms.common.utils.JsonUtils;
+import com.swms.utils.utils.JsonUtils;
 import com.swms.station.api.ApiCodeEnum;
 import com.swms.station.business.handler.IBusinessHandler;
 import com.swms.station.business.handler.event.ContainerArrivedEvent;

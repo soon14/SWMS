@@ -1,4 +1,4 @@
-package com.swms.common.logback;
+package com.swms.utils.logback;
 
 
 import ch.qos.logback.classic.pattern.ClassicConverter;

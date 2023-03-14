@@ -16,8 +16,10 @@ dependencies {
     compileOnly 'org.springframework.boot:spring-boot-starter-websocket'
     compileOnly 'org.apache.commons:commons-lang3'
     compileOnly 'org.apache.commons:commons-collections4'
-}
 
+    compileOnly group: 'org.redisson', name: 'redisson-spring-boot-starter'
+    compileOnly group: 'org.springframework.boot', name: 'spring-boot-starter-aop'
+}
 test {
     useJUnitPlatform()
 }

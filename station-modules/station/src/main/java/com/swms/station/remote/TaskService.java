@@ -1,6 +1,6 @@
 package com.swms.station.remote;
 
-import com.swms.common.utils.JsonUtils;
+import com.swms.utils.utils.JsonUtils;
 import com.swms.station.business.model.OperateTask;
 import com.swms.wms.api.task.ITaskApi;
 import org.apache.commons.collections4.CollectionUtils;
@@ -8,7 +8,6 @@ import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class TaskService {

@@ -9,7 +9,7 @@
     <!-- Example for logging into the build folder of your project -->
     <property name="LOG_HOME" value="persistence/logs"/>
 
-    <conversionRule conversionWord="ip" converterClass="com.swms.common.logback.LogIpConfig"/>
+    <conversionRule conversionWord="ip" converterClass="com.swms.utils.logback.LogIpConfig"/>
 
     <property name="CONSOLE_LOG_PATTERN"
               value="%d{yyyy-MM-dd HH:mm:ss.SSS} | %ip | %-5level | ${PID:-} | %thread | %tid | %logger{5}#%method | %msg%n"/>

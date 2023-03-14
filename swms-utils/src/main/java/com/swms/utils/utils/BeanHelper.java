@@ -1,7 +1,7 @@
-package com.swms.common.utils;
+package com.swms.utils.utils;
 
-import com.swms.common.exception.WmsException;
-import com.swms.common.exception.code_enum.CommonErrorDescEnum;
+import com.swms.utils.exception.WmsException;
+import com.swms.utils.exception.code_enum.CommonErrorDescEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;

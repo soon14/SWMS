@@ -1,4 +1,4 @@
-package com.swms.common.exception.code_enum;
+package com.swms.utils.exception.code_enum;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

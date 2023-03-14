@@ -1,7 +1,7 @@
-package com.swms.common.exception;
+package com.swms.utils.exception;
 
-import com.swms.common.exception.code_enum.CommonErrorDescEnum;
-import com.swms.common.http.Response;
+import com.swms.utils.exception.code_enum.CommonErrorDescEnum;
+import com.swms.utils.http.Response;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;

@@ -29,6 +29,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
     implementation 'org.springframework.cloud:spring-cloud-starter-stream-kafka'
 
+    implementation group: 'org.redisson', name: 'redisson-spring-boot-starter'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-aop'
+
 }
 
 test {

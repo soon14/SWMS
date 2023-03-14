@@ -1,6 +1,6 @@
 package com.swms.station.api;
 
-import com.swms.common.http.Response;
+import com.swms.utils.http.Response;
 import com.swms.station.executor.HandlerExecutor;
 import com.swms.station.view.ViewHelper;
 import com.swms.station.websocket.utils.HttpContext;

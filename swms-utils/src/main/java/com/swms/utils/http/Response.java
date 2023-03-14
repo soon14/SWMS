@@ -1,6 +1,6 @@
-package com.swms.common.http;
+package com.swms.utils.http;
 
-import com.swms.common.exception.code_enum.IBaseError;
+import com.swms.utils.exception.code_enum.IBaseError;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
