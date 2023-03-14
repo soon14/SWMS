@@ -11,14 +11,14 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface RedisConsumer {
 
-    String topic();
+    String topic() default "";
 
     /**
      * type of message
      *
      * @return
      */
-    Class<?> type();
+    Class<?> type() default Object.class;
 
     Class<JsonJacksonCodec> serializer() default JsonJacksonCodec.class;
 }

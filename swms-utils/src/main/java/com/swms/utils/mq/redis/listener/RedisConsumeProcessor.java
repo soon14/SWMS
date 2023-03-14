@@ -5,10 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.redisson.api.RedissonClient;
 import org.redisson.codec.JsonJacksonCodec;
-import org.springframework.aop.framework.Advised;
-import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Component;
@@ -23,6 +22,9 @@ public class RedisConsumeProcessor implements BeanPostProcessor {
     @Autowired
     private RedissonClient redissonClient;
 
+    @Value("${mq.type:redis}")
+    private String mqType;
+
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
         return bean;
@@ -30,8 +32,11 @@ public class RedisConsumeProcessor implements BeanPostProcessor {
 
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-        Method[] methods = ReflectionUtils.getAllDeclaredMethods(bean.getClass());
+        if (!StringUtils.equals("redis", mqType)) {
+            return bean;
+        }
 
+        Method[] methods = ReflectionUtils.getAllDeclaredMethods(bean.getClass());
         for (Method method : methods) {
             RedisConsumer mqConsumer = AnnotationUtils.findAnnotation(method, RedisConsumer.class);
             if (null != mqConsumer && StringUtils.isNotEmpty(mqConsumer.topic())) {
