@@ -1,5 +1,6 @@
 package com.swms.station.remote;
 
+import com.swms.utils.constants.RedisConstants;
 import com.swms.utils.mq.redis.RedisConsumer;
 import com.swms.utils.utils.JsonUtils;
 import com.swms.station.business.model.WorkStation;
@@ -22,7 +23,7 @@ public class MqConsumer {
     @Autowired
     private WorkStationManagement workStationManagement;
 
-    @RedisConsumer(topic = "station", type = WorkStationConfigDTO.class)
+    @RedisConsumer(topic = RedisConstants.STATION_LISTEN_WORK_STATION_CONFIG_UPDATE, type = WorkStationConfigDTO.class)
     public void listenWorkStationConfigUpdated(String topic, WorkStationConfigDTO workStationConfigDTO) {
         if (workStationConfigDTO == null) {
             return;
@@ -36,7 +37,7 @@ public class MqConsumer {
         workStation.setWorkStationConfig(workStationConfigDTO);
     }
 
-    @RedisConsumer(topic = "station1", type = List.class)
+    @RedisConsumer(topic = RedisConstants.STATION_LISTEN_ORDER_ASSIGNED, type = List.class)
     public void listenOrderAssigned(String topic, List<PutWallSlotDTO> putWallSlotDTOS) {
 
         if (CollectionUtils.isEmpty(putWallSlotDTOS)) {
