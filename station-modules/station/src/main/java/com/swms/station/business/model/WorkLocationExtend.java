@@ -2,8 +2,10 @@ package com.swms.station.business.model;
 
 import com.swms.wms.api.warehouse.dto.WorkLocationDTO;
 import com.swms.wms.api.warehouse.dto.WorkLocationSlotDTO;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
@@ -12,12 +14,16 @@ import java.util.List;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class WorkLocationExtend extends WorkLocationDTO<WorkLocationExtend.WorkLocationSlotExtend> {
 
     private List<WorkLocationSlotExtend> workLocationSlots;
 
     @EqualsAndHashCode(callSuper = true)
     @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
     public static class WorkLocationSlotExtend extends WorkLocationSlotDTO {
         private ArrivedContainer arrivedContainer;
     }

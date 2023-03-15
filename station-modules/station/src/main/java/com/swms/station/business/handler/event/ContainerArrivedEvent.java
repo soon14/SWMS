@@ -9,7 +9,12 @@ public class ContainerArrivedEvent {
     private String stationCode;
     private String robotCode;
     private String robotType;
+    private Integer level;
+    private Integer bay;
+
     private String locationCode;
+
+    private String workLocationCode;
 
     private String groupCode;
 }

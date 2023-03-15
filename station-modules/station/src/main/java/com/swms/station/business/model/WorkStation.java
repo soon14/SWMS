@@ -13,6 +13,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -96,6 +97,9 @@ public class WorkStation {
                 if (containers.stream().allMatch(v -> v.getProcessStatus() == 2)) {
                     // all containers are done, let them leave
                     equipmentService.containerLeave(containers.get(0), ContainerLeaveTypeEnum.LEAVE);
+
+                    //TODO
+                    // remove arrived containers
                 }
             });
         }
@@ -110,5 +114,48 @@ public class WorkStation {
             undoContainers = undoContainers.subList(0, 1);
         }
         return undoContainers;
+    }
+
+    /**
+     * set arrived containers on the location
+     *
+     * @param newArrivedContainers
+     */
+    public void setArrivedContainersOnLocation(List<ArrivedContainer> newArrivedContainers) {
+        if (CollectionUtils.isNotEmpty(workLocations)
+            && StringUtils.equals(workLocations.get(0).getWorkLocationCode(), newArrivedContainers.get(0).getWorkLocationCode())) {
+            newArrivedContainers.forEach(arrivedContainer -> {
+                workLocations.stream().flatMap(workLocation -> workLocation.getWorkLocationSlots()
+                    .stream()).forEach(workLocationSlotExtend -> {
+                    if (workLocationSlotExtend.getSlotCode().equals(arrivedContainer.getLocationCode())) {
+                        workLocationSlotExtend.setArrivedContainer(arrivedContainer);
+                    }
+                });
+            });
+        } else {
+            WorkLocationExtend workLocationExtend = new WorkLocationExtend();
+            List<WorkLocationExtend.WorkLocationSlotExtend> workLocationSlotExtends = newArrivedContainers.stream().map(arrivedContainer -> {
+                WorkLocationExtend.WorkLocationSlotExtend workLocationSlotExtend = new WorkLocationExtend.WorkLocationSlotExtend();
+                workLocationSlotExtend.setSlotCode(arrivedContainer.getLocationCode());
+                workLocationSlotExtend.setArrivedContainer(arrivedContainer);
+                workLocationSlotExtend.setLevel(arrivedContainer.getLevel());
+                workLocationSlotExtend.setBay(arrivedContainer.getBay());
+                workLocationSlotExtend.setGroupCode(arrivedContainer.getGroupCode());
+                workLocationSlotExtend.setWorkLocationCode(arrivedContainer.getWorkLocationCode());
+                return workLocationSlotExtend;
+            }).collect(Collectors.toList());
+
+            workLocationExtend.setWorkLocationSlots(workLocationSlotExtends);
+            workLocationExtend.setWorkLocationType(newArrivedContainers.get(0).getWorkLocationType());
+            workLocationExtend.setWorkLocationCode(newArrivedContainers.get(0).getWorkLocationCode());
+            workLocationExtend.setEnable(true);
+            workLocationExtend.setStationCode(stationCode);
+
+            if (CollectionUtils.isNotEmpty(workLocations)) {
+                workLocations.add(workLocationExtend);
+            } else {
+                this.setWorkLocations(List.of(workLocationExtend));
+            }
+        }
     }
 }

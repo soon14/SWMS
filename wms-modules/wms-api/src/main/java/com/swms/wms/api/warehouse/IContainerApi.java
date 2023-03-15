@@ -1,6 +1,8 @@
 package com.swms.wms.api.warehouse;
 
+import com.swms.wms.api.warehouse.dto.ContainerLayoutDTO;
+
 public interface IContainerApi {
 
-    Object queryContainer(String containerCode);
+    ContainerLayoutDTO queryContainerLayout(String containerCode);
 }

@@ -1,7 +1,11 @@
 package com.swms.station.business.model;
 
+import com.swms.wms.api.warehouse.constants.WorkLocationTypeEnum;
+import com.swms.wms.api.warehouse.dto.ContainerLayoutDTO;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 import java.util.Map;
@@ -12,13 +16,20 @@ import java.util.Map;
  */
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class ArrivedContainer {
+
+    private ContainerLayoutDTO containerLayout;
 
     private String containerCode;
     private String containerType;
     private String face;
     private Integer rotationAngle;
     private String locationCode;
+
+    private String workLocationCode;
+    private WorkLocationTypeEnum workLocationType;
 //    private List<Slot> slots;
 
     // a set of locations that the container can be put into.
@@ -28,6 +39,8 @@ public class ArrivedContainer {
 
     private String robotCode;
     private String robotType;
+    private Integer level;
+    private Integer bay;
 
     private boolean empty;
 
