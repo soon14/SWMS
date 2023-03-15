@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * ArrivedContainer wouldn't pass to WMS system , it will be restored to redis and memory .
@@ -34,4 +35,9 @@ public class ArrivedContainer {
      * 0: unprocessed ,1: processing , 2: processed
      */
     private Integer processStatus;
+
+    /**
+     * when container arrived , it's contains other attributes. like height, weight, temperature, etc.
+     */
+    private Map<String, Object> containerAttributes;
 }

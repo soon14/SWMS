@@ -1,5 +1,7 @@
 package com.swms.station.api;
 
+import com.swms.utils.utils.JsonUtils;
+import com.swms.utils.utils.ObjectUtils;
 import com.swms.wms.api.warehouse.constants.WorkStationOperationTypeEnum;
 import com.swms.wms.api.warehouse.constants.WorkStationStatusEnum;
 import com.swms.station.StationTestApplication;
@@ -8,6 +10,7 @@ import com.swms.station.view.ViewHelper;
 import com.swms.station.view.model.WorkStationVO;
 import com.swms.station.websocket.utils.HttpContext;
 import com.swms.wms.api.warehouse.IWorkStationApi;
+import com.swms.wms.api.warehouse.dto.WorkStationModelDTO;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -71,5 +74,10 @@ class ApiControllerTest {
         Assertions.assertThat(workStationVO).isNotNull();
         Assertions.assertThat(workStationVO.getWorkStationStatus()).isEqualTo(WorkStationStatusEnum.ONLINE);
 
+    }
+
+    public static void main(String[] args) {
+        WorkStationModelDTO randomObject = ObjectUtils.getRandomObject(WorkStationModelDTO.class);
+        System.out.println(JsonUtils.obj2StringPretty(randomObject));
     }
 }

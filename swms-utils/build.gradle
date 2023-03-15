@@ -14,11 +14,12 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
 
     compileOnly 'org.springframework.boot:spring-boot-starter-websocket'
-    compileOnly 'org.apache.commons:commons-lang3'
-    compileOnly 'org.apache.commons:commons-collections4'
-
     compileOnly group: 'org.redisson', name: 'redisson-spring-boot-starter'
     compileOnly group: 'org.springframework.boot', name: 'spring-boot-starter-aop'
+
+    implementation 'com.google.guava:guava'
+    implementation 'org.apache.commons:commons-lang3'
+    implementation 'org.apache.commons:commons-collections4'
 }
 test {
     useJUnitPlatform()

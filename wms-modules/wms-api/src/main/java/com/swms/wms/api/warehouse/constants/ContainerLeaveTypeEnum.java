@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum ContainerLeaveType {
+public enum ContainerLeaveTypeEnum {
 
     /**
      * 离开

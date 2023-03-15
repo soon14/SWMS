@@ -1,10 +1,10 @@
 package com.swms.station.view.model;
 
 import com.swms.station.business.model.OperateTask;
+import com.swms.station.business.model.WorkLocationExtend;
 import com.swms.wms.api.warehouse.constants.WorkStationOperationTypeEnum;
 import com.swms.wms.api.warehouse.constants.WorkStationStatusEnum;
 import com.swms.wms.api.warehouse.dto.PutWallDTO;
-import com.swms.wms.api.warehouse.dto.WorkLocationDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -102,7 +102,7 @@ public class WorkStationVO {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class WorkLocationArea {
-        private List<WorkLocationDTO> workLocationViews;
+        private List<WorkLocationExtend> workLocationViews;
     }
 
     @Data

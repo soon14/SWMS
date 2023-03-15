@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum PutWallSlotStatus {
+public enum PutWallSlotStatusEnum {
 
     IDLE("空闲"),
 

@@ -7,7 +7,7 @@ public class HttpContext {
 
     public static final String STATION_CODE = "stationCode";
 
-    private static ThreadLocal<String> stationCodeContext = new ThreadLocal<>();
+    private static final ThreadLocal<String> stationCodeContext = new ThreadLocal<>();
 
     public static void setStationCode(String stationCode) {
         stationCodeContext.set(stationCode);

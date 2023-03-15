@@ -1,6 +1,6 @@
 package com.swms.wms.warehouse.work_station.domain.entity;
 
-import com.swms.wms.api.warehouse.constants.WorkLocationType;
+import com.swms.wms.api.warehouse.constants.WorkLocationTypeEnum;
 import lombok.Data;
 
 import java.util.List;
@@ -17,7 +17,7 @@ public class WorkLocation {
     /**
      * like SHELF, ROBOT, CONVEYOR and so on
      */
-    private WorkLocationType workLocationType;
+    private WorkLocationTypeEnum workLocationType;
     private String workLocationCode;
 
     private boolean enable;

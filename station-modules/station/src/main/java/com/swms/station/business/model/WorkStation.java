@@ -1,12 +1,13 @@
 package com.swms.station.business.model;
 
-import com.swms.wms.api.warehouse.constants.ContainerLeaveType;
+import com.swms.wms.api.warehouse.constants.ContainerLeaveTypeEnum;
 import com.swms.wms.api.warehouse.constants.WorkStationOperationTypeEnum;
 import com.swms.wms.api.warehouse.constants.WorkStationStatusEnum;
 import com.swms.station.remote.EquipmentService;
 import com.swms.station.remote.TaskService;
 import com.swms.wms.api.warehouse.dto.PutWallDTO;
 import com.swms.wms.api.warehouse.dto.WorkLocationDTO;
+import com.swms.wms.api.warehouse.dto.WorkLocationSlotDTO;
 import com.swms.wms.api.warehouse.dto.WorkStationConfigDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -37,7 +38,7 @@ public class WorkStation {
 
     private WorkStationOperationTypeEnum operationType;
 
-    private List<WorkLocationDTO> workLocations;
+    private List<WorkLocationExtend> workLocations;
 
     private List<PutWallDTO> putWalls;
 
@@ -94,7 +95,7 @@ public class WorkStation {
             arrivedContainers.stream().collect(Collectors.groupingBy(ArrivedContainer::getGroupCode)).forEach((groupCode, containers) -> {
                 if (containers.stream().allMatch(v -> v.getProcessStatus() == 2)) {
                     // all containers are done, let them leave
-                    equipmentService.containerLeave(containers.get(0), ContainerLeaveType.LEAVE);
+                    equipmentService.containerLeave(containers.get(0), ContainerLeaveTypeEnum.LEAVE);
                 }
             });
         }

@@ -1,21 +1,28 @@
 package com.swms.wms.api.warehouse.dto;
 
-import com.swms.wms.api.warehouse.constants.WorkLocationType;
+import com.swms.wms.api.warehouse.constants.WorkLocationTypeEnum;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Data
-public class WorkLocationDTO {
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class WorkLocationDTO<T extends WorkLocationSlotDTO> {
 
     private String stationCode;
     /**
      * like SHELF, ROBOT, CONVEYOR and so on
      */
-    private WorkLocationType workLocationType;
+    private WorkLocationTypeEnum workLocationType;
     private String workLocationCode;
 
     private boolean enable;
 
-    private List<WorkLocationSlotDTO> workLocationSlots;
+    private List<T> workLocationSlots;
+
 }

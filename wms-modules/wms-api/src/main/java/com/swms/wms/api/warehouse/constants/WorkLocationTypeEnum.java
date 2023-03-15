@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum WorkLocationType {
+public enum WorkLocationTypeEnum {
 
     BUFFER_SHELVING("缓存货架"),
 
