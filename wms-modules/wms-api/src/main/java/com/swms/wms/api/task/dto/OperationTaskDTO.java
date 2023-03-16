@@ -1,17 +1,18 @@
-package com.swms.station.business.model;
+package com.swms.wms.api.task.dto;
 
+import com.swms.wms.api.task.constants.OperationTaskTypeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
 
 import java.util.Map;
 
 @Data
-@SuperBuilder(toBuilder = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class OperateTask {
+public class OperationTaskDTO {
+
+    private Long taskId;
     private String skuCode;
     private String skuName;
     private String skuUrl;
@@ -32,4 +33,6 @@ public class OperateTask {
     private String targetLocationCode;
     private String targetContainerCode;
     private String targetContainerSlot;
+
+    private OperationTaskTypeEnum taskType;
 }

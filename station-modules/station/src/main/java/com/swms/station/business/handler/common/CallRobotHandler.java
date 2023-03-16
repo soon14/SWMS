@@ -15,9 +15,6 @@ import org.springframework.stereotype.Service;
 public class CallRobotHandler implements IBusinessHandler {
 
     @Autowired
-    private WorkStationService workStationService;
-
-    @Autowired
     private WorkStationManagement workStationManagement;
 
     @Autowired

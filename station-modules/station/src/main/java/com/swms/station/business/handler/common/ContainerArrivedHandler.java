@@ -1,6 +1,8 @@
 package com.swms.station.business.handler.common;
 
 import com.google.common.base.Preconditions;
+import com.swms.station.remote.EquipmentService;
+import com.swms.station.remote.TaskService;
 import com.swms.utils.utils.JsonUtils;
 import com.swms.station.api.ApiCodeEnum;
 import com.swms.station.business.handler.IBusinessHandler;
@@ -25,6 +27,12 @@ public class ContainerArrivedHandler implements IBusinessHandler {
     @Autowired
     private WorkStationManagement workStationManagement;
 
+    @Autowired
+    private TaskService taskService;
+
+    @Autowired
+    private EquipmentService equipmentService;
+
     @Override
     public void execute(String body, String stationCode) {
         WorkStation workStation = workStationManagement.getWorkStation(stationCode);
@@ -41,6 +49,9 @@ public class ContainerArrivedHandler implements IBusinessHandler {
             arrivedContainer.setRobotType(containerArrivedEvent.getRobotType());
             arrivedContainer.setGroupCode(containerArrivedEvent.getGroupCode());
             arrivedContainer.setProcessStatus(0);
+            arrivedContainer.setContainerCode(containerArrivedEvent.getContainerCode());
+            arrivedContainer.setWorkLocationCode(containerArrivedEvent.getWorkLocationCode());
+            arrivedContainer.setWorkLocationType(containerArrivedEvent.getWorkLocationType());
             return arrivedContainer;
         }).toList();
 
@@ -56,11 +67,11 @@ public class ContainerArrivedHandler implements IBusinessHandler {
 
         workStation.setArrivedContainersOnLocation(arrivedContainers);
 
-        workStation.handleUndoContainers();
+        workStation.handleUndoContainers(taskService, equipmentService);
     }
 
     @Override
     public ApiCodeEnum getApiCode() {
-        return ApiCodeEnum.RESUME;
+        return ApiCodeEnum.CONTAINER_ARRIVED;
     }
 }

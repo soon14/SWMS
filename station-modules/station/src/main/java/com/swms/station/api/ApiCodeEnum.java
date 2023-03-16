@@ -10,11 +10,12 @@ public enum ApiCodeEnum {
     PAUSE,
     RESUME,
     CALL_ROBOT,
+    CONTAINER_ARRIVED,
+    COMPLETE_TASKS
 
     /**
      * Inbound api codes
      */
     ;
-
 
 }

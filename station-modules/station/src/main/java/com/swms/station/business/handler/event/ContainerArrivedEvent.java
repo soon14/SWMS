@@ -1,9 +1,15 @@
 package com.swms.station.business.handler.event;
 
 import com.swms.wms.api.warehouse.constants.WorkLocationTypeEnum;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ContainerArrivedEvent {
     private String containerCode;
     private String face;

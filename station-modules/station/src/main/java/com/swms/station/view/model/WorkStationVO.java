@@ -1,7 +1,7 @@
 package com.swms.station.view.model;
 
-import com.swms.station.business.model.OperateTask;
 import com.swms.station.business.model.WorkLocationExtend;
+import com.swms.wms.api.task.dto.OperationTaskDTO;
 import com.swms.wms.api.warehouse.constants.WorkStationOperationTypeEnum;
 import com.swms.wms.api.warehouse.constants.WorkStationStatusEnum;
 import com.swms.wms.api.warehouse.dto.PutWallDTO;
@@ -112,7 +112,7 @@ public class WorkStationVO {
     public static class SkuArea {
         private String pickType;
         private String totalToBePickedQty;
-        private List<OperateTask> pickingViews;
+        private List<OperationTaskDTO> pickingViews;
     }
 
     @Data

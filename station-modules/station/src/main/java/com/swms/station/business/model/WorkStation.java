@@ -1,5 +1,6 @@
 package com.swms.station.business.model;
 
+import com.swms.wms.api.task.dto.OperationTaskDTO;
 import com.swms.wms.api.warehouse.constants.ContainerLeaveTypeEnum;
 import com.swms.wms.api.warehouse.constants.WorkStationOperationTypeEnum;
 import com.swms.wms.api.warehouse.constants.WorkStationStatusEnum;
@@ -9,6 +10,9 @@ import com.swms.wms.api.warehouse.dto.PutWallDTO;
 import com.swms.wms.api.warehouse.dto.WorkLocationDTO;
 import com.swms.wms.api.warehouse.dto.WorkLocationSlotDTO;
 import com.swms.wms.api.warehouse.dto.WorkStationConfigDTO;
+
+import java.util.Collections;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,7 +30,6 @@ import java.util.stream.Collectors;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Component
 public class WorkStation {
 
     private String stationCode;
@@ -43,19 +46,13 @@ public class WorkStation {
 
     private List<PutWallDTO> putWalls;
 
-    private List<OperateTask> operateTasks;
+    private List<OperationTaskDTO> operateTasks;
 
     private List<ArrivedContainer> arrivedContainers;
 
     private WorkStationConfigDTO workStationConfig;
 
-    @Autowired
-    private TaskService taskService;
-
-    @Autowired
-    private EquipmentService equipmentService;
-
-    public void handleUndoContainers() {
+    public void handleUndoContainers(TaskService taskService, EquipmentService equipmentService) {
 
         synchronized (this) {
             if (CollectionUtils.isEmpty(arrivedContainers)) {
@@ -68,7 +65,7 @@ public class WorkStation {
                     break;
                 }
                 // query tasks by container code
-                List<OperateTask> containerOperateTasks = taskService.queryTasks(stationCode, undoContainers.stream().map(ArrivedContainer::getContainerCode).toList());
+                List<OperationTaskDTO> containerOperateTasks = taskService.queryTasks(stationCode, undoContainers.stream().map(ArrivedContainer::getContainerCode).toList());
 
                 if (containerOperateTasks != null) {
                     if (CollectionUtils.isEmpty(this.getOperateTasks())) {
@@ -77,7 +74,7 @@ public class WorkStation {
                         this.getOperateTasks().addAll(containerOperateTasks);
                     }
                     arrivedContainers.forEach(arrivedContainer -> {
-                        if (undoContainers.stream().anyMatch(undoContainer -> undoContainer.getContainerCode().equals(arrivedContainer.getContainerCode()))) {
+                        if (undoContainers.stream().anyMatch(undoContainer -> StringUtils.equals(undoContainer.getContainerCode(), arrivedContainer.getContainerCode()))) {
                             arrivedContainer.setProcessStatus(1);
                         }
                     });
@@ -85,7 +82,7 @@ public class WorkStation {
                     break;
                 } else {
                     arrivedContainers.forEach(arrivedContainer -> {
-                        if (undoContainers.stream().anyMatch(undoContainer -> undoContainer.getContainerCode().equals(arrivedContainer.getContainerCode()))) {
+                        if (undoContainers.stream().anyMatch(undoContainer -> StringUtils.equals(undoContainer.getContainerCode(), arrivedContainer.getContainerCode()))) {
                             arrivedContainer.setProcessStatus(2);
                         }
                     });
@@ -108,6 +105,10 @@ public class WorkStation {
     private List<ArrivedContainer> getUndoContainers(List<ArrivedContainer> arrivedContainers) {
         List<ArrivedContainer> undoContainers = arrivedContainers.stream().filter(v -> v.getProcessStatus() == 0).toList();
 
+        if (CollectionUtils.isEmpty(undoContainers)) {
+            return Collections.emptyList();
+        }
+
         if (operationType == WorkStationOperationTypeEnum.ONE_STEP_INVENTORY_RELOCATION) {
             undoContainers = undoContainers.subList(0, 2);
         } else {
@@ -123,7 +124,7 @@ public class WorkStation {
      */
     public void setArrivedContainersOnLocation(List<ArrivedContainer> newArrivedContainers) {
         if (CollectionUtils.isNotEmpty(workLocations)
-            && StringUtils.equals(workLocations.get(0).getWorkLocationCode(), newArrivedContainers.get(0).getWorkLocationCode())) {
+            && workLocations.stream().anyMatch(workLocation -> StringUtils.equals(workLocation.getWorkLocationCode(), newArrivedContainers.get(0).getWorkLocationCode()))) {
             newArrivedContainers.forEach(arrivedContainer -> {
                 workLocations.stream().flatMap(workLocation -> workLocation.getWorkLocationSlots()
                     .stream()).forEach(workLocationSlotExtend -> {
@@ -143,7 +144,7 @@ public class WorkStation {
                 workLocationSlotExtend.setGroupCode(arrivedContainer.getGroupCode());
                 workLocationSlotExtend.setWorkLocationCode(arrivedContainer.getWorkLocationCode());
                 return workLocationSlotExtend;
-            }).collect(Collectors.toList());
+            }).toList();
 
             workLocationExtend.setWorkLocationSlots(workLocationSlotExtends);
             workLocationExtend.setWorkLocationType(newArrivedContainers.get(0).getWorkLocationType());

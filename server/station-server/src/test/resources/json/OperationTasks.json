@@ -1,0 +1,19 @@
+[
+  {
+    "taskId": 1,
+    "skuCode": "sku1",
+    "skuName": "skuName1",
+    "skuUrl": "www.baidu.com",
+    "skuBatchId": 1,
+    "batchAttributeJson": {},
+    "sourceContainerCode": "containerCode1",
+    "sourceContainerSlot": "1",
+    "processed": false,
+    "requiredQty": 10,
+    "operatedQty": 0,
+    "toBeOperatedQty": 10,
+    "targetLocationCode": "slo1",
+    "targetContainerCode": "targetContainer1",
+    "targetContainerSlot": "target1"
+  }
+]

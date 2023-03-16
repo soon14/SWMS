@@ -1,8 +1,7 @@
 package com.swms.station.remote;
 
 import com.swms.utils.constants.RedisConstants;
-import com.swms.utils.mq.redis.RedisConsumer;
-import com.swms.utils.utils.JsonUtils;
+import com.swms.utils.mq.redis.RedisListener;
 import com.swms.station.business.model.WorkStation;
 import com.swms.station.business.model.WorkStationManagement;
 import com.swms.station.websocket.utils.StationWebSocketUtils;
@@ -18,12 +17,12 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Component
-public class MqConsumer {
+public class WorkStationMqConsumer {
 
     @Autowired
     private WorkStationManagement workStationManagement;
 
-    @RedisConsumer(topic = RedisConstants.STATION_LISTEN_WORK_STATION_CONFIG_UPDATE, type = WorkStationConfigDTO.class)
+    @RedisListener(topic = RedisConstants.STATION_LISTEN_WORK_STATION_CONFIG_UPDATE, type = WorkStationConfigDTO.class)
     public void listenWorkStationConfigUpdated(String topic, WorkStationConfigDTO workStationConfigDTO) {
         if (workStationConfigDTO == null) {
             return;
@@ -37,7 +36,7 @@ public class MqConsumer {
         workStation.setWorkStationConfig(workStationConfigDTO);
     }
 
-    @RedisConsumer(topic = RedisConstants.STATION_LISTEN_ORDER_ASSIGNED, type = List.class)
+    @RedisListener(topic = RedisConstants.STATION_LISTEN_ORDER_ASSIGNED, type = List.class)
     public void listenOrderAssigned(String topic, List<PutWallSlotDTO> putWallSlotDTOS) {
 
         if (CollectionUtils.isEmpty(putWallSlotDTOS)) {

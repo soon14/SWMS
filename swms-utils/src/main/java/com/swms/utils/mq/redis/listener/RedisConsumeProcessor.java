@@ -1,6 +1,6 @@
 package com.swms.utils.mq.redis.listener;
 
-import com.swms.utils.mq.redis.RedisConsumer;
+import com.swms.utils.mq.redis.RedisListener;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.redisson.api.RedissonClient;
@@ -38,7 +38,7 @@ public class RedisConsumeProcessor implements BeanPostProcessor {
 
         Method[] methods = ReflectionUtils.getAllDeclaredMethods(bean.getClass());
         for (Method method : methods) {
-            RedisConsumer mqConsumer = AnnotationUtils.findAnnotation(method, RedisConsumer.class);
+            RedisListener mqConsumer = AnnotationUtils.findAnnotation(method, RedisListener.class);
             if (null != mqConsumer && StringUtils.isNotEmpty(mqConsumer.topic())) {
                 redissonClient.getTopic(mqConsumer.topic(), new JsonJacksonCodec()).addListener(mqConsumer.type(),
                     (channel, msg) -> {

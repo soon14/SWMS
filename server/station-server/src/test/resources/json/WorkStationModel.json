@@ -9,7 +9,7 @@
     {
       "stationCode": "1",
       "workLocationType": "ROBOT",
-      "workLocationCode": "",
+      "workLocationCode": "2",
       "enable": true,
       "workLocationSlots": [
         {

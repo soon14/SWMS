@@ -21,9 +21,8 @@ import java.util.Map;
 public class ArrivedContainer {
 
     private ContainerLayoutDTO containerLayout;
-
     private String containerCode;
-    private String containerType;
+
     private String face;
     private Integer rotationAngle;
     private String locationCode;

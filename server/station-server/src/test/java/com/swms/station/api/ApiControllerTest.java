@@ -1,7 +1,19 @@
 package com.swms.station.api;
 
+import com.swms.station.business.handler.event.ContainerArrivedEvent;
+import com.swms.station.business.model.ArrivedContainer;
+import com.swms.station.business.model.WorkStation;
+import com.swms.station.business.model.WorkStationManagement;
+import com.swms.station.remote.ContainerService;
+import com.swms.station.remote.TaskService;
+import com.swms.station.remote.WorkStationMqConsumer;
 import com.swms.utils.utils.JsonUtils;
 import com.swms.utils.utils.ObjectUtils;
+import com.swms.wms.api.task.ITaskApi;
+import com.swms.wms.api.task.dto.OperationTaskDTO;
+import com.swms.wms.api.warehouse.IContainerApi;
+import com.swms.wms.api.warehouse.constants.PutWallSlotStatusEnum;
+import com.swms.wms.api.warehouse.constants.WorkLocationTypeEnum;
 import com.swms.wms.api.warehouse.constants.WorkStationOperationTypeEnum;
 import com.swms.wms.api.warehouse.constants.WorkStationStatusEnum;
 import com.swms.station.StationTestApplication;
@@ -10,8 +22,10 @@ import com.swms.station.view.ViewHelper;
 import com.swms.station.view.model.WorkStationVO;
 import com.swms.station.websocket.utils.HttpContext;
 import com.swms.wms.api.warehouse.IWorkStationApi;
-import com.swms.wms.api.warehouse.dto.WorkStationModelDTO;
+import com.swms.wms.api.warehouse.dto.PutWallDTO;
+import com.swms.wms.api.warehouse.dto.PutWallSlotDTO;
 import org.assertj.core.api.Assertions;
+import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,11 +44,25 @@ class ApiControllerTest {
     @Autowired
     private ApplicationContext applicationContext;
 
+    @Autowired
+    private WorkStationMqConsumer workStationMqConsumer;
+
+    @Autowired
+    private WorkStationManagement workStationManagement;
+
     @BeforeEach
     public void initBean() {
         WorkStationService workStationService = applicationContext.getBean(WorkStationService.class);
         IWorkStationApi iWorkStationApi = applicationContext.getBean(IWorkStationApi.class);
         workStationService.setWorkStationApi(iWorkStationApi);
+
+        ContainerService containerService = applicationContext.getBean(ContainerService.class);
+        IContainerApi iContainerApi = applicationContext.getBean(IContainerApi.class);
+        containerService.setContainerApi(iContainerApi);
+
+        TaskService taskService = applicationContext.getBean(TaskService.class);
+        ITaskApi iTaskApi = applicationContext.getBean(ITaskApi.class);
+        taskService.setTaskApi(iTaskApi);
     }
 
     @Test
@@ -76,8 +104,61 @@ class ApiControllerTest {
 
     }
 
-    public static void main(String[] args) {
-        WorkStationModelDTO randomObject = ObjectUtils.getRandomObject(WorkStationModelDTO.class);
-        System.out.println(JsonUtils.obj2StringPretty(randomObject));
+    @Test
+    void testOrderAssign() {
+        testOnline();
+
+        WorkStation workStation = workStationManagement.getWorkStation("1");
+        PutWallDTO putWallDTO = workStation.getPutWalls().get(0);
+
+        PutWallSlotDTO putWallSlotDTO = PutWallSlotDTO.builder()
+            .putWallCode(putWallDTO.getPutWallCode())
+            .slotCode(putWallDTO.getPutWallSlots().get(0).getSlotCode())
+            .putWallSlotStatus(PutWallSlotStatusEnum.WAITING_BINDING)
+            .stationCode("1")
+            .orderIds(Lists.newArrayList(1L)).build();
+
+        workStationMqConsumer.listenOrderAssigned("1", Lists.newArrayList(putWallSlotDTO));
+
+        workStation = workStationManagement.getWorkStation("1");
+        Assertions.assertThat(workStation.getPutWalls().get(0).getPutWallSlots().get(0).getOrderIds()).contains(1L);
+        Assertions.assertThat(workStation.getPutWalls().get(0).getPutWallSlots().get(0).getPutWallSlotStatus())
+            .isEqualTo(PutWallSlotStatusEnum.WAITING_BINDING);
     }
+
+    @Test
+    void testContainerArrive() {
+        testOnline();
+        ContainerArrivedEvent containerArrivedEvent = ContainerArrivedEvent.builder().containerCode("1").stationCode("1")
+            .bay(1).level(1).groupCode("robot1").locationCode("1-1").workLocationType(WorkLocationTypeEnum.ROBOT)
+            .workLocationCode("2").build();
+        apiController.execute(ApiCodeEnum.CONTAINER_ARRIVED, JsonUtils.obj2String(Lists.newArrayList(containerArrivedEvent)));
+
+        WorkStation workStation = workStationManagement.getWorkStation("1");
+        ArrivedContainer arrivedContainer = workStation.getWorkLocations().get(0).getWorkLocationSlots().get(0).getArrivedContainer();
+        Assertions.assertThat(arrivedContainer).isNotNull();
+        Assertions.assertThat(arrivedContainer.getContainerCode()).isEqualTo("1");
+        Assertions.assertThat(workStation.getOperateTasks()).isNotEmpty();
+        Assertions.assertThat(workStation.getOperateTasks().get(0).getTaskId()).isEqualTo(1);
+    }
+
+    @Test
+    void testCompleteTasks() {
+        testContainerArrive();
+        apiController.execute(ApiCodeEnum.COMPLETE_TASKS, JsonUtils.obj2String(Lists.newArrayList(1L)));
+
+        WorkStation workStation = workStationManagement.getWorkStation("1");
+        Assertions.assertThat(workStation.getOperateTasks()).isEmpty();
+    }
+
+    @Test
+    void fullFlowTest() {
+        testOnline();
+        testOrderAssign();
+    }
+
+    public static void main(String[] args) {
+        System.out.println(JsonUtils.obj2StringPretty(ObjectUtils.getRandomObject(OperationTaskDTO.class)));
+    }
+
 }

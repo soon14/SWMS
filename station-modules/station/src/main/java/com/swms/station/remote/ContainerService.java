@@ -1,7 +1,5 @@
 package com.swms.station.remote;
 
-import com.swms.utils.utils.JsonUtils;
-import com.swms.station.business.model.ArrivedContainer;
 import com.swms.wms.api.warehouse.IContainerApi;
 import com.swms.wms.api.warehouse.dto.ContainerLayoutDTO;
 import org.apache.dubbo.config.annotation.DubboReference;
@@ -11,10 +9,13 @@ import org.springframework.stereotype.Service;
 public class ContainerService {
 
     @DubboReference
-    private IContainerApi iContainerApi;
+    private IContainerApi containerApi;
 
     public ContainerLayoutDTO queryContainer(String containerCode) {
-        return iContainerApi.queryContainerLayout(containerCode);
+        return containerApi.queryContainerLayout(containerCode);
     }
 
+    public void setContainerApi(IContainerApi iContainerApi) {
+        this.containerApi = iContainerApi;
+    }
 }
