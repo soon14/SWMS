@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 
 import java.util.Map;
 
+/**
+ * abstract of operation task contains all tasks. eg: inbound, outbound, relocation, etc.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
