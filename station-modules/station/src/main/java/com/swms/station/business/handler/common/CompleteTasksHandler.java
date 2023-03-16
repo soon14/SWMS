@@ -41,7 +41,7 @@ public class CompleteTasksHandler implements IBusinessHandler {
 
         taskService.completeTasks(taskIds);
 
-        workStation.getOperateTasks().removeIf(operationTaskDTO -> taskIds.contains(operationTaskDTO.getTaskId()));
+        workStation.removeOperateTasks(taskIds);
 
         workStation.handleUndoContainers(taskService, equipmentService);
     }

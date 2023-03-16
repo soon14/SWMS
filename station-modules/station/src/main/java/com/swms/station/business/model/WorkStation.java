@@ -159,4 +159,16 @@ public class WorkStation {
             }
         }
     }
+
+    public void removeOperateTasks(List<Long> taskIds) {
+        this.operateTasks.removeIf(operationTaskDTO -> taskIds.contains(operationTaskDTO.getTaskId()));
+    }
+
+    public void addArrivedContainers(List<ArrivedContainer> newArrivedContainers) {
+        if (CollectionUtils.isEmpty(this.arrivedContainers)) {
+            this.setArrivedContainers(newArrivedContainers);
+        } else {
+            this.arrivedContainers.addAll(newArrivedContainers);
+        }
+    }
 }

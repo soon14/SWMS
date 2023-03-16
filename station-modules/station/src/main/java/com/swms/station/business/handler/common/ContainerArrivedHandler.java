@@ -55,11 +55,7 @@ public class ContainerArrivedHandler implements IBusinessHandler {
             return arrivedContainer;
         }).toList();
 
-        if (CollectionUtils.isEmpty(workStation.getArrivedContainers())) {
-            workStation.setArrivedContainers(arrivedContainers);
-        } else {
-            workStation.getArrivedContainers().addAll(arrivedContainers);
-        }
+        workStation.addArrivedContainers(arrivedContainers);
 
         if (CollectionUtils.isNotEmpty(workStation.getOperateTasks())) {
             return;
