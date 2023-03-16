@@ -1,26 +1,20 @@
 package com.swms.station.business.model;
 
+import com.swms.station.remote.EquipmentService;
+import com.swms.station.remote.TaskService;
 import com.swms.wms.api.task.dto.OperationTaskDTO;
 import com.swms.wms.api.warehouse.constants.ContainerLeaveTypeEnum;
 import com.swms.wms.api.warehouse.constants.WorkStationOperationTypeEnum;
 import com.swms.wms.api.warehouse.constants.WorkStationStatusEnum;
-import com.swms.station.remote.EquipmentService;
-import com.swms.station.remote.TaskService;
 import com.swms.wms.api.warehouse.dto.PutWallDTO;
-import com.swms.wms.api.warehouse.dto.WorkLocationDTO;
-import com.swms.wms.api.warehouse.dto.WorkLocationSlotDTO;
 import com.swms.wms.api.warehouse.dto.WorkStationConfigDTO;
-
-import java.util.Collections;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
