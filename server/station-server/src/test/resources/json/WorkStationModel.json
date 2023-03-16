@@ -1,6 +1,6 @@
 {
   "stationCode": "1",
-  "workStationStatus": "ONLINE",
+  "workStationStatus": "OFFLINE",
   "warehouseCode": "warehouse",
   "warehouseAreaCode": "warehouseAreaCode",
   "warehouseLogicCode": "warehouseLogicCode",
