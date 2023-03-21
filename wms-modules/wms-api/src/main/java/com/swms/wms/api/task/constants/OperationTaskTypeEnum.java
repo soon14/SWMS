@@ -1,8 +1,12 @@
 package com.swms.wms.api.task.constants;
 
 public enum OperationTaskTypeEnum {
-    INBOUND,
-    OUTBOUND,
-    RELOCATION,
-    INVENTORY,
+    REPLENISHMENT,
+    PICKING,
+    SORTING,
+    ONE_STEP_RELOCATION,
+    TWO_STEP_RELOCATION,
+    COUNTING,
+    RECHECK,
+    ;
 }

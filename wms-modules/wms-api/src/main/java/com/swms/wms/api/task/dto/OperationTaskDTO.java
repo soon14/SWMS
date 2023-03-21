@@ -22,7 +22,6 @@ public class OperationTaskDTO {
     private Long skuBatchId;
     private Map<String, Object> batchAttributeJson;
 //    private List<SnInfo> snInfos;
-//    private List<PageConfigDetail> skuDesc;
 
     private String sourceContainerCode;
     private String sourceContainerSlot;

@@ -14,7 +14,7 @@ public class TaskService {
     private ITaskApi taskApi;
 
     public List<OperationTaskDTO> queryTasks(String stationCode, List<String> containerCodes) {
-        return taskApi.queryTaskList(stationCode, containerCodes);
+        return taskApi.queryTaskList(stationCode, containerCodes, stationCode);
 
     }
 

@@ -16,4 +16,6 @@ include 'server:wms-server'
 include 'server:station-server'
 
 include 'swms-utils'
+include 'wms-modules:wms-task'
+findProject(':wms-modules:wms-task')?.name = 'wms-task'
 
