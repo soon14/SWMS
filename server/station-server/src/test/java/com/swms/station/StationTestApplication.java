@@ -3,6 +3,7 @@ package com.swms.station;
 import com.alibaba.cloud.commons.io.FileUtils;
 import com.swms.utils.utils.JsonUtils;
 import com.swms.wms.api.task.ITaskApi;
+import com.swms.wms.api.task.constants.OperationTaskTypeEnum;
 import com.swms.wms.api.task.dto.OperationTaskDTO;
 import com.swms.wms.api.warehouse.IContainerApi;
 import com.swms.wms.api.warehouse.IWorkStationApi;
@@ -58,7 +59,7 @@ public class StationTestApplication {
         List<OperationTaskDTO> operationTaskDTOS = JsonUtils.string2List(s, OperationTaskDTO.class);
 
         ITaskApi iTaskApi = PowerMockito.mock(ITaskApi.class);
-        PowerMockito.when(iTaskApi.queryTaskList("1", List.of("1"), s))
+        PowerMockito.when(iTaskApi.queryTasks("1", List.of("1"), OperationTaskTypeEnum.PICKING))
             .thenAnswer(t -> operationTaskDTOS);
         return iTaskApi;
     }

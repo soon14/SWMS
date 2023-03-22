@@ -2,6 +2,7 @@ package com.swms.station.business.model;
 
 import com.swms.station.remote.EquipmentService;
 import com.swms.station.remote.TaskService;
+import com.swms.wms.api.task.constants.OperationTaskTypeEnum;
 import com.swms.wms.api.task.dto.OperationTaskDTO;
 import com.swms.wms.api.warehouse.constants.ContainerLeaveTypeEnum;
 import com.swms.wms.api.warehouse.constants.WorkStationOperationTypeEnum;
@@ -59,7 +60,7 @@ public class WorkStation {
                     break;
                 }
                 // query tasks by container code
-                List<OperationTaskDTO> containerOperateTasks = taskService.queryTasks(stationCode, undoContainers.stream().map(ArrivedContainer::getContainerCode).toList());
+                List<OperationTaskDTO> containerOperateTasks = taskService.queryTasks(stationCode, undoContainers.stream().map(ArrivedContainer::getContainerCode).toList(), getOperationTaskType());
 
                 if (containerOperateTasks != null) {
                     if (CollectionUtils.isEmpty(this.getOperateTasks())) {
@@ -94,6 +95,19 @@ public class WorkStation {
                 }
             });
         }
+    }
+
+    private OperationTaskTypeEnum getOperationTaskType() {
+        if (operationType == WorkStationOperationTypeEnum.ONE_STEP_INVENTORY_RELOCATION) {
+            return OperationTaskTypeEnum.ONE_STEP_RELOCATION;
+        } else if (operationType == WorkStationOperationTypeEnum.TWO_STEP_INVENTORY_RELOCATION) {
+            return OperationTaskTypeEnum.TWO_STEP_RELOCATION;
+        } else if (operationType == WorkStationOperationTypeEnum.OUTBOUND) {
+            return OperationTaskTypeEnum.PICKING;
+        } else if (operationType == WorkStationOperationTypeEnum.STOCK_TAKE) {
+            return OperationTaskTypeEnum.COUNTING;
+        }
+        return null;
     }
 
     private List<ArrivedContainer> getUndoContainers(List<ArrivedContainer> arrivedContainers) {

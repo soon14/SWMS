@@ -15,6 +15,8 @@ import java.util.Map;
 @NoArgsConstructor
 public class OperationTaskDTO {
 
+    private String stationCode;
+
     private Long taskId;
     private String skuCode;
     private String skuName;

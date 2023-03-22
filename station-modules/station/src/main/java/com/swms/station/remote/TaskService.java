@@ -1,6 +1,7 @@
 package com.swms.station.remote;
 
 import com.swms.wms.api.task.ITaskApi;
+import com.swms.wms.api.task.constants.OperationTaskTypeEnum;
 import com.swms.wms.api.task.dto.OperationTaskDTO;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.stereotype.Service;
@@ -13,8 +14,8 @@ public class TaskService {
     @DubboReference
     private ITaskApi taskApi;
 
-    public List<OperationTaskDTO> queryTasks(String stationCode, List<String> containerCodes) {
-        return taskApi.queryTaskList(stationCode, containerCodes, stationCode);
+    public List<OperationTaskDTO> queryTasks(String stationCode, List<String> containerCodes, OperationTaskTypeEnum operationType) {
+        return taskApi.queryTasks(stationCode, containerCodes, operationType);
 
     }
 
