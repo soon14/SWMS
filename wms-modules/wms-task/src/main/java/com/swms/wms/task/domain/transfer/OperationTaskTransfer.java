@@ -23,5 +23,11 @@ public interface OperationTaskTransfer {
     List<OperationTaskDTO> toOperationTaskDTOS(List<OperationTask> operationTasks);
 
     @Mapping(source = "taskId", target = "id")
-    List<OperationTask> toOperationTasks(List<OperationTaskDTO> operationTasks);
+    List<OperationTask> toOperationTasks(List<OperationTaskDTO> operationTaskDTOS);
+
+    @Mapping(source = "taskId", target = "id")
+    OperationTask toOperationTask(OperationTaskDTO operationTaskDTO);
+
+    @Mapping(source = "id", target = "taskId")
+    OperationTaskDTO toOperationTaskDTO(OperationTask operationTask);
 }

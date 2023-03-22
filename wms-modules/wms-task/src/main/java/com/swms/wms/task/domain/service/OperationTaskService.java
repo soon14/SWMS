@@ -4,6 +4,7 @@ import com.swms.wms.api.task.constants.OperationTaskTypeEnum;
 import com.swms.wms.api.task.dto.HandleTaskDTO;
 import com.swms.wms.api.task.dto.OperationTaskDTO;
 import com.swms.wms.api.task.dto.ReportAbnormalTaskDTO;
+import com.swms.wms.api.task.dto.SplitTaskDTO;
 import com.swms.wms.task.domain.entity.OperationTask;
 import com.swms.wms.task.domain.repository.OperationTaskRepository;
 import com.swms.wms.task.domain.transfer.OperationTaskTransfer;
@@ -36,5 +37,9 @@ public class OperationTaskService {
 
     public void reportAbnormal(List<ReportAbnormalTaskDTO> reportAbnormalTaskDTOS) {
         operationTaskRepository.updateAbnormalQty(reportAbnormalTaskDTOS);
+    }
+
+    public void splitTasks(List<SplitTaskDTO> splitTaskDTOS) {
+        operationTaskRepository.updateSplitQty(splitTaskDTOS);
     }
 }

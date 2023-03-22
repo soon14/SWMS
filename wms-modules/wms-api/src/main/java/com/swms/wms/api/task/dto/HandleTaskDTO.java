@@ -9,4 +9,5 @@ public class HandleTaskDTO {
     private Long taskId;
     private Integer operatedQty;
     private OperationTaskStatusEnum taskStatus;
+    private OperationTaskStatusEnum taskType;
 }

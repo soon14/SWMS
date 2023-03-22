@@ -66,7 +66,7 @@ public class OperationTaskApplicationImpl implements ITaskApi {
     public void splitTasks(List<SplitTaskDTO> splitTaskDTOS) {
 
         //1. update tasks status
-
+        operationTaskService.splitTasks(splitTaskDTOS);
         //2. create new tasks
     }
 }
