@@ -44,17 +44,21 @@ public class OperationTaskApplicationImpl implements ITaskApi {
         //1. handle tasks
         operationTaskService.handleTasks(handleTaskDTOS);
 
-        //2. update stock
+        //2. update stock -> just send event
 
-        //3. update order status
+        //3. update order status -> just send event
     }
 
     @Override
     public void reportAbnormal(List<ReportAbnormalTaskDTO> reportAbnormalTaskDTOS) {
 
         //1. update tasks status
+        operationTaskService.reportAbnormal(reportAbnormalTaskDTOS);
 
-        //2. create stock abnormal record
+        //2. create stock abnormal record -> just send event
+
+
+        //3. reAssign tasks -> just send event
 
     }
 

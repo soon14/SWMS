@@ -5,12 +5,11 @@ import com.swms.wms.api.task.dto.HandleTaskDTO;
 import com.swms.wms.api.task.dto.OperationTaskDTO;
 import com.swms.wms.api.task.dto.ReportAbnormalTaskDTO;
 import com.swms.wms.task.domain.entity.OperationTask;
+import com.swms.wms.task.domain.repository.OperationTaskRepository;
 import com.swms.wms.task.domain.transfer.OperationTaskTransfer;
-import com.swms.wms.task.infrastructure.repository.OperationTaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -28,14 +27,14 @@ public class OperationTaskService {
     }
 
     public List<OperationTask> queryContainerTasksByTaskType(String stationCode, List<String> containerCodes, OperationTaskTypeEnum taskType) {
-        return new ArrayList<>();
+        return operationTaskRepository.queryContainerTasksByTaskType(stationCode, containerCodes, taskType);
     }
 
     public void handleTasks(List<HandleTaskDTO> handleTaskDTOS) {
-
+        operationTaskRepository.updateTasks(handleTaskDTOS);
     }
 
     public void reportAbnormal(List<ReportAbnormalTaskDTO> reportAbnormalTaskDTOS) {
-
+        operationTaskRepository.updateAbnormalQty(reportAbnormalTaskDTOS);
     }
 }
