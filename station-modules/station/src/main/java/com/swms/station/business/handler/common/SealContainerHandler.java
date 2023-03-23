@@ -25,6 +25,7 @@ public class SealContainerHandler implements IBusinessHandler {
     public void execute(String body, String stationCode) {
         WorkStation workStation = workStationManagement.getWorkStation(stationCode);
         Preconditions.checkState(workStation != null);
+        Preconditions.checkState(body != null);
         Preconditions.checkState(workStation.getWorkStationStatus() == WorkStationStatusEnum.ONLINE);
 
         SealContainerDTO sealContainerDTO = JsonUtils.string2Object(body, SealContainerDTO.class);

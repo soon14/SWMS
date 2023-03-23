@@ -1,8 +1,8 @@
 package com.swms.wms.warehouse.work_station.domain.service;
 
 import com.swms.wms.warehouse.work_station.domain.entity.WorkLocation;
-import com.swms.wms.warehouse.work_station.infrastructure.repository.IWorkLocationRepository;
-import com.swms.wms.warehouse.work_station.infrastructure.repository.IWorkLocationSlotRepository;
+import com.swms.wms.warehouse.work_station.domain.repository.IWorkLocationRepository;
+import com.swms.wms.warehouse.work_station.domain.repository.IWorkLocationSlotRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

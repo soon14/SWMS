@@ -25,6 +25,7 @@ public class BindContainerHandler implements IBusinessHandler {
     public void execute(String body, String stationCode) {
         WorkStation workStation = workStationManagement.getWorkStation(stationCode);
         Preconditions.checkState(workStation != null);
+        Preconditions.checkState(body != null);
         Preconditions.checkState(workStation.getWorkStationStatus() == WorkStationStatusEnum.ONLINE);
 
         BindContainerDTO bindContainerDTO = JsonUtils.string2Object(body, BindContainerDTO.class);

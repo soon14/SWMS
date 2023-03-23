@@ -1,7 +1,7 @@
 package com.swms.wms.warehouse.work_station.domain.service;
 
 import com.swms.wms.warehouse.work_station.domain.entity.WorkStation;
-import com.swms.wms.warehouse.work_station.infrastructure.repository.IWorkStationRepository;
+import com.swms.wms.warehouse.work_station.domain.repository.IWorkStationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
