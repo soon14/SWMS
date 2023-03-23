@@ -4,8 +4,6 @@ import com.swms.wms.api.task.ITaskApi;
 import com.swms.wms.api.task.constants.OperationTaskTypeEnum;
 import com.swms.wms.api.task.dto.HandleTaskDTO;
 import com.swms.wms.api.task.dto.OperationTaskDTO;
-import com.swms.wms.api.task.dto.ReportAbnormalTaskDTO;
-import com.swms.wms.api.task.dto.SplitTaskDTO;
 import com.swms.wms.task.domain.entity.OperationTask;
 import com.swms.wms.task.domain.service.OperationTaskService;
 import com.swms.wms.task.domain.transfer.OperationTaskTransfer;
@@ -39,34 +37,14 @@ public class OperationTaskApplicationImpl implements ITaskApi {
     }
 
     @Override
-    public void handleTasks(List<HandleTaskDTO> handleTaskDTOS) {
+    public void handleTasks(HandleTaskDTO handleTaskDTO) {
 
         //1. handle tasks
-        operationTaskService.handleTasks(handleTaskDTOS);
+        operationTaskService.handleTasks(handleTaskDTO);
 
         //2. update stock -> just send event
 
         //3. update order status -> just send event
     }
 
-    @Override
-    public void reportAbnormal(List<ReportAbnormalTaskDTO> reportAbnormalTaskDTOS) {
-
-        //1. update tasks status
-        operationTaskService.reportAbnormal(reportAbnormalTaskDTOS);
-
-        //2. create stock abnormal record -> just send event
-
-
-        //3. reAssign tasks -> just send event
-
-    }
-
-    @Override
-    public void splitTasks(List<SplitTaskDTO> splitTaskDTOS) {
-
-        //1. update tasks status
-        operationTaskService.splitTasks(splitTaskDTOS);
-        //2. create new tasks
-    }
 }

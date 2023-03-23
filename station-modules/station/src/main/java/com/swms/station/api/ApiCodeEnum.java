@@ -11,11 +11,10 @@ public enum ApiCodeEnum {
     RESUME,
     CALL_ROBOT,
     CONTAINER_ARRIVED,
-    COMPLETE_TASKS
+    HANDLE_TASKS,
 
     /**
      * Inbound api codes
      */
     ;
-
 }

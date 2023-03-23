@@ -145,7 +145,7 @@ class ApiControllerTest {
     @Test
     void testCompleteTasks() {
         testContainerArrive();
-        apiController.execute(ApiCodeEnum.COMPLETE_TASKS, JsonUtils.obj2String(Lists.newArrayList(1L)));
+        apiController.execute(ApiCodeEnum.HANDLE_TASKS, JsonUtils.obj2String(Lists.newArrayList(1L)));
 
         WorkStation workStation = workStationManagement.getWorkStation("1");
         Assertions.assertThat(workStation.getOperateTasks()).isEmpty();

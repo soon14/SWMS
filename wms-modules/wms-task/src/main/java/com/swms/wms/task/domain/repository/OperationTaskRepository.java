@@ -2,8 +2,6 @@ package com.swms.wms.task.domain.repository;
 
 import com.swms.wms.api.task.constants.OperationTaskTypeEnum;
 import com.swms.wms.api.task.dto.HandleTaskDTO;
-import com.swms.wms.api.task.dto.ReportAbnormalTaskDTO;
-import com.swms.wms.api.task.dto.SplitTaskDTO;
 import com.swms.wms.task.domain.entity.OperationTask;
 
 import java.util.List;
@@ -14,10 +12,8 @@ public interface OperationTaskRepository {
 
     List<OperationTask> queryContainerTasksByTaskType(String stationCode, List<String> containerCodes, OperationTaskTypeEnum taskType);
 
-    void updateTasks(List<HandleTaskDTO> handleTaskDTOS);
+    // There will be some logic to set the status and abnormal qty of the operation
+    void updateTasks(HandleTaskDTO handleTaskDTOS);
 
-    void updateAbnormalQty(List<ReportAbnormalTaskDTO> reportAbnormalTaskDTOS);
-
-    void updateSplitQty(List<SplitTaskDTO> splitTaskDTOS);
-
+    List<OperationTask> findAllByIds(List<Long> taskIds);
 }

@@ -2,6 +2,7 @@ package com.swms.station.remote;
 
 import com.swms.wms.api.task.ITaskApi;
 import com.swms.wms.api.task.constants.OperationTaskTypeEnum;
+import com.swms.wms.api.task.dto.HandleTaskDTO;
 import com.swms.wms.api.task.dto.OperationTaskDTO;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,8 @@ public class TaskService {
         this.taskApi = iTaskApi;
     }
 
-    public void completeTasks(List<Long> taskIds) {
-
+    public void handleTasks(HandleTaskDTO handleTaskDTO) {
+        taskApi.handleTasks(handleTaskDTO);
     }
+
 }

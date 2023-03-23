@@ -97,7 +97,7 @@ public class WorkStation {
         }
     }
 
-    private OperationTaskTypeEnum getOperationTaskType() {
+    public OperationTaskTypeEnum getOperationTaskType() {
         if (operationType == WorkStationOperationTypeEnum.ONE_STEP_INVENTORY_RELOCATION) {
             return OperationTaskTypeEnum.ONE_STEP_RELOCATION;
         } else if (operationType == WorkStationOperationTypeEnum.TWO_STEP_INVENTORY_RELOCATION) {
