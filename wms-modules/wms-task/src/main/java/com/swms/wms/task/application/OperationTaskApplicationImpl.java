@@ -67,7 +67,13 @@ public class OperationTaskApplicationImpl implements ITaskApi {
 
     @Override
     public void sealContainer(SealContainerDTO sealContainerDTO) {
+
+        //1. create transfer container record
         transferContainerAggregate.sealContainer(sealContainerDTO);
+
+        //2. notice order module to process status change notification
+
+        //3. callback upstream
     }
 
 }

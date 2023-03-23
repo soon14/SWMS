@@ -2,8 +2,10 @@ package com.swms.station.remote;
 
 import com.swms.wms.api.task.ITaskApi;
 import com.swms.wms.api.task.constants.OperationTaskTypeEnum;
+import com.swms.wms.api.task.dto.BindContainerDTO;
 import com.swms.wms.api.task.dto.HandleTaskDTO;
 import com.swms.wms.api.task.dto.OperationTaskDTO;
+import com.swms.wms.api.task.dto.SealContainerDTO;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.stereotype.Service;
 
@@ -28,4 +30,11 @@ public class TaskService {
         taskApi.handleTasks(handleTaskDTO);
     }
 
+    public void bindContainer(BindContainerDTO bindContainerDTO) {
+        taskApi.bindContainer(bindContainerDTO);
+    }
+
+    public void sealContainer(SealContainerDTO sealContainerDTO) {
+        taskApi.sealContainer(sealContainerDTO);
+    }
 }

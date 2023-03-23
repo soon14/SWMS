@@ -12,9 +12,12 @@ public enum ApiCodeEnum {
     CALL_ROBOT,
     CONTAINER_ARRIVED,
     HANDLE_TASKS,
+    BIND_CONTAINER,
+    SEAL_CONTAINER,
 
     /**
      * Inbound api codes
      */
     ;
+
 }
