@@ -8,7 +8,7 @@ public class TransferContainer {
     private Long id;
     private String transferContainerCode;
     private String stationCode;
-    private String putWallSlot;
+    private String putWallSlotCode;
 
     private Integer index;
     private Integer total;

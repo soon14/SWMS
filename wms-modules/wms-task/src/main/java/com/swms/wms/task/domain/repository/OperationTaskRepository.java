@@ -16,4 +16,6 @@ public interface OperationTaskRepository {
     void updateTasks(HandleTaskDTO handleTaskDTOS);
 
     List<OperationTask> findAllByIds(List<Long> taskIds);
+
+    List<OperationTask> findAllByPutWallSlotCode(String putWallSlotCode);
 }

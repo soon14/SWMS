@@ -10,8 +10,8 @@ public class PutWallSlot {
     private String putWallCode;
     private String stationCode;
 
-    private String slotCode;
-    private String groupCode;
+    // unique
+    private String putWallSlotCode;
     private Integer level;
     private Integer bay;
     private boolean enable;

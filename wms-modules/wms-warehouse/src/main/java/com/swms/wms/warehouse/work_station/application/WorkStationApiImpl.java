@@ -1,5 +1,6 @@
 package com.swms.wms.warehouse.work_station.application;
 
+import com.swms.wms.api.task.dto.BindContainerDTO;
 import com.swms.wms.api.warehouse.IWorkStationApi;
 import com.swms.wms.api.warehouse.constants.WorkStationOperationTypeEnum;
 import com.swms.wms.api.warehouse.dto.AssignOrdersDTO;
@@ -61,5 +62,10 @@ public class WorkStationApiImpl implements IWorkStationApi {
     @Override
     public void releasePutWallSlots(List<ReleasePutWallSlotsDTO> releasePutWallSlotsDTOS) {
 
+    }
+
+    @Override
+    public void bindContainer(BindContainerDTO bindContainerDTO) {
+        putWallService.bindContainer(bindContainerDTO);
     }
 }

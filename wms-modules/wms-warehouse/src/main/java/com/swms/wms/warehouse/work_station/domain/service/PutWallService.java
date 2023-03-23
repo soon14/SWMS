@@ -1,8 +1,11 @@
 package com.swms.wms.warehouse.work_station.domain.service;
 
+import com.swms.wms.api.task.dto.BindContainerDTO;
+import com.swms.wms.api.warehouse.constants.PutWallSlotStatusEnum;
 import com.swms.wms.api.warehouse.dto.AssignOrdersDTO;
 import com.swms.wms.api.warehouse.dto.PutWallSlotDTO;
 import com.swms.wms.warehouse.work_station.domain.entity.PutWall;
+import com.swms.wms.warehouse.work_station.domain.entity.PutWallSlot;
 import com.swms.wms.warehouse.work_station.infrastructure.repository.IPutWallRepository;
 import com.swms.wms.warehouse.work_station.infrastructure.repository.IPutWallSlotRepository;
 import org.apache.commons.collections4.CollectionUtils;
@@ -60,5 +63,9 @@ public class PutWallService {
 //        }
 //
 //        iPutWallRepository.assignOrders(assignOrdersDTOS);
+    }
+
+    public void bindContainer(BindContainerDTO bindContainerDTO) {
+        iPutWallSlotRepository.updateTranferContainerAndStatus(bindContainerDTO, PutWallSlotStatusEnum.BOUND);
     }
 }

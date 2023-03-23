@@ -54,4 +54,7 @@ public class OperationTaskService {
         }
     }
 
+    public List<OperationTask> queryContainerTasksByPutWallSlotCode(String putWallSlotCode) {
+        return operationTaskRepository.findAllByPutWallSlotCode(putWallSlotCode);
+    }
 }

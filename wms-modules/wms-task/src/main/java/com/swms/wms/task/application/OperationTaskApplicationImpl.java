@@ -2,8 +2,12 @@ package com.swms.wms.task.application;
 
 import com.swms.wms.api.task.ITaskApi;
 import com.swms.wms.api.task.constants.OperationTaskTypeEnum;
+import com.swms.wms.api.task.dto.BindContainerDTO;
 import com.swms.wms.api.task.dto.HandleTaskDTO;
 import com.swms.wms.api.task.dto.OperationTaskDTO;
+import com.swms.wms.api.task.dto.SealContainerDTO;
+import com.swms.wms.api.warehouse.IWorkStationApi;
+import com.swms.wms.task.domain.aggregate.TransferContainerAggregate;
 import com.swms.wms.task.domain.entity.OperationTask;
 import com.swms.wms.task.domain.service.OperationTaskService;
 import com.swms.wms.task.domain.transfer.OperationTaskTransfer;
@@ -20,6 +24,12 @@ public class OperationTaskApplicationImpl implements ITaskApi {
 
     @Autowired
     private OperationTaskTransfer operationTaskTransfer;
+
+    @Autowired
+    private IWorkStationApi iworkStationApi;
+
+    @Autowired
+    private TransferContainerAggregate transferContainerAggregate;
 
     @Override
     public void createOperationTasks(List<OperationTaskDTO> operationTaskDTOS) {
@@ -45,6 +55,19 @@ public class OperationTaskApplicationImpl implements ITaskApi {
         //2. update stock -> just send event
 
         //3. update order status -> just send event
+
+        //4. create transfer container records
+    }
+
+    @Override
+    public void bindContainer(BindContainerDTO bindContainerDTO) {
+        //1. set put wall slot transfer container
+        iworkStationApi.bindContainer(bindContainerDTO);
+    }
+
+    @Override
+    public void sealContainer(SealContainerDTO sealContainerDTO) {
+        transferContainerAggregate.sealContainer(sealContainerDTO);
     }
 
 }
