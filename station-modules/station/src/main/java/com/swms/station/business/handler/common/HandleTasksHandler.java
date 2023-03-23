@@ -45,7 +45,9 @@ public class HandleTasksHandler implements IBusinessHandler {
         Preconditions.checkState(handleTasksEvent != null);
 
         List<OperationTaskDTO> operateTasks = workStation.getOperateTasks().stream()
-            .filter(operationTaskDTO -> handleTasksEvent.getTaskIds().contains(operationTaskDTO.getTaskId())).toList();
+            .filter(operationTaskDTO -> handleTasksEvent.getTaskIds().contains(operationTaskDTO.getTaskId()))
+            // calculate operated qty order by required qty descending
+            .sorted(Comparator.comparing(OperationTaskDTO::getOperatedQty)).toList();
         Preconditions.checkState(operateTasks.size() == handleTasksEvent.getTaskIds().size());
 
         if (handleTasksEvent.getHandleTaskType() == HandleTaskDTO.HandleTaskTypeEnum.COMPLETE) {
@@ -53,15 +55,14 @@ public class HandleTasksHandler implements IBusinessHandler {
             Preconditions.checkState(!Objects.equals(total, handleTasksEvent.getOperatedQty()));
         }
 
-        // calculate split qty order by requiredQty descending
-        operateTasks.sort(Comparator.comparing(OperationTaskDTO::getOperatedQty));
-
         final AtomicInteger totalOperatedQty = new AtomicInteger(handleTasksEvent.getOperatedQty());
         List<HandleTaskDTO.HandleTask> handleTasks = operateTasks.stream().map(operationTaskDTO -> {
             int operatedQty = Math.min(operationTaskDTO.getRequiredQty(), totalOperatedQty.get());
             totalOperatedQty.set(Math.max(0, totalOperatedQty.get() - operationTaskDTO.getRequiredQty()));
 
-            HandleTaskDTO.HandleTask handleTask = HandleTaskDTO.HandleTask.builder().taskId(operationTaskDTO.getTaskId())
+            HandleTaskDTO.HandleTask handleTask = HandleTaskDTO.HandleTask.builder()
+                .taskId(operationTaskDTO.getTaskId())
+                .handleTaskType(handleTasksEvent.getHandleTaskType())
                 .operatedQty(operatedQty)
                 .requiredQty(operationTaskDTO.getRequiredQty())
                 .taskType(workStation.getOperationTaskType())

@@ -2,8 +2,10 @@ package com.swms.wms.api.task.dto;
 
 import com.swms.wms.api.task.constants.OperationTaskStatusEnum;
 import com.swms.wms.api.task.constants.OperationTaskTypeEnum;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
@@ -16,8 +18,13 @@ public class HandleTaskDTO {
     private List<HandleTask> handleTasks;
 
     @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
     @Builder
-    public class HandleTask {
+    public static class HandleTask {
+
+        // is a redundancy
+        private HandleTaskTypeEnum handleTaskType;
         private Long taskId;
         private Integer requiredQty;
         private Integer operatedQty;
@@ -38,6 +45,10 @@ public class HandleTaskDTO {
                 this.taskStatus = OperationTaskStatusEnum.PROCESSED;
             }
         }
+    }
+
+    public static HandleTask newHandlerTask() {
+        return new HandleTask();
     }
 
     public enum HandleTaskTypeEnum {

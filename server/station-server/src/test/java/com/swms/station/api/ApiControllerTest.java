@@ -1,6 +1,7 @@
 package com.swms.station.api;
 
 import com.swms.station.business.handler.event.ContainerArrivedEvent;
+import com.swms.station.business.handler.event.HandleTasksEvent;
 import com.swms.station.business.model.ArrivedContainer;
 import com.swms.station.business.model.WorkStation;
 import com.swms.station.business.model.WorkStationManagement;
@@ -10,6 +11,7 @@ import com.swms.station.remote.WorkStationMqConsumer;
 import com.swms.utils.utils.JsonUtils;
 import com.swms.utils.utils.ObjectUtils;
 import com.swms.wms.api.task.ITaskApi;
+import com.swms.wms.api.task.dto.HandleTaskDTO;
 import com.swms.wms.api.task.dto.OperationTaskDTO;
 import com.swms.wms.api.warehouse.IContainerApi;
 import com.swms.wms.api.warehouse.constants.PutWallSlotStatusEnum;
@@ -68,7 +70,7 @@ class ApiControllerTest {
     @Test
     void testOnline() {
         HttpContext.setStationCode("1");
-        apiController.execute(ApiCodeEnum.ONLINE, WorkStationOperationTypeEnum.CHOICE_CONTAINER_OUTBOUND.name());
+        apiController.execute(ApiCodeEnum.ONLINE, WorkStationOperationTypeEnum.OUTBOUND.name());
 
         WorkStationVO workStationVO = viewHelper.getWorkStationVO("1");
         Assertions.assertThat(workStationVO).isNotNull();
@@ -145,7 +147,34 @@ class ApiControllerTest {
     @Test
     void testCompleteTasks() {
         testContainerArrive();
-        apiController.execute(ApiCodeEnum.HANDLE_TASKS, JsonUtils.obj2String(Lists.newArrayList(1L)));
+
+        HandleTasksEvent handleTasksEvent = HandleTasksEvent.builder().operatedQty(10)
+            .handleTaskType(HandleTaskDTO.HandleTaskTypeEnum.COMPLETE).taskIds(Lists.newArrayList(1L)).build();
+        apiController.execute(ApiCodeEnum.HANDLE_TASKS, JsonUtils.obj2String(handleTasksEvent));
+
+        WorkStation workStation = workStationManagement.getWorkStation("1");
+        Assertions.assertThat(workStation.getOperateTasks()).isEmpty();
+    }
+
+    @Test
+    void testReportAbnormal() {
+        testContainerArrive();
+
+        HandleTasksEvent handleTasksEvent = HandleTasksEvent.builder().operatedQty(9)
+            .handleTaskType(HandleTaskDTO.HandleTaskTypeEnum.REPORT_ABNORMAL).taskIds(Lists.newArrayList(1L)).build();
+        apiController.execute(ApiCodeEnum.HANDLE_TASKS, JsonUtils.obj2String(handleTasksEvent));
+
+        WorkStation workStation = workStationManagement.getWorkStation("1");
+        Assertions.assertThat(workStation.getOperateTasks()).isEmpty();
+    }
+
+    @Test
+    void testSplitTasks() {
+        testContainerArrive();
+
+        HandleTasksEvent handleTasksEvent = HandleTasksEvent.builder().operatedQty(7)
+            .handleTaskType(HandleTaskDTO.HandleTaskTypeEnum.SPLIT).taskIds(Lists.newArrayList(1L)).build();
+        apiController.execute(ApiCodeEnum.HANDLE_TASKS, JsonUtils.obj2String(handleTasksEvent));
 
         WorkStation workStation = workStationManagement.getWorkStation("1");
         Assertions.assertThat(workStation.getOperateTasks()).isEmpty();
