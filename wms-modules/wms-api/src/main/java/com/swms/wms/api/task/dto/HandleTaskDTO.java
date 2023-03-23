@@ -17,12 +17,27 @@ public class HandleTaskDTO {
 
     @Data
     @Builder
-    public static class HandleTask {
+    public class HandleTask {
         private Long taskId;
         private Integer requiredQty;
         private Integer operatedQty;
         private Integer abnormalQty;
         private OperationTaskTypeEnum taskType;
+        private OperationTaskStatusEnum taskStatus;
+
+        public void setAbnormalQty() {
+            if (HandleTaskTypeEnum.REPORT_ABNORMAL.equals(handleTaskType)) {
+                this.abnormalQty = this.requiredQty - this.operatedQty;
+            }
+        }
+
+        public void setTaskStatus() {
+            if (HandleTaskTypeEnum.REPORT_ABNORMAL.equals(handleTaskType) && this.requiredQty > this.operatedQty) {
+                this.taskStatus = OperationTaskStatusEnum.PROCESSING;
+            } else {
+                this.taskStatus = OperationTaskStatusEnum.PROCESSED;
+            }
+        }
     }
 
     public enum HandleTaskTypeEnum {

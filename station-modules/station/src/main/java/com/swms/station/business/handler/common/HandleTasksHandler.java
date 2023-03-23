@@ -61,11 +61,14 @@ public class HandleTasksHandler implements IBusinessHandler {
             int operatedQty = Math.min(operationTaskDTO.getRequiredQty(), totalOperatedQty.get());
             totalOperatedQty.set(Math.max(0, totalOperatedQty.get() - operationTaskDTO.getRequiredQty()));
 
-            return HandleTaskDTO.HandleTask.builder().taskId(operationTaskDTO.getTaskId())
+            HandleTaskDTO.HandleTask handleTask = HandleTaskDTO.HandleTask.builder().taskId(operationTaskDTO.getTaskId())
                 .operatedQty(operatedQty)
                 .requiredQty(operationTaskDTO.getRequiredQty())
                 .taskType(workStation.getOperationTaskType())
                 .build();
+            handleTask.setAbnormalQty();
+            handleTask.setTaskStatus();
+            return handleTask;
         }).toList();
 
         taskService.handleTasks(HandleTaskDTO.builder().handleTaskType(handleTasksEvent.getHandleTaskType()).handleTasks(handleTasks).build());
