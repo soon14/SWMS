@@ -2,6 +2,11 @@
 
 super warehouse management system
 
+### Require environment
+
+1. Jdk 17
+2. gradle 8.0+
+
 ### Extends Model
 
 > This is the customization if you found some function is not fit for you. In this model, all files are interface, you need to implement them.
