@@ -10,8 +10,11 @@ public class ContainerSlot {
     private String containerSlotCode;
     private String containerSlotSpecCode;
 
+    private String face;
+
     private Integer level;
     private Integer bay;
 
-    private Long parentContainerSlotId;
+    private Long parentId;
+    private String containerCode;
 }

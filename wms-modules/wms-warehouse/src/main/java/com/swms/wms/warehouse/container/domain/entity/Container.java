@@ -29,4 +29,14 @@ public class Container {
     private Integer emptySlotNum;
 
     private ContainerStatusEnum containerStatus;
+
+    public boolean canReceive() {
+        return containerStatus == ContainerStatusEnum.CREATED
+            || containerStatus == ContainerStatusEnum.OUT_SIDE;
+    }
+
+    public boolean canPutAway() {
+        return containerStatus == ContainerStatusEnum.WAIT_PUT_AWAY;
+    }
+
 }

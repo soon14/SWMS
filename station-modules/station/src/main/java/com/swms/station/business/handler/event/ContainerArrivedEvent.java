@@ -12,6 +12,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ContainerArrivedEvent {
     private String containerCode;
+
+    // container arrived with which face
     private String face;
     private String stationCode;
     private String robotCode;
@@ -19,6 +21,9 @@ public class ContainerArrivedEvent {
     private Integer level;
     private Integer bay;
     private String locationCode;
+
+    // container forward face
+    private String forwardFace;
 
     private String workLocationCode;
     private WorkLocationTypeEnum workLocationType;

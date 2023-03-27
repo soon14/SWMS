@@ -47,7 +47,7 @@ public class StationTestApplication {
     public IContainerApi iContainerApi() {
 
         IContainerApi iContainerApi = PowerMockito.mock(IContainerApi.class);
-        PowerMockito.when(iContainerApi.queryContainerLayout("1"))
+        PowerMockito.when(iContainerApi.queryContainerLayout("1", "A"))
             .thenAnswer(t -> ContainerLayoutDTO.builder().containerCode("1").build());
         return iContainerApi;
     }

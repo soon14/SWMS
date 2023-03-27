@@ -11,8 +11,8 @@ public class ContainerService {
     @DubboReference
     private IContainerApi containerApi;
 
-    public ContainerLayoutDTO queryContainer(String containerCode) {
-        return containerApi.queryContainerLayout(containerCode);
+    public ContainerLayoutDTO queryContainer(String containerCode, String face) {
+        return containerApi.queryContainerLayout(containerCode, face);
     }
 
     public void setContainerApi(IContainerApi iContainerApi) {

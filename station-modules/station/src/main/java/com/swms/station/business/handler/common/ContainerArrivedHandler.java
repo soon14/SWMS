@@ -41,7 +41,8 @@ public class ContainerArrivedHandler implements IBusinessHandler {
         List<ContainerArrivedEvent> containerArrivedEvents = JsonUtils.string2List(body, ContainerArrivedEvent.class);
         List<ArrivedContainer> arrivedContainers = containerArrivedEvents.stream().map(containerArrivedEvent -> {
             ArrivedContainer arrivedContainer = new ArrivedContainer();
-            ContainerLayoutDTO containerLayoutDTO = containerService.queryContainer(containerArrivedEvent.getContainerCode());
+            ContainerLayoutDTO containerLayoutDTO = containerService.queryContainer(containerArrivedEvent.getContainerCode()
+                , containerArrivedEvent.getFace());
             arrivedContainer.setContainerLayout(containerLayoutDTO);
             arrivedContainer.setFace(containerArrivedEvent.getFace());
             arrivedContainer.setLocationCode(containerArrivedEvent.getLocationCode());
