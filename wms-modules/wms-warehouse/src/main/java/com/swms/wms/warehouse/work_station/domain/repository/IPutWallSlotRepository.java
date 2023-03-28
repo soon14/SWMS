@@ -16,5 +16,5 @@ public interface IPutWallSlotRepository {
 
     PutWallSlot findByStationCodeAndSlotCode(String stationCode, String putWallSlotCode);
 
-    void updateTranferContainerAndStatus(BindContainerDTO bindContainerDTO, PutWallSlotStatusEnum bound);
+    void updateTransferContainerAndStatus(BindContainerDTO bindContainerDTO, PutWallSlotStatusEnum bound);
 }

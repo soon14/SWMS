@@ -65,6 +65,6 @@ public class PutWallService {
     }
 
     public void bindContainer(BindContainerDTO bindContainerDTO) {
-        iPutWallSlotRepository.updateTranferContainerAndStatus(bindContainerDTO, PutWallSlotStatusEnum.BOUND);
+        iPutWallSlotRepository.updateTransferContainerAndStatus(bindContainerDTO, PutWallSlotStatusEnum.BOUND);
     }
 }
