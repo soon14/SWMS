@@ -18,7 +18,6 @@ public class Container {
     private String warehouseCode;
     private String warehouseAreaCode;
     private String warehouseLogicCode;
-
     private String locationCode;
 
     private BigDecimal occupationRatio;

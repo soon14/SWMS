@@ -41,7 +41,7 @@ public class ContainerArrivedHandler implements IBusinessHandler {
         List<ContainerArrivedEvent> containerArrivedEvents = JsonUtils.string2List(body, ContainerArrivedEvent.class);
         List<ArrivedContainer> arrivedContainers = containerArrivedEvents.stream().map(containerArrivedEvent -> {
             ArrivedContainer arrivedContainer = new ArrivedContainer();
-            ContainerLayoutDTO containerLayoutDTO = containerService.queryContainer(containerArrivedEvent.getContainerCode()
+            ContainerLayoutDTO containerLayoutDTO = containerService.queryContainerLayout(containerArrivedEvent.getContainerCode()
                 , containerArrivedEvent.getFace());
             arrivedContainer.setContainerLayout(containerLayoutDTO);
             arrivedContainer.setFace(containerArrivedEvent.getFace());
@@ -53,6 +53,7 @@ public class ContainerArrivedHandler implements IBusinessHandler {
             arrivedContainer.setContainerCode(containerArrivedEvent.getContainerCode());
             arrivedContainer.setWorkLocationCode(containerArrivedEvent.getWorkLocationCode());
             arrivedContainer.setWorkLocationType(containerArrivedEvent.getWorkLocationType());
+            arrivedContainer.setRotationAngle();
             return arrivedContainer;
         }).toList();
 

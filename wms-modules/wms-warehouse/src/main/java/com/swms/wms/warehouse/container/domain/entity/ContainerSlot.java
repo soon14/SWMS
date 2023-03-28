@@ -2,6 +2,8 @@ package com.swms.wms.warehouse.container.domain.entity;
 
 import lombok.Data;
 
+import java.math.BigDecimal;
+
 @Data
 public class ContainerSlot {
 
@@ -12,9 +14,8 @@ public class ContainerSlot {
 
     private String face;
 
-    private Integer level;
-    private Integer bay;
-
     private Long parentId;
     private String containerCode;
+
+    private BigDecimal occupationRatio;
 }

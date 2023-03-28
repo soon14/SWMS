@@ -21,4 +21,5 @@ public class ContainerSpec {
     private String description;
 
     private ContainerTypeEnum containerType;
+
 }

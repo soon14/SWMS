@@ -19,7 +19,6 @@ public class TaskService {
 
     public List<OperationTaskDTO> queryTasks(String stationCode, List<String> containerCodes, OperationTaskTypeEnum operationType) {
         return taskApi.queryTasks(stationCode, containerCodes, operationType);
-
     }
 
     public void setTaskApi(ITaskApi iTaskApi) {

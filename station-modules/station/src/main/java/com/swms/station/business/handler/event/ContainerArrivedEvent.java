@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Map;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -29,4 +31,6 @@ public class ContainerArrivedEvent {
     private WorkLocationTypeEnum workLocationType;
 
     private String groupCode;
+
+    private Map<String, Object> containerAttributes;
 }

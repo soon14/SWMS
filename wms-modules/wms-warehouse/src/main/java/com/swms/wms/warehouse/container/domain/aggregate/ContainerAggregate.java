@@ -35,8 +35,8 @@ public class ContainerAggregate {
     private ContainerSpecSlotRepository containerSpecSlotRepository;
 
     public ContainerLayoutDTO queryContainerLayout(String containerCode, String face) {
-        Container container = containerRepository.getContainerByCode(containerCode);
-        ContainerSpec containerSpec = containerSpecRepository.getContainerSpecByCode(container.getContainerSpecCode());
+        Container container = containerRepository.findByContainerCode(containerCode);
+        ContainerSpec containerSpec = containerSpecRepository.findByContainerSpecCode(container.getContainerSpecCode());
         List<ContainerSlotSpec> containerSlotSpecs = containerSpecSlotRepository.findAllByContainerSpecCodeAndFace(containerSpec.getContainerSpecCode(), face);
         ContainerLayoutDTO containerLayoutDTO = buildContainerLayout(containerSpec, containerSlotSpecs);
         containerLayoutDTO.setContainerCode(containerCode);

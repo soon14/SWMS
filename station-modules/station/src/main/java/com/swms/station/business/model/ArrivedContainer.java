@@ -20,29 +20,34 @@ import java.util.Map;
 @NoArgsConstructor
 public class ArrivedContainer {
 
-    private ContainerLayoutDTO containerLayout;
+    /**
+     * base information
+     */
     private String containerCode;
-
     private String face;
     private Integer rotationAngle;
-    private String locationCode;
+    // container forward face
+    private String forwardFace;
 
+    /**
+     * location
+     */
+    private String locationCode;
     private String workLocationCode;
     private WorkLocationTypeEnum workLocationType;
-//    private List<Slot> slots;
-
     // a set of locations that the container can be put into.
     // it is a logical definition.
     // like robotCode is the groupCode of robot, cache shelf code is the groupCode of cache shelf.
     private String groupCode;
-
     private String robotCode;
     private String robotType;
     private Integer level;
     private Integer bay;
 
+    /**
+     * status
+     */
     private boolean empty;
-
     /**
      * 0: unprocessed ,1: processing , 2: processed
      */
@@ -52,4 +57,17 @@ public class ArrivedContainer {
      * when container arrived , it's contains other attributes. like height, weight, temperature, etc.
      */
     private Map<String, Object> containerAttributes;
+
+    /**
+     * layout
+     */
+    private ContainerLayoutDTO containerLayout;
+
+    /**
+     * use configuration to get the rotation angle,identify two scan type. e.g. manual scan and equipment scan .
+     * equipment scan used to container arrived and manual scan used to operator scan container.
+     */
+    public void setRotationAngle() {
+        //TODO
+    }
 }
