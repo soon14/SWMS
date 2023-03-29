@@ -56,12 +56,14 @@ subprojects {
         dependencies {
 
 
-            /******************************** Spring 相关依赖 ***********************/
+            /******************************** Spring Boot 相关依赖 ***********************/
             dependency group: 'org.springframework.boot', name: 'spring-boot-starter-data-redis', version: '3.0.2'
             dependency group: 'org.springframework.boot', name: 'spring-boot-starter-websocket', version: '3.0.2'
             dependency group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '3.0.2'
             dependency group: 'org.springframework.boot', name: 'spring-boot-starter-aop', version: '3.0.2'
 
+            /******************************** Spring 相关依赖 ***********************/
+            dependency group: 'org.springframework', name: 'spring-tx', version: '6.0.4'
 
             /********************************  使用apache dubbo starter **************/
             dependency 'org.apache.dubbo:dubbo-spring-boot-starter:3.1.7'
