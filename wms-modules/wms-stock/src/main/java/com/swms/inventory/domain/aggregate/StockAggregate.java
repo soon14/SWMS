@@ -1,6 +1,7 @@
 package com.swms.inventory.domain.aggregate;
 
 import com.google.common.collect.Lists;
+import com.swms.inventory.domain.entity.ContainerStock;
 import com.swms.inventory.domain.entity.SkuBatchStock;
 import com.swms.inventory.domain.repository.ContainerStockLockRepository;
 import com.swms.inventory.domain.repository.ContainerStockRepository;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class StockAggregate {
@@ -83,10 +85,13 @@ public class StockAggregate {
             skuBatchStockRepository.addStock(Lists.newArrayList(stockTransferDTO));
         }
 
-        containerStockRepository.subtractStock(stockTransferDTO);
-        containerStockLockRepository.subtractLockStock(stockTransferDTO);
+        ContainerStock containerStock = containerStockRepository.findById(stockTransferDTO.getStockId());
+        if (!Objects.equals(containerStock.getContainerId(), stockTransferDTO.getTargetContainerId())) {
+            containerStockRepository.subtractStock(stockTransferDTO);
+            containerStockLockRepository.subtractLockStock(stockTransferDTO);
 
-        containerStockRepository.saveAll(containerStockTransfer.toContainerStocks(Lists.newArrayList(stockTransferDTO)));
+            containerStockRepository.saveAll(containerStockTransfer.toContainerStocks(Lists.newArrayList(stockTransferDTO)));
+        }
     }
 
 }

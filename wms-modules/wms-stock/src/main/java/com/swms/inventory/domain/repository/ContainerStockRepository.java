@@ -14,4 +14,6 @@ public interface ContainerStockRepository {
     void subtractStock(StockTransferDTO stockDeductDTO);
 
     void addStock(StockTransferDTO stockDeductDTO);
+
+    ContainerStock findById(Long stockId);
 }

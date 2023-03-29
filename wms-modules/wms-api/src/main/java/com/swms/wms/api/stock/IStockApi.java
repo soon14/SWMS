@@ -8,6 +8,11 @@ import java.util.List;
 
 public interface IStockApi {
 
+    /**
+     * when receiving sku into container, create stock
+     *
+     * @param stockCreateDTOS
+     */
     void createStock(List<StockTransferDTO> stockCreateDTOS);
 
     void unLockStock(List<SkuBatchStockLockDTO> skuBatchStockLockDTOS);

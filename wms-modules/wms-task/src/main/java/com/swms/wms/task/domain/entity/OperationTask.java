@@ -33,4 +33,5 @@ public class OperationTask {
     private Long originalOrderDetailId;
 
     private OperationTaskStatusEnum taskStatus;
+
 }
