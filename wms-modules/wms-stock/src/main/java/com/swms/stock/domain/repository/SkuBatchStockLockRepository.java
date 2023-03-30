@@ -8,5 +8,5 @@ import java.util.List;
 public interface SkuBatchStockLockRepository {
     void saveAll(List<SkuBatchStockLock> skuBatchStockLocks);
 
-    void subtractLockStock(StockTransferDTO stockDeductDTOS);
+    int subtractLockStock(StockTransferDTO stockDeductDTO);
 }

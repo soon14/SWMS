@@ -8,5 +8,5 @@ import java.util.List;
 public interface ContainerStockLockRepository {
     void saveAll(List<ContainerStockLock> containerStockLocks);
 
-    void subtractLockStock(StockTransferDTO stockDeductDTOS);
+    int subtractLockStock(StockTransferDTO stockDeductDTO);
 }

@@ -14,6 +14,7 @@ import com.swms.stock.domain.transfer.SkuBatchStockTransfer;
 import com.swms.wms.api.stock.dto.ContainerStockLockDTO;
 import com.swms.wms.api.stock.dto.SkuBatchStockLockDTO;
 import com.swms.wms.api.stock.dto.StockTransferDTO;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +23,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Service
+@Slf4j
 public class StockAggregate {
 
     @Autowired
@@ -51,7 +53,7 @@ public class StockAggregate {
     @Transactional
     public void createStock(List<StockTransferDTO> stockTransferDTOS) {
         containerStockRepository.saveAll(containerStockTransfer.toContainerStocks(stockTransferDTOS));
-        skuBatchStockRepository.addStock(stockTransferDTOS);
+        skuBatchStockRepository.saveAll(skuBatchStockTransfer.toSkuBatchStocks(stockTransferDTOS));
     }
 
     @Transactional
@@ -72,8 +74,21 @@ public class StockAggregate {
 
     @Transactional
     public void transferStock(StockTransferDTO stockTransferDTO) {
-        skuBatchStockRepository.subtractStock(stockTransferDTO);
+
+        ContainerStock containerStock = containerStockRepository.findById(stockTransferDTO.getStockId());
+        if (!Objects.equals(containerStock.getContainerId(), stockTransferDTO.getTargetContainerId())) {
+            int count = containerStockLockRepository.subtractLockStock(stockTransferDTO);
+            if (count < 1) {
+                log.error("stock: :{} is transfer by task: {} before.", stockTransferDTO.getStockId(), stockTransferDTO.getTaskId());
+                return;
+            }
+            containerStockRepository.subtractStock(stockTransferDTO);
+
+            containerStockRepository.saveAll(containerStockTransfer.toContainerStocks(Lists.newArrayList(stockTransferDTO)));
+        }
+
         skuBatchStockLockRepository.subtractLockStock(stockTransferDTO);
+        skuBatchStockRepository.subtractStock(stockTransferDTO);
 
         SkuBatchStock skuBatchStock = skuBatchStockRepository.findBySkuBatchAttributeIdAndWarehouseAreaCode(
             stockTransferDTO.getSkuBatchAttributeId(), stockTransferDTO.getWarehouseAreaCode());
@@ -83,14 +98,6 @@ public class StockAggregate {
         } else {
             stockTransferDTO.setSkuBatchId(skuBatchStock.getId());
             skuBatchStockRepository.addStock(Lists.newArrayList(stockTransferDTO));
-        }
-
-        ContainerStock containerStock = containerStockRepository.findById(stockTransferDTO.getStockId());
-        if (!Objects.equals(containerStock.getContainerId(), stockTransferDTO.getTargetContainerId())) {
-            containerStockRepository.subtractStock(stockTransferDTO);
-            containerStockLockRepository.subtractLockStock(stockTransferDTO);
-
-            containerStockRepository.saveAll(containerStockTransfer.toContainerStocks(Lists.newArrayList(stockTransferDTO)));
         }
     }
 
