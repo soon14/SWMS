@@ -9,6 +9,7 @@ import com.swms.wms.task.domain.repository.OperationTaskRepository;
 import com.swms.wms.task.domain.transfer.OperationTaskTransfer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
@@ -31,6 +32,7 @@ public class OperationTaskService {
         return operationTaskRepository.queryContainerTasksByTaskType(stationCode, containerCodes, taskType);
     }
 
+    @Transactional
     public void handleTasks(HandleTaskDTO handleTaskDTO) {
 
         //1. update operatedQty and status and abnormalQty

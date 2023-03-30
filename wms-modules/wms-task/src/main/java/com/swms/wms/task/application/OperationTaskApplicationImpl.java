@@ -1,5 +1,6 @@
 package com.swms.wms.task.application;
 
+import com.swms.utils.event.DomainEventPublisher;
 import com.swms.wms.api.task.ITaskApi;
 import com.swms.wms.api.task.constants.OperationTaskTypeEnum;
 import com.swms.wms.api.task.dto.BindContainerDTO;
@@ -12,6 +13,7 @@ import com.swms.wms.task.domain.entity.OperationTask;
 import com.swms.wms.task.domain.service.OperationTaskService;
 import com.swms.wms.task.domain.transfer.OperationTaskTransfer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,7 +33,11 @@ public class OperationTaskApplicationImpl implements ITaskApi {
     @Autowired
     private TransferContainerAggregate transferContainerAggregate;
 
+    @Autowired
+    private DomainEventPublisher domainEventPublisher;
+
     @Override
+    @EventListener
     public void createOperationTasks(List<OperationTaskDTO> operationTaskDTOS) {
         operationTaskService.createOperationTasks(operationTaskDTOS);
     }
@@ -53,10 +59,10 @@ public class OperationTaskApplicationImpl implements ITaskApi {
         operationTaskService.handleTasks(handleTaskDTO);
 
         //2. update stock -> just send event
+        domainEventPublisher.sendAsyncEvent(handleTaskDTO);
 
         //3. update order status -> just send event
-
-        //4. create transfer container records
+        domainEventPublisher.sendAsyncEvent(handleTaskDTO);
     }
 
     @Override
