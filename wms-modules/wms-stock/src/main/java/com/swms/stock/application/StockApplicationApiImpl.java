@@ -1,6 +1,6 @@
-package com.swms.inventory.application;
+package com.swms.stock.application;
 
-import com.swms.inventory.domain.aggregate.StockAggregate;
+import com.swms.stock.domain.aggregate.StockAggregate;
 import com.swms.wms.api.stock.IStockApi;
 import com.swms.wms.api.stock.dto.ContainerStockLockDTO;
 import com.swms.wms.api.stock.dto.SkuBatchStockLockDTO;

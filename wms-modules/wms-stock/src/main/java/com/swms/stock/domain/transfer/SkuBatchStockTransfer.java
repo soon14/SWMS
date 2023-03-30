@@ -1,9 +1,9 @@
-package com.swms.inventory.domain.transfer;
+package com.swms.stock.domain.transfer;
 
 import static org.mapstruct.NullValueCheckStrategy.ALWAYS;
 import static org.mapstruct.NullValueMappingStrategy.RETURN_NULL;
 
-import com.swms.inventory.domain.entity.SkuBatchStock;
+import com.swms.stock.domain.entity.SkuBatchStock;
 import com.swms.wms.api.stock.dto.StockTransferDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.NullValuePropertyMappingStrategy;

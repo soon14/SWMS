@@ -1,6 +1,6 @@
-package com.swms.inventory.domain.repository;
+package com.swms.stock.domain.repository;
 
-import com.swms.inventory.domain.entity.ContainerStockLock;
+import com.swms.stock.domain.entity.ContainerStockLock;
 import com.swms.wms.api.stock.dto.StockTransferDTO;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.swms.inventory.domain.entity;
+package com.swms.stock.domain.entity;
 
 import lombok.Data;
 

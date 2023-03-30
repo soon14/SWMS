@@ -1,10 +1,10 @@
-package com.swms.inventory.domain.transfer;
+package com.swms.stock.domain.transfer;
 
 import static org.mapstruct.NullValueCheckStrategy.ALWAYS;
 import static org.mapstruct.NullValueMappingStrategy.RETURN_NULL;
 
-import com.swms.inventory.domain.entity.ContainerStock;
-import com.swms.wms.api.stock.dto.StockTransferDTO;
+import com.swms.stock.domain.entity.ContainerStockLock;
+import com.swms.wms.api.stock.dto.ContainerStockLockDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
@@ -16,7 +16,9 @@ import java.util.List;
     nullValueMappingStrategy = RETURN_NULL,
     unmappedTargetPolicy = ReportingPolicy.IGNORE,
     nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-public interface ContainerStockTransfer {
+public interface ContainerStockLockTransfer {
 
-    List<ContainerStock> toContainerStocks(List<StockTransferDTO> stockTransferDTOS);
+    List<ContainerStockLockDTO> toContainerStockLockDTOS(List<ContainerStockLock> containerStockLocks);
+
+    List<ContainerStockLock> toContainerStockLocks(List<ContainerStockLockDTO> containerStockLockDTOS);
 }

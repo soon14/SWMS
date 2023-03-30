@@ -1,12 +1,12 @@
-package com.swms.inventory.domain.entity;
+package com.swms.stock.domain.entity;
 
 import lombok.Data;
 
 @Data
-public class ContainerStockLock {
+public class SkuBatchStockLock {
 
     private Long id;
     private Long skuBatchId;
-    private Long taskId;
+    private Long orderDetailId;
     private Integer lockQty;
 }

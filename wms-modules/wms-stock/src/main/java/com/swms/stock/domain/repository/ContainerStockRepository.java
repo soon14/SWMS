@@ -1,6 +1,6 @@
-package com.swms.inventory.domain.repository;
+package com.swms.stock.domain.repository;
 
-import com.swms.inventory.domain.entity.ContainerStock;
+import com.swms.stock.domain.entity.ContainerStock;
 import com.swms.wms.api.stock.dto.ContainerStockLockDTO;
 import com.swms.wms.api.stock.dto.StockTransferDTO;
 

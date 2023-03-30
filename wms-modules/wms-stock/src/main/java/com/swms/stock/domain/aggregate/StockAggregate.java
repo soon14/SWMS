@@ -1,16 +1,16 @@
-package com.swms.inventory.domain.aggregate;
+package com.swms.stock.domain.aggregate;
 
 import com.google.common.collect.Lists;
-import com.swms.inventory.domain.entity.ContainerStock;
-import com.swms.inventory.domain.entity.SkuBatchStock;
-import com.swms.inventory.domain.repository.ContainerStockLockRepository;
-import com.swms.inventory.domain.repository.ContainerStockRepository;
-import com.swms.inventory.domain.repository.SkuBatchStockLockRepository;
-import com.swms.inventory.domain.repository.SkuBatchStockRepository;
-import com.swms.inventory.domain.transfer.ContainerStockLockTransfer;
-import com.swms.inventory.domain.transfer.ContainerStockTransfer;
-import com.swms.inventory.domain.transfer.SkuBatchStockLockTransfer;
-import com.swms.inventory.domain.transfer.SkuBatchStockTransfer;
+import com.swms.stock.domain.entity.ContainerStock;
+import com.swms.stock.domain.entity.SkuBatchStock;
+import com.swms.stock.domain.repository.ContainerStockLockRepository;
+import com.swms.stock.domain.repository.ContainerStockRepository;
+import com.swms.stock.domain.repository.SkuBatchStockLockRepository;
+import com.swms.stock.domain.repository.SkuBatchStockRepository;
+import com.swms.stock.domain.transfer.ContainerStockLockTransfer;
+import com.swms.stock.domain.transfer.ContainerStockTransfer;
+import com.swms.stock.domain.transfer.SkuBatchStockLockTransfer;
+import com.swms.stock.domain.transfer.SkuBatchStockTransfer;
 import com.swms.wms.api.stock.dto.ContainerStockLockDTO;
 import com.swms.wms.api.stock.dto.SkuBatchStockLockDTO;
 import com.swms.wms.api.stock.dto.StockTransferDTO;
