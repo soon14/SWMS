@@ -1,0 +1,20 @@
+server:
+  port: 9111
+spring:
+  application:
+    name: wms-server
+  cloud:
+    nacos:
+      config:
+        server-addr: 172.18.35.23:8181
+#        namespace: krystal-test
+        namespace: 2a515aea-33d3-4eeb-a1c9-17a1807cc225
+        context-path: "/nacos"
+      discovery:
+        namespace: 2a515aea-33d3-4eeb-a1c9-17a1807cc225
+        server-addr: 172.18.35.23:8181
+        username: nacos
+        password: nacos
+  config:
+    import:
+      - nacos:test.yml

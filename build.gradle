@@ -1,7 +1,7 @@
 plugins {
     id 'java'
     id "io.spring.dependency-management" version "1.1.0"
-    id "org.springframework.boot" version "3.0.2"
+    id "org.springframework.boot" version "3.0.4"
 }
 
 group 'com.swms'
@@ -42,7 +42,7 @@ subprojects {
 
     dependencyManagement {
         imports {
-            mavenBom 'org.springframework.cloud:spring-cloud-dependencies:2022.0.1'
+            mavenBom 'org.springframework.cloud:spring-cloud-dependencies:2022.0.2'
         }
 
         imports {
@@ -57,19 +57,19 @@ subprojects {
 
 
             /******************************** Spring Boot 相关依赖 ***********************/
-            dependency group: 'org.springframework.boot', name: 'spring-boot-starter-data-redis', version: '3.0.2'
-            dependency group: 'org.springframework.boot', name: 'spring-boot-starter-websocket', version: '3.0.2'
-            dependency group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '3.0.2'
-            dependency group: 'org.springframework.boot', name: 'spring-boot-starter-aop', version: '3.0.2'
+            dependency group: 'org.springframework.boot', name: 'spring-boot-starter-data-redis', version: '3.0.4'
+            dependency group: 'org.springframework.boot', name: 'spring-boot-starter-websocket', version: '3.0.4'
+            dependency group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '3.0.4'
+            dependency group: 'org.springframework.boot', name: 'spring-boot-starter-aop', version: '3.0.4'
 
             /******************************** Spring 相关依赖 ***********************/
-            dependency group: 'org.springframework', name: 'spring-tx', version: '6.0.4'
+            dependency group: 'org.springframework', name: 'spring-tx', version: '6.0.6'
 
             /********************************  使用apache dubbo starter **************/
-            dependency 'org.apache.dubbo:dubbo-spring-boot-starter:3.1.7'
+            dependency 'org.apache.dubbo:dubbo-spring-boot-starter:3.2.0-beta.6'
             dependency group: 'com.alibaba.cloud', name: 'spring-cloud-starter-alibaba-nacos-config', version: '2022.0.0.0-RC1'
-            dependency group: 'com.alibaba.cloud', name: 'spring-cloud-starter-alibaba-nacos-discovery', version: '2020.0.RC1'
-
+            dependency group: 'com.alibaba.cloud', name: 'spring-cloud-starter-alibaba-nacos-discovery', version: '2022.0.0.0-RC1'
+            dependency 'org.redisson:redisson-spring-boot-starter:3.20.1'
 
             /******************************** 依赖工具*******************************/
             dependency group: 'org.projectlombok', name: 'lombok', version: '1.18.26'
@@ -85,6 +85,9 @@ subprojects {
             dependency group: 'commons-codec', name: 'commons-codec', version: '1.15'
             dependency group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.11.3'
             dependency group: 'mysql', name: 'mysql-connector-java', version: '8.0.32'
+
+            dependency 'jakarta.servlet:jakarta.servlet-api:6.0.0'
+
 
             /******************************** 依赖swagger*******************************/
             dependency group: 'io.springfox', name: 'springfox-swagger2', version: '3.0.0'
@@ -103,7 +106,6 @@ subprojects {
             dependency group: 'org.mapstruct', name: 'mapstruct', version: '1.5.3.Final'
             dependency group: 'org.mapstruct', name: 'mapstruct-processor', version: '1.5.3.Final'
             dependency group: 'org.projectlombok', name: 'lombok-mapstruct-binding', version: '0.2.0'
-            dependency group: 'org.redisson', name: 'redisson-spring-boot-starter', version: '3.19.3'
 
 
             /********************************  工具类 *******************************/
@@ -115,9 +117,7 @@ subprojects {
 
             /*数据库相关配置*/
             dependency 'com.baomidou:mybatis-plus-boot-starter:3.5.3.1'
-            dependency 'com.mysql:mysql-connector-j:8.0.32'
             dependency 'com.clickhouse:clickhouse-jdbc:0.4.1'
-            dependency 'org.springframework.boot:spring-boot-starter-data-elasticsearch:3.0.2'
 
             /*MQ*/
             dependency 'org.springframework.cloud:spring-cloud-starter-stream-kafka:4.0.1'
@@ -127,6 +127,7 @@ subprojects {
             dependency 'org.powermock:powermock-api-mockito2:2.0.9'
             dependency 'org.powermock:powermock-module-junit4-rule:2.0.9'
             dependency 'org.powermock:powermock-classloading-xstream:2.0.9'
+            dependency 'org.apache.shardingsphere:shardingsphere-jdbc-core-spring-boot-starter:5.2.1'
         }
 
     }
