@@ -1,9 +1,11 @@
 package com.swms.wms.api.stock.dto;
 
 import com.swms.wms.api.stock.constants.StockLockTypeEnum;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 public class StockTransferDTO {
 
     private Long skuBatchId;
@@ -14,10 +16,8 @@ public class StockTransferDTO {
     private Long taskId;
     private Long orderDetailId;
 
-    private Long targetContainerId;
     private String targetContainerCode;
-    private Long targetContainerSlotId;
-    private String targetContainerSlot;
+    private String targetContainerSlotCode;
 
     // if stock move from one warehouse area to another area in warehouse, this field is required
     private String warehouseAreaCode;

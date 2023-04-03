@@ -6,6 +6,7 @@ import static org.mapstruct.NullValueMappingStrategy.RETURN_NULL;
 import com.swms.stock.domain.entity.ContainerStock;
 import com.swms.wms.api.stock.dto.StockTransferDTO;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
 
@@ -18,5 +19,9 @@ import java.util.List;
     nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface ContainerStockTransfer {
 
+    @Mapping(source = "transferQty", target = "totalQty")
+    @Mapping(source = "transferQty", target = "availableQty")
+    @Mapping(source = "targetContainerCode", target = "containerCode")
+    @Mapping(source = "targetContainerSlotCode", target = "containerSlotCode")
     List<ContainerStock> toContainerStocks(List<StockTransferDTO> stockTransferDTOS);
 }

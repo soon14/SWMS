@@ -22,7 +22,8 @@ public interface IStockApi {
     void lockContainerStock(List<ContainerStockLockDTO> containerStockLockDTOS);
 
     /**
-     * stock transfer from one container to another , and from one area to another
+     * when stock is move from on area to another area in warehouse, then stock is transferred. e.g: picking, putAway
+     * <B>attention: call this function before stock is locked </B>
      *
      * @param stockTransferDTO
      */

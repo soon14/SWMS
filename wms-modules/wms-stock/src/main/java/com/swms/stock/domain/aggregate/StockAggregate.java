@@ -50,10 +50,15 @@ public class StockAggregate {
     @Autowired
     private SkuBatchStockTransfer skuBatchStockTransfer;
 
+    /**
+     * when stock is moved from outside to warehouse, then stock is created. e.g: receiving
+     *
+     * @param stockTransferDTOS
+     */
     @Transactional
     public void createStock(List<StockTransferDTO> stockTransferDTOS) {
         containerStockRepository.saveAll(containerStockTransfer.toContainerStocks(stockTransferDTOS));
-        skuBatchStockRepository.saveAll(skuBatchStockTransfer.toSkuBatchStocks(stockTransferDTOS));
+        skuBatchStockRepository.addStock(stockTransferDTOS);
     }
 
     @Transactional
@@ -72,27 +77,65 @@ public class StockAggregate {
     public void transferStock(List<StockTransferDTO> stockTransferDTOS) {
     }
 
+    /**
+     * when stock is move from on area to another area in warehouse, then stock is transferred. e.g: picking, putAway
+     * <B>attention: call this function before stock is locked </B>
+     *
+     * @param stockTransferDTO
+     */
     @Transactional
     public void transferStock(StockTransferDTO stockTransferDTO) {
 
+        if (transferContainerStock(stockTransferDTO)) {
+            return;
+        }
+
+        transferSkuBatchStock(stockTransferDTO);
+    }
+
+    private boolean transferContainerStock(StockTransferDTO stockTransferDTO) {
+
         ContainerStock containerStock = containerStockRepository.findById(stockTransferDTO.getStockId());
-        if (!Objects.equals(containerStock.getContainerId(), stockTransferDTO.getTargetContainerId())) {
+        if (!Objects.equals(containerStock.getContainerCode(), stockTransferDTO.getTargetContainerCode())) {
             int count = containerStockLockRepository.subtractLockStock(stockTransferDTO);
             if (count < 1) {
-                log.error("stock: :{} is transfer by task: {} before.", stockTransferDTO.getStockId(), stockTransferDTO.getTaskId());
-                return;
+                log.error("stock: :{} is transfer by task: {} before because of container stock lock is not exists.",
+                    stockTransferDTO.getStockId(), stockTransferDTO.getTaskId());
+                return true;
             }
             containerStockRepository.subtractStock(stockTransferDTO);
 
-            containerStockRepository.saveAll(containerStockTransfer.toContainerStocks(Lists.newArrayList(stockTransferDTO)));
-        }
+            //need add or update container stock
+            ContainerStock targetContainerStock = containerStockRepository.existsByContainerCodeAndContainerSlotCodeAndSkuBatchAttributeId(
+                stockTransferDTO.getTargetContainerCode(), stockTransferDTO.getTargetContainerSlotCode(),
+                stockTransferDTO.getSkuBatchAttributeId());
 
-        skuBatchStockLockRepository.subtractLockStock(stockTransferDTO);
+            if (targetContainerStock != null) {
+                containerStockRepository.addTargetContainerStock(stockTransferDTO);
+            } else {
+                List<ContainerStock> containerStocks = Lists.newArrayList(ContainerStock.builder()
+                    .containerCode(stockTransferDTO.getTargetContainerCode())
+                    .containerSlotCode(stockTransferDTO.getTargetContainerSlotCode())
+                    .availableQty(stockTransferDTO.getTransferQty())
+                    .skuBatchAttributeId(stockTransferDTO.getSkuBatchAttributeId())
+                    .totalQty(stockTransferDTO.getTransferQty()).build());
+                containerStockRepository.saveAll(containerStocks);
+            }
+        }
+        return false;
+    }
+
+    private void transferSkuBatchStock(StockTransferDTO stockTransferDTO) {
+        int count = skuBatchStockLockRepository.subtractLockStock(stockTransferDTO);
+        if (count < 1) {
+            log.error("stock: :{} is transfer by order detail: {} before because of sku batch stock lock is not exists.",
+                stockTransferDTO.getStockId(), stockTransferDTO.getOrderDetailId());
+            return;
+        }
         skuBatchStockRepository.subtractStock(stockTransferDTO);
 
         SkuBatchStock skuBatchStock = skuBatchStockRepository.findBySkuBatchAttributeIdAndWarehouseAreaCode(
             stockTransferDTO.getSkuBatchAttributeId(), stockTransferDTO.getWarehouseAreaCode());
-        // warehouse area is existing
         if (skuBatchStock == null) {
             skuBatchStockRepository.saveAll(skuBatchStockTransfer.toSkuBatchStocks(Lists.newArrayList(stockTransferDTO)));
         } else {

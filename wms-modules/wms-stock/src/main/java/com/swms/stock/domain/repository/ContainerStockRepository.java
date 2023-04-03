@@ -11,9 +11,11 @@ public interface ContainerStockRepository {
 
     void lockStock(List<ContainerStockLockDTO> containerStockLockDTOS);
 
-    void subtractStock(StockTransferDTO stockDeductDTO);
-
-    void addStock(StockTransferDTO stockDeductDTO);
+    void subtractStock(StockTransferDTO stockTransferDTO);
 
     ContainerStock findById(Long stockId);
+
+    ContainerStock existsByContainerCodeAndContainerSlotCodeAndSkuBatchAttributeId(String targetContainerCode, String targetContainerSlotCode, Long skuBatchAttributeId);
+
+    void addTargetContainerStock(StockTransferDTO stockTransferDTO);
 }

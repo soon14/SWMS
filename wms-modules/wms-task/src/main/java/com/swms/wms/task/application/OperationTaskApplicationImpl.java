@@ -1,12 +1,14 @@
 package com.swms.wms.task.application;
 
 import com.swms.utils.event.DomainEventPublisher;
+import com.swms.wms.api.stock.dto.StockTransferDTO;
 import com.swms.wms.api.task.ITaskApi;
 import com.swms.wms.api.task.constants.OperationTaskTypeEnum;
 import com.swms.wms.api.task.dto.BindContainerDTO;
 import com.swms.wms.api.task.dto.HandleTaskDTO;
 import com.swms.wms.api.task.dto.OperationTaskDTO;
 import com.swms.wms.api.task.dto.SealContainerDTO;
+import com.swms.wms.api.task.event.StockTransferEvent;
 import com.swms.wms.api.warehouse.IWorkStationApi;
 import com.swms.wms.task.domain.aggregate.TransferContainerAggregate;
 import com.swms.wms.task.domain.entity.OperationTask;
@@ -59,7 +61,21 @@ public class OperationTaskApplicationImpl implements ITaskApi {
         operationTaskService.handleTasks(handleTaskDTO);
 
         //2. update stock -> just send event
-        domainEventPublisher.sendAsyncEvent(handleTaskDTO);
+        List<Long> taskIds = handleTaskDTO.getHandleTasks().stream().map(HandleTaskDTO.HandleTask::getTaskId).toList();
+        List<OperationTask> operationTasks = operationTaskService.queryOperationTasksByIds(taskIds);
+        List<StockTransferDTO> stockTransferDTOS = operationTasks.stream().map(v -> {
+            return StockTransferDTO.builder().stockId(v.getStockId())
+                .lockType(v.transferToLockType())
+                .orderDetailId(v.getOriginalOrderDetailId())
+                .skuBatchId(v.getSkuBatchId())
+                .taskId(v.getId())
+                .targetContainerCode(v.getTargetContainerCode())
+                .targetContainerSlotCode(v.getTargetContainerSlotCode())
+                .transferQty(v.getOperatedQty())
+                .warehouseAreaCode(v.transferToWarehouseAreaCode())
+                .build();
+        }).toList();
+        domainEventPublisher.sendAsyncEvent(StockTransferEvent.builder().stockTransferDTOS(stockTransferDTOS).build());
 
         //3. update order status -> just send event
         domainEventPublisher.sendAsyncEvent(handleTaskDTO);
