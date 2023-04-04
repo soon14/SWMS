@@ -30,6 +30,7 @@ import org.assertj.core.api.Assertions;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
@@ -55,15 +56,15 @@ class ApiControllerTest {
     @BeforeEach
     public void initBean() {
         WorkStationService workStationService = applicationContext.getBean(WorkStationService.class);
-        IWorkStationApi iWorkStationApi = applicationContext.getBean(IWorkStationApi.class);
+        IWorkStationApi iWorkStationApi = applicationContext.getBean("mockIworkStationApi", IWorkStationApi.class);
         workStationService.setWorkStationApi(iWorkStationApi);
 
         ContainerService containerService = applicationContext.getBean(ContainerService.class);
-        IContainerApi iContainerApi = applicationContext.getBean(IContainerApi.class);
+        IContainerApi iContainerApi = applicationContext.getBean("mockIContainerApi", IContainerApi.class);
         containerService.setContainerApi(iContainerApi);
 
         TaskService taskService = applicationContext.getBean(TaskService.class);
-        ITaskApi iTaskApi = applicationContext.getBean(ITaskApi.class);
+        ITaskApi iTaskApi = applicationContext.getBean("mockITaskApi", ITaskApi.class);
         taskService.setTaskApi(iTaskApi);
     }
 
@@ -185,6 +186,9 @@ class ApiControllerTest {
         testOnline();
         testOrderAssign();
     }
+
+    @Autowired
+    private RedissonClient redissonClient;
 
     public static void main(String[] args) {
         System.out.println(JsonUtils.obj2StringPretty(ObjectUtils.getRandomObject(OperationTaskDTO.class)));

@@ -27,7 +27,7 @@ public class StationTestApplication {
         SpringApplication.run(StationTestApplication.class, args);
     }
 
-    @Bean
+    @Bean("mockIworkStationApi")
     public IWorkStationApi iWorkStationApi() throws Exception {
 
         File file = ResourceUtils.getFile("classpath:json/WorkStationModel.json");
@@ -43,7 +43,7 @@ public class StationTestApplication {
         return iWorkStationApi;
     }
 
-    @Bean
+    @Bean("mockIContainerApi")
     public IContainerApi iContainerApi() {
 
         IContainerApi iContainerApi = PowerMockito.mock(IContainerApi.class);
@@ -52,7 +52,7 @@ public class StationTestApplication {
         return iContainerApi;
     }
 
-    @Bean
+    @Bean("mockITaskApi")
     public ITaskApi iTaskApi() throws IOException {
         File file = ResourceUtils.getFile("classpath:json/OperationTasks.json");
         String s = FileUtils.readFileToString(file, "UTF-8");
