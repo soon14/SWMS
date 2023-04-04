@@ -66,6 +66,8 @@ subprojects {
             dependency group: 'org.springframework', name: 'spring-tx', version: '6.0.6'
 
             /********************************  使用apache dubbo starter **************/
+            //TODO:
+            // update to release version when project deployment and it must be tested
             dependency 'org.apache.dubbo:dubbo-spring-boot-starter:3.2.0-beta.6'
             dependency group: 'com.alibaba.cloud', name: 'spring-cloud-starter-alibaba-nacos-config', version: '2022.0.0.0-RC1'
             dependency group: 'com.alibaba.cloud', name: 'spring-cloud-starter-alibaba-nacos-discovery', version: '2022.0.0.0-RC1'
@@ -118,6 +120,7 @@ subprojects {
             /*数据库相关配置*/
             dependency 'com.baomidou:mybatis-plus-boot-starter:3.5.3.1'
             dependency 'com.clickhouse:clickhouse-jdbc:0.4.1'
+            dependency 'org.apache.shardingsphere:shardingsphere-jdbc-core-spring-boot-starter:5.2.1'
 
             /*MQ*/
             dependency 'org.springframework.cloud:spring-cloud-starter-stream-kafka:4.0.1'
@@ -127,7 +130,6 @@ subprojects {
             dependency 'org.powermock:powermock-api-mockito2:2.0.9'
             dependency 'org.powermock:powermock-module-junit4-rule:2.0.9'
             dependency 'org.powermock:powermock-classloading-xstream:2.0.9'
-            dependency 'org.apache.shardingsphere:shardingsphere-jdbc-core-spring-boot-starter:5.2.1'
         }
 
     }
