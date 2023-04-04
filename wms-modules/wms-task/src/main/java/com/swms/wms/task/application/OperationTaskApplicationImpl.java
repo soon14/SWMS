@@ -60,21 +60,20 @@ public class OperationTaskApplicationImpl implements ITaskApi {
         //1. handle tasks
         operationTaskService.handleTasks(handleTaskDTO);
 
-        //2. update stock -> just send event
+        //2. update stock
         List<Long> taskIds = handleTaskDTO.getHandleTasks().stream().map(HandleTaskDTO.HandleTask::getTaskId).toList();
         List<OperationTask> operationTasks = operationTaskService.queryOperationTasksByIds(taskIds);
-        List<StockTransferDTO> stockTransferDTOS = operationTasks.stream().map(v -> {
-            return StockTransferDTO.builder().stockId(v.getStockId())
-                .lockType(v.transferToLockType())
-                .orderDetailId(v.getOriginalOrderDetailId())
-                .skuBatchId(v.getSkuBatchId())
-                .taskId(v.getId())
-                .targetContainerCode(v.getTargetContainerCode())
-                .targetContainerSlotCode(v.getTargetContainerSlotCode())
-                .transferQty(v.getOperatedQty())
-                .warehouseAreaCode(v.transferToWarehouseAreaCode())
-                .build();
-        }).toList();
+        List<StockTransferDTO> stockTransferDTOS = operationTasks.stream().map(v -> StockTransferDTO.builder()
+            .stockId(v.getStockId())
+            .lockType(v.transferToLockType())
+            .orderDetailId(v.getOriginalOrderDetailId())
+            .skuBatchId(v.getSkuBatchId())
+            .taskId(v.getId())
+            .targetContainerCode(v.getTargetContainerCode())
+            .targetContainerSlotCode(v.getTargetContainerSlotCode())
+            .transferQty(v.getOperatedQty())
+            .warehouseAreaCode(v.transferToWarehouseAreaCode())
+            .build()).toList();
         domainEventPublisher.sendAsyncEvent(StockTransferEvent.builder().stockTransferDTOS(stockTransferDTOS).build());
 
         //3. update order status -> just send event
