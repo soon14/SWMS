@@ -1,24 +1,24 @@
-# Design Rule
+# Code Rule
 
 1. Big transaction is forbidden, use Async and eventually consistent.
 2. Each Module define errorCode by herself , it means there is no common errorCode class which own all errorCodes.
-3. Module swms-utils should not depend on other module, it means common module should not import other module. and
+3. Module swms-utils should not depend on other module, it means swms-utils module should not import other module. and
    swms-utils module should not contain any domain class.It's just defined a common utils.
-4. Must not use RedisTemplate to operate redis, use RedisUtils instead.
+4. Must not use RedisTemplate to operate redis, use RedisUtils instead. e.g:
    ```
    redisUtils.get(key);
    ```
-5. Use Domain Event to implement asynchronous communication between different domains. e.g
+5. Use Domain Event to implement asynchronous communication between different domains. e.g:
    ```
    domainEventPublisher.sendAsyncEvent(stockTransferEvent);
    domainEventPublisher.sendAsyncEvent(orderEvent);
    ```
-6. Use MqClient to implement asynchronous communication between servers. e.g
+6. Use MqClient to implement asynchronous communication between servers. e.g:
    ```
    mqClient.sendAsyncMessage(stockTransferEvent);
    mqClient.sendAsyncMessage(orderEvent);
    ```
-7. Use DistributedLock to implement distributed lock. e.g
+7. Use DistributedLock to implement distributed lock. e.g:
    ```
    distributedLock.acquireLock("lockKey", 1000);
    distributedLock.releaseLock("lockKey");
