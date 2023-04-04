@@ -18,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * 这个类相当于一个ws协议的controller
@@ -67,6 +68,9 @@ public class StationWebSocketController {
         }
 
         if (stationCode != null) {
+            StationWebSocketController webSocketController = STATION_WEBSOCKET_MAP.get(stationCode);
+            Optional.ofNullable(webSocketController).ifPresent(StationWebSocketController::closeSession);
+
             log.info("station: {} websocket is open and websocket id is: {}.", stationCode, session.getId());
 
             //操作台连接后，将websocket对象加入到map中，如果相同操作台Code的连进来，直接覆盖
@@ -76,6 +80,17 @@ public class StationWebSocketController {
             log.warn("client pass no stationCode, close session");
 
             session.close();
+        }
+    }
+
+    private static void closeSession(StationWebSocketController stationWebSocketController) {
+        Session session = stationWebSocketController.session;
+        if (session != null) {
+            try {
+                session.close();
+            } catch (IOException e) {
+                log.error("close session error", e);
+            }
         }
     }
 
