@@ -5,3 +5,18 @@
 3. Module swms-utils should not depend on other module, it means common module should not import other module. and
    swms-utils module should not contain any domain class.It's just defined a common utils.
 4. Must not use RedisTemplate to operate redis, use RedisUtil instead.
+5. Use Domain Event to implement asynchronous communication between different domains. e.g
+   ```
+   domainEventPublisher.sendAsyncEvent(stockTransferEvent);
+   domainEventPublisher.sendAsyncEvent(orderEvent);
+   ```
+6. Use MqClient to implement asynchronous communication between servers. e.g
+   ```
+   mqClient.sendAsyncMessage(stockTransferEvent);
+   mqClient.sendAsyncMessage(orderEvent);
+   ```
+7. Use DistributedLock to implement distributed lock. e.g
+   ```
+   distributedLock.acquireLock("lockKey", 1000);
+   distributedLock.releaseLock("lockKey");
+   ```
