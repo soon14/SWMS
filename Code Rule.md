@@ -4,7 +4,10 @@
 2. Each Module define errorCode by herself , it means there is no common errorCode class which own all errorCodes.
 3. Module swms-utils should not depend on other module, it means common module should not import other module. and
    swms-utils module should not contain any domain class.It's just defined a common utils.
-4. Must not use RedisTemplate to operate redis, use RedisUtil instead.
+4. Must not use RedisTemplate to operate redis, use RedisUtils instead.
+   ```
+   redisUtils.get(key);
+   ```
 5. Use Domain Event to implement asynchronous communication between different domains. e.g
    ```
    domainEventPublisher.sendAsyncEvent(stockTransferEvent);
