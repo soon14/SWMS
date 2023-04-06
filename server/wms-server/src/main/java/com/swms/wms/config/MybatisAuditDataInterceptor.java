@@ -31,7 +31,7 @@ public class MybatisAuditDataInterceptor implements Interceptor {
             // 从MappedStatement参数中获取到操作类型
             if (object instanceof MappedStatement ms) {
                 sqlCommandType = ms.getSqlCommandType();
-                log.debug("操作类型： {}", sqlCommandType);
+                log.debug("sql command type is: {}", sqlCommandType);
                 continue;
             }
             handleParameters(sqlCommandType, object);
