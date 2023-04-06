@@ -1,6 +1,6 @@
 rootProject.name = 'SWMS'
 include 'wms-modules:wms-stock'
-include 'wms-modules:wms-warehouse'
+include 'wms-modules:wms-basic'
 include 'wms-modules:wms-outbound'
 include 'wms-modules:wms-inbound'
 include 'wms-modules:wms-stock-movement'
