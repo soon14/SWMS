@@ -79,7 +79,7 @@ public class StockAggregate {
 
     /**
      * when stock is move from on area to another area in warehouse, then stock is transferred. e.g: picking, putAway
-     * <B>attention: call this function before stock is locked </B>
+     * <p>attention: call this function before stock is locked </p>
      *
      * @param stockTransferDTO
      */
@@ -94,7 +94,6 @@ public class StockAggregate {
     }
 
     private boolean transferContainerStock(StockTransferDTO stockTransferDTO) {
-
         ContainerStock containerStock = containerStockRepository.findById(stockTransferDTO.getStockId());
         if (!Objects.equals(containerStock.getContainerCode(), stockTransferDTO.getTargetContainerCode())) {
             int count = containerStockLockRepository.subtractLockStock(stockTransferDTO);
@@ -109,7 +108,6 @@ public class StockAggregate {
             ContainerStock targetContainerStock = containerStockRepository.existsByContainerCodeAndContainerSlotCodeAndSkuBatchAttributeId(
                 stockTransferDTO.getTargetContainerCode(), stockTransferDTO.getTargetContainerSlotCode(),
                 stockTransferDTO.getSkuBatchAttributeId());
-
             if (targetContainerStock != null) {
                 containerStockRepository.addTargetContainerStock(stockTransferDTO);
             } else {

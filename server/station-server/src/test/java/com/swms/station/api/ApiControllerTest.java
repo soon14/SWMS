@@ -13,6 +13,7 @@ import com.swms.utils.utils.ObjectUtils;
 import com.swms.wms.api.task.ITaskApi;
 import com.swms.wms.api.task.dto.HandleTaskDTO;
 import com.swms.wms.api.task.dto.OperationTaskDTO;
+import com.swms.wms.api.task.event.StockTransferEvent;
 import com.swms.wms.api.warehouse.IContainerApi;
 import com.swms.wms.api.warehouse.constants.PutWallSlotStatusEnum;
 import com.swms.wms.api.warehouse.constants.WorkLocationTypeEnum;
@@ -183,15 +184,7 @@ class ApiControllerTest {
 
     @Test
     void fullFlowTest() {
-        testOnline();
         testOrderAssign();
-    }
-
-    @Autowired
-    private RedissonClient redissonClient;
-
-    public static void main(String[] args) {
-        System.out.println(JsonUtils.obj2StringPretty(ObjectUtils.getRandomObject(OperationTaskDTO.class)));
     }
 
 }
