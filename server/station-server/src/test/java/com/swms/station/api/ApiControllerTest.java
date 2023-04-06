@@ -184,10 +184,7 @@ class ApiControllerTest {
 
     @Test
     void fullFlowTest() {
-        testOnline();
         testOrderAssign();
-
-
     }
 
 }

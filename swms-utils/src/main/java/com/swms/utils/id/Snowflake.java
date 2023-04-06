@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class Snowflake {
-    private static final long TWEPOCH = 1288834974657L;
+    private static final long START_POINT = 1577808000000L;
     private static final long DATACENTER_ID_BITS = 5L;
     private static final long WORKER_ID_BITS = 5L;
     private static final long SEQUENCE_BITS = 12L;
@@ -14,6 +14,23 @@ public class Snowflake {
     private static final long SEQUENCE_MASK = ~(-1L << SEQUENCE_BITS);
     private static long lastTimestamp = -1L;
     private static long sequence = 0L;
+
+    /**
+     * 机器ID左移位数, 12
+     */
+    private static final long WORKER_ID_SHIFT = SEQUENCE_BITS;
+
+    /**
+     * 数据中心ID左移位数, 12+5
+     */
+    private static final long DATA_CENTER_ID_SHIFT = SEQUENCE_BITS + WORKER_ID_BITS;
+
+    /**
+     * 时间戳左移位数, 12+5+5
+     */
+    private static final long TIMESTAMP_SHIFT = DATA_CENTER_ID_SHIFT + DATACENTER_ID_BITS;
+
+
     private final long datacenterId;
     private final long workerId;
 
@@ -42,9 +59,9 @@ public class Snowflake {
             sequence = 0L;
         }
         lastTimestamp = timestamp;
-        return ((timestamp - TWEPOCH) << (int) (DATACENTER_ID_BITS + WORKER_ID_BITS))
-            | (datacenterId << (int) DATACENTER_ID_BITS)
-            | workerId << (int) WORKER_ID_BITS
+        return ((timestamp - START_POINT) << (int) (TIMESTAMP_SHIFT))
+            | (datacenterId << (int) DATA_CENTER_ID_SHIFT)
+            | workerId << (int) WORKER_ID_SHIFT
             | sequence;
     }
 
