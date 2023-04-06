@@ -3,18 +3,23 @@ server:
 spring:
   application:
     name: wms-server
+  profiles:
+    active: dev
   cloud:
     nacos:
       config:
         server-addr: 172.18.35.23:8181
-#        namespace: krystal-test
-        namespace: 2a515aea-33d3-4eeb-a1c9-17a1807cc225
+        namespace: wms-server-dev
         context-path: "/nacos"
+        group: swms
+        file-extension: yml
       discovery:
-        namespace: 2a515aea-33d3-4eeb-a1c9-17a1807cc225
+        namespace: wms-server-dev
         server-addr: 172.18.35.23:8181
         username: nacos
         password: nacos
+        group: swms
   config:
     import:
-      - nacos:test.yml
+      - nacos:wms-server.yml
+      - nacos:wms-server-redisson.yml
