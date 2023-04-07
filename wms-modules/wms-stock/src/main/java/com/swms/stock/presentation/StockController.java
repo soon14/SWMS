@@ -1,4 +1,4 @@
 package com.swms.stock.presentation;
 
-public class InventoryController {
+public class StockController {
 }

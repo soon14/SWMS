@@ -21,11 +21,6 @@ public class StockApplicationApiImpl implements IStockApi {
         stockAggregate.createStock(stockTransferDTOS);
     }
 
-
-    @Override
-    public void unLockStock(List<SkuBatchStockLockDTO> skuBatchStockLockDTOS) {
-    }
-
     @Override
     public void lockSkuBatchStock(List<SkuBatchStockLockDTO> skuBatchStockLockDTOS) {
         stockAggregate.lockSkuBatchStock(skuBatchStockLockDTOS);

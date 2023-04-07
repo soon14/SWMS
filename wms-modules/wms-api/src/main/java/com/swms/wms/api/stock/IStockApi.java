@@ -15,8 +15,6 @@ public interface IStockApi {
      */
     void createStock(List<StockTransferDTO> stockCreateDTOS);
 
-    void unLockStock(List<SkuBatchStockLockDTO> skuBatchStockLockDTOS);
-
     void lockSkuBatchStock(List<SkuBatchStockLockDTO> skuBatchStockLockDTOS);
 
     void lockContainerStock(List<ContainerStockLockDTO> containerStockLockDTOS);
