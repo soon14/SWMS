@@ -1,14 +1,9 @@
 package com.swms.stock.domain.aggregate;
 
-import com.google.common.collect.Lists;
-import com.swms.stock.domain.entity.ContainerStock;
-import com.swms.stock.domain.entity.SkuBatchStock;
 import com.swms.stock.domain.repository.ContainerStockRepository;
-import com.swms.stock.domain.repository.ContainerStockTransactionRecordRepository;
 import com.swms.stock.domain.repository.SkuBatchStockRepository;
 import com.swms.stock.domain.service.StockManagement;
 import com.swms.stock.domain.transfer.ContainerStockTransfer;
-import com.swms.stock.domain.transfer.SkuBatchStockTransfer;
 import com.swms.wms.api.stock.dto.ContainerStockLockDTO;
 import com.swms.wms.api.stock.dto.SkuBatchStockLockDTO;
 import com.swms.wms.api.stock.dto.StockTransferDTO;
@@ -18,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Objects;
 
 @Service
 @Slf4j

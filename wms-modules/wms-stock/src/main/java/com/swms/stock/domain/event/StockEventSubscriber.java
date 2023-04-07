@@ -7,6 +7,7 @@ import com.swms.stock.domain.entity.ContainerStockTransactionRecord;
 import com.swms.stock.domain.service.StockManagement;
 import com.swms.stock.domain.service.StockQuery;
 import com.swms.stock.domain.transfer.ContainerStockTransactionRecordTransfer;
+import com.swms.wms.api.task.constants.OperationTaskTypeEnum;
 import com.swms.wms.api.task.event.StockTransferEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -39,7 +40,11 @@ public class StockEventSubscriber {
             stockManagement.saveContainerStockTransactionRecord(containerStockTransactionRecord);
 
             stockTransferDTO.setContainerStockTransactionRecordId(containerStockTransactionRecord.getId());
-            stockAggregate.transferStock(stockTransferDTO);
+            if (event.getTaskType() == OperationTaskTypeEnum.PICKING) {
+                stockAggregate.transferAndUnlockStock(stockTransferDTO);
+            } else {
+                stockAggregate.transferStock(stockTransferDTO);
+            }
         });
     }
 }
