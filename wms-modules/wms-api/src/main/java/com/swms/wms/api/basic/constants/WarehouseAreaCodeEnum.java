@@ -1,4 +1,4 @@
-package com.swms.wms.api.warehouse.constants;
+package com.swms.wms.api.basic.constants;
 
 public enum WarehouseAreaCodeEnum {
 

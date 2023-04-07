@@ -1,11 +1,11 @@
-package com.swms.wms.api.warehouse;
+package com.swms.wms.api.basic;
 
 import com.swms.wms.api.task.dto.BindContainerDTO;
-import com.swms.wms.api.warehouse.constants.WorkStationOperationTypeEnum;
-import com.swms.wms.api.warehouse.dto.AssignOrdersDTO;
-import com.swms.wms.api.warehouse.dto.PutWallSlotDTO;
-import com.swms.wms.api.warehouse.dto.ReleasePutWallSlotsDTO;
-import com.swms.wms.api.warehouse.dto.WorkStationModelDTO;
+import com.swms.wms.api.basic.constants.WorkStationOperationTypeEnum;
+import com.swms.wms.api.basic.dto.AssignOrdersDTO;
+import com.swms.wms.api.basic.dto.PutWallSlotDTO;
+import com.swms.wms.api.basic.dto.ReleasePutWallSlotsDTO;
+import com.swms.wms.api.basic.dto.WorkStationModelDTO;
 
 import java.util.List;
 

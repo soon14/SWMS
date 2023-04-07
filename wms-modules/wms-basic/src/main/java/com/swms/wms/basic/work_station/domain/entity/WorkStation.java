@@ -1,7 +1,7 @@
 package com.swms.wms.basic.work_station.domain.entity;
 
-import com.swms.wms.api.warehouse.constants.WorkStationOperationTypeEnum;
-import com.swms.wms.api.warehouse.constants.WorkStationStatusEnum;
+import com.swms.wms.api.basic.constants.WorkStationOperationTypeEnum;
+import com.swms.wms.api.basic.constants.WorkStationStatusEnum;
 import lombok.Data;
 
 @Data

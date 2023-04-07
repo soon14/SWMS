@@ -3,7 +3,7 @@ package com.swms.station.business.model;
 import com.google.common.collect.Maps;
 import com.swms.utils.utils.JsonUtils;
 import com.swms.station.remote.WorkStationService;
-import com.swms.wms.api.warehouse.dto.WorkStationModelDTO;
+import com.swms.wms.api.basic.dto.WorkStationModelDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

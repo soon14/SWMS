@@ -1,6 +1,6 @@
 package com.swms.wms.basic.work_station.domain.aggregate;
 
-import com.swms.wms.api.warehouse.dto.WorkStationModelDTO;
+import com.swms.wms.api.basic.dto.WorkStationModelDTO;
 import com.swms.wms.basic.work_station.domain.entity.PutWall;
 import com.swms.wms.basic.work_station.domain.entity.WorkLocation;
 import com.swms.wms.basic.work_station.domain.entity.WorkStation;

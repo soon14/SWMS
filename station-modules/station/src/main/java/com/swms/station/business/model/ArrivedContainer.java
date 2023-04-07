@@ -1,13 +1,12 @@
 package com.swms.station.business.model;
 
-import com.swms.wms.api.warehouse.constants.WorkLocationTypeEnum;
-import com.swms.wms.api.warehouse.dto.ContainerLayoutDTO;
+import com.swms.wms.api.basic.constants.WorkLocationTypeEnum;
+import com.swms.wms.api.basic.dto.ContainerLayoutDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
 import java.util.Map;
 
 /**

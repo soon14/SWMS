@@ -1,6 +1,6 @@
-package com.swms.wms.api.warehouse;
+package com.swms.wms.api.basic;
 
-import com.swms.wms.api.warehouse.dto.ContainerLayoutDTO;
+import com.swms.wms.api.basic.dto.ContainerLayoutDTO;
 
 public interface IContainerApi {
 

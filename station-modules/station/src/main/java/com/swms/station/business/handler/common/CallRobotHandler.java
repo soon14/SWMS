@@ -6,7 +6,7 @@ import com.swms.station.business.handler.IBusinessHandler;
 import com.swms.station.business.model.WorkStation;
 import com.swms.station.business.model.WorkStationManagement;
 import com.swms.station.remote.EquipmentService;
-import com.swms.wms.api.warehouse.constants.WorkStationStatusEnum;
+import com.swms.wms.api.basic.constants.WorkStationStatusEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

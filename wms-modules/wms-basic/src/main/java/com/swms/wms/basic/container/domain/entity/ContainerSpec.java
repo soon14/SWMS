@@ -1,6 +1,6 @@
 package com.swms.wms.basic.container.domain.entity;
 
-import com.swms.wms.api.warehouse.constants.ContainerTypeEnum;
+import com.swms.wms.api.basic.constants.ContainerTypeEnum;
 import lombok.Data;
 
 @Data

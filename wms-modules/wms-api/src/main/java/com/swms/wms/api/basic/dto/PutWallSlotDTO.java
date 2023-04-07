@@ -1,6 +1,6 @@
-package com.swms.wms.api.warehouse.dto;
+package com.swms.wms.api.basic.dto;
 
-import com.swms.wms.api.warehouse.constants.PutWallSlotStatusEnum;
+import com.swms.wms.api.basic.constants.PutWallSlotStatusEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

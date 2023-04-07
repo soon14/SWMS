@@ -1,6 +1,6 @@
 package com.swms.wms.basic.container.domain.entity;
 
-import com.swms.wms.api.warehouse.constants.ContainerStatusEnum;
+import com.swms.wms.api.basic.constants.ContainerStatusEnum;
 import lombok.Data;
 
 import java.math.BigDecimal;

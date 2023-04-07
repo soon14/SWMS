@@ -1,6 +1,6 @@
 package com.swms.station.business.handler.event;
 
-import com.swms.wms.api.warehouse.constants.WorkLocationTypeEnum;
+import com.swms.wms.api.basic.constants.WorkLocationTypeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

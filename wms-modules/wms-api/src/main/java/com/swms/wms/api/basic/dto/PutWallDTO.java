@@ -1,4 +1,4 @@
-package com.swms.wms.api.warehouse.dto;
+package com.swms.wms.api.basic.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,9 +11,10 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AssignOrdersDTO {
+public class PutWallDTO {
 
-    private List<Long> orderIds;
     private String stationCode;
-    private String putWallSlotCode;
+    private String putWallCode;
+    private String putWallName;
+    private List<PutWallSlotDTO> putWallSlots;
 }

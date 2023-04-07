@@ -1,7 +1,7 @@
 package com.swms.station.remote;
 
-import com.swms.wms.api.warehouse.IContainerApi;
-import com.swms.wms.api.warehouse.dto.ContainerLayoutDTO;
+import com.swms.wms.api.basic.IContainerApi;
+import com.swms.wms.api.basic.dto.ContainerLayoutDTO;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.stereotype.Service;
 

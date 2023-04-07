@@ -1,7 +1,7 @@
 package com.swms.station.business.model;
 
-import com.swms.wms.api.warehouse.dto.WorkLocationDTO;
-import com.swms.wms.api.warehouse.dto.WorkLocationSlotDTO;
+import com.swms.wms.api.basic.dto.WorkLocationDTO;
+import com.swms.wms.api.basic.dto.WorkLocationSlotDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

@@ -3,11 +3,10 @@ package com.swms.wms.basic.warehouse.domain;
 import lombok.Data;
 
 @Data
-public class WarehouseAreaGroup {
-
+public class Owner {
     private Long id;
 
     // unique identifier
-    private String warehouseAreaGroupCode;
-    private String warehouseCode;
+    private String ownerCode;
+    private String ownerName;
 }

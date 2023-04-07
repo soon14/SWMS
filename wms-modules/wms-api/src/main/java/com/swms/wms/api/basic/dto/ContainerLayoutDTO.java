@@ -1,6 +1,6 @@
-package com.swms.wms.api.warehouse.dto;
+package com.swms.wms.api.basic.dto;
 
-import com.swms.wms.api.warehouse.constants.ContainerTypeEnum;
+import com.swms.wms.api.basic.constants.ContainerTypeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

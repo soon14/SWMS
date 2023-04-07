@@ -11,7 +11,7 @@ import com.swms.station.remote.TaskService;
 import com.swms.utils.utils.JsonUtils;
 import com.swms.wms.api.task.dto.HandleTaskDTO;
 import com.swms.wms.api.task.dto.OperationTaskDTO;
-import com.swms.wms.api.warehouse.constants.WorkStationStatusEnum;
+import com.swms.wms.api.basic.constants.WorkStationStatusEnum;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

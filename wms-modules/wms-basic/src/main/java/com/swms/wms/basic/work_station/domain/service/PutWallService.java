@@ -1,9 +1,9 @@
 package com.swms.wms.basic.work_station.domain.service;
 
 import com.swms.wms.api.task.dto.BindContainerDTO;
-import com.swms.wms.api.warehouse.constants.PutWallSlotStatusEnum;
-import com.swms.wms.api.warehouse.dto.AssignOrdersDTO;
-import com.swms.wms.api.warehouse.dto.PutWallSlotDTO;
+import com.swms.wms.api.basic.constants.PutWallSlotStatusEnum;
+import com.swms.wms.api.basic.dto.AssignOrdersDTO;
+import com.swms.wms.api.basic.dto.PutWallSlotDTO;
 import com.swms.wms.basic.work_station.domain.entity.PutWall;
 import com.swms.wms.basic.work_station.domain.repository.IPutWallRepository;
 import com.swms.wms.basic.work_station.domain.repository.IPutWallSlotRepository;

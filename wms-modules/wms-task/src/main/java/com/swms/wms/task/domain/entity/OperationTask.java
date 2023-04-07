@@ -3,7 +3,7 @@ package com.swms.wms.task.domain.entity;
 import com.swms.wms.api.stock.constants.StockLockTypeEnum;
 import com.swms.wms.api.task.constants.OperationTaskStatusEnum;
 import com.swms.wms.api.task.constants.OperationTaskTypeEnum;
-import com.swms.wms.api.warehouse.constants.WarehouseAreaCodeEnum;
+import com.swms.wms.api.basic.constants.WarehouseAreaCodeEnum;
 import lombok.Data;
 
 @Data

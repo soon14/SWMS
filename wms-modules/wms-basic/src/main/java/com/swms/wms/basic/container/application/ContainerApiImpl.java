@@ -1,7 +1,7 @@
 package com.swms.wms.basic.container.application;
 
-import com.swms.wms.api.warehouse.IContainerApi;
-import com.swms.wms.api.warehouse.dto.ContainerLayoutDTO;
+import com.swms.wms.api.basic.IContainerApi;
+import com.swms.wms.api.basic.dto.ContainerLayoutDTO;
 import com.swms.wms.basic.container.domain.aggregate.ContainerAggregate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

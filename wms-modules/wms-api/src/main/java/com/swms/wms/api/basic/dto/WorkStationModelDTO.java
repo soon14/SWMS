@@ -1,7 +1,7 @@
-package com.swms.wms.api.warehouse.dto;
+package com.swms.wms.api.basic.dto;
 
-import com.swms.wms.api.warehouse.constants.WorkStationOperationTypeEnum;
-import com.swms.wms.api.warehouse.constants.WorkStationStatusEnum;
+import com.swms.wms.api.basic.constants.WorkStationOperationTypeEnum;
+import com.swms.wms.api.basic.constants.WorkStationStatusEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

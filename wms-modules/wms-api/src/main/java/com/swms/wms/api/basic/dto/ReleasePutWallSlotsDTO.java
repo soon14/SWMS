@@ -1,4 +1,4 @@
-package com.swms.wms.api.warehouse.dto;
+package com.swms.wms.api.basic.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

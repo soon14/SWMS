@@ -2,7 +2,7 @@ package com.swms.wms.basic.container.domain.aggregate;
 
 import com.google.common.collect.Lists;
 import com.swms.utils.utils.BeanHelper;
-import com.swms.wms.api.warehouse.dto.ContainerLayoutDTO;
+import com.swms.wms.api.basic.dto.ContainerLayoutDTO;
 import com.swms.wms.basic.container.domain.entity.Container;
 import com.swms.wms.basic.container.domain.entity.ContainerSlotSpec;
 import com.swms.wms.basic.container.domain.entity.ContainerSpec;

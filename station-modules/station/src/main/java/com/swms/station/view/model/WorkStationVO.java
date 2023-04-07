@@ -2,9 +2,9 @@ package com.swms.station.view.model;
 
 import com.swms.station.business.model.WorkLocationExtend;
 import com.swms.wms.api.task.dto.OperationTaskDTO;
-import com.swms.wms.api.warehouse.constants.WorkStationOperationTypeEnum;
-import com.swms.wms.api.warehouse.constants.WorkStationStatusEnum;
-import com.swms.wms.api.warehouse.dto.PutWallDTO;
+import com.swms.wms.api.basic.constants.WorkStationOperationTypeEnum;
+import com.swms.wms.api.basic.constants.WorkStationStatusEnum;
+import com.swms.wms.api.basic.dto.PutWallDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

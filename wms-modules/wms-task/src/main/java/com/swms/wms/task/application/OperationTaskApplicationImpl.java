@@ -9,7 +9,7 @@ import com.swms.wms.api.task.dto.HandleTaskDTO;
 import com.swms.wms.api.task.dto.OperationTaskDTO;
 import com.swms.wms.api.task.dto.SealContainerDTO;
 import com.swms.wms.api.task.event.StockTransferEvent;
-import com.swms.wms.api.warehouse.IWorkStationApi;
+import com.swms.wms.api.basic.IWorkStationApi;
 import com.swms.wms.task.domain.aggregate.TransferContainerAggregate;
 import com.swms.wms.task.domain.entity.OperationTask;
 import com.swms.wms.task.domain.service.OperationTaskService;

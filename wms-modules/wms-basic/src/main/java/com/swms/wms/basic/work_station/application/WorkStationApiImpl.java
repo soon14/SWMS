@@ -1,12 +1,12 @@
 package com.swms.wms.basic.work_station.application;
 
 import com.swms.wms.api.task.dto.BindContainerDTO;
-import com.swms.wms.api.warehouse.IWorkStationApi;
-import com.swms.wms.api.warehouse.constants.WorkStationOperationTypeEnum;
-import com.swms.wms.api.warehouse.dto.AssignOrdersDTO;
-import com.swms.wms.api.warehouse.dto.PutWallSlotDTO;
-import com.swms.wms.api.warehouse.dto.ReleasePutWallSlotsDTO;
-import com.swms.wms.api.warehouse.dto.WorkStationModelDTO;
+import com.swms.wms.api.basic.IWorkStationApi;
+import com.swms.wms.api.basic.constants.WorkStationOperationTypeEnum;
+import com.swms.wms.api.basic.dto.AssignOrdersDTO;
+import com.swms.wms.api.basic.dto.PutWallSlotDTO;
+import com.swms.wms.api.basic.dto.ReleasePutWallSlotsDTO;
+import com.swms.wms.api.basic.dto.WorkStationModelDTO;
 import com.swms.wms.basic.work_station.domain.service.PutWallService;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.factory.annotation.Autowired;
