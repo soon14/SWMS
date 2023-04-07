@@ -17,8 +17,8 @@ public class OperationTask {
     private String stationCode;
 
     private String skuCode;
-    private Long skuBatchId;
-    private Long stockId;
+    private Long skuBatchStockId;
+    private Long containerStockId;
 
     private String sourceContainerCode;
     private String sourceContainerSlot;
@@ -48,7 +48,7 @@ public class OperationTask {
     public String transferToWarehouseAreaCode() {
         if (taskType == OperationTaskTypeEnum.PICKING
             || taskType == OperationTaskTypeEnum.ONE_STEP_RELOCATION
-            || taskType == OperationTaskTypeEnum.TWO_STEP_RELOCATION) {
+            || taskType == OperationTaskTypeEnum.RELOCATION) {
             return WarehouseAreaCodeEnum.OFF_SHELF_TEMPORARY_STORAGE_AREA.name();
         } else {
             return WarehouseAreaCodeEnum.PUTTING_ON_THE_STAGING_AREA.name();

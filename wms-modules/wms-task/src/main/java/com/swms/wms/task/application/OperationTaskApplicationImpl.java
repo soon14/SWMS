@@ -64,10 +64,9 @@ public class OperationTaskApplicationImpl implements ITaskApi {
         List<Long> taskIds = handleTaskDTO.getHandleTasks().stream().map(HandleTaskDTO.HandleTask::getTaskId).toList();
         List<OperationTask> operationTasks = operationTaskService.queryOperationTasksByIds(taskIds);
         List<StockTransferDTO> stockTransferDTOS = operationTasks.stream().map(v -> StockTransferDTO.builder()
-            .stockId(v.getStockId())
+            .containerStockId(v.getContainerStockId())
             .lockType(v.transferToLockType())
-            .orderDetailId(v.getOriginalOrderDetailId())
-            .skuBatchId(v.getSkuBatchId())
+            .skuBatchStockId(v.getSkuBatchStockId())
             .taskId(v.getId())
             .targetContainerCode(v.getTargetContainerCode())
             .targetContainerSlotCode(v.getTargetContainerSlotCode())

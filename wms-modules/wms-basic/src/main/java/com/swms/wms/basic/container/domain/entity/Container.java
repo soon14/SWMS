@@ -25,6 +25,11 @@ public class Container {
     private boolean empty;
     private boolean locked;
 
+    /**
+     * container is or not opened
+     */
+    private boolean opened;
+
     private Integer emptySlotNum;
 
     private ContainerStatusEnum containerStatus;

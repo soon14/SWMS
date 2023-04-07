@@ -12,7 +12,9 @@ public interface SkuBatchStockRepository {
 
     void lockStock(List<SkuBatchStockLockDTO> skuBatchStockLockDTOS);
 
-    void subtractStock(StockTransferDTO stockDeductDTOS);
+    void subtractStock(StockTransferDTO stockTransferDTO);
+
+    void subtractAndUnlockStock(StockTransferDTO stockTransferDTO);
 
     void addStock(List<StockTransferDTO> stockCreateDTOS);
 
