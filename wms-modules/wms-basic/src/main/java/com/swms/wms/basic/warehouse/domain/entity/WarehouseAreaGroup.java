@@ -1,4 +1,4 @@
-package com.swms.wms.basic.warehouse.domain;
+package com.swms.wms.basic.warehouse.domain.entity;
 
 import lombok.Data;
 

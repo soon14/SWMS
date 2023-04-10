@@ -1,4 +1,4 @@
-package com.swms.wms.basic.warehouse.domain;
+package com.swms.wms.basic.warehouse.domain.entity;
 
 import com.swms.wms.api.basic.constants.LocationTypeEnum;
 import lombok.Data;
