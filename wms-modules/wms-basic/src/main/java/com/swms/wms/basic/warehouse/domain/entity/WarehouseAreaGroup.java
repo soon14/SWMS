@@ -10,4 +10,7 @@ public class WarehouseAreaGroup {
     // unique identifier
     private String warehouseAreaGroupCode;
     private String warehouseCode;
+
+    private boolean deleted;
+    private boolean enable;
 }
