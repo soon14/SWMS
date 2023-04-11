@@ -31,4 +31,7 @@ public class ContainerStock {
      * it means the container is or not a physical container
      */
     private boolean boxStock;
+    private String boxNo;
+
+    private String warehouseAreaCode;
 }

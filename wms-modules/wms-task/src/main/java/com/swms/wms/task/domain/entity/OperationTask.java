@@ -23,6 +23,8 @@ public class OperationTask {
     private String sourceContainerCode;
     private String sourceContainerSlot;
 
+    private String boxNo;
+
     private Integer requiredQty;
     private Integer operatedQty;
     private Integer abnormalQty;

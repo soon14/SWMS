@@ -12,10 +12,11 @@ public class ContainerSlot {
     private String containerSlotCode;
     private String containerSlotSpecCode;
 
-    private String face;
-
     private Long parentId;
     private String containerCode;
 
     private BigDecimal occupationRatio;
+
+    // every container slot has a unique location code.
+    private String locationCode;
 }

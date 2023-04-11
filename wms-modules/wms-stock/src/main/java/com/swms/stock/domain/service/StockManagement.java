@@ -40,6 +40,7 @@ public class StockManagement {
 
         ContainerStock containerStock = containerStockRepository.findById(stockTransferDTO.getContainerStockId());
         if (Objects.equals(containerStock.getContainerCode(), stockTransferDTO.getTargetContainerCode())) {
+            containerStockRepository.updateWarehouseAreaCode(stockTransferDTO);
             return;
         }
 

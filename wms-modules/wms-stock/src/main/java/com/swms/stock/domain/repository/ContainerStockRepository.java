@@ -20,4 +20,6 @@ public interface ContainerStockRepository {
     ContainerStock findById(Long stockId);
 
     ContainerStock existsByContainerCodeAndContainerSlotCodeAndSkuBatchAttributeId(String targetContainerCode, String targetContainerSlotCode, Long skuBatchAttributeId);
+
+    void updateWarehouseAreaCode(StockTransferDTO stockTransferDTO);
 }

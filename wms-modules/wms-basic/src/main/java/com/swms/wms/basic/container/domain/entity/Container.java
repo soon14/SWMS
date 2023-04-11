@@ -19,16 +19,17 @@ public class Container {
     private String warehouseAreaCode;
     private String warehouseLogicCode;
     private String locationCode;
+    private String locationType;
 
     private BigDecimal occupationRatio;
 
     private boolean empty;
-    private boolean locked;
+    private boolean lock;
 
     /**
-     * container is or not opened
+     * container is or not open
      */
-    private boolean opened;
+    private boolean open;
 
     private Integer emptySlotNum;
 

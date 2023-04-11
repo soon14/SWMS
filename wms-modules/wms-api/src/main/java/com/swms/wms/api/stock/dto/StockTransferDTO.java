@@ -21,10 +21,10 @@ public class StockTransferDTO {
 
     private String targetContainerCode;
     private String targetContainerSlotCode;
+    private String boxNo;
 
     // if stock move from one warehouse area to another area in warehouse, this field is required
     private String warehouseAreaCode;
-    private String warehouseCode;
 
     private Long containerStockTransactionRecordId;
 }
