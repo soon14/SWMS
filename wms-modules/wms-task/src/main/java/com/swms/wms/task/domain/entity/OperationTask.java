@@ -17,6 +17,7 @@ public class OperationTask {
     private String stationCode;
 
     private String skuCode;
+    private Long skuBatchAttributeId;
     private Long skuBatchStockId;
     private Long containerStockId;
 

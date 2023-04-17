@@ -7,19 +7,14 @@ import com.swms.wms.api.stock.dto.StockTransferDTO;
 import java.util.List;
 
 public interface ContainerStockRepository {
+
+    void save(ContainerStock containerStock);
+
     void saveAll(List<ContainerStock> toContainerStocks);
-
-    void lockStock(List<ContainerStockLockDTO> containerStockLockDTOS);
-
-    void subtractStock(StockTransferDTO stockTransferDTO);
-
-    void subtractAndUnlockStock(StockTransferDTO stockTransferDTO);
-
-    void addTargetContainerStock(StockTransferDTO stockTransferDTO);
 
     ContainerStock findById(Long stockId);
 
-    ContainerStock existsByContainerCodeAndContainerSlotCodeAndSkuBatchAttributeId(String targetContainerCode, String targetContainerSlotCode, Long skuBatchAttributeId);
+    List<ContainerStock> findAllByIds(List<Long> containerStockIds);
 
-    void updateWarehouseAreaCode(StockTransferDTO stockTransferDTO);
+    ContainerStock existsByContainerCodeAndContainerSlotCodeAndSkuBatchAttributeId(String targetContainerCode, String targetContainerSlotCode, Long skuBatchAttributeId);
 }

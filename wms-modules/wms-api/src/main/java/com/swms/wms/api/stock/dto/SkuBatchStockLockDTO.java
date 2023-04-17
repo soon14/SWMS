@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 public class SkuBatchStockLockDTO {
-    private Long skuBatchId;
+    private Long skuBatchStockId;
     private StockLockTypeEnum lockType;
     private Integer lockQty;
     private Long orderDetailId;

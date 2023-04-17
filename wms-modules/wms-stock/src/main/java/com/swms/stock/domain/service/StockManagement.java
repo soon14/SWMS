@@ -12,7 +12,6 @@ import com.swms.wms.api.stock.dto.StockTransferDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 import java.util.Objects;
 
 @Component
@@ -40,47 +39,53 @@ public class StockManagement {
 
         ContainerStock containerStock = containerStockRepository.findById(stockTransferDTO.getContainerStockId());
         if (Objects.equals(containerStock.getContainerCode(), stockTransferDTO.getTargetContainerCode())) {
-            containerStockRepository.updateWarehouseAreaCode(stockTransferDTO);
+            containerStock.setWarehouseAreaCode(stockTransferDTO.getWarehouseAreaCode());
+            containerStockRepository.save(containerStock);
             return;
         }
 
         if (unlock) {
-            containerStockRepository.subtractAndUnlockStock(stockTransferDTO);
+            containerStock.subtractAndUnlockQty(stockTransferDTO.getTransferQty(), stockTransferDTO.getLockType());
         } else {
-            containerStockRepository.subtractStock(stockTransferDTO);
+            containerStock.subtractQty(stockTransferDTO.getTransferQty());
         }
+        containerStockRepository.save(containerStock);
 
         //need add or update container stock
         ContainerStock targetContainerStock = containerStockRepository.existsByContainerCodeAndContainerSlotCodeAndSkuBatchAttributeId(
             stockTransferDTO.getTargetContainerCode(), stockTransferDTO.getTargetContainerSlotCode(),
             stockTransferDTO.getSkuBatchAttributeId());
         if (targetContainerStock != null) {
-            containerStockRepository.addTargetContainerStock(stockTransferDTO);
+            targetContainerStock.addQty(stockTransferDTO.getTransferQty());
         } else {
-            List<ContainerStock> containerStocks = Lists.newArrayList(ContainerStock.builder()
+            targetContainerStock = ContainerStock.builder()
                 .containerCode(stockTransferDTO.getTargetContainerCode())
                 .containerSlotCode(stockTransferDTO.getTargetContainerSlotCode())
                 .availableQty(stockTransferDTO.getTransferQty())
                 .skuBatchAttributeId(stockTransferDTO.getSkuBatchAttributeId())
-                .totalQty(stockTransferDTO.getTransferQty()).build());
-            containerStockRepository.saveAll(containerStocks);
+                .warehouseAreaCode(stockTransferDTO.getWarehouseAreaCode())
+                .totalQty(stockTransferDTO.getTransferQty()).build();
         }
+        containerStockRepository.save(targetContainerStock);
     }
 
     public void transferSkuBatchStock(StockTransferDTO stockTransferDTO, boolean unlock) {
-        if (unlock) {
-            skuBatchStockRepository.subtractAndUnlockStock(stockTransferDTO);
-        } else {
-            skuBatchStockRepository.subtractStock(stockTransferDTO);
-        }
 
-        SkuBatchStock skuBatchStock = skuBatchStockRepository.findBySkuBatchAttributeIdAndWarehouseAreaCode(
-            stockTransferDTO.getSkuBatchAttributeId(), stockTransferDTO.getWarehouseAreaCode());
-        if (skuBatchStock == null) {
-            skuBatchStockRepository.saveAll(skuBatchStockTransfer.toSkuBatchStocks(Lists.newArrayList(stockTransferDTO)));
+        SkuBatchStock skuBatchStock = skuBatchStockRepository.findById(stockTransferDTO.getSkuBatchStockId());
+        if (unlock) {
+            skuBatchStock.subtractAndUnlockQty(stockTransferDTO.getTransferQty(), stockTransferDTO.getLockType());
         } else {
-            stockTransferDTO.setSkuBatchStockId(skuBatchStock.getId());
-            skuBatchStockRepository.addStock(Lists.newArrayList(stockTransferDTO));
+            skuBatchStock.subtractQty(stockTransferDTO.getTransferQty());
         }
+        skuBatchStockRepository.save(skuBatchStock);
+
+        SkuBatchStock targetSkuBatch = skuBatchStockRepository.findBySkuBatchAttributeIdAndWarehouseAreaCode(
+            stockTransferDTO.getSkuBatchAttributeId(), stockTransferDTO.getWarehouseAreaCode());
+        if (targetSkuBatch == null) {
+            targetSkuBatch = skuBatchStockTransfer.toSkuBatchStock(stockTransferDTO);
+        } else {
+            targetSkuBatch.addQty(stockTransferDTO.getTransferQty());
+        }
+        skuBatchStockRepository.save(targetSkuBatch);
     }
 }

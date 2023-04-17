@@ -1,11 +1,10 @@
 package com.swms.stock.domain.aggregate;
 
+import com.swms.stock.domain.entity.SkuBatchStock;
 import com.swms.stock.domain.repository.ContainerStockRepository;
 import com.swms.stock.domain.repository.SkuBatchStockRepository;
 import com.swms.stock.domain.service.StockManagement;
 import com.swms.stock.domain.transfer.ContainerStockTransfer;
-import com.swms.wms.api.stock.dto.ContainerStockLockDTO;
-import com.swms.wms.api.stock.dto.SkuBatchStockLockDTO;
 import com.swms.wms.api.stock.dto.StockTransferDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @Slf4j
@@ -38,17 +38,15 @@ public class StockAggregate {
     @Transactional
     public void createStock(List<StockTransferDTO> stockTransferDTOS) {
         containerStockRepository.saveAll(containerStockTransfer.toContainerStocks(stockTransferDTOS));
-        skuBatchStockRepository.addStock(stockTransferDTOS);
-    }
 
-    @Transactional
-    public void lockSkuBatchStock(List<SkuBatchStockLockDTO> skuBatchStockLockDTOS) {
-        skuBatchStockRepository.lockStock(skuBatchStockLockDTOS);
-    }
-
-    @Transactional
-    public void lockContainerStock(List<ContainerStockLockDTO> containerStockLockDTOS) {
-        containerStockRepository.lockStock(containerStockLockDTOS);
+        List<Long> skuBatchStockIds = stockTransferDTOS.stream().map(StockTransferDTO::getSkuBatchStockId).toList();
+        List<SkuBatchStock> skuBatchStocks = skuBatchStockRepository.findAllByIds(skuBatchStockIds);
+        skuBatchStocks.forEach(skuBatchStock -> stockTransferDTOS.forEach(skuBatchStockLockDTO -> {
+            if (Objects.equals(skuBatchStock.getId(), skuBatchStockLockDTO.getSkuBatchStockId())) {
+                skuBatchStock.addQty(skuBatchStockLockDTO.getTransferQty());
+            }
+        }));
+        skuBatchStockRepository.saveAll(skuBatchStocks);
     }
 
     /**

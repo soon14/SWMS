@@ -8,15 +8,11 @@ import java.util.List;
 
 public interface SkuBatchStockRepository {
 
+    void save(SkuBatchStock skuBatchStock);
+
     void saveAll(List<SkuBatchStock> toSkuBatchStocks);
 
-    void lockStock(List<SkuBatchStockLockDTO> skuBatchStockLockDTOS);
-
-    void subtractStock(StockTransferDTO stockTransferDTO);
-
-    void subtractAndUnlockStock(StockTransferDTO stockTransferDTO);
-
-    void addStock(List<StockTransferDTO> stockCreateDTOS);
+    SkuBatchStock findById(Long skuBatchStockId);
 
     List<SkuBatchStock> findAllByIds(List<Long> skuBatchIds);
 

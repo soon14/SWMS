@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 public class ContainerStockLockDTO {
-    private Long stockId;
+    private Long containerStockId;
     private StockLockTypeEnum lockType;
     private Integer lockQty;
     private Long taskId;
