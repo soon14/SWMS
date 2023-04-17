@@ -14,12 +14,11 @@ import lombok.Getter;
 public enum InboundErrorDescEnum implements IBaseError {
 
     /**
-     * 入站基本错误
+     * 入库单基本错误
      */
     INBOUND_BASE_ERROR("IN001001", "inbound base error"),
 
-
-    ;
+    INBOUND_STATUS_ERROR("IN001002", "operation failed cause inbound status error");
 
 
     private final String code;

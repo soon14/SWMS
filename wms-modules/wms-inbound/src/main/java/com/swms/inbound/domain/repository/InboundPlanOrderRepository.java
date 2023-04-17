@@ -8,4 +8,7 @@ public interface InboundPlanOrderRepository {
 
     int updateStatusWithOriginalStatus(Long inboundPlanOrderId, InboundPlanOrderStatusEnum targetStatus,
                                        InboundPlanOrderStatusEnum originalStatus);
+
+    InboundPlanOrder findById(Long inboundPlanOrderId);
+
 }

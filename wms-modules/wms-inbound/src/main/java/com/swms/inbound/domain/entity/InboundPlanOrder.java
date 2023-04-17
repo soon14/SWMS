@@ -1,19 +1,16 @@
 package com.swms.inbound.domain.entity;
 
-import com.swms.inbound.domain.repository.InboundPlanOrderDetailRepository;
-import com.swms.inbound.domain.repository.InboundPlanOrderRepository;
-import com.swms.inbound.domain.transfer.InboundPlanOrderDetailTransfer;
-import com.swms.inbound.domain.transfer.InboundPlanOrderTransfer;
+import static com.swms.utils.exception.code_enum.InboundErrorDescEnum.INBOUND_STATUS_ERROR;
+
+import com.google.common.base.Preconditions;
+import com.swms.utils.exception.WmsException;
 import com.swms.wms.api.inbound.constants.InboundPlanOrderStatusEnum;
-import com.swms.wms.api.inbound.dto.InboundPlanOrderDTO;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 import java.util.TreeMap;
 
 @Data
-@RequiredArgsConstructor
 public class InboundPlanOrder {
 
     private Long id;
@@ -45,21 +42,52 @@ public class InboundPlanOrder {
 
     private TreeMap<String, Object> extendFields;
 
-    private InboundPlanOrderRepository inboundPlanOrderRepository;
-    private InboundPlanOrderDetailRepository inboundPlanOrderDetailRepository;
-    private InboundPlanOrderTransfer inboundPlanOrderTransfer;
-    private InboundPlanOrderDetailTransfer inboundPlanOrderDetailTransfer;
+    private List<InboundPlanOrderDetail> inboundPlanOrderDetails;
 
-    public void createInboundPlanOrder(InboundPlanOrderDTO inboundPlanOrderDTO) {
-        InboundPlanOrder inboundPlanOrder = inboundPlanOrderTransfer.toInboundPlanOrder(inboundPlanOrderDTO);
-        inboundPlanOrderRepository.save(inboundPlanOrder);
+    private Long version;
 
-        List<InboundPlanOrderDetail> inboundPlanOrderDetails = inboundPlanOrderDetailTransfer
-            .toInboundPlanOrderDetails(inboundPlanOrderDTO.getInboundPlanOrderDetails());
-        inboundPlanOrderDetailRepository.saveAll(inboundPlanOrderDetails);
+    @Data
+    public static class InboundPlanOrderDetail {
+
+        private Long id;
+
+        private Long inboundPlanOrderId;
+
+        private String containerCode;
+        private String containerSpecCode;
+        private String containerSlotCode;
+
+        private String boxNo;
+
+        private Integer qtyRestocked = 0;
+        private Integer qtyReceived = 0;
+        private Integer qtyAccepted = 0;
+        private Integer qtyPutAway = 0;
+        private Integer qtyAbnormal = 0;
+
+        private String abnormalReason;
+
+        private String skuCode;
+        private String packageCode;
+        private TreeMap<String, Object> batchAttributes = new TreeMap<>();
+        private String skuName;
+        private String ownerCode;
+        private String ownerName;
+
+        private TreeMap<String, Object> extendFields = new TreeMap<>();
     }
 
-    public int cancelInboundPlanOrder(Long inboundPlanOrderId) {
-        return inboundPlanOrderRepository.updateStatusWithOriginalStatus(inboundPlanOrderId, InboundPlanOrderStatusEnum.CANCEL, InboundPlanOrderStatusEnum.NEW);
+    public void cancel() {
+        if (inboundPlanOrderStatus != InboundPlanOrderStatusEnum.NEW) {
+            throw new WmsException(INBOUND_STATUS_ERROR);
+        }
+        this.inboundPlanOrderStatus = InboundPlanOrderStatusEnum.CANCEL;
+    }
+
+    public void beginReceiving() {
+        if (inboundPlanOrderStatus != InboundPlanOrderStatusEnum.NEW) {
+            throw new WmsException(INBOUND_STATUS_ERROR);
+        }
+        this.inboundPlanOrderStatus = InboundPlanOrderStatusEnum.RECEIVING;
     }
 }
