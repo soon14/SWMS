@@ -1,9 +1,9 @@
-package com.swms.wms.basic.container.domain.entity;
+package com.swms.wms.basic.container.infrastructure.persistence.po;
 
 import lombok.Data;
 
 @Data
-public class ContainerSlotSpec {
+public class ContainerSlotSpecPO {
 
     private Long id;
 

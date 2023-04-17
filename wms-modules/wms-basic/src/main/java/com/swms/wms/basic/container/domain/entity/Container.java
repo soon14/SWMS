@@ -4,6 +4,7 @@ import com.swms.wms.api.basic.constants.ContainerStatusEnum;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Data
 public class Container {
@@ -35,6 +36,10 @@ public class Container {
 
     private ContainerStatusEnum containerStatus;
 
+    private Long version;
+
+    private List<ContainerSlot> containerSlots;
+
     public boolean canReceive() {
         return containerStatus == ContainerStatusEnum.CREATED
             || containerStatus == ContainerStatusEnum.OUT_SIDE;
@@ -44,4 +49,20 @@ public class Container {
         return containerStatus == ContainerStatusEnum.WAIT_PUT_AWAY;
     }
 
+    @Data
+    public static class ContainerSlot {
+
+        private Long id;
+
+        private String containerSlotCode;
+        private String containerSlotSpecCode;
+
+        private Long parentId;
+        private String containerCode;
+
+        private BigDecimal occupationRatio;
+
+        // every container slot has a unique location code.
+        private String locationCode;
+    }
 }

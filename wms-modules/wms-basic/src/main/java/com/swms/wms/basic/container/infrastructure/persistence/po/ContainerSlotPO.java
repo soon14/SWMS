@@ -1,11 +1,11 @@
-package com.swms.wms.basic.container.domain.entity;
+package com.swms.wms.basic.container.infrastructure.persistence.po;
 
 import lombok.Data;
 
 import java.math.BigDecimal;
 
 @Data
-public class ContainerSlot {
+public class ContainerSlotPO {
 
     private Long id;
 

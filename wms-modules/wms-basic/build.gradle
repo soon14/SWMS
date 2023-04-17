@@ -24,6 +24,12 @@ dependencies {
     implementation 'com.google.guava:guava'
     implementation 'org.apache.commons:commons-lang3'
     implementation 'org.apache.commons:commons-collections4'
+
+    implementation 'com.baomidou:mybatis-plus-boot-starter'
+
+    implementation 'org.mapstruct:mapstruct'
+    implementation group: 'org.mapstruct', name: 'mapstruct-processor'
+    implementation group: 'org.projectlombok', name: 'lombok-mapstruct-binding'
 }
 
 test {
