@@ -1,15 +1,15 @@
-package com.swms.wms.basic.warehouse.domain.entity;
+package com.swms.wms.basic.warehouse.infrastructure.persistence.po;
 
-import com.swms.wms.api.basic.dto.AddressDTO;
 import lombok.Data;
 
 @Data
-public class Owner {
+public class OwnerPO {
     private Long id;
 
     // unique identifier
     private String ownerCode;
     private String ownerName;
+
 
     private String person;
     private String tel;
@@ -17,8 +17,10 @@ public class Owner {
     private String email;
     private String website;
 
-    private AddressDTO address;
-
+    private String province;
+    private String city;
+    private String district;
+    private String address;
     private String remark;
 
     private String batchAttributeConfigCode;

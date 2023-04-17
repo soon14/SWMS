@@ -1,11 +1,9 @@
-package com.swms.wms.basic.warehouse.domain.entity;
+package com.swms.wms.basic.warehouse.infrastructure.persistence.po;
 
-import com.swms.wms.api.basic.dto.AddressDTO;
-import com.swms.wms.api.basic.dto.ManagerDTO;
 import lombok.Data;
 
 @Data
-public class Warehouse {
+public class WarehousePO {
 
     private Long id;
     // unique identifier
@@ -15,9 +13,15 @@ public class Warehouse {
     private String area;
     private String capacity;
 
-    private ManagerDTO manager;
+    private String manager;
+    private String managerTel;
+    private String managerMail;
+    private String managerFax;
 
-    private AddressDTO address;
+    private String province;
+    private String city;
+    private String district;
+    private String address;
 
     private String remark;
 
