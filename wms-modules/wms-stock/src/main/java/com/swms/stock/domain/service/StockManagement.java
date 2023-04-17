@@ -1,6 +1,5 @@
 package com.swms.stock.domain.service;
 
-import com.google.common.collect.Lists;
 import com.swms.stock.domain.entity.ContainerStock;
 import com.swms.stock.domain.entity.ContainerStockTransactionRecord;
 import com.swms.stock.domain.entity.SkuBatchStock;
@@ -29,13 +28,16 @@ public class StockManagement {
     @Autowired
     private ContainerStockTransactionRecordRepository containerStockTransactionRecordRepository;
 
-    public ContainerStockTransactionRecord saveContainerStockTransactionRecord(ContainerStockTransactionRecord record) {
-        return containerStockTransactionRecordRepository.save(record);
+    public void saveContainerStockTransactionRecord(ContainerStockTransactionRecord record) {
+        containerStockTransactionRecordRepository.save(record);
     }
 
     public void transferContainerStock(StockTransferDTO stockTransferDTO, boolean unlock) {
 
-        containerStockTransactionRecordRepository.updateProcessed(stockTransferDTO.getContainerStockTransactionRecordId());
+        ContainerStockTransactionRecord transactionRecord = containerStockTransactionRecordRepository
+            .findById(stockTransferDTO.getContainerStockTransactionRecordId());
+        transactionRecord.setProcessed(true);
+        containerStockTransactionRecordRepository.save(transactionRecord);
 
         ContainerStock containerStock = containerStockRepository.findById(stockTransferDTO.getContainerStockId());
         if (Objects.equals(containerStock.getContainerCode(), stockTransferDTO.getTargetContainerCode())) {
@@ -52,7 +54,7 @@ public class StockManagement {
         containerStockRepository.save(containerStock);
 
         //need add or update container stock
-        ContainerStock targetContainerStock = containerStockRepository.existsByContainerCodeAndContainerSlotCodeAndSkuBatchAttributeId(
+        ContainerStock targetContainerStock = containerStockRepository.findByContainerAndSlotAndBatchAttribute(
             stockTransferDTO.getTargetContainerCode(), stockTransferDTO.getTargetContainerSlotCode(),
             stockTransferDTO.getSkuBatchAttributeId());
         if (targetContainerStock != null) {

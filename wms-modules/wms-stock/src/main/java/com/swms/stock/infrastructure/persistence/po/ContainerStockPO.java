@@ -1,5 +1,10 @@
-package com.swms.stock.Infrastructure.persistence.po;
+package com.swms.stock.infrastructure.persistence.po;
 
+import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
+
+@Data
+@TableName(value = "container_stock")
 public class ContainerStockPO {
 
     private Long id;

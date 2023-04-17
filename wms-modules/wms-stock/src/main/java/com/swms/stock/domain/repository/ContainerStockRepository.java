@@ -16,5 +16,5 @@ public interface ContainerStockRepository {
 
     List<ContainerStock> findAllByIds(List<Long> containerStockIds);
 
-    ContainerStock existsByContainerCodeAndContainerSlotCodeAndSkuBatchAttributeId(String targetContainerCode, String targetContainerSlotCode, Long skuBatchAttributeId);
+    ContainerStock findByContainerAndSlotAndBatchAttribute(String targetContainerCode, String targetContainerSlotCode, Long skuBatchAttributeId);
 }

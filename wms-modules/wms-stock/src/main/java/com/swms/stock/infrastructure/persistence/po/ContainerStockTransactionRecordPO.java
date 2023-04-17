@@ -1,10 +1,11 @@
-package com.swms.stock.domain.entity;
+package com.swms.stock.infrastructure.persistence.po;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 @Data
-public class ContainerStockTransactionRecord {
-
+@TableName("container_stock_transaction_record")
+public class ContainerStockTransactionRecordPO {
     private Long id;
     private Long containerStockId;
     private Long batchAttributeId;
@@ -21,7 +22,7 @@ public class ContainerStockTransactionRecord {
 
     private Integer transferQty;
 
-    private boolean processed;
+    private Boolean processed;
 
     private Long version;
 }

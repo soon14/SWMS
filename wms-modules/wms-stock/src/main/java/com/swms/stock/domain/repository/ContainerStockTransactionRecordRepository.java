@@ -4,7 +4,7 @@ import com.swms.stock.domain.entity.ContainerStockTransactionRecord;
 
 public interface ContainerStockTransactionRecordRepository {
 
-    ContainerStockTransactionRecord save(ContainerStockTransactionRecord record);
+    void save(ContainerStockTransactionRecord transactionRecord);
 
-    void updateProcessed(Long id);
+    ContainerStockTransactionRecord findById(Long containerStockTransactionRecordId);
 }
