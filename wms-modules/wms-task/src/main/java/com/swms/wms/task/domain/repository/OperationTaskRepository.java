@@ -12,9 +12,6 @@ public interface OperationTaskRepository {
 
     List<OperationTask> queryContainerTasksByTaskType(String stationCode, List<String> containerCodes, OperationTaskTypeEnum taskType);
 
-    // There will be some logic to set the status and abnormal qty of the operation
-    void updateTasks(HandleTaskDTO handleTaskDTOS);
-
     List<OperationTask> findAllByIds(List<Long> taskIds);
 
     List<OperationTask> findAllByPutWallSlotCode(String putWallSlotCode);

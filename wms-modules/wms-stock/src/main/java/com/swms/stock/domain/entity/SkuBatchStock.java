@@ -2,7 +2,8 @@ package com.swms.stock.domain.entity;
 
 import com.google.common.base.Preconditions;
 import com.swms.wms.api.stock.constants.StockLockTypeEnum;
-import lombok.Data;
+import lombok.Builder;
+import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -11,7 +12,8 @@ import org.apache.commons.lang3.StringUtils;
  * 2. stock transfer from one area to another area in warehouse;
  * 3. stock subtraction by shipping. if our system don't contain shipping module, then scheduled delete shipping area stock;
  */
-@Data
+@Getter
+@Builder
 public class SkuBatchStock {
 
     private Long id;
@@ -43,7 +45,8 @@ public class SkuBatchStock {
         Preconditions.checkState(this.outboundLockedQty > 0, "outbound lock qty must be greater than 0");
         Preconditions.checkState(this.noOutboundLockedQty > 0, "no outbound lock qty must be greater than 0");
         Preconditions.checkState(this.totalQty == this.availableQty + this.outboundLockedQty + this.noOutboundLockedQty,
-            "no outbound lock qty must be greater than 0");
+            "total qty must equals availableQty + noOutboundLockedQty + o" +
+                "utboundLockedQty");
     }
 
     public void lockQty(Integer lockQty, StockLockTypeEnum stockLockType) {
@@ -59,6 +62,7 @@ public class SkuBatchStock {
     public void addQty(Integer addQty) {
         this.totalQty += addQty;
         this.availableQty += addQty;
+        validateQty();
     }
 
     public void addAndLockQty(Integer addQty, StockLockTypeEnum stockLockType) {

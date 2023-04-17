@@ -1,11 +1,9 @@
-package com.swms.wms.task.domain.entity;
+package com.swms.wms.task.infrastructure.persistence.po;
 
-import lombok.Builder;
 import lombok.Data;
 
 @Data
-@Builder
-public class TransferContainerTaskRelation {
+public class TransferContainerTaskRelationPO {
 
     private Long id;
     private Long transferContainerId;

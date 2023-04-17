@@ -12,7 +12,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 public class OperationTaskService {
@@ -36,23 +38,28 @@ public class OperationTaskService {
     public void handleTasks(HandleTaskDTO handleTaskDTO) {
 
         //1. update operatedQty and status and abnormalQty
-        operationTaskRepository.updateTasks(handleTaskDTO);
+        Map<Long, HandleTaskDTO.HandleTask> handleTaskMap = handleTaskDTO.getHandleTasks().stream()
+            .collect(Collectors.toMap(HandleTaskDTO.HandleTask::getTaskId, v -> v));
+        List<OperationTask> operationTasks = operationTaskRepository.findAllByIds(handleTaskDTO.getHandleTasks()
+            .stream().map(HandleTaskDTO.HandleTask::getTaskId).toList());
+        operationTasks.forEach(operationTask -> {
+            HandleTaskDTO.HandleTask handleTask = handleTaskMap.get(operationTask.getId());
+            operationTask.operate(handleTask.getOperatedQty(), handleTask.getAbnormalQty(), handleTask.getTaskStatus());
+        });
+        operationTaskRepository.saveAll(operationTasks);
 
         //2. create new tasks
         if (handleTaskDTO.getHandleTaskType() == HandleTaskDTO.HandleTaskTypeEnum.SPLIT) {
-            List<HandleTaskDTO.HandleTask> splitTasks = handleTaskDTO.getHandleTasks().stream()
+            List<OperationTask> splitTasks = operationTasks.stream()
                 .filter(v -> !Objects.equals(v.getRequiredQty(), v.getOperatedQty()) && v.getOperatedQty() > 0).toList();
-            List<Long> taskIds = splitTasks.stream().map(HandleTaskDTO.HandleTask::getTaskId).toList();
-
-            List<OperationTask> operationTasks = operationTaskRepository.findAllByIds(taskIds);
-            operationTasks.forEach(operationTask -> {
+            splitTasks.forEach(operationTask -> {
                 operationTask.setId(null);
                 operationTask.setRequiredQty(operationTask.getRequiredQty() - operationTask.getOperatedQty());
                 operationTask.setAbnormalQty(0);
                 operationTask.setTaskNo(null);
                 operationTask.setTaskStatus(OperationTaskStatusEnum.CREATED);
             });
-            operationTaskRepository.saveAll(operationTasks);
+            operationTaskRepository.saveAll(splitTasks);
         }
     }
 

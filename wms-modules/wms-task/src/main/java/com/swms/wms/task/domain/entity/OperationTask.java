@@ -1,10 +1,13 @@
 package com.swms.wms.task.domain.entity;
 
+import com.google.common.base.Preconditions;
 import com.swms.wms.api.stock.constants.StockLockTypeEnum;
 import com.swms.wms.api.task.constants.OperationTaskStatusEnum;
 import com.swms.wms.api.task.constants.OperationTaskTypeEnum;
 import com.swms.wms.api.basic.constants.WarehouseAreaCodeEnum;
+import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 
 @Data
 public class OperationTask {
@@ -39,6 +42,19 @@ public class OperationTask {
 
     private OperationTaskStatusEnum taskStatus;
 
+
+    public void validateQty() {
+        Preconditions.checkState(this.requiredQty > 0, "operated qty must be greater 0");
+        Preconditions.checkState(this.operatedQty >= 0, "operated qty must be greater and equal to 0");
+        Preconditions.checkState(this.abnormalQty >= 0, "abnormal qty must be greater and equal to 0");
+    }
+
+    public void operate(Integer operatedQty, Integer abnormalQty, OperationTaskStatusEnum taskStatus) {
+        this.operatedQty -= operatedQty;
+        this.abnormalQty += abnormalQty;
+        validateQty();
+        this.taskStatus = taskStatus;
+    }
 
     public StockLockTypeEnum transferToLockType() {
         if (taskType == OperationTaskTypeEnum.PICKING) {

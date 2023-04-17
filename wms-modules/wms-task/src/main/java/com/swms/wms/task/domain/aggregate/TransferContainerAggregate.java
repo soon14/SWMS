@@ -3,44 +3,25 @@ package com.swms.wms.task.domain.aggregate;
 import com.swms.wms.api.task.dto.SealContainerDTO;
 import com.swms.wms.task.domain.entity.OperationTask;
 import com.swms.wms.task.domain.entity.TransferContainer;
-import com.swms.wms.task.domain.entity.TransferContainerTaskRelation;
 import com.swms.wms.task.domain.repository.TransferContainerRepository;
-import com.swms.wms.task.domain.repository.TransferContainerTaskRelationRepository;
 import com.swms.wms.task.domain.service.OperationTaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
 public class TransferContainerAggregate {
 
-//    private Long id;
-//    private String transferContainerCode;
-//    private String stationCode;
-//    private String putWallSlot;
-//
-//    private Integer index;
-//    private Integer total;
-//
-//    private String destination;
-//
-//    private List<OperationTask> operationTasks;
-
-//    @Autowired
-//    private List<TransferContainerTaskRelation> transferContainerTaskRelations;
-
     @Autowired
     private TransferContainerRepository transferContainerRepository;
 
     @Autowired
-    private TransferContainerTaskRelationRepository transferContainerTaskRelationRepository;
-
-    @Autowired
     private OperationTaskService taskService;
 
+    @Transactional
     public void sealContainer(SealContainerDTO sealContainerDTO) {
-        //1. create transfer container
         TransferContainer transferContainer = new TransferContainer();
         transferContainer.setTransferContainerCode(sealContainerDTO.getContainerCode());
         transferContainer.setStationCode(sealContainerDTO.getStationCode());
@@ -50,16 +31,13 @@ public class TransferContainerAggregate {
         transferContainer.setTotal(calcTotal());
         transferContainer.setDestination(calcDestination());
 
-        transferContainerRepository.save(transferContainer);
-
-        //2. create transfer container and operation task relationship
         List<OperationTask> operationTasks = taskService.queryContainerTasksByPutWallSlotCode(sealContainerDTO.getPutWallSlotCode());
-        List<TransferContainerTaskRelation> transferContainerTaskRelations = operationTasks.stream().map(operationTask -> {
-            return TransferContainerTaskRelation.builder().transferContainerId(transferContainer.getId())
-                .operationTaskId(operationTask.getId()).build();
-        }).toList();
-        transferContainerTaskRelationRepository.saveAll(transferContainerTaskRelations);
+        List<TransferContainer.TransferContainerTaskRelation> transferContainerTaskRelations = operationTasks.stream()
+            .map(operationTask -> TransferContainer.TransferContainerTaskRelation.builder().transferContainerId(transferContainer.getId())
+                .operationTaskId(operationTask.getId()).build()).toList();
+        transferContainer.setTransferContainerTasks(transferContainerTaskRelations);
 
+        transferContainerRepository.save(transferContainer);
     }
 
     private String calcDestination() {
