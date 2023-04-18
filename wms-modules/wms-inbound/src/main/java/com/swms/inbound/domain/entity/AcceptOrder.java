@@ -5,6 +5,7 @@ import com.swms.wms.api.inbound.constants.AcceptOrderStatusEnum;
 import lombok.Data;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -32,13 +33,13 @@ public class AcceptOrder {
     private Long totalQty;
     private Integer totalBox;
 
-    private TreeMap<String, Object> extendFields;
+    private Map<String, Object> extendFields;
 
     private AcceptOrderStatusEnum acceptOrderStatus;
 
     private List<AcceptOrderDetail> acceptOrderDetails;
 
-    public void accept(Integer acceptQty, Long acceptOrderDetailId, SortedMap<String, Object> batchAttributes) {
+    public void accept(Integer acceptQty, Long acceptOrderDetailId, Map<String, Object> batchAttributes) {
         Optional<AcceptOrderDetail> optional = this.getAcceptOrderDetails().stream()
             .filter(v -> v.getId().equals(acceptOrderDetailId))
             .findFirst();
@@ -86,16 +87,16 @@ public class AcceptOrder {
 
         private String skuCode;
         private String packageCode;
-        private SortedMap<String, Object> batchAttributes = new TreeMap<>();
+        private Map<String, Object> batchAttributes = new TreeMap<>();
         private String skuName;
         private String ownerCode;
         private String ownerName;
 
         private String stationCode;
 
-        private TreeMap<String, Object> extendFields = new TreeMap<>();
+        private Map<String, Object> extendFields = new TreeMap<>();
 
-        public void accept(Integer acceptQty, SortedMap<String, Object> batchAttributes) {
+        public void accept(Integer acceptQty, Map<String, Object> batchAttributes) {
             this.qtyAccepted += acceptQty;
             this.batchAttributes = batchAttributes;
             validateQty();

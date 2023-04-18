@@ -3,6 +3,7 @@ package com.swms.inbound.domain.entity;
 import com.swms.wms.api.inbound.constants.ReceiveOrderStatusEnum;
 import lombok.Data;
 
+import java.util.Map;
 import java.util.TreeMap;
 
 @Data
@@ -28,7 +29,7 @@ public class ReceiveOrder {
     private Long totalQty;
     private Integer totalBox;
 
-    private TreeMap<String, Object> extendFields;
+    private Map<String, Object> extendFields;
 
     private ReceiveOrderStatusEnum receiveOrderStatus;
 
@@ -56,11 +57,11 @@ public class ReceiveOrder {
 
         private String skuCode;
         private String packageCode;
-        private TreeMap<String, Object> batchAttributes = new TreeMap<>();
+        private Map<String, Object> batchAttributes = new TreeMap<>();
         private String skuName;
         private String ownerCode;
         private String ownerName;
 
-        private TreeMap<String, Object> extendFields = new TreeMap<>();
+        private Map<String, Object> extendFields = new TreeMap<>();
     }
 }

@@ -4,6 +4,7 @@ import com.swms.wms.api.inbound.constants.AcceptOrderStatusEnum;
 import lombok.Data;
 
 import java.util.List;
+import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -30,7 +31,7 @@ public class PutAwayTask {
     private Long totalQty;
     private Integer totalBox;
 
-    private TreeMap<String, Object> extendFields;
+    private Map<String, Object> extendFields;
 
     private AcceptOrderStatusEnum acceptOrderStatus;
 
@@ -62,13 +63,13 @@ public class PutAwayTask {
 
         private String skuCode;
         private String packageCode;
-        private SortedMap<String, Object> batchAttributes = new TreeMap<>();
+        private Map<String, Object> batchAttributes = new TreeMap<>();
         private String skuName;
         private String ownerCode;
         private String ownerName;
 
         private String stationCode;
 
-        private TreeMap<String, Object> extendFields = new TreeMap<>();
+        private Map<String, Object> extendFields = new TreeMap<>();
     }
 }

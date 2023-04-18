@@ -2,7 +2,7 @@ package com.swms.wms.api.inbound.dto;
 
 import lombok.Data;
 
-import java.util.SortedMap;
+import java.util.Map;
 
 @Data
 public class AcceptRecordDTO {
@@ -10,7 +10,7 @@ public class AcceptRecordDTO {
     private Long acceptOrderId;
     private Long acceptOrderDetailId;
     private String skuCode;
-    private SortedMap<String, Object> batchAttributes;
+    private Map<String, Object> batchAttributes;
     private Integer acceptQty;
 
     private String containerCode;
