@@ -46,9 +46,9 @@ public class ReceiveOrder {
 
         private String boxNo;
 
+        private Integer qtyRestocked = 0;
         private Integer qtyReceived = 0;
         private Integer qtyAccepted = 0;
-        private Integer qtyPutAway = 0;
         private Integer qtyAbnormal = 0;
 
         private String rejectContainerCode;

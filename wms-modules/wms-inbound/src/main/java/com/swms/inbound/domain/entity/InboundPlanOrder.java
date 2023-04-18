@@ -2,7 +2,6 @@ package com.swms.inbound.domain.entity;
 
 import static com.swms.utils.exception.code_enum.InboundErrorDescEnum.INBOUND_STATUS_ERROR;
 
-import com.google.common.base.Preconditions;
 import com.swms.utils.exception.WmsException;
 import com.swms.wms.api.inbound.constants.InboundPlanOrderStatusEnum;
 import lombok.Data;
@@ -46,6 +45,37 @@ public class InboundPlanOrder {
 
     private Long version;
 
+    public void cancel() {
+        if (inboundPlanOrderStatus != InboundPlanOrderStatusEnum.NEW) {
+            throw new WmsException(INBOUND_STATUS_ERROR);
+        }
+        this.inboundPlanOrderStatus = InboundPlanOrderStatusEnum.CANCEL;
+    }
+
+    public void beginReceiving() {
+        if (inboundPlanOrderStatus != InboundPlanOrderStatusEnum.NEW) {
+            throw new WmsException(INBOUND_STATUS_ERROR);
+        }
+        this.inboundPlanOrderStatus = InboundPlanOrderStatusEnum.RECEIVING;
+    }
+
+    public void endReceiving() {
+        if (inboundPlanOrderStatus != InboundPlanOrderStatusEnum.NEW
+            && inboundPlanOrderStatus != InboundPlanOrderStatusEnum.RECEIVING) {
+            throw new WmsException(INBOUND_STATUS_ERROR);
+        }
+        this.inboundPlanOrderStatus = InboundPlanOrderStatusEnum.RECEIVED;
+    }
+
+    public void endAccept() {
+        if (inboundPlanOrderStatus != InboundPlanOrderStatusEnum.NEW
+            && inboundPlanOrderStatus != InboundPlanOrderStatusEnum.RECEIVING
+            && inboundPlanOrderStatus != InboundPlanOrderStatusEnum.RECEIVED) {
+            throw new WmsException(INBOUND_STATUS_ERROR);
+        }
+        this.inboundPlanOrderStatus = InboundPlanOrderStatusEnum.RECEIVED;
+    }
+
     @Data
     public static class InboundPlanOrderDetail {
 
@@ -62,7 +92,6 @@ public class InboundPlanOrder {
         private Integer qtyRestocked = 0;
         private Integer qtyReceived = 0;
         private Integer qtyAccepted = 0;
-        private Integer qtyPutAway = 0;
         private Integer qtyAbnormal = 0;
 
         private String abnormalReason;
@@ -77,17 +106,4 @@ public class InboundPlanOrder {
         private TreeMap<String, Object> extendFields = new TreeMap<>();
     }
 
-    public void cancel() {
-        if (inboundPlanOrderStatus != InboundPlanOrderStatusEnum.NEW) {
-            throw new WmsException(INBOUND_STATUS_ERROR);
-        }
-        this.inboundPlanOrderStatus = InboundPlanOrderStatusEnum.CANCEL;
-    }
-
-    public void beginReceiving() {
-        if (inboundPlanOrderStatus != InboundPlanOrderStatusEnum.NEW) {
-            throw new WmsException(INBOUND_STATUS_ERROR);
-        }
-        this.inboundPlanOrderStatus = InboundPlanOrderStatusEnum.RECEIVING;
-    }
 }
