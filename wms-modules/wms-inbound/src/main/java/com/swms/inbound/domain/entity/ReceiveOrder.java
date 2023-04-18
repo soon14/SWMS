@@ -4,6 +4,7 @@ import com.swms.wms.api.inbound.constants.ReceiveOrderStatusEnum;
 import lombok.Data;
 
 import java.util.Map;
+import java.util.SortedMap;
 import java.util.TreeMap;
 
 @Data
@@ -57,7 +58,7 @@ public class ReceiveOrder {
 
         private String skuCode;
         private String packageCode;
-        private Map<String, Object> batchAttributes = new TreeMap<>();
+        private SortedMap<String, Object> batchAttributes = new TreeMap<>();
         private String skuName;
         private String ownerCode;
         private String ownerName;

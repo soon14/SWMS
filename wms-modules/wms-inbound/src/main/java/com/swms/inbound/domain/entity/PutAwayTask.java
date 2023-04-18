@@ -63,7 +63,7 @@ public class PutAwayTask {
 
         private String skuCode;
         private String packageCode;
-        private Map<String, Object> batchAttributes = new TreeMap<>();
+        private SortedMap<String, Object> batchAttributes = new TreeMap<>();
         private String skuName;
         private String ownerCode;
         private String ownerName;

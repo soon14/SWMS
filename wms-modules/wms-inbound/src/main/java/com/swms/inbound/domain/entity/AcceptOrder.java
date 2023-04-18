@@ -39,7 +39,7 @@ public class AcceptOrder {
 
     private List<AcceptOrderDetail> acceptOrderDetails;
 
-    public void accept(Integer acceptQty, Long acceptOrderDetailId, Map<String, Object> batchAttributes) {
+    public void accept(Integer acceptQty, Long acceptOrderDetailId, SortedMap<String, Object> batchAttributes) {
         Optional<AcceptOrderDetail> optional = this.getAcceptOrderDetails().stream()
             .filter(v -> v.getId().equals(acceptOrderDetailId))
             .findFirst();
@@ -87,7 +87,7 @@ public class AcceptOrder {
 
         private String skuCode;
         private String packageCode;
-        private Map<String, Object> batchAttributes = new TreeMap<>();
+        private SortedMap<String, Object> batchAttributes = new TreeMap<>();
         private String skuName;
         private String ownerCode;
         private String ownerName;
@@ -96,7 +96,7 @@ public class AcceptOrder {
 
         private Map<String, Object> extendFields = new TreeMap<>();
 
-        public void accept(Integer acceptQty, Map<String, Object> batchAttributes) {
+        public void accept(Integer acceptQty, SortedMap<String, Object> batchAttributes) {
             this.qtyAccepted += acceptQty;
             this.batchAttributes = batchAttributes;
             validateQty();
