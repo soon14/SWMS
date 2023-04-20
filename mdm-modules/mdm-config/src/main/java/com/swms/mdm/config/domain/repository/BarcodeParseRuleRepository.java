@@ -1,6 +1,7 @@
 package com.swms.mdm.config.domain.repository;
 
-import com.google.common.collect.Collections2;
+import com.swms.mdm.api.config.constants.BusinessFlowEnum;
+import com.swms.mdm.api.config.constants.ExecuteTimeEnum;
 import com.swms.mdm.config.domain.entity.BarcodeParseRule;
 
 import java.util.List;
@@ -15,4 +16,8 @@ public interface BarcodeParseRuleRepository {
     List<BarcodeParseRule> findAll();
 
     BarcodeParseRule findById(Long barcodeParseRuleId);
+
+    List<BarcodeParseRule> find(BusinessFlowEnum businessFlow, ExecuteTimeEnum executeTime);
+
+    List<BarcodeParseRule> findByOwnerCodeOrderBrand(String ownerCode, String brand);
 }

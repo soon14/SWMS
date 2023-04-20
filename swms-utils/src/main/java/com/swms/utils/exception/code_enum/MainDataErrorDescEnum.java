@@ -10,7 +10,9 @@ public enum MainDataErrorDescEnum implements IBaseError {
      */
     MAIN_DATA_BASE_ERROR("MD001001", "main data base error"),
 
-    BARCODE_PARSER_RESULT_CONFIG_NOT_MATCH("MD001002", "barcode parse result field size & config field size not match");
+    BARCODE_PARSER_RESULT_CONFIG_NOT_MATCH("MD001002", "barcode parse result field size & config field size not match"),
+
+    BARCODE_PARSE_RULE_REPEAT("MD001003", "barcode parse rule repeated");
 
     private final String code;
 

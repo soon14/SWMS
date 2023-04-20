@@ -7,6 +7,7 @@ import com.swms.mdm.api.config.dto.BarcodeParseResult;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 import java.util.regex.Matcher;
@@ -21,7 +22,7 @@ public class BarcodeParseRule {
     private String code;
     private String name;
 
-    private String customerCode;
+    private String ownerCode;
 
     private ExecuteTimeEnum executeTime;
     private BusinessFlowEnum businessFlow;
@@ -87,5 +88,26 @@ public class BarcodeParseRule {
 
     public void disable() {
         this.enable = false;
+    }
+
+    public boolean match(String ownerCode, String brand) {
+        return matchOwner(ownerCode) && matchBrand(brand);
+    }
+
+    /**
+     * when choose * ,it means all
+     *
+     * @param ownerCode
+     *
+     * @return
+     */
+    public boolean matchOwner(String ownerCode) {
+        return StringUtils.equals(this.ownerCode, "*") || StringUtils.equals(ownerCode, "*")
+            || StringUtils.equals(this.ownerCode, ownerCode);
+    }
+
+    public boolean matchBrand(String brand) {
+        return StringUtils.equals(this.brand, "*") || StringUtils.equals(brand, "*") ||
+            StringUtils.equals(this.brand, brand);
     }
 }
