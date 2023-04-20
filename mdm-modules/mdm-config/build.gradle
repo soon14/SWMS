@@ -10,8 +10,19 @@ repositories {
 }
 
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+    implementation project(path: ":mdm-modules:mdm-api", configuration: 'default')
+    implementation project(path: ":swms-utils", configuration: 'default')
+
+    implementation 'org.springframework:spring-tx'
+    implementation 'com.google.guava:guava'
+    implementation 'org.apache.commons:commons-lang3'
+    implementation 'org.apache.commons:commons-collections4'
+
+    implementation 'org.mapstruct:mapstruct'
+    implementation group: 'org.mapstruct', name: 'mapstruct-processor'
+    implementation group: 'org.projectlombok', name: 'lombok-mapstruct-binding'
+
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
 }
 
 test {

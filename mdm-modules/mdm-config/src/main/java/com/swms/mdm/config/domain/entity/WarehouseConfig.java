@@ -1,4 +1,4 @@
 package com.swms.mdm.config.domain.entity;
 
-public class WarehouseConfig {
+public class WarehouseConfig extends BaseConfig {
 }

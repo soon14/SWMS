@@ -23,3 +23,5 @@
    distributedLock.acquireLock("lockKey", 1000);
    distributedLock.releaseLock("lockKey");
    ```
+8. String type field length must be less than 255, if you want to store more than 255 characters, use text type and
+   spilt it into another table.   

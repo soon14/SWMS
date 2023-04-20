@@ -1,6 +1,7 @@
 package com.swms.mdm.main.data.domain.entity;
 
 import com.swms.mdm.api.main.data.dto.SkuAttributeDTO;
+import com.swms.mdm.api.main.data.dto.SkuConfigDTO;
 import com.swms.mdm.api.main.data.dto.VolumeDTO;
 import com.swms.mdm.api.main.data.dto.WeightDTO;
 import lombok.Data;
@@ -25,6 +26,7 @@ public class SkuMainData {
     private VolumeDTO volume;
 
     private SkuAttributeDTO skuAttribute;
+    private SkuConfigDTO skuConfig;
 
     private Long version;
 }
