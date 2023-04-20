@@ -1,19 +1,13 @@
 package com.swms.mdm.api.main.data;
 
 
-import com.swms.mdm.api.main.data.constants.WarehouseDTO;
+import com.swms.mdm.api.main.data.dto.WarehouseMainDataDTO;
 
 public interface IWarehouseApi {
 
-    void createWarehouse(WarehouseDTO warehouseDTO);
+    void createWarehouse(WarehouseMainDataDTO warehouseDTO);
 
-    void updateWarehouse(WarehouseDTO warehouseDTO);
+    void updateWarehouse(WarehouseMainDataDTO warehouseDTO);
 
-    void enableWarehouse(Long id);
-
-    void disableWarehouse(Long id);
-
-    void deleteWarehouse(WarehouseDTO warehouseDTO);
-
-    WarehouseDTO getWarehouse(String warehouseCode);
+    WarehouseMainDataDTO getWarehouse(String warehouseCode);
 }
