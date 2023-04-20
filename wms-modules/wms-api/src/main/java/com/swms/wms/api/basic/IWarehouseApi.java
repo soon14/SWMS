@@ -1,7 +1,6 @@
 package com.swms.wms.api.basic;
 
 import com.swms.wms.api.basic.dto.WarehouseDTO;
-import com.swms.wms.api.basic.dto.WarehouseGroupDTO;
 
 public interface IWarehouseApi {
 

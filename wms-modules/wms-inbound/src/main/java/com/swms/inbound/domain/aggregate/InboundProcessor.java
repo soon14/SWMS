@@ -74,8 +74,11 @@ public class InboundProcessor {
 
     public void accept(AcceptRecordDTO acceptRecord) {
         AcceptOrder acceptOrder = acceptOrderRepository.findById(acceptRecord.getAcceptOrderId());
-        acceptOrder.accept(acceptRecord.getAcceptQty(), acceptRecord.getAcceptOrderDetailId(), acceptRecord.getBatchAttributes());
+        AcceptOrder.AcceptOrderDetail acceptOrderDetail = acceptOrder.
+            accept(acceptRecord.getAcceptQty(), acceptRecord.getAcceptOrderDetailId(), acceptRecord.getBatchAttributes());
         acceptOrderRepository.save(acceptOrder);
+
+        acceptOrderRepository.saveDetail(acceptOrderDetail);
     }
 
     public void completeAccepting(Long acceptOrderId) {

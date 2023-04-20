@@ -1,6 +1,6 @@
-package com.swms.wms.basic.warehouse.domain.entity;
+package com.swms.mdm.main.data.domain.entity;
 
-import com.swms.wms.api.basic.dto.AddressDTO;
+import com.swms.mdm.api.main.data.dto.AddressDTO;
 import lombok.Data;
 
 @Data

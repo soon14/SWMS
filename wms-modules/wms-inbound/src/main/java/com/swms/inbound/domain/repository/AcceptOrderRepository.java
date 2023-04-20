@@ -9,4 +9,5 @@ public interface AcceptOrderRepository {
 
     AcceptOrder findById(Long acceptOrderId);
 
+    void saveDetail(AcceptOrder.AcceptOrderDetail acceptOrderDetail);
 }

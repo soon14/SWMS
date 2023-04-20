@@ -39,7 +39,7 @@ public class AcceptOrder {
 
     private List<AcceptOrderDetail> acceptOrderDetails;
 
-    public void accept(Integer acceptQty, Long acceptOrderDetailId, SortedMap<String, Object> batchAttributes) {
+    public AcceptOrderDetail accept(Integer acceptQty, Long acceptOrderDetailId, SortedMap<String, Object> batchAttributes) {
         Optional<AcceptOrderDetail> optional = this.getAcceptOrderDetails().stream()
             .filter(v -> v.getId().equals(acceptOrderDetailId))
             .findFirst();
@@ -47,6 +47,8 @@ public class AcceptOrder {
 
         AcceptOrderDetail acceptOrderDetail = optional.get();
         acceptOrderDetail.accept(acceptQty, batchAttributes);
+
+        return acceptOrderDetail;
     }
 
     public void beginAccepting() {
