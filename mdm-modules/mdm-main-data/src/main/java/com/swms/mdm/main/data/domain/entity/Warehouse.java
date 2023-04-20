@@ -3,11 +3,11 @@ package com.swms.mdm.main.data.domain.entity;
 import com.swms.mdm.api.config.dto.WarehouseConfigDTO;
 import com.swms.mdm.api.main.data.dto.AddressDTO;
 import com.swms.mdm.api.main.data.dto.ContactorDTO;
-import com.swms.mdm.api.main.data.dto.WarehouseAttrTypeEnum;
-import com.swms.mdm.api.main.data.dto.WarehouseBusinessTypeEnum;
-import com.swms.mdm.api.main.data.dto.WarehouseLevelEnum;
-import com.swms.mdm.api.main.data.dto.WarehouseStructureTypeEnum;
-import com.swms.mdm.api.main.data.dto.WarehouseTypeEnum;
+import com.swms.mdm.api.main.data.constants.WarehouseAttrTypeEnum;
+import com.swms.mdm.api.main.data.constants.WarehouseBusinessTypeEnum;
+import com.swms.mdm.api.main.data.constants.WarehouseLevelEnum;
+import com.swms.mdm.api.main.data.constants.WarehouseStructureTypeEnum;
+import com.swms.mdm.api.main.data.constants.WarehouseTypeEnum;
 import lombok.Data;
 
 @Data

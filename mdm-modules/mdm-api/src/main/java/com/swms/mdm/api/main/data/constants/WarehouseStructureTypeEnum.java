@@ -1,4 +1,4 @@
-package com.swms.mdm.api.main.data.dto;
+package com.swms.mdm.api.main.data.constants;
 
 import lombok.Getter;
 
