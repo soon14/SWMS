@@ -6,13 +6,15 @@ spring:
   cloud:
     nacos:
       config:
-        server-addr: ${nacos.hairoutech.com:172.18.35.23}:${nacos.port:8181}
+        server-addr: ${nacos.hairoutech.com:192.168.83.128}:${nacos.port:8848}
         prefix: ${spring.application.name}
         file-extension: yml
         namespace: ${spring.profiles.active}
         group: swms
         username: nacos
         password: nacos
+        import-check:
+          enabled: false
 
 server:
   port: 9001

@@ -18,6 +18,7 @@ dependencies {
     testImplementation 'org.powermock:powermock-module-junit4-rule'
     testImplementation 'org.powermock:powermock-classloading-xstream'
 
+    implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation project(path: ":station-modules:station", configuration: 'default')
 

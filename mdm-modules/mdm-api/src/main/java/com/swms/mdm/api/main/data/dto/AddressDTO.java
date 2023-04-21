@@ -1,5 +1,6 @@
 package com.swms.mdm.api.main.data.dto;
 
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 
 @Data

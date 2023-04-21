@@ -31,13 +31,13 @@ public class SkuApplicationImpl implements ISkuApi {
     }
 
     @Override
-    public SkuMainDataDTO getSkuMainDataDTO(String skuCode, String ownerCode) {
+    public SkuMainDataDTO getSkuMainData(String skuCode, String ownerCode) {
         SkuMainData skuMainData = skuMainDataRepository.getSkuMainData(skuCode, ownerCode);
         return skuMainDataTransfer.toSkuMainDataDTO(skuMainData);
     }
 
     @Override
-    public List<SkuMainDataDTO> getSkuMainDataDTO(Collection<String> skuCodes) {
+    public List<SkuMainDataDTO> getSkuMainData(Collection<String> skuCodes) {
         List<SkuMainData> skuMainDataList = skuMainDataRepository.getSkuMainData(skuCodes);
         return skuMainDataTransfer.toSkuMainDataDTOS(skuMainDataList);
     }

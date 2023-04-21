@@ -16,6 +16,7 @@ import com.swms.mdm.config.domain.repository.BarcodeParseRuleRepository;
 import com.swms.mdm.config.domain.transfer.BarcodeParseRuleTransfer;
 import com.swms.utils.exception.WmsException;
 import com.swms.utils.lock.DistributeLock;
+import jakarta.validation.Valid;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +43,7 @@ public class BarcodeParseRuleApplicationImpl implements IBarcodeParseRuleApi {
     private DistributeLock distributeLock;
 
     @Override
-    public void save(BarcodeParseRuleDTO barcodeParseRuleDTO) {
+    public void save(@Valid BarcodeParseRuleDTO barcodeParseRuleDTO) {
         boolean lock = distributeLock.acquireLock(BARCODE_PARSE_RULE_ADD_LOCK, 1000);
         if (!lock) {
             throw new WmsException(REPEAT_REQUEST);
@@ -63,12 +64,12 @@ public class BarcodeParseRuleApplicationImpl implements IBarcodeParseRuleApi {
     }
 
     @Override
-    public void update(BarcodeParseRuleDTO barcodeParseRuleDTO) {
+    public void update(@Valid BarcodeParseRuleDTO barcodeParseRuleDTO) {
         barcodeRuleRepository.save(barcodeParseRuleTransfer.toBarcodeParseRule(barcodeParseRuleDTO));
     }
 
     @Override
-    public List<BarcodeParseResult> parse(BarcodeParseRequestDTO barcodeParseRequestDTO) {
+    public List<BarcodeParseResult> parse(@Valid BarcodeParseRequestDTO barcodeParseRequestDTO) {
 
         List<BarcodeParseRule> barcodeParseRules = queryParseRules(barcodeParseRequestDTO);
         if (CollectionUtils.isEmpty(barcodeParseRules)) {
@@ -94,7 +95,7 @@ public class BarcodeParseRuleApplicationImpl implements IBarcodeParseRuleApi {
         //1. know sku
         if (CollectionUtils.isNotEmpty(barcodeParseRequestDTO.getKnownSkus())) {
             return barcodeParseRequestDTO.getKnownSkus().stream().flatMap(knownSku -> {
-                SkuMainDataDTO skuMainDataDTO = iSkuApi.getSkuMainDataDTO(knownSku.getSkuCode(), knownSku.getOwnerCode());
+                SkuMainDataDTO skuMainDataDTO = iSkuApi.getSkuMainData(knownSku.getSkuCode(), knownSku.getOwnerCode());
                 String barcodeRuleCode = skuMainDataDTO.getSkuConfig().getBarcodeRuleCode();
                 if (StringUtils.isNotEmpty(barcodeRuleCode)) {
                     Optional<BarcodeParseRule> optional = barcodeParseRules.stream().filter(v -> StringUtils.equals(v.getCode(), barcodeRuleCode))

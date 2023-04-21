@@ -2,17 +2,18 @@ spring:
   application:
     name: station
   profiles:
-    active: prod
+    active: test
   cloud:
     nacos:
       config:
         server-addr: ${nacos.hairoutech.com:172.18.35.23}:${nacos.port:8181}
         prefix: ${spring.application.name}
         file-extension: yml
-        namespace: station-server-dev
+        namespace: ${spring.profiles.active}
         group: swms
         username: nacos
         password: nacos
-  config:
-    import:
-      - nacos:station-server-redisson.yml
+
+server:
+  port: 9001
+

@@ -4,8 +4,16 @@ import com.swms.utils.http.Response;
 import com.swms.station.executor.HandlerExecutor;
 import com.swms.station.view.ViewHelper;
 import com.swms.station.websocket.utils.HttpContext;
+import com.swms.utils.validate.IValidate;
+import com.swms.utils.validate.ValidObject;
+import jakarta.validation.GroupSequence;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("api")
+@Validated
 public class ApiController {
 
     @Autowired
@@ -37,4 +46,5 @@ public class ApiController {
         String stationCode = HttpContext.getStationCode();
         return Response.success(viewHelper.getWorkStationVO(stationCode));
     }
+
 }

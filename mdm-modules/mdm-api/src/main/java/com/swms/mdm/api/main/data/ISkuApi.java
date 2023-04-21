@@ -11,7 +11,7 @@ public interface ISkuApi {
 
     void update(SkuMainDataDTO skuMainDataDTO);
 
-    SkuMainDataDTO getSkuMainDataDTO(String skuCode, String ownerCode);
+    SkuMainDataDTO getSkuMainData(String skuCode, String ownerCode);
 
-    List<SkuMainDataDTO> getSkuMainDataDTO(Collection<String> skuCodes);
+    List<SkuMainDataDTO> getSkuMainData(Collection<String> skuCodes);
 }
