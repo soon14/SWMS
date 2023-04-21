@@ -8,5 +8,5 @@ public interface IBatchAttributeConfigApi {
 
     void update(BatchAttributeConfigDTO batchAttributeConfigDTO);
 
-    BatchAttributeConfigDTO getBatchAttributeConfig(String ownerCode,);
+    BatchAttributeConfigDTO getByOwnerAndSkuFirstCategory(String ownerCode, String skuFirstCategory);
 }

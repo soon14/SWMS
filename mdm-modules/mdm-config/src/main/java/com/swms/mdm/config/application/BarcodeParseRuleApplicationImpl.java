@@ -20,10 +20,12 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 import java.util.Optional;
 
+@Validated
 @Service
 public class BarcodeParseRuleApplicationImpl implements IBarcodeParseRuleApi {
 
@@ -46,7 +48,7 @@ public class BarcodeParseRuleApplicationImpl implements IBarcodeParseRuleApi {
             throw new WmsException(REPEAT_REQUEST);
         }
         List<BarcodeParseRule> barcodeParseRules = barcodeRuleRepository
-            .find(barcodeParseRuleDTO.getBusinessFlow(), barcodeParseRuleDTO.getExecuteTime());
+            .findByBusinessFlowAndExecuteTime(barcodeParseRuleDTO.getBusinessFlow(), barcodeParseRuleDTO.getExecuteTime());
         try {
             if (barcodeParseRules.stream().anyMatch(barcodeParseRule ->
                 barcodeParseRule.match(barcodeParseRuleDTO.getOwnerCode(), barcodeParseRuleDTO.getBrand()))) {
@@ -86,7 +88,8 @@ public class BarcodeParseRuleApplicationImpl implements IBarcodeParseRuleApi {
     private List<BarcodeParseRule> queryParseRules(BarcodeParseRequestDTO barcodeParseRequestDTO) {
 
         List<BarcodeParseRule> barcodeParseRules = barcodeRuleRepository
-            .find(barcodeParseRequestDTO.getBusinessFlow(), barcodeParseRequestDTO.getExecuteTime());
+            .findByBusinessFlowAndExecuteTime(barcodeParseRequestDTO.getBusinessFlow(), barcodeParseRequestDTO.getExecuteTime())
+            .stream().filter(BarcodeParseRule::isEnable).toList();
 
         //1. know sku
         if (CollectionUtils.isNotEmpty(barcodeParseRequestDTO.getKnownSkus())) {
