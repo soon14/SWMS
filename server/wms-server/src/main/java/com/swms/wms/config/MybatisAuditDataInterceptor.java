@@ -1,6 +1,6 @@
 package com.swms.wms.config;
 
-import com.swms.utils.base.BaseDO;
+import com.swms.utils.base.BaseUserPO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.apache.ibatis.binding.MapperMethod;
@@ -14,7 +14,6 @@ import org.apache.ibatis.plugin.Plugin;
 import org.apache.ibatis.plugin.Signature;
 import org.apache.ibatis.session.defaults.DefaultSqlSession;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -56,7 +55,7 @@ public class MybatisAuditDataInterceptor implements Interceptor {
         // get userName from UserContext
         String userName = "";
 
-        if (object instanceof BaseDO) {
+        if (object instanceof BaseUserPO) {
             if (SqlCommandType.INSERT == sqlCommandType) {
                 setCreateAndUpdateValues(userName, object, new Date());
             } else if (SqlCommandType.UPDATE == sqlCommandType) {
@@ -68,7 +67,7 @@ public class MybatisAuditDataInterceptor implements Interceptor {
                 return;
             }
             Object paraObject = parasMap.get(key);
-            if (paraObject instanceof BaseDO && SqlCommandType.UPDATE == sqlCommandType) {
+            if (paraObject instanceof BaseUserPO && SqlCommandType.UPDATE == sqlCommandType) {
                 setUpdateValues(userName, object, new Date());
             }
 
@@ -82,7 +81,7 @@ public class MybatisAuditDataInterceptor implements Interceptor {
             @SuppressWarnings("unchecked")
             List<Object> objs = (List<Object>) strictMap.get(key);
             for (Object obj : objs) {
-                if (obj instanceof BaseDO) {
+                if (obj instanceof BaseUserPO) {
                     if (SqlCommandType.INSERT == sqlCommandType) {
                         setCreateAndUpdateValues(userName, obj, new Date());
                     }

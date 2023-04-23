@@ -12,8 +12,8 @@ public class BatchAttributeConfig {
 
     private Long id;
 
-    private String batchAttributeCode;
-    private String batchAttributeName;
+    private String code;
+    private String name;
 
     private String ownerCode;
     private String skuFirstCategory;

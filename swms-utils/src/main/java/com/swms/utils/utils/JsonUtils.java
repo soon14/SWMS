@@ -3,6 +3,7 @@ package com.swms.utils.utils;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.json.JsonWriteFeature;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -195,6 +196,16 @@ public class JsonUtils {
     public static Map string2Map(String str) {
         try {
             return OBJECT_MAPPER.readValue(str, Map.class);
+        } catch (JsonProcessingException e) {
+            log.error("string2Map json processing error: ", e);
+            throw new WmsException(CommonErrorDescEnum.JSON_PARSER_ERROR);
+        }
+    }
+
+    public static Map<String, Object> string2MapObject(String str) {
+        try {
+            return OBJECT_MAPPER.readValue(str, new TypeReference<>() {
+            });
         } catch (JsonProcessingException e) {
             log.error("string2Map json processing error: ", e);
             throw new WmsException(CommonErrorDescEnum.JSON_PARSER_ERROR);

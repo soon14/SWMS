@@ -1,8 +1,8 @@
 package com.swms.mdm.api.config.constants;
 
-import lombok.Data;
+import lombok.Getter;
 
-@Data
+@Getter
 public enum BusinessFlowEnum {
 
     INBOUND,

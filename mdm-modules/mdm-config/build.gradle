@@ -18,6 +18,8 @@ dependencies {
     implementation 'org.apache.commons:commons-lang3'
     implementation 'org.apache.commons:commons-collections4'
 
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
     implementation 'org.mapstruct:mapstruct'
     implementation group: 'org.mapstruct', name: 'mapstruct-processor'
     implementation group: 'org.projectlombok', name: 'lombok-mapstruct-binding'

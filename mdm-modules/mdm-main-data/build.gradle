@@ -11,11 +11,14 @@ repositories {
 
 dependencies {
     implementation project(path: ":mdm-modules:mdm-api", configuration: 'default')
+    implementation project(path: ":swms-utils", configuration: 'default')
 
     implementation 'org.springframework:spring-tx'
     implementation 'com.google.guava:guava'
     implementation 'org.apache.commons:commons-lang3'
     implementation 'org.apache.commons:commons-collections4'
+
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
     implementation 'org.mapstruct:mapstruct'
     implementation group: 'org.mapstruct', name: 'mapstruct-processor'
