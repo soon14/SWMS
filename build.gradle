@@ -61,6 +61,8 @@ subprojects {
             dependency group: 'org.springframework.boot', name: 'spring-boot-starter-websocket', version: '3.0.4'
             dependency group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '3.0.4'
             dependency group: 'org.springframework.boot', name: 'spring-boot-starter-aop', version: '3.0.4'
+            dependency group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '3.0.6'
+
 
             /******************************** Spring 相关依赖 ***********************/
             dependency group: 'org.springframework', name: 'spring-tx', version: '6.0.6'
@@ -87,6 +89,8 @@ subprojects {
             dependency group: 'commons-codec', name: 'commons-codec', version: '1.15'
             dependency group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.11.3'
             dependency group: 'mysql', name: 'mysql-connector-java', version: '8.0.32'
+            dependency group: 'org.hibernate.orm', name: 'hibernate-core', version: '6.2.1.Final'
+
 
             dependency 'jakarta.servlet:jakarta.servlet-api:6.0.0'
             dependency 'jakarta.validation:jakarta.validation-api:3.0.2'
