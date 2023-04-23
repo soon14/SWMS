@@ -4,14 +4,14 @@ import com.swms.wms.api.basic.dto.WarehouseGroupDTO;
 
 public interface IWarehouseGroupApi {
 
-    void createWarehouseGroup(WarehouseGroupDTO WarehouseGroupDTO);
+    void save(WarehouseGroupDTO WarehouseGroupDTO);
 
-    void updateWarehouseGroup(WarehouseGroupDTO WarehouseGroupDTO);
+    void update(WarehouseGroupDTO WarehouseGroupDTO);
 
-    void enableWarehouseGroup(Long id);
+    void enable(Long id);
 
-    void disableWarehouseGroup(Long id);
+    void disable(Long id);
 
-    void deleteWarehouseGroup(WarehouseGroupDTO WarehouseGroupDTO);
+    void delete(WarehouseGroupDTO WarehouseGroupDTO);
 
 }

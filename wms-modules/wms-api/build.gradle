@@ -10,9 +10,8 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery'
-    implementation 'org.apache.dubbo:dubbo-spring-boot-starter'
-    implementation project(path: ":swms-utils", configuration: 'default')
+    implementation 'jakarta.validation:jakarta.validation-api'
+    implementation project(path: ":mdm-modules:mdm-api", configuration: 'default')
 }
 
 test {

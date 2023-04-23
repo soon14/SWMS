@@ -4,14 +4,14 @@ import com.swms.wms.api.basic.dto.WarehouseAreaDTO;
 
 public interface IWarehouseAreaApi {
 
-    void createWarehouseArea(WarehouseAreaDTO WarehouseAreaDTO);
+    void save(WarehouseAreaDTO WarehouseAreaDTO);
 
-    void updateWarehouseArea(WarehouseAreaDTO WarehouseAreaDTO);
+    void update(WarehouseAreaDTO WarehouseAreaDTO);
 
-    void enableWarehouseArea(Long id);
+    void enable(Long id);
 
-    void disableWarehouseArea(Long id);
+    void disable(Long id);
 
-    void deleteWarehouseArea(WarehouseAreaDTO WarehouseAreaDTO);
+    void delete(WarehouseAreaDTO WarehouseAreaDTO);
 
 }

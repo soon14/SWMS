@@ -7,10 +7,11 @@ public class WarehouseLogic {
 
     private Long id;
 
-    // unique identifier
+    // union unique identifier
     private String warehouseLogicCode;
+    private String warehouseAreaCode;
+
     private String warehouseLogicName;
 
     private String warehouseCode;
-    private String warehouseAreaCode;
 }

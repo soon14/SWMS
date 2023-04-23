@@ -3,20 +3,22 @@ package com.swms.mdm.config.domain.transfer;
 import static org.mapstruct.NullValueCheckStrategy.ALWAYS;
 import static org.mapstruct.NullValueMappingStrategy.RETURN_NULL;
 
-import com.swms.mdm.api.config.dto.BatchAttributeConfigDTO;
-import com.swms.mdm.config.domain.entity.BatchAttributeConfig;
+import com.swms.mdm.api.config.dto.ParameterConfigDTO;
+import com.swms.mdm.config.domain.entity.ParameterConfig;
 import org.mapstruct.Mapper;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
+
+import java.util.List;
 
 @Mapper(componentModel = "spring",
     nullValueCheckStrategy = ALWAYS,
     nullValueMappingStrategy = RETURN_NULL,
     unmappedTargetPolicy = ReportingPolicy.IGNORE,
     nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-public interface BatchAttributeConfigTransfer {
+public interface ParameterConfigTransfer {
+    ParameterConfig toParameterConfig(ParameterConfigDTO parameterConfigDTO);
 
-    BatchAttributeConfig toBatchAttributeConfig(BatchAttributeConfigDTO batchAttributeConfigDTO);
+    List<ParameterConfigDTO> toParameterConfigDTOS(List<ParameterConfig> parameterConfigs);
 
-    BatchAttributeConfigDTO toBatchAttributeConfigDTO(Object batchAttributeConfig);
 }

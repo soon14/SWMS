@@ -8,11 +8,12 @@ public class WarehouseArea {
 
     private Long id;
 
-    // unique identifier
+    // union unique identifier
     private String warehouseAreaCode;
+    private String warehouseCode;
+
     private String warehouseAreaName;
 
-    private String warehouseCode;
     private String warehouseGroupCode;
 
     private WarehouseAreaTypeEnum warehouseAreaType;
