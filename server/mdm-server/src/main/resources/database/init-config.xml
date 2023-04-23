@@ -1,0 +1,62 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+		http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="parameter_config_create_init" author="xigua">
+
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="parameter_config"/>
+            </not>
+        </preConditions>
+
+        <comment>参数配置表</comment>
+
+        <sql>
+            CREATE TABLE `parameter_config`
+            (
+                `id`                  bigint(20) NOT NULL COMMENT '表描述: 参数配置表',
+                `create_time`         bigint(20) NOT NULL DEFAULT '0' COMMENT 'Creation time',
+                `update_time`         bigint(20) NOT NULL DEFAULT '0' COMMENT 'Update time',
+                `create_user`         varchar(255) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT 'Create user',
+                `update_user`         varchar(255) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT 'Update user',
+                `code`                varchar(255) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '编号',
+                `name`                varchar(255) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '名称',
+                `enable`              bit(1)                                  NOT NULL DEFAULT b'0' COMMENT '启用/禁用',
+                `config_apply_object` varchar(20) COLLATE utf8mb4_general_ci  NOT NULL DEFAULT '' COMMENT '应用对象',
+                `config_apply_module` varchar(20) COLLATE utf8mb4_general_ci  NOT NULL DEFAULT '' COMMENT '应用模块',
+                `config_Type`         varchar(20) COLLATE utf8mb4_general_ci  NOT NULL DEFAULT '' COMMENT '参数类型',
+                `default_value`       varchar(255) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '默认值',
+                `description`         varchar(255) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '参数描述',
+                `remark`              varchar(500) COLLATE utf8mb4_general_ci          DEFAULT '' COMMENT '备注',
+                PRIMARY KEY (`id`),
+                KEY                   `idx_code` (`code`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+        </sql>
+
+        <rollback>
+            DROP TABLE IF EXISTS `parameter_config`;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="parameter_config_insert_init" author="xigua">
+
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="parameter_config"/>
+            </not>
+        </preConditions>
+
+        <comment>新增默认参数</comment>
+
+        <sql>
+            insert into `parameter_config` (`id`, `code`, `name`, `enable`, `config_apply_object`,
+                                            `config_apply_module`, `config_Type`, `default_value`, `description`,
+                                            `remark`)
+            values (1, 'disableReceiving', '禁止收货', 1, 'WAREHOUSE', 'INBOUND', 'BOOLEAN', 'false', '', '');
+        </sql>
+    </changeSet>
+</databaseChangeLog>

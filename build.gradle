@@ -131,6 +131,10 @@ subprojects {
             dependency 'org.powermock:powermock-api-mockito2:2.0.9'
             dependency 'org.powermock:powermock-module-junit4-rule:2.0.9'
             dependency 'org.powermock:powermock-classloading-xstream:2.0.9'
+
+            /********************************  liquibase *******************************/
+            dependency group: 'org.liquibase', name: 'liquibase-core', version: '4.21.1'
+
         }
 
     }
