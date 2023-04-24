@@ -9,5 +9,5 @@ public interface WarehouseMainDataRepository {
 
     WarehouseMainData findById(Long id);
 
-    WarehouseMainDataDTO getWarehouse(String warehouseCode);
+    WarehouseMainData getWarehouse(String warehouseCode);
 }

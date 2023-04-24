@@ -28,6 +28,6 @@ public class WarehouseApplicationImpl implements IWarehouseApi {
 
     @Override
     public WarehouseMainDataDTO getWarehouse(String warehouseCode) {
-        return warehouseRepository.getWarehouse(warehouseCode);
+        return warehouseTransfer.toDTO(warehouseRepository.getWarehouse(warehouseCode));
     }
 }

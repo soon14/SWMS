@@ -48,13 +48,19 @@ public class SkuMainDataPO extends BaseUserPO {
     @Column(columnDefinition = "varchar(64) comment '品牌'")
     private String brand;
 
-    private Long grossWeight;
-    private Long netWeight;
+    @Column(nullable = false, columnDefinition = "bigint comment '净重'")
+    private Long grossWeight = 0L;
+    @Column(nullable = false, columnDefinition = "bigint comment '毛重'")
+    private Long netWeight = 0L;
 
-    private Long volume;
-    private Long height;
-    private Long width;
-    private Long length;
+    @Column(nullable = false, columnDefinition = "bigint comment '体积'")
+    private Long volume = 0L;
+    @Column(nullable = false, columnDefinition = "bigint comment '高度'")
+    private Long height = 0L;
+    @Column(nullable = false, columnDefinition = "bigint comment '宽度'")
+    private Long width = 0L;
+    @Column(nullable = false, columnDefinition = "bigint comment '长度'")
+    private Long length = 0L;
 
     @Column(columnDefinition = "varchar(255) comment '图片地址'")
     private String imageUrl;
@@ -76,8 +82,10 @@ public class SkuMainDataPO extends BaseUserPO {
     private boolean enableSn;
     private boolean enableEffective;
 
-    private Integer shelfLife;
-    private Integer effectiveDays;
+    @Column(nullable = false, columnDefinition = "int comment '保质期(天)'")
+    private Integer shelfLife = 0;
+    @Column(nullable = false, columnDefinition = "int comment '效期限制天数'")
+    private Integer effectiveDays = 0;
 
     @Column(columnDefinition = "varchar(64) comment '条码规则编码'")
     private String barcodeRuleCode;

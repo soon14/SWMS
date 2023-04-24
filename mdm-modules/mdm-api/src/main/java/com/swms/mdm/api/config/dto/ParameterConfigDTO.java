@@ -17,7 +17,7 @@ public class ParameterConfigDTO {
 
     private boolean enable;
 
-    private Object defaultValue;
+    private String defaultValue;
 
     private String description;
     private String remark;

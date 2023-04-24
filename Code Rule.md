@@ -24,4 +24,8 @@
    distributedLock.releaseLock("lockKey");
    ```
 8. String type field length must be less than 255, if you want to store more than 255 characters, use text type and
-   spilt it into another table.   
+   spilt it into another table.
+
+## Database Rule
+
+1. column length : code 64, name 128, description 255, remark 500, Enum 20

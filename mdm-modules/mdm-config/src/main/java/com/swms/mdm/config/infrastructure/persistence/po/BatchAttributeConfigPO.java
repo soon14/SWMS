@@ -26,7 +26,7 @@ import java.util.List;
 @EntityListeners(AuditingEntityListener.class)
 @Table(
     indexes = {
-        @Index(unique = true, name = "idx_batch_attribute_config_code", columnList = "batchAttributeCode")
+        @Index(unique = true, name = "idx_batch_attribute_config_code", columnList = "code")
     }
 )
 public class BatchAttributeConfigPO extends BaseUserPO {

@@ -46,7 +46,7 @@ public class BarcodeParseRule {
 
 
     private String union(String barcode) {
-        return unionPre + barcode + unionAft;
+        return StringUtils.join(unionPre, barcode, unionAft);
     }
 
     private List<String> compile(String unionBarcode) {

@@ -61,7 +61,8 @@ subprojects {
             dependency group: 'org.springframework.boot', name: 'spring-boot-starter-websocket', version: '3.0.4'
             dependency group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '3.0.4'
             dependency group: 'org.springframework.boot', name: 'spring-boot-starter-aop', version: '3.0.4'
-            dependency group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '3.0.6'
+            dependency group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '3.0.4'
+            dependency group: 'org.springframework.boot', name: 'spring-boot-starter-jdbc', version: '3.0.4'
 
 
             /******************************** Spring 相关依赖 ***********************/
@@ -82,7 +83,7 @@ subprojects {
             dependency group: 'org.apache.commons', name: 'commons-lang3', version: '3.12.0'
             dependency group: 'org.apache.commons', name: 'commons-collections4', version: '4.4'
             dependency group: 'org.apache.commons', name: 'commons-pool2', version: '2.11.1'
-            dependency group: 'org.apache.commons', name: 'commons-text', version: '2.1.1'
+            dependency group: 'org.apache.commons', name: 'commons-text', version: '1.10.0'
             dependency group: 'org.apache.commons', name: 'commons-math3', version: '3.6.1'
             dependency group: 'org.apache.commons', name: 'commons-compress', version: '1.21'
 
@@ -139,6 +140,7 @@ subprojects {
             /********************************  liquibase *******************************/
             dependency group: 'org.liquibase', name: 'liquibase-core', version: '4.21.1'
 
+            dependency group: 'org.lazyluke', name: 'log4jdbc-remix', version: '0.2.7'
         }
 
     }
@@ -147,4 +149,13 @@ subprojects {
 
 test {
     useJUnitPlatform()
+}
+
+tasks.withType(JavaCompile) {
+    options.annotationProcessorPath = configurations.annotationProcessor
+}
+
+bootRun {
+    // Make sure that the generated code is included in the classpath when running the application
+    classpath = sourceSets.main.runtimeClasspath + files("${project.buildDir}/generated/source/annotationProcessor/java/main")
 }

@@ -3,9 +3,8 @@ package com.swms.mdm.main.data.infrastructure.persistence.transfer;
 import static org.mapstruct.NullValueCheckStrategy.ALWAYS;
 import static org.mapstruct.NullValueMappingStrategy.RETURN_NULL;
 
-import com.swms.mdm.main.data.domain.entity.SkuMainData;
-import com.swms.mdm.main.data.infrastructure.persistence.po.SkuMainDataPO;
-import org.mapstruct.InheritConfiguration;
+import com.swms.mdm.main.data.domain.entity.OwnerMainData;
+import com.swms.mdm.main.data.infrastructure.persistence.po.OwnerMainDataPO;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -19,16 +18,14 @@ import java.util.List;
     nullValueMappingStrategy = RETURN_NULL,
     unmappedTargetPolicy = ReportingPolicy.IGNORE,
     nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-public interface SkuMainDataPOTransfer {
+public interface OwnerMainDataPOTransfer {
 
-    @Mapping(target = ".", source = "weight")
-    @Mapping(target = ".", source = "volume")
-    @Mapping(target = ".", source = "skuAttribute")
-    @Mapping(target = ".", source = "skuConfig")
-    SkuMainDataPO toPO(SkuMainData skuMainData);
+    @Mapping(target = ".", source = "address")
+    @Mapping(target = ".", source = "contactor")
+    OwnerMainDataPO toPO(OwnerMainData ownerMainData);
 
     @InheritInverseConfiguration
-    SkuMainData toDO(SkuMainDataPO skuMainDataPO);
+    OwnerMainData toDO(OwnerMainDataPO ownerMainDataPO);
 
-    List<SkuMainData> toDOS(List<SkuMainDataPO> skuMainDataPOS);
+    List<OwnerMainData> toDOS(List<OwnerMainDataPO> ownerMainDataPOS);
 }

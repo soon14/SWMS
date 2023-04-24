@@ -26,7 +26,7 @@ public class WarehouseMainData {
     private WarehouseBusinessTypeEnum businessType;
 
     private WarehouseStructureTypeEnum structureType;
-    private String area;
+    private Integer area;
     private Integer height;
     private boolean virtualWarehouse;
 
