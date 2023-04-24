@@ -13,20 +13,20 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
     testImplementation('org.springframework.boot:spring-boot-starter-test')
+
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
+
     implementation 'org.powermock:powermock-module-junit4'
     testImplementation 'org.powermock:powermock-api-mockito2'
     testImplementation 'org.powermock:powermock-module-junit4-rule'
     testImplementation 'org.powermock:powermock-classloading-xstream'
 
-    implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
-    implementation 'org.springframework.boot:spring-boot-starter'
     implementation project(path: ":station-modules:station", configuration: 'default')
 
     implementation group: 'org.apache.skywalking', name: 'apm-toolkit-logback-1.x'
 
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui'
-
-
 }
 
 test {

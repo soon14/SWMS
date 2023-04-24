@@ -1,11 +1,13 @@
 package com.swms.utils.id;
 
+import lombok.NoArgsConstructor;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.id.IdentifierGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
+@NoArgsConstructor
 public class IdGenerator implements IdentifierGenerator {
 
     private static Snowflake snowflake;

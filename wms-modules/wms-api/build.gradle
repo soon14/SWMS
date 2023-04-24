@@ -12,6 +12,7 @@ repositories {
 dependencies {
     implementation 'jakarta.validation:jakarta.validation-api'
     implementation project(path: ":mdm-modules:mdm-api", configuration: 'default')
+    implementation project(path: ":swms-utils", configuration: 'default')
 }
 
 test {

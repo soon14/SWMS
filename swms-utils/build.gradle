@@ -10,12 +10,10 @@ repositories {
 }
 
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
 
-    compileOnly 'org.springframework.boot:spring-boot-starter-websocket'
-    compileOnly group: 'org.redisson', name: 'redisson-spring-boot-starter'
-    compileOnly group: 'org.springframework.boot', name: 'spring-boot-starter-aop'
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+    implementation group: 'org.redisson', name: 'redisson-spring-boot-starter'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-aop'
 
     implementation 'com.google.guava:guava'
     implementation 'org.apache.commons:commons-lang3'
