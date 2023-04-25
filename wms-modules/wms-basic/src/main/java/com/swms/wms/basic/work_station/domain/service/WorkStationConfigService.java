@@ -8,18 +8,4 @@ import org.springframework.stereotype.Service;
 @Service
 public class WorkStationConfigService {
 
-    @Autowired
-    private WorkStationConfigRepository workStationConfigRepository;
-
-    public void addWorkStationConfig(WorkStationConfig workStationConfig) {
-        workStationConfigRepository.save(workStationConfig);
-    }
-
-    public WorkStationConfig getWorkStationConfigByStationCode(String stationCode) {
-        return workStationConfigRepository.findByStationCode(stationCode);
-    }
-
-    public void updateWorkStationConfig(WorkStationConfig workStationConfig) {
-        workStationConfigRepository.update(workStationConfig);
-    }
 }

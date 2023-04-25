@@ -16,36 +16,22 @@ import java.util.List;
 @Service
 public class PutWallService {
 
-    @Autowired
-    private IPutWallRepository iPutWallRepository;
-
-    @Autowired
-    private IPutWallSlotRepository iPutWallSlotRepository;
-
-    public void addPutWall(PutWall putWall) {
-        iPutWallRepository.save(putWall);
-        iPutWallSlotRepository.saveAll(putWall.getPutWallSlots());
-    }
-
-    public void updatePutWall(PutWall putWall) {
-        iPutWallRepository.update(putWall);
-        iPutWallSlotRepository.updateAll(putWall.getPutWallSlots());
-    }
-
     public List<PutWall> getPutWallsByStationCode(String stationCode) {
-        return iPutWallRepository.findByStationCode(stationCode);
+//        return iPutWallRepository.findByStationCode(stationCode);
+        return null;
     }
 
     public List<PutWallSlotDTO> getPutWallSlotsByStationCode(String stationCode) {
-        return iPutWallSlotRepository.findAllPutWallSlotsByStationCode(stationCode);
+//        return iPutWallSlotRepository.findAllPutWallSlotsByStationCode(stationCode);
+        return null;
     }
 
     public void assignOrders(List<AssignOrdersDTO> assignOrdersDTOS) {
-        if (CollectionUtils.isEmpty(assignOrdersDTOS)) {
-            return;
-        }
-
-        iPutWallRepository.assignOrders(assignOrdersDTOS);
+//        if (CollectionUtils.isEmpty(assignOrdersDTOS)) {
+//            return;
+//        }
+//
+//        iPutWallRepository.assignOrders(assignOrdersDTOS);
     }
 
     public void appendOrders(List<AssignOrdersDTO> assignOrdersDTOS) {
@@ -65,6 +51,6 @@ public class PutWallService {
     }
 
     public void bindContainer(BindContainerDTO bindContainerDTO) {
-        iPutWallSlotRepository.updateTransferContainerAndStatus(bindContainerDTO, PutWallSlotStatusEnum.BOUND);
+//        iPutWallSlotRepository.updateTransferContainerAndStatus(bindContainerDTO, PutWallSlotStatusEnum.BOUND);
     }
 }

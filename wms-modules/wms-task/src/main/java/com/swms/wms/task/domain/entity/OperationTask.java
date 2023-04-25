@@ -1,13 +1,11 @@
 package com.swms.wms.task.domain.entity;
 
 import com.google.common.base.Preconditions;
+import com.swms.wms.api.basic.constants.WarehouseAreaCodeEnum;
 import com.swms.wms.api.stock.constants.StockLockTypeEnum;
 import com.swms.wms.api.task.constants.OperationTaskStatusEnum;
 import com.swms.wms.api.task.constants.OperationTaskTypeEnum;
-import com.swms.wms.api.basic.constants.WarehouseAreaCodeEnum;
-import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
 
 @Data
 public class OperationTask {

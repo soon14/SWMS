@@ -25,10 +25,10 @@ public class WorkStationAggregate {
 
     public WorkStationModelDTO getWorkStationMode() {
 
-        WorkStation workStation = workStationService.getStation(stationCode);
-        List<WorkLocation> workLocations = workLocationService.getWorkLocationsByStationCode(stationCode);
-        List<PutWall> putWalls = putWallService.getPutWallsByStationCode(stationCode);
-        WorkStationConfig workStationConfig = workStationConfigService.getWorkStationConfigByStationCode(stationCode);
+//        WorkStation workStation = workStationService.getStation(stationCode);
+//        List<WorkLocation> workLocations = workLocationService.getWorkLocationsByStationCode(stationCode);
+//        List<PutWall> putWalls = putWallService.getPutWallsByStationCode(stationCode);
+//        WorkStationConfig workStationConfig = workStationConfigService.getWorkStationConfigByStationCode(stationCode);
 
         return WorkStationModelDTO.builder().build();
     }

@@ -14,6 +14,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
     implementation group: 'org.redisson', name: 'redisson-spring-boot-starter'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-aop'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
 
     implementation 'com.google.guava:guava'
     implementation 'org.apache.commons:commons-lang3'

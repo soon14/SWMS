@@ -8,7 +8,6 @@ import lombok.Getter;
 public enum ContainerTypeEnum {
     CONTAINER("料箱"),
     SHELF("料架"),
-    TRANSFER_CONTAINER("周转容器"),
     PUT_WALL("播种墙");
     private final String descCN;
 }

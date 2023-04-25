@@ -5,6 +5,7 @@ import com.swms.utils.base.BaseUserPO;
 import com.swms.utils.id.IdGenerator;
 import com.swms.wms.basic.warehouse.infrastructure.persistence.converter.WarehouseMainDataConfigDTOConverter;
 import jakarta.persistence.Convert;
+import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -15,6 +16,7 @@ import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+@Entity
 @EqualsAndHashCode(callSuper = true)
 @Data
 @EntityListeners(AuditingEntityListener.class)

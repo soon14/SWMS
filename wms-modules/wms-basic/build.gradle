@@ -30,7 +30,7 @@ dependencies {
     implementation 'com.baomidou:mybatis-plus-boot-starter'
 
     implementation 'org.mapstruct:mapstruct'
-    implementation group: 'org.mapstruct', name: 'mapstruct-processor'
+    annotationProcessor group: 'org.mapstruct', name: 'mapstruct-processor'
     implementation group: 'org.projectlombok', name: 'lombok-mapstruct-binding'
 }
 

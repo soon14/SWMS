@@ -94,10 +94,10 @@ public class ObjectUtils {
 
         switch (fieldTypeClass.getName()) {
             case "java.lang.Integer", "int":
-                value = RandomUtils.nextInt(0, INTEGER_LIMIT);
+                value = RandomUtils.nextInt(1, INTEGER_LIMIT);
                 break;
             case "java.lang.Long", "long":
-                value = RandomUtils.nextLong(0, LONG_LIMIT);
+                value = RandomUtils.nextLong(1, LONG_LIMIT);
                 break;
             case "java.lang.Byte", "byte":
                 value = RandomUtils.nextBytes(1)[0];

@@ -11,27 +11,4 @@ import java.util.List;
 @Service
 public class WorkLocationService {
 
-    @Autowired
-    private IWorkLocationRepository iWorkLocationRepository;
-
-    @Autowired
-    private IWorkLocationSlotRepository iWorkLocationSlotRepository;
-
-    public void addWorkLocation(WorkLocation workLocation) {
-        iWorkLocationRepository.save(workLocation);
-        iWorkLocationSlotRepository.saveAll(workLocation.getWorkLocationSlots());
-    }
-
-    public void updateWorkLocation(WorkLocation workLocation) {
-        iWorkLocationRepository.update(workLocation);
-        iWorkLocationSlotRepository.updateAll(workLocation.getWorkLocationSlots());
-    }
-
-    public List<WorkLocation> getWorkLocationsByStationCode(String stationCode) {
-        return iWorkLocationRepository.findByStationCode(stationCode);
-    }
-
-    public void removeWorkLocation(Long id) {
-        iWorkLocationRepository.deleteById(id);
-    }
 }
