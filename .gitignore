@@ -75,6 +75,7 @@ __pycache__
 ### Log ###
 nohup.out
 *.log
+*.log.gz
 persistence/logs
 
 ### OSX ###
