@@ -16,7 +16,6 @@ import com.swms.mdm.config.domain.repository.BarcodeParseRuleRepository;
 import com.swms.mdm.config.domain.transfer.BarcodeParseRuleTransfer;
 import com.swms.utils.exception.WmsException;
 import com.swms.utils.lock.DistributeLock;
-import jakarta.validation.Valid;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +42,7 @@ public class BarcodeParseRuleApplicationImpl implements IBarcodeParseRuleApi {
     private DistributeLock distributeLock;
 
     @Override
-    public void save(@Valid BarcodeParseRuleDTO barcodeParseRuleDTO) {
+    public void save(BarcodeParseRuleDTO barcodeParseRuleDTO) {
         boolean lock = distributeLock.acquireLock(BARCODE_PARSE_RULE_ADD_LOCK, 1000);
         if (!lock) {
             throw new WmsException(REPEAT_REQUEST);
@@ -64,12 +63,12 @@ public class BarcodeParseRuleApplicationImpl implements IBarcodeParseRuleApi {
     }
 
     @Override
-    public void update(@Valid BarcodeParseRuleDTO barcodeParseRuleDTO) {
+    public void update(BarcodeParseRuleDTO barcodeParseRuleDTO) {
         barcodeRuleRepository.save(barcodeParseRuleTransfer.toBarcodeParseRule(barcodeParseRuleDTO));
     }
 
     @Override
-    public List<BarcodeParseResult> parse(@Valid BarcodeParseRequestDTO barcodeParseRequestDTO) {
+    public List<BarcodeParseResult> parse(BarcodeParseRequestDTO barcodeParseRequestDTO) {
 
         List<BarcodeParseRule> barcodeParseRules = queryParseRules(barcodeParseRequestDTO);
         if (CollectionUtils.isEmpty(barcodeParseRules)) {

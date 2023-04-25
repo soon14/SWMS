@@ -7,9 +7,11 @@ import com.swms.mdm.config.domain.repository.ParameterConfigRepository;
 import com.swms.mdm.config.domain.transfer.ParameterConfigTransfer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 
+@Validated
 @Service
 public class ParameterConfigApplicationImpl implements IParameterConfigApi {
 

@@ -1,12 +1,14 @@
 package com.swms.mdm.api.config;
 
 import com.swms.mdm.api.config.dto.BatchAttributeConfigDTO;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 
 public interface IBatchAttributeConfigApi {
 
-    void save(BatchAttributeConfigDTO batchAttributeConfigDTO);
+    void save(@Valid BatchAttributeConfigDTO batchAttributeConfigDTO);
 
-    void update(BatchAttributeConfigDTO batchAttributeConfigDTO);
+    void update(@Valid BatchAttributeConfigDTO batchAttributeConfigDTO);
 
-    BatchAttributeConfigDTO getByOwnerAndSkuFirstCategory(String ownerCode, String skuFirstCategory);
+    BatchAttributeConfigDTO getByOwnerAndSkuFirstCategory(@NotNull String ownerCode, @NotNull String skuFirstCategory);
 }

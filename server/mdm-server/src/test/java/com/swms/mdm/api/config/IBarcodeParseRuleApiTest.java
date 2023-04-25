@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.ApplicationContext;
 
 import java.util.List;
 
@@ -20,6 +21,9 @@ class IBarcodeParseRuleApiTest {
     @Autowired
     private IBarcodeParseRuleApi iBarcodeParseRuleApi;
 
+    @Autowired
+    private ApplicationContext applicationContext;
+
     @Test
     void testSave() {
         BarcodeParseRuleDTO barcodeParseRuleDTO = new BarcodeParseRuleDTO();
@@ -28,9 +32,14 @@ class IBarcodeParseRuleApiTest {
         barcodeParseRuleDTO.setEnable(true);
         barcodeParseRuleDTO.setExecuteTime(ExecuteTimeEnum.SCAN_SKU);
         barcodeParseRuleDTO.setRegularExpression("(.*)");
-        barcodeParseRuleDTO.setName("解析123");
+//        barcodeParseRuleDTO.setName("解析123");
         barcodeParseRuleDTO.setResultFields(Lists.newArrayList("skuCode"));
         Assertions.assertDoesNotThrow(() -> iBarcodeParseRuleApi.save(barcodeParseRuleDTO));
+    }
+
+    @Test
+    void testEnable() {
+        Assertions.assertDoesNotThrow(() -> iBarcodeParseRuleApi.enable(null));
     }
 
     @Test

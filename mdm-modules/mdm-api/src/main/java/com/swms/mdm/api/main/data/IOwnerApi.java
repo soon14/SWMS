@@ -1,12 +1,15 @@
 package com.swms.mdm.api.main.data;
 
 import com.swms.mdm.api.main.data.dto.OwnerMainDataDTO;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 public interface IOwnerApi {
 
-    void createOwner(OwnerMainDataDTO ownerMainDataDTO);
+    void createOwner(@Valid OwnerMainDataDTO ownerMainDataDTO);
 
-    void updateOwner(OwnerMainDataDTO ownerMainDataDTO);
+    void updateOwner(@Valid OwnerMainDataDTO ownerMainDataDTO);
 
-    OwnerMainDataDTO getOwner(String ownerCode);
+    OwnerMainDataDTO getOwner(@NotEmpty String ownerCode);
 }

@@ -6,7 +6,9 @@ import com.swms.mdm.main.data.domain.repository.WarehouseMainDataRepository;
 import com.swms.mdm.main.data.domain.transfer.WarehouseMainDataTransfer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
+@Validated
 @Service
 public class WarehouseApplicationImpl implements IWarehouseApi {
 

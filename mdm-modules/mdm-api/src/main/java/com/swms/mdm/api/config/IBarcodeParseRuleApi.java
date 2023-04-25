@@ -3,18 +3,20 @@ package com.swms.mdm.api.config;
 import com.swms.mdm.api.config.dto.BarcodeParseRequestDTO;
 import com.swms.mdm.api.config.dto.BarcodeParseResult;
 import com.swms.mdm.api.config.dto.BarcodeParseRuleDTO;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
 
 public interface IBarcodeParseRuleApi {
 
-    void save(BarcodeParseRuleDTO barcodeParseRuleDTO);
+    void save(@Valid BarcodeParseRuleDTO barcodeParseRuleDTO);
 
-    void update(BarcodeParseRuleDTO barcodeParseRuleDTO);
+    void update(@Valid BarcodeParseRuleDTO barcodeParseRuleDTO);
 
-    List<BarcodeParseResult> parse(BarcodeParseRequestDTO barcodeParseRequestDTO);
+    List<BarcodeParseResult> parse(@Valid BarcodeParseRequestDTO barcodeParseRequestDTO);
 
-    void enable(Long barcodeParseRuleId);
+    void enable(@NotNull Long barcodeParseRuleId);
 
-    void disable(Long barcodeParseRuleId);
+    void disable(@NotNull Long barcodeParseRuleId);
 }

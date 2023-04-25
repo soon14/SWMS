@@ -7,10 +7,12 @@ import com.swms.mdm.main.data.domain.repository.SkuMainDataRepository;
 import com.swms.mdm.main.data.domain.transfer.SkuMainDataTransfer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.Collection;
 import java.util.List;
 
+@Validated
 @Service
 public class SkuApplicationImpl implements ISkuApi {
 
