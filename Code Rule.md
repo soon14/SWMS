@@ -29,3 +29,25 @@
 ## Database Rule
 
 1. column length : code 64, name 128, description 255, remark 500, Enum 20
+
+## Validation Rule
+
+1. add @Valid or Other validation annotations like @NotEmpty in api interface methods
+   ```
+   public interface IBatchAttributeConfigApi {
+
+    void save(@Valid BatchAttributeConfigDTO batchAttributeConfigDTO);
+
+    void update(@Valid BatchAttributeConfigDTO batchAttributeConfigDTO);
+
+    BatchAttributeConfigDTO getByOwnerAndSkuFirstCategory(@NotNull String ownerCode, @NotNull String skuFirstCategory);
+   }
+   ```
+2. add @Validated in service implementation classes
+
+   ```
+   @Validated
+   @Service
+   public class BatchAttributeConfigApplicationImpl implements IBatchAttributeConfigApi {
+   }
+   ```
