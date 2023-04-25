@@ -28,11 +28,11 @@
 
 ## Database Rule
 
-1. column length : code 64, name 128, description 255, remark 500, Enum 20
+1. Column length : code 64, name 128, description 255, remark 500, Enum 20
 
 ## Validation Rule
 
-1. add @Valid or Other validation annotations like @NotEmpty in api interface methods
+1. Add @Valid or Other validation annotations like @NotEmpty in api interface methods
    ```
    public interface IBatchAttributeConfigApi {
 
@@ -43,7 +43,7 @@
     BatchAttributeConfigDTO getByOwnerAndSkuFirstCategory(@NotNull String ownerCode, @NotNull String skuFirstCategory);
    }
    ```
-2. add @Validated in service implementation classes
+2. Add @Validated in service implementation classes
 
    ```
    @Validated
