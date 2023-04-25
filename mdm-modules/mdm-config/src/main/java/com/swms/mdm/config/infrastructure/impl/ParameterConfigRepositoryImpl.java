@@ -28,4 +28,9 @@ public class ParameterConfigRepositoryImpl implements ParameterConfigRepository 
     public List<ParameterConfig> findByConfigApplyObject(ConfigApplyObjectEnum configApplyObject) {
         return parameterConfigPOTransfer.toDOS(parameterConfigPORepository.findByConfigApplyObject(configApplyObject));
     }
+
+    @Override
+    public ParameterConfig findByCode(String code) {
+        return parameterConfigPOTransfer.toDO(parameterConfigPORepository.findByCode(code));
+    }
 }

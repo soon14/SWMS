@@ -32,5 +32,8 @@ public class BarcodeParseRuleDTO {
 
     private String regularExpression;
 
+    @NotEmpty
     private List<String> resultFields;
+
+    private Long version;
 }

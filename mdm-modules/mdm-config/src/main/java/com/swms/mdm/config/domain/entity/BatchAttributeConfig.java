@@ -20,6 +20,8 @@ public class BatchAttributeConfig {
 
     private boolean enable;
 
+    private Long version;
+
     private List<BatchAttributeConfigDTO.BatchAttributeFieldConfigDTO> batchAttributeFieldConfigs;
 
     public boolean match(String ownerCode, String skuFirstCategory) {

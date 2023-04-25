@@ -32,4 +32,6 @@ public class ParameterConfigDTO {
     @NotEmpty
     private String description;
     private String remark;
+
+    private Long version;
 }

@@ -3,7 +3,9 @@ package com.swms.mdm.config.application;
 import static com.swms.utils.constants.RedisConstants.BARCODE_PARSE_RULE_ADD_LOCK;
 import static com.swms.utils.exception.code_enum.CommonErrorDescEnum.REPEAT_REQUEST;
 import static com.swms.utils.exception.code_enum.MainDataErrorDescEnum.BARCODE_PARSE_RULE_REPEAT;
+import static com.swms.utils.exception.code_enum.MainDataErrorDescEnum.CODE_MUST_NOT_UPDATE;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.swms.mdm.api.config.IBarcodeParseRuleApi;
 import com.swms.mdm.api.config.dto.BarcodeParseRequestDTO;
@@ -23,6 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Validated
@@ -64,6 +67,12 @@ public class BarcodeParseRuleApplicationImpl implements IBarcodeParseRuleApi {
 
     @Override
     public void update(BarcodeParseRuleDTO barcodeParseRuleDTO) {
+        BarcodeParseRule barcodeParseRule = barcodeRuleRepository.findById(barcodeParseRuleDTO.getId());
+        if (!StringUtils.equals(barcodeParseRule.getCode(), barcodeParseRuleDTO.getCode())) {
+            throw new WmsException(CODE_MUST_NOT_UPDATE);
+        }
+        Preconditions.checkState(Objects.equals(barcodeParseRule.getVersion(), barcodeParseRuleDTO.getVersion()));
+
         barcodeRuleRepository.save(barcodeParseRuleTransfer.toBarcodeParseRule(barcodeParseRuleDTO));
     }
 

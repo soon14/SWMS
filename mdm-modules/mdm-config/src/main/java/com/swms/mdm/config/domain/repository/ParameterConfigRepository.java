@@ -11,4 +11,6 @@ public interface ParameterConfigRepository {
     void save(ParameterConfig parameterConfig);
 
     List<ParameterConfig> findByConfigApplyObject(ConfigApplyObjectEnum configApplyObject);
+
+    ParameterConfig findByCode(String code);
 }

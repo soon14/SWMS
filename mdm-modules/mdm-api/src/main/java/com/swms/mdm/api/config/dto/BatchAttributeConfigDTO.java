@@ -11,14 +11,16 @@ public class BatchAttributeConfigDTO {
     private Long id;
 
     @NotEmpty
-    private String batchAttributeCode;
+    private String code;
     @NotEmpty
-    private String batchAttributeName;
+    private String name;
 
     private String ownerCode;
     private String skuFirstCategory;
 
     private boolean enable;
+
+    private Long version;
 
     @NotEmpty
     private List<BatchAttributeFieldConfigDTO> batchAttributeFieldConfigs;

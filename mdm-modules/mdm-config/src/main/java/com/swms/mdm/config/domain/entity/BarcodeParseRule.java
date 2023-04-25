@@ -38,6 +38,8 @@ public class BarcodeParseRule {
 
     private List<String> resultFields;
 
+    private Long version;
+
     public List<BarcodeParseResult> parse(String barcode) {
         String unionBarcode = union(barcode);
         List<String> compileResult = compile(unionBarcode);

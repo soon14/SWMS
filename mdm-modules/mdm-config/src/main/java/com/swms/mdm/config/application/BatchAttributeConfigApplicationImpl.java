@@ -46,7 +46,7 @@ public class BatchAttributeConfigApplicationImpl implements IBatchAttributeConfi
             }
             batchAttributeConfigRepository.save(batchAttributeConfigTransfer.toBatchAttributeConfig(batchAttributeConfigDTO));
         } finally {
-            distributeLock.releaseLock(BARCODE_PARSE_RULE_ADD_LOCK);
+            distributeLock.releaseLock(BATCH_ATTRIBUTE_CONFIG_ADD_LOCK);
         }
     }
 

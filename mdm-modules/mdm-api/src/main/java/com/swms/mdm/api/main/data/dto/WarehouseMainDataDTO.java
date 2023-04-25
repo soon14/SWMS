@@ -31,4 +31,5 @@ public class WarehouseMainDataDTO {
 
     private AddressDTO address;
 
+    private Long version;
 }

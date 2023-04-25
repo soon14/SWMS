@@ -21,4 +21,5 @@ public class OwnerMainDataDTO {
 
     private AddressDTO address;
 
+    private Long version;
 }
