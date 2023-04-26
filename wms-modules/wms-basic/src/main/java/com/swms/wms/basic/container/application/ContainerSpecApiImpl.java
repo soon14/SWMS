@@ -1,5 +1,6 @@
 package com.swms.wms.basic.container.application;
 
+import com.swms.utils.validate.ValidationSequence;
 import com.swms.wms.api.basic.IContainerSpecApi;
 import com.swms.wms.api.basic.dto.ContainerSpecDTO;
 import com.swms.wms.basic.container.domain.repository.ContainerSpecRepository;
@@ -8,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
-@Validated
+@Validated(ValidationSequence.class)
 @Service
 public class ContainerSpecApiImpl implements IContainerSpecApi {
 

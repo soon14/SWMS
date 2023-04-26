@@ -28,8 +28,9 @@ public class ContainerSpec {
 
     private List<ContainerSpecDTO.ContainerSlotSpec> containerSlotSpecs;
 
+    private Long version;
+
     public List<ContainerSpecDTO.ContainerSlotSpec> getContainerSlotSpecsByFace(String face) {
         return containerSlotSpecs.stream().filter(v -> StringUtils.equals(v.getFace(), face)).toList();
     }
-
 }

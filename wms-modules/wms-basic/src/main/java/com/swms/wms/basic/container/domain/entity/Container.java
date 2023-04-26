@@ -32,28 +32,25 @@ public class Container {
 
     private BigDecimal occupationRatio;
 
-    private boolean empty;
-    private boolean lock;
+    private boolean emptyContainer;
+    private boolean locked;
+    private boolean opened;
 
-    /**
-     * container is or not open
-     */
-    private boolean open;
-
+    private Integer containerSlotNum;
     private Integer emptySlotNum;
 
     private ContainerStatusEnum containerStatus;
 
-    private Long version;
-
     private List<ContainerDTO.ContainerSlot> containerSlots;
+
+    private Long version;
 
     public Container(String containerCode, String containerSpecCode, @NotNull List<ContainerDTO.ContainerSlot> containerSlots) {
         this.containerSlots = containerSlots;
         this.containerCode = containerCode;
         this.containerSpecCode = containerSpecCode;
         this.containerStatus = ContainerStatusEnum.CREATED;
-        this.empty = true;
+        this.emptyContainer = true;
         this.emptySlotNum = containerSlots.size();
         this.occupationRatio = BigDecimal.ZERO;
 

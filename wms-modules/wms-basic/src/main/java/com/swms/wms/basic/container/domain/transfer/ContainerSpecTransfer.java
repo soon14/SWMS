@@ -4,11 +4,8 @@ import static org.mapstruct.NullValueCheckStrategy.ALWAYS;
 import static org.mapstruct.NullValueMappingStrategy.RETURN_NULL;
 
 import com.swms.wms.api.basic.dto.ContainerDTO;
-import com.swms.wms.api.basic.dto.ContainerLayoutDTO;
 import com.swms.wms.api.basic.dto.ContainerSpecDTO;
-import com.swms.wms.basic.container.domain.entity.Container;
 import com.swms.wms.basic.container.domain.entity.ContainerSpec;
-import com.swms.wms.basic.container.infrastructure.persistence.po.ContainerSpecPO;
 import org.mapstruct.Mapper;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
@@ -21,9 +18,10 @@ import java.util.List;
     unmappedTargetPolicy = ReportingPolicy.IGNORE,
     nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface ContainerSpecTransfer {
-    ContainerLayoutDTO toContainerLayoutDTO(ContainerSpec containerSpec);
 
     List<ContainerDTO.ContainerSlot> toContainerSlots(List<ContainerSpecDTO.ContainerSlotSpec> containerSlotSpecs);
 
     ContainerSpec toDO(ContainerSpecDTO containerSpecDTO);
+
+    ContainerSpecDTO toDTO(ContainerSpec containerSpec);
 }

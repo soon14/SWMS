@@ -1,6 +1,9 @@
 package com.swms.wms.api.basic.dto;
 
+import static com.swms.utils.exception.code_enum.BasicErrorDescEnum.CONTAINER_SPECIFIC_SLOT_CODE_REPEAT;
+
 import com.google.common.collect.Lists;
+import com.swms.utils.exception.WmsException;
 import com.swms.utils.validate.IValidate;
 import com.swms.wms.api.basic.constants.ContainerTypeEnum;
 import jakarta.validation.constraints.Min;
@@ -44,11 +47,17 @@ public class ContainerSpecDTO implements IValidate {
     @NotEmpty
     private List<ContainerSlotSpec> containerSlotSpecs;
 
+    private Long version;
+
     @Override
     public boolean validate() {
         List<String> allSlotSpecCodes = containerSlotSpecs.stream()
-            .flatMap(containerSlotSpec -> containerSlotSpec.getAllContainerSlotSpecCodes().stream()).toList();
-        return allSlotSpecCodes.size() == allSlotSpecCodes.stream().distinct().count();
+            .flatMap(containerSlotSpec ->
+                containerSlotSpec.getAllContainerSlotSpecCodes(containerSlotSpec.getChildren()).stream()).toList();
+        if (allSlotSpecCodes.size() != allSlotSpecCodes.stream().distinct().count()) {
+            throw WmsException.throwWmsException(CONTAINER_SPECIFIC_SLOT_CODE_REPEAT);
+        }
+        return true;
     }
 
     @Data
@@ -83,13 +92,17 @@ public class ContainerSpecDTO implements IValidate {
         @NotEmpty
         private List<ContainerSlotSpec> children;
 
-        public List<String> getAllContainerSlotSpecCodes() {
-            List<String> allContainerSlotSpecCodes = Lists.newArrayList(containerSlotSpecCode);
+        public List<String> getAllContainerSlotSpecCodes(List<ContainerSlotSpec> children) {
+
             if (CollectionUtils.isEmpty(children)) {
-                children.stream().map(ContainerSlotSpec::getAllContainerSlotSpecCodes)
-                    .forEach(allContainerSlotSpecCodes::addAll);
+                return Lists.newArrayList(containerSlotSpecCode);
             }
-            return allContainerSlotSpecCodes;
+
+            List<String> allSlotSpecCodes = Lists.newArrayList(containerSlotSpecCode);
+            allSlotSpecCodes.addAll(children.stream()
+                .flatMap(v -> v.getAllContainerSlotSpecCodes(v.getChildren()).stream())
+                .toList());
+            return allSlotSpecCodes;
         }
     }
 }

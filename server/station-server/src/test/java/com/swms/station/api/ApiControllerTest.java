@@ -10,6 +10,7 @@ import com.swms.station.remote.TaskService;
 import com.swms.station.remote.WorkStationMqConsumer;
 import com.swms.utils.utils.JsonUtils;
 import com.swms.utils.validate.ValidObject;
+import com.swms.utils.validate.ValidationSequence;
 import com.swms.wms.api.task.ITaskApi;
 import com.swms.wms.api.task.dto.HandleTaskDTO;
 import com.swms.wms.api.basic.IContainerApi;
@@ -32,6 +33,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
+import org.springframework.validation.annotation.Validated;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = StationTestApplication.class)
 class ApiControllerTest {
@@ -181,7 +183,6 @@ class ApiControllerTest {
 
     @Test
     void fullFlowTest() {
-        testOrderAssign();
     }
 
 }

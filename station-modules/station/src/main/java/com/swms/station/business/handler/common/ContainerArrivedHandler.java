@@ -1,9 +1,6 @@
 package com.swms.station.business.handler.common;
 
 import com.google.common.base.Preconditions;
-import com.swms.station.remote.EquipmentService;
-import com.swms.station.remote.TaskService;
-import com.swms.utils.utils.JsonUtils;
 import com.swms.station.api.ApiCodeEnum;
 import com.swms.station.business.handler.IBusinessHandler;
 import com.swms.station.business.handler.event.ContainerArrivedEvent;
@@ -11,7 +8,10 @@ import com.swms.station.business.model.ArrivedContainer;
 import com.swms.station.business.model.WorkStation;
 import com.swms.station.business.model.WorkStationManagement;
 import com.swms.station.remote.ContainerService;
-import com.swms.wms.api.basic.dto.ContainerLayoutDTO;
+import com.swms.station.remote.EquipmentService;
+import com.swms.station.remote.TaskService;
+import com.swms.utils.utils.JsonUtils;
+import com.swms.wms.api.basic.dto.ContainerSpecDTO;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,9 +41,9 @@ public class ContainerArrivedHandler implements IBusinessHandler {
         List<ContainerArrivedEvent> containerArrivedEvents = JsonUtils.string2List(body, ContainerArrivedEvent.class);
         List<ArrivedContainer> arrivedContainers = containerArrivedEvents.stream().map(containerArrivedEvent -> {
             ArrivedContainer arrivedContainer = new ArrivedContainer();
-            ContainerLayoutDTO containerLayoutDTO = containerService.queryContainerLayout(containerArrivedEvent.getContainerCode()
+            ContainerSpecDTO containerLayoutDTO = containerService.queryContainerLayout(containerArrivedEvent.getContainerCode()
                 , containerArrivedEvent.getFace());
-            arrivedContainer.setContainerLayout(containerLayoutDTO);
+            arrivedContainer.setContainerSpec(containerLayoutDTO);
             arrivedContainer.setFace(containerArrivedEvent.getFace());
             arrivedContainer.setLocationCode(containerArrivedEvent.getLocationCode());
             arrivedContainer.setRobotCode(containerArrivedEvent.getRobotCode());

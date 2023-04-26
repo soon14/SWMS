@@ -18,7 +18,7 @@ class ContainerApiTest extends BaseTest {
 
     @Test
     void testCreateContainer() {
-        containerApi.createContainer("containerCode1", "test");
+        containerApi.createContainer("containerCode123", "test");
         Container container = containerRepository.findByContainerCode("containerCode1");
         Assertions.assertNotNull(container);
     }

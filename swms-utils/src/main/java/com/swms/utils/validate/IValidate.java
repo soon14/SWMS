@@ -1,6 +1,6 @@
 package com.swms.utils.validate;
 
-@ValidObject(groups = ValidationSequence.ThirdGroup.class)
+@ValidObject(groups = ValidationSequence.Extended.class)
 public interface IValidate {
     boolean validate();
 }

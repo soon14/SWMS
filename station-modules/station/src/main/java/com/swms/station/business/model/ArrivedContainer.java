@@ -2,6 +2,7 @@ package com.swms.station.business.model;
 
 import com.swms.wms.api.basic.constants.WorkLocationTypeEnum;
 import com.swms.wms.api.basic.dto.ContainerLayoutDTO;
+import com.swms.wms.api.basic.dto.ContainerSpecDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -60,7 +61,7 @@ public class ArrivedContainer {
     /**
      * layout
      */
-    private ContainerLayoutDTO containerLayout;
+    private ContainerSpecDTO containerSpec;
 
     /**
      * use configuration to get the rotation angle,identify two scan type. e.g. manual scan and equipment scan .

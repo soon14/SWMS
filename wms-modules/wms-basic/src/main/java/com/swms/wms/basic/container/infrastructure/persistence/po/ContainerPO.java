@@ -64,6 +64,8 @@ public class ContainerPO extends BaseUserPO {
     private boolean locked;
     private boolean opened;
 
+    @Column(nullable = false, columnDefinition = "int(11) default 0 comment '格口数量'")
+    private Integer containerSlotNum;
     @Column(nullable = false, columnDefinition = "int(11) default 0 comment '空格口数量'")
     private Integer emptySlotNum;
 

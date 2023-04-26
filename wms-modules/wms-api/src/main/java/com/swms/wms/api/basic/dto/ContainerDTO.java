@@ -1,6 +1,8 @@
 package com.swms.wms.api.basic.dto;
 
 import com.swms.wms.api.basic.constants.ContainerStatusEnum;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.apache.commons.collections4.CollectionUtils;
 
@@ -24,14 +26,16 @@ public class ContainerDTO {
 
     private BigDecimal occupationRatio;
 
-    private boolean empty;
-    private boolean lock;
+    private boolean emptyContainer;
+    private boolean locked;
+    private boolean opened;
 
-    /**
-     * container is or not open
-     */
-    private boolean open;
+    @NotNull
+    @Min(1)
+    private Integer containerSlotNum;
 
+    @NotNull
+    @Min(0)
     private Integer emptySlotNum;
 
     private ContainerStatusEnum containerStatus;
@@ -56,6 +60,9 @@ public class ContainerDTO {
 
         public void setContainerSlotCode(String containerCode) {
             this.containerSlotCode = containerCode + "-" + this.containerSlotSpecCode;
+            if (CollectionUtils.isNotEmpty(children)) {
+                children.forEach(v -> v.setContainerSlotCode(containerCode));
+            }
         }
     }
 }

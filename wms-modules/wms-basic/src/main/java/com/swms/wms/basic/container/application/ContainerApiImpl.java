@@ -2,7 +2,6 @@ package com.swms.wms.basic.container.application;
 
 import com.google.common.base.Preconditions;
 import com.swms.wms.api.basic.IContainerApi;
-import com.swms.wms.api.basic.dto.ContainerLayoutDTO;
 import com.swms.wms.api.basic.dto.ContainerSpecDTO;
 import com.swms.wms.basic.container.domain.entity.Container;
 import com.swms.wms.basic.container.domain.entity.ContainerSpec;
@@ -40,12 +39,12 @@ public class ContainerApiImpl implements IContainerApi {
     }
 
     @Override
-    public ContainerLayoutDTO queryContainerLayout(String containerCode, String face) {
+    public ContainerSpecDTO queryContainerLayout(String containerCode, String face) {
         Container container = containerRepository.findByContainerCode(containerCode);
         ContainerSpec containerSpec = containerSpecRepository.findByContainerSpecCode(container.getContainerSpecCode());
         List<ContainerSpecDTO.ContainerSlotSpec> containerSlotSpecs = containerSpec.getContainerSlotSpecsByFace(face);
         containerSpec.setContainerSlotSpecs(containerSlotSpecs);
-        return containerSpecTransfer.toContainerLayoutDTO(containerSpec);
+        return containerSpecTransfer.toDTO(containerSpec);
     }
 
     @Override

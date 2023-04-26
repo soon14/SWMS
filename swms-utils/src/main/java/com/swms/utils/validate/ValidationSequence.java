@@ -1,16 +1,12 @@
 package com.swms.utils.validate;
 
 import jakarta.validation.GroupSequence;
+import jakarta.validation.groups.Default;
 
-@GroupSequence({ValidationSequence.FirstGroup.class, ValidationSequence.SecondGroup.class, ValidationSequence.ThirdGroup.class})
+@GroupSequence({Default.class, ValidationSequence.Extended.class})
 public interface ValidationSequence {
 
-    public interface FirstGroup {
+    interface Extended {
     }
 
-    public interface SecondGroup {
-    }
-
-    public interface ThirdGroup {
-    }
 }

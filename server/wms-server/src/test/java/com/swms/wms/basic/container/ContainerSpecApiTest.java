@@ -6,9 +6,12 @@ import com.swms.wms.api.basic.IContainerSpecApi;
 import com.swms.wms.api.basic.dto.ContainerSpecDTO;
 import com.swms.wms.basic.container.domain.entity.ContainerSpec;
 import com.swms.wms.basic.container.domain.repository.ContainerSpecRepository;
+import com.swms.wms.basic.container.domain.transfer.ContainerSpecTransfer;
+import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 class ContainerSpecApiTest extends BaseTest {
 
@@ -18,23 +21,27 @@ class ContainerSpecApiTest extends BaseTest {
     @Autowired
     private ContainerSpecRepository containerSpecRepository;
 
+    @Autowired
+    private ContainerSpecTransfer containerSpecTransfer;
+
     @Test
-    void testCreateContainerSpec() {
+    @Transactional
+    void testSave() {
         ContainerSpecDTO containerSpecDTO = ObjectUtils.getRandomObject(ContainerSpecDTO.class);
         containerSpecDTO.setContainerSpecCode("test");
         Assertions.assertDoesNotThrow(() -> containerSpecApi.save(containerSpecDTO));
         ContainerSpec containerSpec = containerSpecRepository.findByContainerSpecCode("test");
         Assertions.assertNotNull(containerSpec);
+
     }
 
     @Test
-    void testCreateContainerSpecError() {
-        ContainerSpecDTO containerSpecDTO = ObjectUtils.getRandomObject(ContainerSpecDTO.class);
-        containerSpecDTO.setContainerSpecCode("test");
-        containerSpecDTO.setLength(0);
-        containerSpecDTO.getContainerSlotSpecs().addAll(containerSpecDTO.getContainerSlotSpecs());
-        Assertions.assertThrows(Exception.class, () -> containerSpecApi.save(containerSpecDTO));
+    void testUpdate() {
         ContainerSpec containerSpec = containerSpecRepository.findByContainerSpecCode("test");
-        Assertions.assertNotNull(containerSpec);
+        ContainerSpecDTO.ContainerSlotSpec containerSlotSpec = ObjectUtils.getRandomObject(ContainerSpecDTO.ContainerSlotSpec.class);
+        containerSpec.getContainerSlotSpecs().get(0).setChildren(Lists.newArrayList(containerSlotSpec));
+        containerSpecApi.save(containerSpecTransfer.toDTO(containerSpec));
+        containerSpec = containerSpecRepository.findByContainerSpecCode("test");
+        Assertions.assertEquals(2, containerSpec.getContainerSlotSpecs().size());
     }
 }

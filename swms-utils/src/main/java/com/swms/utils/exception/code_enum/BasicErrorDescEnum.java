@@ -13,6 +13,7 @@ public enum BasicErrorDescEnum implements IBaseError {
     CONTAINER_NOT_EXIST("BAS001002", "container not exist"),
     CONTAINER_SPECIFIC_NOT_EXIST("BAS001003", "container specific not exist"),
     CONTAINER_SPECIFIC_CANNOT_CHANGE("BAS001004", "container specific cannot change, maybe it's already in use"),
+    CONTAINER_SPECIFIC_SLOT_CODE_REPEAT("BAS001005", "container specific slot code repeat"),
     ;
 
     private final String code;
