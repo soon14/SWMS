@@ -1,0 +1,26 @@
+package com.swms.wms.basic.work_station.infrastructure.repository.impl;
+
+import com.swms.wms.basic.work_station.domain.entity.WorkStation;
+import com.swms.wms.basic.work_station.domain.repository.WorkStationRepository;
+import com.swms.wms.basic.work_station.infrastructure.persistence.mapper.WorkStationPORepository;
+import com.swms.wms.basic.work_station.infrastructure.persistence.transfer.WorkStationPOTransfer;
+import org.springframework.beans.factory.annotation.Autowired;
+
+public class WorkStationRepositoryImpl implements WorkStationRepository {
+
+    @Autowired
+    private WorkStationPORepository workStationPORepository;
+
+    @Autowired
+    private WorkStationPOTransfer workStationPOTransfer;
+
+    @Override
+    public WorkStation findByStationCode(String stationCode) {
+        return workStationPOTransfer.toDO(workStationPORepository.findByStationCode(stationCode));
+    }
+
+    @Override
+    public void save(WorkStation workStation) {
+        workStationPORepository.save(workStationPOTransfer.toPO(workStation));
+    }
+}

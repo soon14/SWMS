@@ -2,10 +2,9 @@ package com.swms.wms.basic.work_station.domain.repository;
 
 import com.swms.wms.basic.work_station.domain.entity.WorkStation;
 
-public interface IWorkStationRepository {
-    void addWorkStation(WorkStation workStation);
+public interface WorkStationRepository {
 
-    void updateWorkStation(WorkStation workStation);
+    void save(WorkStation workStation);
 
     WorkStation findByStationCode(String stationCode);
 }

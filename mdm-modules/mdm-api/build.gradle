@@ -11,6 +11,7 @@ repositories {
 
 dependencies {
     implementation 'jakarta.validation:jakarta.validation-api'
+    implementation project(path: ":swms-utils", configuration: 'default')
 }
 
 test {

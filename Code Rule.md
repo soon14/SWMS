@@ -51,3 +51,4 @@
    public class BatchAttributeConfigApplicationImpl implements IBatchAttributeConfigApi {
    }
    ```
+   > if your parameters is a  

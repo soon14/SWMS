@@ -1,7 +1,6 @@
 package com.swms.station.business.model;
 
-import com.swms.wms.api.basic.dto.WorkLocationDTO;
-import com.swms.wms.api.basic.dto.WorkLocationSlotDTO;
+import com.swms.wms.api.basic.dto.WorkStationDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -16,7 +15,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class WorkLocationExtend extends WorkLocationDTO<WorkLocationExtend.WorkLocationSlotExtend> {
+public class WorkLocationExtend extends WorkStationDTO.WorkLocation<WorkLocationExtend.WorkLocationSlotExtend> {
 
     private List<WorkLocationSlotExtend> workLocationSlots;
 
@@ -24,7 +23,7 @@ public class WorkLocationExtend extends WorkLocationDTO<WorkLocationExtend.WorkL
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class WorkLocationSlotExtend extends WorkLocationSlotDTO {
+    public static class WorkLocationSlotExtend extends WorkStationDTO.WorkLocationSlot {
         private ArrivedContainer arrivedContainer;
     }
 

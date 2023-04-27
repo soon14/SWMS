@@ -1,5 +1,6 @@
 package com.swms.wms.basic.work_station.domain.entity;
 
+import com.swms.wms.api.basic.dto.PutWallDTO;
 import lombok.Data;
 
 import java.util.List;
@@ -14,6 +15,7 @@ public class PutWall {
     private String stationCode;
     private String putWallCode;
     private String putWallName;
-    private List<PutWallSlot> putWallSlots;
+    private String containerSpecCode;
+    private List<PutWallDTO.PutWallSlot> putWallSlots;
 
 }

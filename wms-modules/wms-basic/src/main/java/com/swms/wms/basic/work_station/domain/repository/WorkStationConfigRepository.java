@@ -1,11 +1,11 @@
 package com.swms.wms.basic.work_station.domain.repository;
 
-import com.swms.wms.basic.work_station.domain.entity.WorkStationConfig;
+import com.swms.wms.basic.work_station.domain.entity.WorkStation;
 
 public interface WorkStationConfigRepository {
-    void save(WorkStationConfig workStationConfig);
+    void save(WorkStation.WorkStationConfig workStationConfig);
 
-    WorkStationConfig findByStationCode(String stationCode);
+    WorkStation.WorkStationConfig findByStationCode(String stationCode);
 
-    void update(WorkStationConfig workStationConfig);
+    void update(WorkStation.WorkStationConfig workStationConfig);
 }

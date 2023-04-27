@@ -1,71 +1,76 @@
 package com.swms.wms.basic.work_station.application;
 
-import com.swms.wms.api.task.dto.BindContainerDTO;
 import com.swms.wms.api.basic.IWorkStationApi;
 import com.swms.wms.api.basic.constants.WorkStationOperationTypeEnum;
-import com.swms.wms.api.basic.dto.AssignOrdersDTO;
-import com.swms.wms.api.basic.dto.PutWallSlotDTO;
-import com.swms.wms.api.basic.dto.ReleasePutWallSlotsDTO;
-import com.swms.wms.api.basic.dto.WorkStationModelDTO;
-import com.swms.wms.basic.work_station.domain.service.PutWallService;
+import com.swms.wms.api.basic.dto.WorkStationDTO;
+import com.swms.wms.basic.work_station.domain.entity.WorkStation;
+import com.swms.wms.basic.work_station.domain.repository.WorkStationRepository;
+import com.swms.wms.basic.work_station.domain.transfer.WorkStationTransfer;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.List;
 
 @DubboService
 public class WorkStationApiImpl implements IWorkStationApi {
 
     @Autowired
-    private PutWallService putWallService;
+    private WorkStationRepository workStationRepository;
+
+    @Autowired
+    private WorkStationTransfer workStationTransfer;
+
+    @Override
+    public void save(WorkStationDTO workStationDTO) {
+        workStationRepository.save(workStationTransfer.toDO(workStationDTO));
+    }
+
+    @Override
+    public void update(WorkStationDTO workStationDTO) {
+        workStationRepository.save(workStationTransfer.toDO(workStationDTO));
+    }
+
+    @Override
+    public void enable(String stationCode) {
+        WorkStation workStation = workStationRepository.findByStationCode(stationCode);
+        workStation.enable();
+    }
+
+    @Override
+    public void disable(String stationCode) {
+        WorkStation workStation = workStationRepository.findByStationCode(stationCode);
+        workStation.disable();
+    }
 
     @Override
     public void online(String stationCode, WorkStationOperationTypeEnum operationType) {
-
+        WorkStation workStation = workStationRepository.findByStationCode(stationCode);
+        workStation.online(operationType);
+        workStationRepository.save(workStation);
     }
 
     @Override
     public void offline(String stationCode) {
-
+        WorkStation workStation = workStationRepository.findByStationCode(stationCode);
+        workStation.offline();
+        workStationRepository.save(workStation);
     }
 
     @Override
     public void pause(String stationCode) {
-
+        WorkStation workStation = workStationRepository.findByStationCode(stationCode);
+        workStation.pause();
+        workStationRepository.save(workStation);
     }
 
     @Override
     public void resume(String stationCode) {
-
+        WorkStation workStation = workStationRepository.findByStationCode(stationCode);
+        workStation.resume();
+        workStationRepository.save(workStation);
     }
 
     @Override
-    public WorkStationModelDTO queryWorkStationModel(String stationCode) {
-        return null;
+    public WorkStationDTO queryWorkStation(String stationCode) {
+        return workStationTransfer.toDTO(workStationRepository.findByStationCode(stationCode));
     }
 
-    @Override
-    public List<PutWallSlotDTO> getPutWallSlots(String stationCode) {
-        return putWallService.getPutWallSlotsByStationCode(stationCode);
-    }
-
-    @Override
-    public void assignOrders(List<AssignOrdersDTO> assignOrdersDTOS) {
-        putWallService.assignOrders(assignOrdersDTOS);
-    }
-
-    @Override
-    public void appendOrders(List<AssignOrdersDTO> assignOrdersDTOS) {
-        putWallService.appendOrders(assignOrdersDTOS);
-    }
-
-    @Override
-    public void releasePutWallSlots(List<ReleasePutWallSlotsDTO> releasePutWallSlotsDTOS) {
-
-    }
-
-    @Override
-    public void bindContainer(BindContainerDTO bindContainerDTO) {
-        putWallService.bindContainer(bindContainerDTO);
-    }
 }

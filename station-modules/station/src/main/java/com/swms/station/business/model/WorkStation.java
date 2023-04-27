@@ -102,7 +102,7 @@ public class WorkStation {
             return OperationTaskTypeEnum.ONE_STEP_RELOCATION;
         } else if (operationType == WorkStationOperationTypeEnum.TWO_STEP_INVENTORY_RELOCATION) {
             return OperationTaskTypeEnum.RELOCATION;
-        } else if (operationType == WorkStationOperationTypeEnum.OUTBOUND) {
+        } else if (operationType == WorkStationOperationTypeEnum.PICKING) {
             return OperationTaskTypeEnum.PICKING;
         } else if (operationType == WorkStationOperationTypeEnum.STOCK_TAKE) {
             return OperationTaskTypeEnum.COUNTING;

@@ -5,7 +5,7 @@ import com.swms.utils.mq.redis.RedisListener;
 import com.swms.station.business.model.WorkStation;
 import com.swms.station.business.model.WorkStationManagement;
 import com.swms.station.websocket.utils.StationWebSocketUtils;
-import com.swms.wms.api.basic.dto.PutWallSlotDTO;
+import com.swms.wms.api.basic.dto.PutWallDTO;
 import com.swms.wms.api.basic.dto.WorkStationConfigDTO;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -37,13 +37,13 @@ public class WorkStationMqConsumer {
     }
 
     @RedisListener(topic = RedisConstants.STATION_LISTEN_ORDER_ASSIGNED, type = List.class)
-    public void listenOrderAssigned(String topic, List<PutWallSlotDTO> putWallSlotDTOS) {
+    public void listenOrderAssigned(String topic, List<PutWallDTO.PutWallSlot> putWallSlotDTOS) {
 
         if (CollectionUtils.isEmpty(putWallSlotDTOS)) {
             return;
         }
 
-        Map<String, List<PutWallSlotDTO>> stationCodeMap = putWallSlotDTOS.stream().collect(Collectors.groupingBy(PutWallSlotDTO::getStationCode));
+        Map<String, List<PutWallDTO.PutWallSlot>> stationCodeMap = putWallSlotDTOS.stream().collect(Collectors.groupingBy(PutWallDTO.PutWallSlot::getStationCode));
 
         stationCodeMap.forEach((stationCode, values) -> {
             WorkStation workStation = workStationManagement.getWorkStation(stationCode);
@@ -53,7 +53,7 @@ public class WorkStationMqConsumer {
 
             values.forEach(putWallSlotDTO -> workStation.getPutWalls().forEach(putWall -> {
                 putWall.getPutWallSlots().forEach(cachePutWallSlot -> {
-                    if (StringUtils.equals(putWallSlotDTO.getSlotCode(), cachePutWallSlot.getSlotCode())) {
+                    if (StringUtils.equals(putWallSlotDTO.getPutWallSlotCode(), cachePutWallSlot.getPutWallSlotCode())) {
                         cachePutWallSlot.setOrderIds(putWallSlotDTO.getOrderIds());
                         cachePutWallSlot.setPutWallSlotStatus(putWallSlotDTO.getPutWallSlotStatus());
                     }

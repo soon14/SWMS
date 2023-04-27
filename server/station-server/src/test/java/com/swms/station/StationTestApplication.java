@@ -9,7 +9,7 @@ import com.swms.wms.api.basic.IContainerApi;
 import com.swms.wms.api.basic.IWorkStationApi;
 import com.swms.wms.api.basic.constants.WorkStationOperationTypeEnum;
 import com.swms.wms.api.basic.dto.ContainerLayoutDTO;
-import com.swms.wms.api.basic.dto.WorkStationModelDTO;
+import com.swms.wms.api.basic.dto.WorkStationDTO;
 import org.powermock.api.mockito.PowerMockito;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -32,10 +32,10 @@ public class StationTestApplication {
 
         File file = ResourceUtils.getFile("classpath:json/WorkStationModel.json");
         String s = FileUtils.readFileToString(file, "UTF-8");
-        WorkStationModelDTO workStationModelDTO = JsonUtils.string2Object(s, WorkStationModelDTO.class);
+        WorkStationDTO workStationModelDTO = JsonUtils.string2Object(s, WorkStationDTO.class);
 
         IWorkStationApi iWorkStationApi = PowerMockito.mock(IWorkStationApi.class);
-        PowerMockito.when(iWorkStationApi.queryWorkStationModel("1"))
+        PowerMockito.when(iWorkStationApi.queryWorkStation("1"))
             .thenAnswer(t -> workStationModelDTO);
         PowerMockito.doNothing().when(iWorkStationApi, "online", "1", WorkStationOperationTypeEnum.CHOICE_CONTAINER_OUTBOUND);
         PowerMockito.doNothing().when(iWorkStationApi, "offline", "1");

@@ -9,8 +9,6 @@ import com.swms.station.remote.ContainerService;
 import com.swms.station.remote.TaskService;
 import com.swms.station.remote.WorkStationMqConsumer;
 import com.swms.utils.utils.JsonUtils;
-import com.swms.utils.validate.ValidObject;
-import com.swms.utils.validate.ValidationSequence;
 import com.swms.wms.api.task.ITaskApi;
 import com.swms.wms.api.task.dto.HandleTaskDTO;
 import com.swms.wms.api.basic.IContainerApi;
@@ -25,7 +23,6 @@ import com.swms.station.view.model.WorkStationVO;
 import com.swms.station.websocket.utils.HttpContext;
 import com.swms.wms.api.basic.IWorkStationApi;
 import com.swms.wms.api.basic.dto.PutWallDTO;
-import com.swms.wms.api.basic.dto.PutWallSlotDTO;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,7 +30,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
-import org.springframework.validation.annotation.Validated;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = StationTestApplication.class)
 class ApiControllerTest {
@@ -71,7 +67,7 @@ class ApiControllerTest {
     @Test
     void testOnline() {
         HttpContext.setStationCode("1");
-        apiController.execute(ApiCodeEnum.ONLINE, WorkStationOperationTypeEnum.OUTBOUND.name());
+        apiController.execute(ApiCodeEnum.ONLINE, WorkStationOperationTypeEnum.PICKING.name());
 
         WorkStationVO workStationVO = viewHelper.getWorkStationVO("1");
         Assertions.assertThat(workStationVO).isNotNull();
@@ -114,9 +110,9 @@ class ApiControllerTest {
         WorkStation workStation = workStationManagement.getWorkStation("1");
         PutWallDTO putWallDTO = workStation.getPutWalls().get(0);
 
-        PutWallSlotDTO putWallSlotDTO = PutWallSlotDTO.builder()
+        PutWallDTO.PutWallSlot putWallSlotDTO = PutWallDTO.PutWallSlot.builder()
             .putWallCode(putWallDTO.getPutWallCode())
-            .slotCode(putWallDTO.getPutWallSlots().get(0).getSlotCode())
+            .slotCode(putWallDTO.getPutWallSlots().get(0).getPutWallSlotCode())
             .putWallSlotStatus(PutWallSlotStatusEnum.WAITING_BINDING)
             .stationCode("1")
             .orderIds(Lists.newArrayList(1L)).build();

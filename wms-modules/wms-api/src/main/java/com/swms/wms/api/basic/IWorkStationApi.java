@@ -1,15 +1,23 @@
 package com.swms.wms.api.basic;
 
+import com.swms.wms.api.basic.dto.PutWallDTO;
 import com.swms.wms.api.task.dto.BindContainerDTO;
 import com.swms.wms.api.basic.constants.WorkStationOperationTypeEnum;
 import com.swms.wms.api.basic.dto.AssignOrdersDTO;
-import com.swms.wms.api.basic.dto.PutWallSlotDTO;
 import com.swms.wms.api.basic.dto.ReleasePutWallSlotsDTO;
-import com.swms.wms.api.basic.dto.WorkStationModelDTO;
+import com.swms.wms.api.basic.dto.WorkStationDTO;
 
 import java.util.List;
 
 public interface IWorkStationApi {
+
+    void save(WorkStationDTO workStationDTO);
+
+    void update(WorkStationDTO workStationDTO);
+
+    void enable(String stationCode);
+
+    void disable(String stationCode);
 
     void online(String stationCode, WorkStationOperationTypeEnum operationType);
 
@@ -19,16 +27,5 @@ public interface IWorkStationApi {
 
     void resume(String stationCode);
 
-    WorkStationModelDTO queryWorkStationModel(String stationCode);
-
-    List<PutWallSlotDTO> getPutWallSlots(String stationCode);
-
-
-    void assignOrders(List<AssignOrdersDTO> assignOrdersDTOS);
-
-    void appendOrders(List<AssignOrdersDTO> assignOrdersDTOS);
-
-    void releasePutWallSlots(List<ReleasePutWallSlotsDTO> releasePutWallSlotsDTOS);
-
-    void bindContainer(BindContainerDTO bindContainerDTO);
+    WorkStationDTO queryWorkStation(String stationCode);
 }

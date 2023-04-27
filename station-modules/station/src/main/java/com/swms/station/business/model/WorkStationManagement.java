@@ -3,7 +3,7 @@ package com.swms.station.business.model;
 import com.google.common.collect.Maps;
 import com.swms.utils.utils.JsonUtils;
 import com.swms.station.remote.WorkStationService;
-import com.swms.wms.api.basic.dto.WorkStationModelDTO;
+import com.swms.wms.api.basic.dto.WorkStationDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,7 +20,7 @@ public class WorkStationManagement {
 
     public synchronized WorkStation initWorkStation(String stationCode) {
 
-        WorkStationModelDTO workStationObj = workStationService.queryWorkStation(stationCode);
+        WorkStationDTO workStationObj = workStationService.queryWorkStation(stationCode);
         WorkStation workStation = JsonUtils.string2Object(JsonUtils.obj2String(workStationObj), WorkStation.class);
         workStationMap.put(stationCode, workStation);
 
