@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Validated(value = ValidationSequence.class)
 @Service
@@ -63,18 +65,48 @@ public class PutWallApiImpl implements IPutWallApi {
 
     @Override
     public void assignOrders(List<AssignOrdersDTO> assignOrdersDTOS) {
+
+        List<String> putWallSlotCodes = assignOrdersDTOS.stream().map(AssignOrdersDTO::getPutWallSlotCode).toList();
+        List<PutWallDTO.PutWallSlot> putWallSlots = putWallRepository.findByPutWallSlotCodeIn(putWallSlotCodes);
+
+        Map<String, AssignOrdersDTO> assignOrdersDTOMap = assignOrdersDTOS.stream()
+            .collect(Collectors.toMap(AssignOrdersDTO::getPutWallSlotCode, v -> v));
+
+        putWallSlots.forEach(putWallSlot -> {
+            AssignOrdersDTO assignOrdersDTO = assignOrdersDTOMap.get(putWallSlot.getPutWallSlotCode());
+            putWallSlot.assignOrders(assignOrdersDTO.getOrderIds());
+        });
+        putWallRepository.saveAll(putWallSlots);
     }
 
     @Override
     public void appendOrders(List<AssignOrdersDTO> assignOrdersDTOS) {
+        List<String> putWallSlotCodes = assignOrdersDTOS.stream().map(AssignOrdersDTO::getPutWallSlotCode).toList();
+        List<PutWallDTO.PutWallSlot> putWallSlots = putWallRepository.findByPutWallSlotCodeIn(putWallSlotCodes);
+
+        Map<String, AssignOrdersDTO> assignOrdersDTOMap = assignOrdersDTOS.stream()
+            .collect(Collectors.toMap(AssignOrdersDTO::getPutWallSlotCode, v -> v));
+
+        putWallSlots.forEach(putWallSlot -> {
+            AssignOrdersDTO assignOrdersDTO = assignOrdersDTOMap.get(putWallSlot.getPutWallSlotCode());
+            putWallSlot.appendOrders(assignOrdersDTO.getOrderIds());
+        });
+        putWallRepository.saveAll(putWallSlots);
     }
 
     @Override
     public void releasePutWallSlots(List<ReleasePutWallSlotsDTO> releasePutWallSlotsDTOS) {
+        List<String> putWallSlotCodes = releasePutWallSlotsDTOS.stream().flatMap(v -> v.getPutWallSlotCodes().stream()).toList();
+        List<PutWallDTO.PutWallSlot> putWallSlots = putWallRepository.findByPutWallSlotCodeIn(putWallSlotCodes);
 
+        putWallSlots.forEach(PutWallDTO.PutWallSlot::release);
+        putWallRepository.saveAll(putWallSlots);
     }
 
     @Override
     public void bindContainer(BindContainerDTO bindContainerDTO) {
+        PutWallDTO.PutWallSlot putWallSlot = putWallRepository.findByPutWallSlotCode(bindContainerDTO.getPutWallSlotCode());
+        putWallSlot.bindContainer(bindContainerDTO.getContainerCode());
+        putWallRepository.save(putWallSlot);
     }
 }

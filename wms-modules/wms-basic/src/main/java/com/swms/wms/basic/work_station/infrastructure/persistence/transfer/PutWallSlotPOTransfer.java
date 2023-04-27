@@ -22,4 +22,8 @@ public interface PutWallSlotPOTransfer {
     List<PutWallSlotPO> toPOS(List<PutWallDTO.PutWallSlot> putWallSlots);
 
     List<PutWallDTO.PutWallSlot> toPutWallSlots(List<PutWallSlotPO> putWallSlotPOS);
+
+    PutWallDTO.PutWallSlot toPutWallSlot(PutWallSlotPO putWallSlotPO);
+
+    PutWallSlotPO toPO(PutWallDTO.PutWallSlot putWallSlot);
 }

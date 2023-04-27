@@ -14,4 +14,12 @@ public interface PutWallRepository {
     List<PutWallDTO.PutWallSlot> getPutWallSlotsByStationCode(String stationCode);
 
     PutWall findByPutWallCode(String putWallCode);
+
+    List<PutWallDTO.PutWallSlot> findByPutWallSlotCodeIn(List<String> putWallSlotCodes);
+
+    void saveAll(List<PutWallDTO.PutWallSlot> putWallSlots);
+
+    PutWallDTO.PutWallSlot findByPutWallSlotCode(String putWallSlotCode);
+
+    void save(PutWallDTO.PutWallSlot putWallSlot);
 }

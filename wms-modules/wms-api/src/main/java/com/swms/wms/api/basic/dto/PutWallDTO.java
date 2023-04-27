@@ -1,5 +1,6 @@
 package com.swms.wms.api.basic.dto;
 
+import com.google.common.collect.Lists;
 import com.swms.utils.validate.IValidate;
 import com.swms.wms.api.basic.constants.PutWallSlotStatusEnum;
 import jakarta.validation.constraints.Min;
@@ -9,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.List;
 
@@ -63,6 +65,55 @@ public class PutWallDTO implements IValidate {
         private String transferContainerCode;
 
         private Long version;
+
+        public void assignOrders(List<Long> orderIds) {
+
+            if (CollectionUtils.isNotEmpty(this.orderIds)) {
+                throw new RuntimeException("PutWallSlot is not empty");
+            }
+
+            if (this.putWallSlotStatus != PutWallSlotStatusEnum.IDLE) {
+                throw new RuntimeException("PutWallSlot is not IDLE");
+            }
+
+            this.orderIds = orderIds;
+            this.putWallSlotStatus = PutWallSlotStatusEnum.WAITING_BINDING;
+        }
+
+        public void appendOrders(List<Long> orderIds) {
+
+            if (CollectionUtils.isEmpty(this.orderIds)) {
+                throw new RuntimeException("PutWallSlot is empty");
+            }
+
+            if (this.putWallSlotStatus == PutWallSlotStatusEnum.IDLE) {
+                throw new RuntimeException("PutWallSlot is IDLE, cannot append orders");
+            }
+
+            this.orderIds.addAll(orderIds);
+        }
+
+        public void release() {
+            if (CollectionUtils.isEmpty(this.orderIds)) {
+                throw new RuntimeException("PutWallSlot is empty");
+            }
+
+            if (this.putWallSlotStatus != PutWallSlotStatusEnum.WAITING_SEAL) {
+                throw new RuntimeException("PutWallSlot is not WAITING_SEAL, cannot release");
+            }
+
+            this.orderIds = Lists.newArrayList();
+            this.putWallSlotStatus = PutWallSlotStatusEnum.IDLE;
+        }
+
+        public void bindContainer(String containerCode) {
+            if (this.putWallSlotStatus != PutWallSlotStatusEnum.WAITING_BINDING) {
+                throw new RuntimeException("PutWallSlot is not WAITING_BINDING, cannot bind container");
+            }
+
+            this.transferContainerCode = containerCode;
+            this.putWallSlotStatus = PutWallSlotStatusEnum.BOUND;
+        }
     }
 
     private Long version;

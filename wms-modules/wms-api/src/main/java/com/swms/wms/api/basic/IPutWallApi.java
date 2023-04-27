@@ -4,28 +4,30 @@ import com.swms.wms.api.basic.dto.AssignOrdersDTO;
 import com.swms.wms.api.basic.dto.PutWallDTO;
 import com.swms.wms.api.basic.dto.ReleasePutWallSlotsDTO;
 import com.swms.wms.api.task.dto.BindContainerDTO;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
 
 import java.util.List;
 
 public interface IPutWallApi {
 
-    void save(PutWallDTO putWallDTO);
+    void save(@Valid PutWallDTO putWallDTO);
 
-    void update(PutWallDTO putWallDTO);
+    void update(@Valid PutWallDTO putWallDTO);
 
-    void enable(String putWallCode);
+    void enable(@NotEmpty String putWallCode);
 
-    void disable(String putWallCode);
+    void disable(@NotEmpty String putWallCode);
 
-    void delete(String putWallCode);
+    void delete(@NotEmpty String putWallCode);
 
-    List<PutWallDTO.PutWallSlot> getPutWallSlots(String stationCode);
+    List<PutWallDTO.PutWallSlot> getPutWallSlots(@NotEmpty String stationCode);
 
-    void assignOrders(List<AssignOrdersDTO> assignOrdersDTOS);
+    void assignOrders(@NotEmpty List<AssignOrdersDTO> assignOrdersDTOS);
 
-    void appendOrders(List<AssignOrdersDTO> assignOrdersDTOS);
+    void appendOrders(@NotEmpty List<AssignOrdersDTO> assignOrdersDTOS);
 
-    void releasePutWallSlots(List<ReleasePutWallSlotsDTO> releasePutWallSlotsDTOS);
+    void releasePutWallSlots(@NotEmpty List<ReleasePutWallSlotsDTO> releasePutWallSlotsDTOS);
 
-    void bindContainer(BindContainerDTO bindContainerDTO);
+    void bindContainer(@Valid BindContainerDTO bindContainerDTO);
 }

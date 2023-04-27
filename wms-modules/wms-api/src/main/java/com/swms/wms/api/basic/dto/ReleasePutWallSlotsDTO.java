@@ -1,5 +1,6 @@
 package com.swms.wms.api.basic.dto;
 
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,6 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReleasePutWallSlotsDTO {
-    private String stationCode;
+
+    @NotEmpty
     private List<String> putWallSlotCodes;
 }

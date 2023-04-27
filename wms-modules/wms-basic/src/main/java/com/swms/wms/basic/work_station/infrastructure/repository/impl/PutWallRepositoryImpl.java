@@ -56,4 +56,24 @@ public class PutWallRepositoryImpl implements PutWallRepository {
         return putWallPOTransfer.toDO(putWallPORepository.findByPutWallCode(putWallCode));
     }
 
+    @Override
+    public List<PutWallDTO.PutWallSlot> findByPutWallSlotCodeIn(List<String> putWallSlotCodes) {
+        return putWallSlotPOTransfer.toPutWallSlots(putWallSlotPORepository.findByPutWallSlotCodeIn(putWallSlotCodes));
+    }
+
+    @Override
+    public void saveAll(List<PutWallDTO.PutWallSlot> putWallSlots) {
+        putWallSlotPORepository.saveAll(putWallSlotPOTransfer.toPOS(putWallSlots));
+    }
+
+    @Override
+    public PutWallDTO.PutWallSlot findByPutWallSlotCode(String putWallSlotCode) {
+        return putWallSlotPOTransfer.toPutWallSlot(putWallSlotPORepository.findByPutWallSlotCode(putWallSlotCode));
+    }
+
+    @Override
+    public void save(PutWallDTO.PutWallSlot putWallSlot) {
+        putWallSlotPORepository.save(putWallSlotPOTransfer.toPO(putWallSlot));
+    }
+
 }
