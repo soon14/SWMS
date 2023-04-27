@@ -51,4 +51,4 @@
    public class BatchAttributeConfigApplicationImpl implements IBatchAttributeConfigApi {
    }
    ```
-   > if your parameters is a  
+   > if your parameters is an object needed to validate ,then add @Validated(value = ValidationSequence.class) instead of @Validated and the object need to implement the IValidate interface.
