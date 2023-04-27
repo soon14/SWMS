@@ -5,18 +5,21 @@ import com.swms.wms.api.task.dto.BindContainerDTO;
 import com.swms.wms.api.task.dto.HandleTaskDTO;
 import com.swms.wms.api.task.dto.OperationTaskDTO;
 import com.swms.wms.api.task.dto.SealContainerDTO;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
 
 import java.util.List;
 
 public interface ITaskApi {
 
-    void createOperationTasks(List<OperationTaskDTO> operationTaskDTOS);
+    void createOperationTasks(@NotEmpty List<OperationTaskDTO> operationTaskDTOS);
 
-    List<OperationTaskDTO> queryTasks(String stationCode, List<String> containerCodes, OperationTaskTypeEnum taskType);
+    List<OperationTaskDTO> queryTasks(@NotEmpty String stationCode, @NotEmpty List<String> containerCodes,
+                                      @NotEmpty OperationTaskTypeEnum taskType);
 
-    void handleTasks(HandleTaskDTO handleTaskDTO);
+    void handleTasks(@Valid HandleTaskDTO handleTaskDTO);
 
-    void bindContainer(BindContainerDTO bindContainerDTO);
+    void bindContainer(@Valid BindContainerDTO bindContainerDTO);
 
-    void sealContainer(SealContainerDTO sealContainerDTO);
+    void sealContainer(@Valid SealContainerDTO sealContainerDTO);
 }

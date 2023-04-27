@@ -2,6 +2,8 @@ package com.swms.wms.api.task.dto;
 
 import com.swms.wms.api.task.constants.OperationTaskStatusEnum;
 import com.swms.wms.api.task.constants.OperationTaskTypeEnum;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,8 +15,10 @@ import java.util.List;
 @Builder
 public class HandleTaskDTO {
 
+    @NotNull
     private HandleTaskTypeEnum handleTaskType;
 
+    @NotEmpty
     private List<HandleTask> handleTasks;
 
     @Data
@@ -24,11 +28,16 @@ public class HandleTaskDTO {
     public static class HandleTask {
 
         // is a redundancy
+        @NotNull
         private HandleTaskTypeEnum handleTaskType;
+        @NotNull
         private Long taskId;
+        @NotNull
         private Integer requiredQty;
+        @NotNull
         private Integer operatedQty;
         private Integer abnormalQty;
+        @NotNull
         private OperationTaskTypeEnum taskType;
         private OperationTaskStatusEnum taskStatus;
 
@@ -45,10 +54,6 @@ public class HandleTaskDTO {
                 this.taskStatus = OperationTaskStatusEnum.PROCESSED;
             }
         }
-    }
-
-    public static HandleTask newHandlerTask() {
-        return new HandleTask();
     }
 
     public enum HandleTaskTypeEnum {

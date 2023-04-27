@@ -18,10 +18,12 @@ import com.swms.wms.task.domain.transfer.OperationTaskTransfer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 
 @Service
+@Validated
 public class OperationTaskApplicationImpl implements ITaskApi {
 
     @Autowired

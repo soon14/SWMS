@@ -18,4 +18,6 @@ import java.util.List;
     nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface OperationTaskPOTransfer {
     List<OperationTask> toOperationTasks(List<OperationTaskPO> selectBatchIds);
+
+    List<OperationTaskPO> toOperationTaskPOs(List<OperationTask> operationTasks);
 }
