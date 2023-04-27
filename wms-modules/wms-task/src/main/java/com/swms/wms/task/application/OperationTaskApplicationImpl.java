@@ -1,6 +1,7 @@
 package com.swms.wms.task.application;
 
 import com.swms.utils.event.DomainEventPublisher;
+import com.swms.wms.api.basic.IPutWallApi;
 import com.swms.wms.api.stock.dto.StockTransferDTO;
 import com.swms.wms.api.task.ITaskApi;
 import com.swms.wms.api.task.constants.OperationTaskTypeEnum;
@@ -30,7 +31,7 @@ public class OperationTaskApplicationImpl implements ITaskApi {
     private OperationTaskTransfer operationTaskTransfer;
 
     @Autowired
-    private IWorkStationApi iworkStationApi;
+    private IPutWallApi putWallApi;
 
     @Autowired
     private TransferContainerAggregate transferContainerAggregate;
@@ -83,7 +84,7 @@ public class OperationTaskApplicationImpl implements ITaskApi {
     @Override
     public void bindContainer(BindContainerDTO bindContainerDTO) {
         //1. set put wall slot transfer container
-        iworkStationApi.bindContainer(bindContainerDTO);
+        putWallApi.bindContainer(bindContainerDTO);
     }
 
     @Override

@@ -1,7 +1,6 @@
 package com.swms.station.business.model;
 
 import com.swms.wms.api.basic.constants.WorkLocationTypeEnum;
-import com.swms.wms.api.basic.dto.ContainerLayoutDTO;
 import com.swms.wms.api.basic.dto.ContainerSpecDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

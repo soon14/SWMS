@@ -13,6 +13,12 @@ public interface IPutWallApi {
 
     void update(PutWallDTO putWallDTO);
 
+    void enable(String putWallCode);
+
+    void disable(String putWallCode);
+
+    void delete(String putWallCode);
+
     List<PutWallDTO.PutWallSlot> getPutWallSlots(String stationCode);
 
     void assignOrders(List<AssignOrdersDTO> assignOrdersDTOS);

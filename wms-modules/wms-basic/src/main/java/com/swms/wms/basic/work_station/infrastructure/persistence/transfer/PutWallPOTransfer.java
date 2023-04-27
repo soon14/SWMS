@@ -21,4 +21,6 @@ public interface PutWallPOTransfer {
     PutWallPO toPO(PutWall putWall);
 
     PutWall toDO(PutWallPO putWallPO, List<PutWallSlotPO> putWallSlotPOS);
+
+    PutWall toDO(PutWallPO putWallPO);
 }

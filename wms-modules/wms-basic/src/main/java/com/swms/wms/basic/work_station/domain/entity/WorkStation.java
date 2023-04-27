@@ -24,6 +24,8 @@ public class WorkStation {
 
     private List<WorkStationDTO.WorkLocation<? extends WorkStationDTO.WorkLocationSlot>> workLocations;
 
+    private boolean deleted;
+
     private Long version;
 
     public void enable() {
@@ -35,6 +37,13 @@ public class WorkStation {
             throw new WmsException("work station is not offline, can not enable");
         }
         this.enable = false;
+    }
+
+    public void delete() {
+        if (workStationStatus != WorkStationStatusEnum.OFFLINE) {
+            throw new WmsException("work station is not offline, can not enable");
+        }
+        this.deleted = true;
     }
 
     public void online(WorkStationOperationTypeEnum operationType) {

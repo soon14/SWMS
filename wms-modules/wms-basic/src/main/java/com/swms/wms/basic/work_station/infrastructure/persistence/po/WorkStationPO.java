@@ -62,6 +62,8 @@ public class WorkStationPO extends BaseUserPO {
 
     private boolean enable;
 
+    private boolean deleted;
+
     @Version
     private Long version;
 }

@@ -53,7 +53,6 @@ public class PutWallSlotPO extends BaseUserPO {
     private Integer level;
     @Column(nullable = false, columnDefinition = "int default0 comment '层'")
     private Integer bay;
-    private boolean enable;
 
     @Column(columnDefinition = "json comment '播种墙格口订单'")
     @Convert(converter = ListLongConverter.class)
@@ -65,6 +64,8 @@ public class PutWallSlotPO extends BaseUserPO {
 
     @Column(nullable = false, columnDefinition = "varchar(64) comment '周转容器编码'")
     private String transferContainerCode;
+
+    private boolean enable;
 
     @Version
     private Long version;

@@ -7,8 +7,8 @@ import com.swms.station.business.model.WorkStation;
 import com.swms.station.business.model.WorkStationManagement;
 import com.swms.station.remote.TaskService;
 import com.swms.utils.utils.JsonUtils;
-import com.swms.wms.api.task.dto.BindContainerDTO;
 import com.swms.wms.api.basic.constants.WorkStationStatusEnum;
+import com.swms.wms.api.task.dto.BindContainerDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +29,6 @@ public class BindContainerHandler implements IBusinessHandler {
         Preconditions.checkState(workStation.getWorkStationStatus() == WorkStationStatusEnum.ONLINE);
 
         BindContainerDTO bindContainerDTO = JsonUtils.string2Object(body, BindContainerDTO.class);
-
         taskService.bindContainer(bindContainerDTO);
     }
 

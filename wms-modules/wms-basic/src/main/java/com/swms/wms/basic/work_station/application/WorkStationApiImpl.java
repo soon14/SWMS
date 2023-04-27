@@ -8,7 +8,9 @@ import com.swms.wms.basic.work_station.domain.repository.WorkStationRepository;
 import com.swms.wms.basic.work_station.domain.transfer.WorkStationTransfer;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 @DubboService
 public class WorkStationApiImpl implements IWorkStationApi {
 
@@ -32,12 +34,21 @@ public class WorkStationApiImpl implements IWorkStationApi {
     public void enable(String stationCode) {
         WorkStation workStation = workStationRepository.findByStationCode(stationCode);
         workStation.enable();
+        workStationRepository.save(workStation);
     }
 
     @Override
     public void disable(String stationCode) {
         WorkStation workStation = workStationRepository.findByStationCode(stationCode);
         workStation.disable();
+        workStationRepository.save(workStation);
+    }
+
+    @Override
+    public void delete(String stationCode) {
+        WorkStation workStation = workStationRepository.findByStationCode(stationCode);
+        workStation.delete();
+        workStationRepository.save(workStation);
     }
 
     @Override

@@ -18,4 +18,19 @@ public class PutWall {
     private String containerSpecCode;
     private List<PutWallDTO.PutWallSlot> putWallSlots;
 
+    private boolean deleted;
+
+    private boolean enable;
+
+    public void enable() {
+        this.enable = true;
+    }
+
+    public void disable() {
+        this.enable = false;
+    }
+
+    public void delete() {
+        this.deleted = true;
+    }
 }

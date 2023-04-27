@@ -6,6 +6,7 @@ import com.swms.wms.api.basic.dto.AssignOrdersDTO;
 import com.swms.wms.api.basic.dto.PutWallDTO;
 import com.swms.wms.api.basic.dto.ReleasePutWallSlotsDTO;
 import com.swms.wms.api.task.dto.BindContainerDTO;
+import com.swms.wms.basic.work_station.domain.entity.PutWall;
 import com.swms.wms.basic.work_station.domain.repository.PutWallRepository;
 import com.swms.wms.basic.work_station.domain.transfer.PutWallTransfer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,26 @@ public class PutWallApiImpl implements IPutWallApi {
         putWallRepository.save(putWallTransfer.toDO(putWallDTO));
     }
 
+    @Override
+    public void enable(String putWallCode) {
+        PutWall putWall = putWallRepository.findByPutWallCode(putWallCode);
+        putWall.enable();
+        putWallRepository.save(putWall);
+    }
+
+    @Override
+    public void disable(String putWallCode) {
+        PutWall putWall = putWallRepository.findByPutWallCode(putWallCode);
+        putWall.disable();
+        putWallRepository.save(putWall);
+    }
+
+    @Override
+    public void delete(String putWallCode) {
+        PutWall putWall = putWallRepository.findByPutWallCode(putWallCode);
+        putWall.delete();
+        putWallRepository.save(putWall);
+    }
 
     @Override
     public List<PutWallDTO.PutWallSlot> getPutWallSlots(String stationCode) {

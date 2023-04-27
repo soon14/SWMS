@@ -3,13 +3,19 @@ package com.swms.wms.api.basic.dto;
 import com.swms.wms.api.basic.constants.ContainerStatusEnum;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class ContainerDTO {
 
     private Long id;

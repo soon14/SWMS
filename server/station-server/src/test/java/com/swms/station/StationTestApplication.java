@@ -2,14 +2,14 @@ package com.swms.station;
 
 import com.alibaba.cloud.commons.io.FileUtils;
 import com.swms.utils.utils.JsonUtils;
-import com.swms.wms.api.task.ITaskApi;
-import com.swms.wms.api.task.constants.OperationTaskTypeEnum;
-import com.swms.wms.api.task.dto.OperationTaskDTO;
 import com.swms.wms.api.basic.IContainerApi;
 import com.swms.wms.api.basic.IWorkStationApi;
 import com.swms.wms.api.basic.constants.WorkStationOperationTypeEnum;
-import com.swms.wms.api.basic.dto.ContainerLayoutDTO;
+import com.swms.wms.api.basic.dto.ContainerDTO;
 import com.swms.wms.api.basic.dto.WorkStationDTO;
+import com.swms.wms.api.task.ITaskApi;
+import com.swms.wms.api.task.constants.OperationTaskTypeEnum;
+import com.swms.wms.api.task.dto.OperationTaskDTO;
 import org.powermock.api.mockito.PowerMockito;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -37,7 +37,7 @@ public class StationTestApplication {
         IWorkStationApi iWorkStationApi = PowerMockito.mock(IWorkStationApi.class);
         PowerMockito.when(iWorkStationApi.queryWorkStation("1"))
             .thenAnswer(t -> workStationModelDTO);
-        PowerMockito.doNothing().when(iWorkStationApi, "online", "1", WorkStationOperationTypeEnum.CHOICE_CONTAINER_OUTBOUND);
+        PowerMockito.doNothing().when(iWorkStationApi, "online", "1", WorkStationOperationTypeEnum.PICKING);
         PowerMockito.doNothing().when(iWorkStationApi, "offline", "1");
 
         return iWorkStationApi;
@@ -48,7 +48,7 @@ public class StationTestApplication {
 
         IContainerApi iContainerApi = PowerMockito.mock(IContainerApi.class);
         PowerMockito.when(iContainerApi.queryContainerLayout("1", "A"))
-            .thenAnswer(t -> ContainerLayoutDTO.builder().containerCode("1").build());
+            .thenAnswer(t -> ContainerDTO.builder().containerCode("1").build());
         return iContainerApi;
     }
 

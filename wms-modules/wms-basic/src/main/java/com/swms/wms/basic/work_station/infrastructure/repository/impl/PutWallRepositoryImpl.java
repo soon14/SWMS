@@ -9,6 +9,7 @@ import com.swms.wms.basic.work_station.infrastructure.persistence.po.PutWallPO;
 import com.swms.wms.basic.work_station.infrastructure.persistence.po.PutWallSlotPO;
 import com.swms.wms.basic.work_station.infrastructure.persistence.transfer.PutWallPOTransfer;
 import com.swms.wms.basic.work_station.infrastructure.persistence.transfer.PutWallSlotPOTransfer;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,7 +33,9 @@ public class PutWallRepositoryImpl implements PutWallRepository {
     @Override
     public void save(PutWall putWall) {
         putWallPORepository.save(putWallPOTransfer.toPO(putWall));
-        putWallSlotPORepository.saveAll(putWallSlotPOTransfer.toPOS(putWall.getPutWallSlots()));
+        if (CollectionUtils.isNotEmpty(putWall.getPutWallSlots())) {
+            putWallSlotPORepository.saveAll(putWallSlotPOTransfer.toPOS(putWall.getPutWallSlots()));
+        }
     }
 
     @Override
@@ -46,6 +49,11 @@ public class PutWallRepositoryImpl implements PutWallRepository {
     public List<PutWallDTO.PutWallSlot> getPutWallSlotsByStationCode(String stationCode) {
         List<PutWallSlotPO> putWallSlotPOS = putWallSlotPORepository.findByStationCode(stationCode);
         return putWallSlotPOTransfer.toPutWallSlots(putWallSlotPOS);
+    }
+
+    @Override
+    public PutWall findByPutWallCode(String putWallCode) {
+        return putWallPOTransfer.toDO(putWallPORepository.findByPutWallCode(putWallCode));
     }
 
 }

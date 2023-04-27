@@ -41,6 +41,10 @@ public class PutWallPO extends BaseUserPO {
     @Column(nullable = false, columnDefinition = "varchar(128) comment '播种墙名称'")
     private String putWallName;
 
+    private boolean deleted;
+
+    private boolean enable;
+
     @Version
     private Long version;
 }

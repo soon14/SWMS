@@ -112,7 +112,7 @@ class ApiControllerTest {
 
         PutWallDTO.PutWallSlot putWallSlotDTO = PutWallDTO.PutWallSlot.builder()
             .putWallCode(putWallDTO.getPutWallCode())
-            .slotCode(putWallDTO.getPutWallSlots().get(0).getPutWallSlotCode())
+            .putWallSlotCode(putWallDTO.getPutWallSlots().get(0).getPutWallSlotCode())
             .putWallSlotStatus(PutWallSlotStatusEnum.WAITING_BINDING)
             .stationCode("1")
             .orderIds(Lists.newArrayList(1L)).build();

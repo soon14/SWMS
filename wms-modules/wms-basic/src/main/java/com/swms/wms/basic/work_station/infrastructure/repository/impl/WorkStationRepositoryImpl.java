@@ -5,7 +5,9 @@ import com.swms.wms.basic.work_station.domain.repository.WorkStationRepository;
 import com.swms.wms.basic.work_station.infrastructure.persistence.mapper.WorkStationPORepository;
 import com.swms.wms.basic.work_station.infrastructure.persistence.transfer.WorkStationPOTransfer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class WorkStationRepositoryImpl implements WorkStationRepository {
 
     @Autowired
