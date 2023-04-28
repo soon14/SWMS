@@ -37,7 +37,7 @@ public class ContainerSpecPO extends BaseUserPO {
 
     @Id
     @GeneratedValue(generator = "databaseIdGenerator")
-    @GenericGenerator(name = "databaseIdGenerator", type = IdGenerator.class)
+    @GenericGenerator(name = "databaseIdGenerator", strategy = "com.swms.utils.id.IdGenerator")
     private Long id;
 
     @Column(nullable = false, columnDefinition = "varchar(64) comment '容器规格编码'")

@@ -1,7 +1,6 @@
 package com.swms.wms.basic.container.infrastructure.persistence.po;
 
 import com.swms.utils.base.BaseUserPO;
-import com.swms.utils.id.IdGenerator;
 import com.swms.wms.api.basic.constants.ContainerStatusEnum;
 import com.swms.wms.api.basic.dto.ContainerDTO;
 import com.swms.wms.basic.container.infrastructure.persistence.converter.ListContainerSlotConverter;
@@ -37,7 +36,7 @@ public class ContainerPO extends BaseUserPO {
 
     @Id
     @GeneratedValue(generator = "databaseIdGenerator")
-    @GenericGenerator(name = "databaseIdGenerator", type = IdGenerator.class)
+    @GenericGenerator(name = "databaseIdGenerator", strategy = "com.swms.utils.id.IdGenerator")
     private Long id;
 
     @Column(nullable = false, columnDefinition = "varchar(64) comment '容器编码'")

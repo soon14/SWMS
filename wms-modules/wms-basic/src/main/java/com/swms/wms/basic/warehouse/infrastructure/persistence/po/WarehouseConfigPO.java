@@ -30,7 +30,7 @@ public class WarehouseConfigPO extends BaseUserPO {
 
     @Id
     @GeneratedValue(generator = "databaseIdGenerator")
-    @GenericGenerator(name = "databaseIdGenerator", type = IdGenerator.class)
+    @GenericGenerator(name = "databaseIdGenerator", strategy = "com.swms.utils.id.IdGenerator")
     private Long id;
 
     private String warehouseCode;
