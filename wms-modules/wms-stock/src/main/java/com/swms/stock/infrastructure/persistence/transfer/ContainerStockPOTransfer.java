@@ -3,8 +3,8 @@ package com.swms.stock.infrastructure.persistence.transfer;
 import static org.mapstruct.NullValueCheckStrategy.ALWAYS;
 import static org.mapstruct.NullValueMappingStrategy.RETURN_NULL;
 
-import com.swms.stock.infrastructure.persistence.po.ContainerStockPO;
 import com.swms.stock.domain.entity.ContainerStock;
+import com.swms.stock.infrastructure.persistence.po.ContainerStockPO;
 import org.mapstruct.Mapper;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
@@ -17,9 +17,11 @@ import java.util.List;
     unmappedTargetPolicy = ReportingPolicy.IGNORE,
     nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface ContainerStockPOTransfer {
-    ContainerStockPO toContainerStockPO(ContainerStock containerStock);
+    ContainerStockPO toPO(ContainerStock containerStock);
 
-    ContainerStock toContainerStock(ContainerStockPO containerStockPO);
+    ContainerStock toDO(ContainerStockPO containerStockPO);
 
-    List<ContainerStock> toContainerStocks(List<ContainerStockPO> containerStockPOS);
+    List<ContainerStock> toDOs(List<ContainerStockPO> containerStockPOs);
+
+    List<ContainerStockPO> toPOs(List<ContainerStock> containerStocks);
 }

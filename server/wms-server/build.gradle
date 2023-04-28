@@ -25,7 +25,7 @@ dependencies {
     implementation 'org.apache.dubbo:dubbo-spring-boot-starter'
 
     implementation project(path: ":wms-modules:wms-basic", configuration: 'default')
-    implementation project(path: ":swms-utils", configuration: 'default')
+    implementation project(path: ":wms-modules:wms-stock", configuration: 'default')
 
     implementation group: 'org.apache.skywalking', name: 'apm-toolkit-logback-1.x'
 

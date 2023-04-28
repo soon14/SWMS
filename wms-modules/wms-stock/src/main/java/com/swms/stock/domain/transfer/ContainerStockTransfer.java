@@ -23,5 +23,5 @@ public interface ContainerStockTransfer {
     @Mapping(source = "transferQty", target = "availableQty")
     @Mapping(source = "targetContainerCode", target = "containerCode")
     @Mapping(source = "targetContainerSlotCode", target = "containerSlotCode")
-    List<ContainerStock> toContainerStocks(List<StockTransferDTO> stockTransferDTOS);
+    List<ContainerStock> toDOs(List<StockTransferDTO> stockTransferDTOS);
 }

@@ -1,6 +1,6 @@
 package com.swms.stock.application;
 
-import com.swms.stock.domain.aggregate.StockAggregate;
+import com.swms.stock.domain.service.StockTransferService;
 import com.swms.stock.domain.entity.ContainerStock;
 import com.swms.stock.domain.entity.SkuBatchStock;
 import com.swms.stock.domain.repository.ContainerStockRepository;
@@ -19,7 +19,7 @@ import java.util.Objects;
 public class StockApplicationApiImpl implements IStockApi {
 
     @Autowired
-    private StockAggregate stockAggregate;
+    private StockTransferService stockTransferService;
 
     @Autowired
     private ContainerStockRepository containerStockRepository;
@@ -29,7 +29,7 @@ public class StockApplicationApiImpl implements IStockApi {
 
     @Override
     public void createStock(List<StockTransferDTO> stockTransferDTOS) {
-        stockAggregate.createStock(stockTransferDTOS);
+        stockTransferService.createStock(stockTransferDTOS);
     }
 
     @Override
@@ -60,6 +60,6 @@ public class StockApplicationApiImpl implements IStockApi {
 
     @Override
     public void transferStock(StockTransferDTO stockDeductDTO) {
-        stockAggregate.transferStock(stockDeductDTO);
+        stockTransferService.transferStock(stockDeductDTO);
     }
 }

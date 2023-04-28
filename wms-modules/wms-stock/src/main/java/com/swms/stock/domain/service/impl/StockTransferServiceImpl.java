@@ -1,9 +1,12 @@
-package com.swms.stock.domain.aggregate;
+package com.swms.stock.domain.service.impl;
 
+import com.swms.stock.domain.entity.ContainerStockTransactionRecord;
 import com.swms.stock.domain.entity.SkuBatchStock;
 import com.swms.stock.domain.repository.ContainerStockRepository;
+import com.swms.stock.domain.repository.ContainerStockTransactionRecordRepository;
 import com.swms.stock.domain.repository.SkuBatchStockRepository;
 import com.swms.stock.domain.service.StockManagement;
+import com.swms.stock.domain.service.StockTransferService;
 import com.swms.stock.domain.transfer.ContainerStockTransfer;
 import com.swms.wms.api.stock.dto.StockTransferDTO;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +19,7 @@ import java.util.Objects;
 
 @Service
 @Slf4j
-public class StockAggregate {
+public class StockTransferServiceImpl implements StockTransferService {
 
     @Autowired
     private SkuBatchStockRepository skuBatchStockRepository;
@@ -30,6 +33,9 @@ public class StockAggregate {
     @Autowired
     private ContainerStockTransfer containerStockTransfer;
 
+    @Autowired
+    private ContainerStockTransactionRecordRepository containerStockTransactionRecordRepository;
+
     /**
      * when stock is moved from outside to warehouse, then stock is created. e.g: receiving
      *
@@ -37,7 +43,7 @@ public class StockAggregate {
      */
     @Transactional
     public void createStock(List<StockTransferDTO> stockTransferDTOS) {
-        containerStockRepository.saveAll(containerStockTransfer.toContainerStocks(stockTransferDTOS));
+        containerStockRepository.saveAll(containerStockTransfer.toDOs(stockTransferDTOS));
 
         List<Long> skuBatchStockIds = stockTransferDTOS.stream().map(StockTransferDTO::getSkuBatchStockId).toList();
         List<SkuBatchStock> skuBatchStocks = skuBatchStockRepository.findAllByIds(skuBatchStockIds);
@@ -57,15 +63,27 @@ public class StockAggregate {
      */
     @Transactional
     public void transferStock(StockTransferDTO stockTransferDTO) {
+        // handle idempotent
+        handleIdempotent(stockTransferDTO.getContainerStockTransactionRecordId());
+
         stockManagement.transferContainerStock(stockTransferDTO, false);
         stockManagement.transferSkuBatchStock(stockTransferDTO, false);
     }
 
     @Transactional
     public void transferAndUnlockStock(StockTransferDTO stockTransferDTO) {
+        // handle idempotent
+        handleIdempotent(stockTransferDTO.getContainerStockTransactionRecordId());
+
         stockManagement.transferContainerStock(stockTransferDTO, true);
         stockManagement.transferSkuBatchStock(stockTransferDTO, true);
     }
 
+    private void handleIdempotent(Long containerStockTransactionRecordId) {
+        ContainerStockTransactionRecord transactionRecord = containerStockTransactionRecordRepository
+            .findById(containerStockTransactionRecordId);
+        transactionRecord.process();
+        containerStockTransactionRecordRepository.save(transactionRecord);
+    }
 
 }

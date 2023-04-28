@@ -49,9 +49,9 @@ public class PutWallSlotPO extends BaseUserPO {
     @Column(nullable = false, columnDefinition = "varchar(64) comment '播种墙格口编码'")
     private String putWallSlotCode;
 
-    @Column(nullable = false, columnDefinition = "int default0 comment '层'")
+    @Column(nullable = false, columnDefinition = "int default 0 comment '层'")
     private Integer level;
-    @Column(nullable = false, columnDefinition = "int default0 comment '层'")
+    @Column(nullable = false, columnDefinition = "int default 0 comment '层'")
     private Integer bay;
 
     @Column(columnDefinition = "json comment '播种墙格口订单'")

@@ -21,9 +21,9 @@ public interface SkuBatchStockTransfer {
 
     @Mapping(source = "transferQty", target = "totalQty")
     @Mapping(source = "transferQty", target = "availableQty")
-    List<SkuBatchStock> toSkuBatchStocks(List<StockTransferDTO> stockTransferDTOS);
+    List<SkuBatchStock> toDOs(List<StockTransferDTO> stockTransferDTOS);
 
     @Mapping(source = "transferQty", target = "totalQty")
     @Mapping(source = "transferQty", target = "availableQty")
-    SkuBatchStock toSkuBatchStock(StockTransferDTO stockTransferDTO);
+    SkuBatchStock toDO(StockTransferDTO stockTransferDTO);
 }

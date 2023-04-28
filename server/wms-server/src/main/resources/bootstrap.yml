@@ -1,25 +1,15 @@
-server:
-  port: 9111
 spring:
   application:
-    name: wms-server
+    name: wms
   profiles:
-    active: dev
+    active: test
   cloud:
     nacos:
       config:
-        server-addr: 172.18.35.23:8181
-        namespace: wms-server-dev
-        context-path: "/nacos"
-        group: swms
+        server-addr: ${nacos.hairoutech.com:192.168.83.128}:${nacos.port:8848}
+        prefix: ${spring.application.name}
         file-extension: yml
-      discovery:
-        namespace: wms-server-dev
-        server-addr: 172.18.35.23:8181
+        namespace: ${spring.profiles.active}
+        group: swms
         username: nacos
         password: nacos
-        group: swms
-  config:
-    import:
-      - nacos:wms-server.yml
-      - nacos:wms-server-redisson.yml

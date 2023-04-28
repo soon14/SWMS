@@ -14,9 +14,9 @@ import org.mapstruct.ReportingPolicy;
     nullValueMappingStrategy = RETURN_NULL,
     unmappedTargetPolicy = ReportingPolicy.IGNORE,
     nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-public interface ContainerStockTransactionRecordTransfer {
+public interface ContainerStockTransactionRecordPOTransfer {
 
-    ContainerStockTransactionRecordPO toContainerTransactionRecordPO(ContainerStockTransactionRecord transactionRecord);
+    ContainerStockTransactionRecordPO toPO(ContainerStockTransactionRecord transactionRecord);
 
-    ContainerStockTransactionRecord toContainerTransactionRecord(ContainerStockTransactionRecordPO transactionRecordPO);
+    ContainerStockTransactionRecord toDO(ContainerStockTransactionRecordPO transactionRecordPO);
 }

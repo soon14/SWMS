@@ -1,11 +1,10 @@
 package com.swms.stock.infrastructure.repository.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.swms.stock.infrastructure.persistence.mapper.SkuBatchStockMapper;
-import com.swms.stock.infrastructure.persistence.po.SkuBatchStockPO;
-import com.swms.stock.infrastructure.persistence.transfer.SkuBatchStockPOTransfer;
 import com.swms.stock.domain.entity.SkuBatchStock;
 import com.swms.stock.domain.repository.SkuBatchStockRepository;
+import com.swms.stock.infrastructure.persistence.mapper.SkuBatchStockPORepository;
+import com.swms.stock.infrastructure.persistence.po.SkuBatchStockPO;
+import com.swms.stock.infrastructure.persistence.transfer.SkuBatchStockPOTransfer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,47 +14,43 @@ import java.util.List;
 public class SkuBatchRepositoryImpl implements SkuBatchStockRepository {
 
     @Autowired
-    private SkuBatchStockMapper skuBatchStockMapper;
+    private SkuBatchStockPORepository skuBatchStockPORepository;
 
     @Autowired
-    private SkuBatchStockPOTransfer skuBatchStockTransfer;
+    private SkuBatchStockPOTransfer skuBatchStockPOTransfer;
 
     @Override
     public void save(SkuBatchStock skuBatchStock) {
-        skuBatchStockMapper.insert(skuBatchStockTransfer.toSkuBatchStockPO(skuBatchStock));
+        skuBatchStockPORepository.save(skuBatchStockPOTransfer.toSkuBatchStockPO(skuBatchStock));
     }
 
     @Override
     public void saveAll(List<SkuBatchStock> skuBatchStocks) {
-
+        skuBatchStockPORepository.saveAll(skuBatchStockPOTransfer.toPOs(skuBatchStocks));
     }
 
     @Override
     public SkuBatchStock findById(Long skuBatchStockId) {
-        SkuBatchStockPO skuBatchStockPO = skuBatchStockMapper.selectById(skuBatchStockId);
-        return skuBatchStockTransfer.toSkuBatchStock(skuBatchStockPO);
+        SkuBatchStockPO skuBatchStockPO = skuBatchStockPORepository.findById(skuBatchStockId).orElseThrow();
+        return skuBatchStockPOTransfer.toSkuBatchStock(skuBatchStockPO);
     }
 
     @Override
     public List<SkuBatchStock> findAllByIds(List<Long> skuBatchIds) {
-        List<SkuBatchStockPO> skuBatchStockPOS = skuBatchStockMapper.selectBatchIds(skuBatchIds);
-        return skuBatchStockTransfer.toSkuBatchStocks(skuBatchStockPOS);
+        List<SkuBatchStockPO> skuBatchStockPOS = skuBatchStockPORepository.findAllById(skuBatchIds);
+        return skuBatchStockPOTransfer.toSkuBatchStocks(skuBatchStockPOS);
     }
 
     @Override
     public List<SkuBatchStock> findAllBySkuBatchAttributeId(Long skuBatchAttributeId) {
-        LambdaQueryWrapper<SkuBatchStockPO> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(SkuBatchStockPO::getSkuBatchAttributeId, skuBatchAttributeId);
-        List<SkuBatchStockPO> skuBatchStocks = skuBatchStockMapper.selectList(wrapper);
-        return skuBatchStockTransfer.toSkuBatchStocks(skuBatchStocks);
+        List<SkuBatchStockPO> skuBatchStocks = skuBatchStockPORepository.findAllBySkuBatchAttributeId(skuBatchAttributeId);
+        return skuBatchStockPOTransfer.toSkuBatchStocks(skuBatchStocks);
     }
 
     @Override
     public SkuBatchStock findBySkuBatchAttributeIdAndWarehouseAreaCode(Long skuBatchAttributeId, String warehouseAreaCode) {
-        LambdaQueryWrapper<SkuBatchStockPO> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(SkuBatchStockPO::getSkuBatchAttributeId, skuBatchAttributeId);
-        wrapper.eq(SkuBatchStockPO::getWarehouseAreaCode, warehouseAreaCode);
-        SkuBatchStockPO skuBatchStockPO = skuBatchStockMapper.selectOne(wrapper);
-        return skuBatchStockTransfer.toSkuBatchStock(skuBatchStockPO);
+        SkuBatchStockPO skuBatchStockPO = skuBatchStockPORepository
+            .findBySkuBatchAttributeIdAndWarehouseAreaCode(skuBatchAttributeId, warehouseAreaCode);
+        return skuBatchStockPOTransfer.toSkuBatchStock(skuBatchStockPO);
     }
 }

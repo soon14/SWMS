@@ -1,4 +1,4 @@
-package com.swms.mdm.config.infrastructure.impl;
+package com.swms.mdm.config.infrastructure.repository.impl;
 
 import com.swms.mdm.config.domain.entity.BatchAttributeConfig;
 import com.swms.mdm.config.domain.repository.BatchAttributeConfigRepository;

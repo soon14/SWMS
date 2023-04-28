@@ -16,5 +16,5 @@ import org.mapstruct.ReportingPolicy;
     nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface ContainerStockTransactionRecordTransfer {
 
-    ContainerStockTransactionRecord toContainerStockTransactionRecord(StockTransferDTO stockTransferDTO);
+    ContainerStockTransactionRecord toDO(StockTransferDTO stockTransferDTO);
 }

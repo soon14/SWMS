@@ -1,10 +1,8 @@
 package com.swms.stock.domain.service;
 
 import com.swms.stock.domain.entity.ContainerStock;
-import com.swms.stock.domain.entity.ContainerStockTransactionRecord;
 import com.swms.stock.domain.entity.SkuBatchStock;
 import com.swms.stock.domain.repository.ContainerStockRepository;
-import com.swms.stock.domain.repository.ContainerStockTransactionRecordRepository;
 import com.swms.stock.domain.repository.SkuBatchStockRepository;
 import com.swms.stock.domain.transfer.SkuBatchStockTransfer;
 import com.swms.wms.api.stock.dto.StockTransferDTO;
@@ -25,19 +23,7 @@ public class StockManagement {
     @Autowired
     private SkuBatchStockTransfer skuBatchStockTransfer;
 
-    @Autowired
-    private ContainerStockTransactionRecordRepository containerStockTransactionRecordRepository;
-
-    public void saveContainerStockTransactionRecord(ContainerStockTransactionRecord record) {
-        containerStockTransactionRecordRepository.save(record);
-    }
-
     public void transferContainerStock(StockTransferDTO stockTransferDTO, boolean unlock) {
-
-        ContainerStockTransactionRecord transactionRecord = containerStockTransactionRecordRepository
-            .findById(stockTransferDTO.getContainerStockTransactionRecordId());
-        transactionRecord.setProcessed(true);
-        containerStockTransactionRecordRepository.save(transactionRecord);
 
         ContainerStock containerStock = containerStockRepository.findById(stockTransferDTO.getContainerStockId());
         if (Objects.equals(containerStock.getContainerCode(), stockTransferDTO.getTargetContainerCode())) {
@@ -66,7 +52,9 @@ public class StockManagement {
                 .availableQty(stockTransferDTO.getTransferQty())
                 .skuBatchAttributeId(stockTransferDTO.getSkuBatchAttributeId())
                 .warehouseAreaCode(stockTransferDTO.getWarehouseAreaCode())
-                .totalQty(stockTransferDTO.getTransferQty()).build();
+                .totalQty(stockTransferDTO.getTransferQty())
+                .boxStock(stockTransferDTO.isBoxStock())
+                .boxNo(stockTransferDTO.getBoxNo()).build();
         }
         containerStockRepository.save(targetContainerStock);
     }
@@ -84,7 +72,7 @@ public class StockManagement {
         SkuBatchStock targetSkuBatch = skuBatchStockRepository.findBySkuBatchAttributeIdAndWarehouseAreaCode(
             stockTransferDTO.getSkuBatchAttributeId(), stockTransferDTO.getWarehouseAreaCode());
         if (targetSkuBatch == null) {
-            targetSkuBatch = skuBatchStockTransfer.toSkuBatchStock(stockTransferDTO);
+            targetSkuBatch = skuBatchStockTransfer.toDO(stockTransferDTO);
         } else {
             targetSkuBatch.addQty(stockTransferDTO.getTransferQty());
         }

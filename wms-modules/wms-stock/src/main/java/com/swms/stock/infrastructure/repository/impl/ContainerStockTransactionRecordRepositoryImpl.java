@@ -2,8 +2,8 @@ package com.swms.stock.infrastructure.repository.impl;
 
 import com.swms.stock.domain.entity.ContainerStockTransactionRecord;
 import com.swms.stock.domain.repository.ContainerStockTransactionRecordRepository;
-import com.swms.stock.infrastructure.persistence.mapper.ContainerStockTransactionRecordMapper;
-import com.swms.stock.infrastructure.persistence.transfer.ContainerStockTransactionRecordTransfer;
+import com.swms.stock.infrastructure.persistence.mapper.ContainerStockTransactionRecordPORepository;
+import com.swms.stock.infrastructure.persistence.transfer.ContainerStockTransactionRecordPOTransfer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,18 +11,18 @@ import org.springframework.stereotype.Service;
 public class ContainerStockTransactionRecordRepositoryImpl implements ContainerStockTransactionRecordRepository {
 
     @Autowired
-    private ContainerStockTransactionRecordMapper recordMapper;
+    private ContainerStockTransactionRecordPORepository recordMapper;
 
     @Autowired
-    private ContainerStockTransactionRecordTransfer recordTransfer;
+    private ContainerStockTransactionRecordPOTransfer recordTransfer;
 
     @Override
     public void save(ContainerStockTransactionRecord transactionRecord) {
-        recordMapper.insert(recordTransfer.toContainerTransactionRecordPO(transactionRecord));
+        recordMapper.save(recordTransfer.toPO(transactionRecord));
     }
 
     @Override
     public ContainerStockTransactionRecord findById(Long containerStockTransactionRecordId) {
-        return recordTransfer.toContainerTransactionRecord(recordMapper.selectById(containerStockTransactionRecordId));
+        return recordTransfer.toDO(recordMapper.findById(containerStockTransactionRecordId).orElseThrow());
     }
 }

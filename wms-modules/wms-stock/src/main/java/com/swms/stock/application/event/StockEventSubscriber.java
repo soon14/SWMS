@@ -1,11 +1,11 @@
-package com.swms.stock.domain.event;
+package com.swms.stock.application.event;
 
 import com.google.common.eventbus.Subscribe;
-import com.swms.stock.domain.aggregate.StockAggregate;
 import com.swms.stock.domain.entity.ContainerStock;
 import com.swms.stock.domain.entity.ContainerStockTransactionRecord;
-import com.swms.stock.domain.service.StockManagement;
-import com.swms.stock.domain.service.StockQuery;
+import com.swms.stock.domain.repository.ContainerStockRepository;
+import com.swms.stock.domain.repository.ContainerStockTransactionRecordRepository;
+import com.swms.stock.domain.service.StockTransferService;
 import com.swms.stock.domain.transfer.ContainerStockTransactionRecordTransfer;
 import com.swms.wms.api.task.constants.OperationTaskTypeEnum;
 import com.swms.wms.api.task.event.StockTransferEvent;
@@ -16,13 +16,13 @@ import org.springframework.stereotype.Component;
 public class StockEventSubscriber {
 
     @Autowired
-    private StockAggregate stockAggregate;
+    private StockTransferService stockTransferService;
 
     @Autowired
-    private StockManagement stockManagement;
+    private ContainerStockRepository containerStockRepository;
 
     @Autowired
-    private StockQuery stockQuery;
+    private ContainerStockTransactionRecordRepository containerStockTransactionRecordRepository;
 
     @Autowired
     private ContainerStockTransactionRecordTransfer containerStockTransactionRecordTransfer;
@@ -33,17 +33,17 @@ public class StockEventSubscriber {
 
             //create stock transaction record
             ContainerStockTransactionRecord containerStockTransactionRecord = containerStockTransactionRecordTransfer
-                .toContainerStockTransactionRecord(stockTransferDTO);
-            ContainerStock containerStock = stockQuery.queryByContainerStockId(stockTransferDTO.getContainerStockId());
+                .toDO(stockTransferDTO);
+            ContainerStock containerStock = containerStockRepository.findById(stockTransferDTO.getContainerStockId());
             containerStockTransactionRecord.setSourceContainerCode(containerStock.getContainerCode());
             containerStockTransactionRecord.setSourceContainerSlotCode(containerStock.getContainerSlotCode());
-            stockManagement.saveContainerStockTransactionRecord(containerStockTransactionRecord);
+            containerStockTransactionRecordRepository.save(containerStockTransactionRecord);
 
             stockTransferDTO.setContainerStockTransactionRecordId(containerStockTransactionRecord.getId());
             if (event.getTaskType() == OperationTaskTypeEnum.PICKING) {
-                stockAggregate.transferAndUnlockStock(stockTransferDTO);
+                stockTransferService.transferAndUnlockStock(stockTransferDTO);
             } else {
-                stockAggregate.transferStock(stockTransferDTO);
+                stockTransferService.transferStock(stockTransferDTO);
             }
         });
     }

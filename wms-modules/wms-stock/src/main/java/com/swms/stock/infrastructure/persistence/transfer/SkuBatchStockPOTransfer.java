@@ -22,4 +22,6 @@ public interface SkuBatchStockPOTransfer {
     SkuBatchStock toSkuBatchStock(SkuBatchStockPO skuBatchStockPO);
 
     List<SkuBatchStock> toSkuBatchStocks(List<SkuBatchStockPO> skuBatchStockPOS);
+
+    List<SkuBatchStockPO> toPOs(List<SkuBatchStock> skuBatchStocks);
 }
