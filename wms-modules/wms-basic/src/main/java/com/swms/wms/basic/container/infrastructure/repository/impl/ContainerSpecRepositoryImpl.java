@@ -2,7 +2,7 @@ package com.swms.wms.basic.container.infrastructure.repository.impl;
 
 import com.swms.wms.basic.container.domain.entity.ContainerSpec;
 import com.swms.wms.basic.container.domain.repository.ContainerSpecRepository;
-import com.swms.wms.basic.container.infrastructure.persistence.mapper.ContainerSpecMapper;
+import com.swms.wms.basic.container.infrastructure.persistence.mapper.ContainerSpecPORepository;
 import com.swms.wms.basic.container.infrastructure.persistence.transfer.ContainerSpecPOTransfer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 public class ContainerSpecRepositoryImpl implements ContainerSpecRepository {
 
     @Autowired
-    private ContainerSpecMapper containerSpecMapper;
+    private ContainerSpecPORepository containerSpecMapper;
 
     @Autowired
     private ContainerSpecPOTransfer containerSpecPOTransfer;
