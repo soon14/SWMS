@@ -21,33 +21,12 @@ public class StockEventSubscriber {
     @Autowired
     private StockTransferService stockTransferService;
 
-    @Autowired
-    private ContainerStockRepository containerStockRepository;
-
-    @Autowired
-    private ContainerStockTransactionRecordRepository containerStockTransactionRecordRepository;
-
-    @Autowired
-    private ContainerStockTransactionRecordTransfer containerStockTransactionRecordTransfer;
-
     @Subscribe
     public void onEvent(@Valid StockTransferEvent event) {
-        event.getStockTransferDTOS().forEach(stockTransferDTO -> {
-
-            //create stock transaction record
-            ContainerStockTransactionRecord containerStockTransactionRecord = containerStockTransactionRecordTransfer
-                .toDO(stockTransferDTO);
-            ContainerStock containerStock = containerStockRepository.findById(stockTransferDTO.getContainerStockId());
-            containerStockTransactionRecord.setSourceContainerCode(containerStock.getContainerCode());
-            containerStockTransactionRecord.setSourceContainerSlotCode(containerStock.getContainerSlotCode());
-            ContainerStockTransactionRecord newRecord = containerStockTransactionRecordRepository.save(containerStockTransactionRecord);
-
-            stockTransferDTO.setContainerStockTransactionRecordId(newRecord.getId());
-            if (event.getTaskType() == OperationTaskTypeEnum.PICKING) {
-                stockTransferService.transferAndUnlockStock(stockTransferDTO);
-            } else {
-                stockTransferService.transferStock(stockTransferDTO);
-            }
-        });
+        if (event.getTaskType() == OperationTaskTypeEnum.PICKING) {
+            stockTransferService.transferAndUnlockStock(event.getStockTransferDTO());
+        } else {
+            stockTransferService.transferStock(event.getStockTransferDTO());
+        }
     }
 }

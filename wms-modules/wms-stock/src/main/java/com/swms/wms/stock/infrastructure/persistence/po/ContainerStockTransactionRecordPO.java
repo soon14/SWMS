@@ -1,15 +1,7 @@
 package com.swms.wms.stock.infrastructure.persistence.po;
 
 import com.swms.utils.base.BaseUserPO;
-import com.swms.utils.id.IdGenerator;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Index;
-import jakarta.persistence.Table;
-import jakarta.persistence.Version;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.GenericGenerator;
@@ -53,8 +45,6 @@ public class ContainerStockTransactionRecordPO extends BaseUserPO {
 
     @Column(nullable = false, columnDefinition = "int(11) default 0 comment '数量'")
     private Integer transferQty;
-
-    private boolean processed;
 
     @Version
     private Long version;

@@ -55,7 +55,7 @@ class StockApiTest extends BaseTest {
         stockTransferDTO.setSkuBatchStockId(439838141709422592L);
         stockTransferDTO.setWarehouseAreaCode("B");
         stockTransferDTO.setOrderNo("orderNo");
-        stockEventSubscriber.onEvent(StockTransferEvent.builder().stockTransferDTOS(Lists.newArrayList(stockTransferDTO)).taskType(OperationTaskTypeEnum.ONE_STEP_RELOCATION).build());
+        stockEventSubscriber.onEvent(StockTransferEvent.builder().stockTransferDTO(stockTransferDTO).taskType(OperationTaskTypeEnum.ONE_STEP_RELOCATION).build());
         containerStocks = stockApi.getContainerStock("containerCode");
         Assertions.assertEquals(0, (int) containerStocks.get(0).getAvailableQty());
 

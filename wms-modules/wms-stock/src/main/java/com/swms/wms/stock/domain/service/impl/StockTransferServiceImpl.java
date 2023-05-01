@@ -1,5 +1,6 @@
 package com.swms.wms.stock.domain.service.impl;
 
+import com.swms.wms.api.stock.dto.StockTransferDTO;
 import com.swms.wms.stock.domain.entity.ContainerStock;
 import com.swms.wms.stock.domain.entity.ContainerStockTransactionRecord;
 import com.swms.wms.stock.domain.entity.SkuBatchStock;
@@ -8,8 +9,8 @@ import com.swms.wms.stock.domain.repository.ContainerStockTransactionRecordRepos
 import com.swms.wms.stock.domain.repository.SkuBatchStockRepository;
 import com.swms.wms.stock.domain.service.StockManagement;
 import com.swms.wms.stock.domain.service.StockTransferService;
+import com.swms.wms.stock.domain.transfer.ContainerStockTransactionRecordTransfer;
 import com.swms.wms.stock.domain.transfer.ContainerStockTransfer;
-import com.swms.wms.api.stock.dto.StockTransferDTO;
 import com.swms.wms.stock.domain.transfer.SkuBatchStockTransfer;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
@@ -38,6 +39,9 @@ public class StockTransferServiceImpl implements StockTransferService {
 
     @Autowired
     private SkuBatchStockTransfer skuBatchStockTransfer;
+
+    @Autowired
+    private ContainerStockTransactionRecordTransfer containerStockTransactionRecordTransfer;
 
     @Autowired
     private ContainerStockTransactionRecordRepository containerStockTransactionRecordRepository;
@@ -74,8 +78,7 @@ public class StockTransferServiceImpl implements StockTransferService {
      */
     @Transactional
     public void transferStock(StockTransferDTO stockTransferDTO) {
-        // handle idempotent
-        handleIdempotent(stockTransferDTO.getContainerStockTransactionRecordId());
+        saveTransactionRecord(stockTransferDTO);
 
         stockManagement.transferContainerStock(stockTransferDTO, false);
         stockManagement.transferSkuBatchStock(stockTransferDTO, false);
@@ -83,18 +86,20 @@ public class StockTransferServiceImpl implements StockTransferService {
 
     @Transactional
     public void transferAndUnlockStock(StockTransferDTO stockTransferDTO) {
-        // handle idempotent
-        handleIdempotent(stockTransferDTO.getContainerStockTransactionRecordId());
+        saveTransactionRecord(stockTransferDTO);
 
         stockManagement.transferContainerStock(stockTransferDTO, true);
         stockManagement.transferSkuBatchStock(stockTransferDTO, true);
     }
 
-    private void handleIdempotent(Long containerStockTransactionRecordId) {
-        ContainerStockTransactionRecord transactionRecord = containerStockTransactionRecordRepository
-            .findById(containerStockTransactionRecordId);
-        transactionRecord.process();
-        containerStockTransactionRecordRepository.save(transactionRecord);
+    private void saveTransactionRecord(StockTransferDTO stockTransferDTO) {
+        ContainerStockTransactionRecord containerStockTransactionRecord = containerStockTransactionRecordTransfer
+                .toDO(stockTransferDTO);
+        ContainerStock containerStock = containerStockRepository.findById(stockTransferDTO.getContainerStockId());
+        containerStockTransactionRecord.setSourceContainerCode(containerStock.getContainerCode());
+        containerStockTransactionRecord.setSourceContainerSlotCode(containerStock.getContainerSlotCode());
+        containerStockTransactionRecordRepository.save(containerStockTransactionRecord);
     }
+
 
 }

@@ -66,18 +66,20 @@ public class OperationTaskApplicationImpl implements ITaskApi {
         //2. update stock
         List<Long> taskIds = handleTaskDTO.getHandleTasks().stream().map(HandleTaskDTO.HandleTask::getTaskId).toList();
         List<OperationTask> operationTasks = operationTaskService.queryOperationTasksByIds(taskIds);
-        List<StockTransferDTO> stockTransferDTOS = operationTasks.stream().map(v -> StockTransferDTO.builder()
-            .lockType(v.transferToLockType())
-            .containerStockId(v.getContainerStockId())
-            .skuBatchStockId(v.getSkuBatchStockId())
-            .skuBatchAttributeId(v.getSkuBatchAttributeId())
-            .taskId(v.getId())
-            .targetContainerCode(v.getTargetContainerCode())
-            .targetContainerSlotCode(v.getTargetContainerSlotCode())
-            .transferQty(v.getOperatedQty())
-            .warehouseAreaCode(v.transferToWarehouseAreaCode())
-            .build()).toList();
-        domainEventPublisher.sendAsyncEvent(StockTransferEvent.builder().stockTransferDTOS(stockTransferDTOS).build());
+        operationTasks.forEach(v -> {
+            StockTransferDTO stockTransferDTO = StockTransferDTO.builder()
+                    .lockType(v.transferToLockType())
+                    .containerStockId(v.getContainerStockId())
+                    .skuBatchStockId(v.getSkuBatchStockId())
+                    .skuBatchAttributeId(v.getSkuBatchAttributeId())
+                    .taskId(v.getId())
+                    .targetContainerCode(v.getTargetContainerCode())
+                    .targetContainerSlotCode(v.getTargetContainerSlotCode())
+                    .transferQty(v.getOperatedQty())
+                    .warehouseAreaCode(v.transferToWarehouseAreaCode())
+                    .build();
+            domainEventPublisher.sendAsyncEvent(StockTransferEvent.builder().stockTransferDTO(stockTransferDTO).taskType(v.getTaskType()).build());
+        });
 
         //3. update order status -> just send event
         domainEventPublisher.sendAsyncEvent(handleTaskDTO);
