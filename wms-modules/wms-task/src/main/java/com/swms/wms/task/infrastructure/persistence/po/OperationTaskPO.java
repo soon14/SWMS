@@ -1,39 +1,78 @@
 package com.swms.wms.task.infrastructure.persistence.po;
 
+import com.swms.utils.base.BaseUserPO;
 import com.swms.wms.api.task.constants.OperationTaskStatusEnum;
 import com.swms.wms.api.task.constants.OperationTaskTypeEnum;
+import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.GenericGenerator;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
-public class OperationTaskPO {
+@Entity
+@EntityListeners(AuditingEntityListener.class)
+@Table(
+        indexes = {
+                @Index(unique = true, name = "idx_task_no", columnList = "taskNo"),
+                @Index(name = "idx_source_container_code", columnList = "sourceContainerCode")
+        }
+)
+public class OperationTaskPO extends BaseUserPO {
 
+    @Id
+    @GeneratedValue(generator = "databaseIdGenerator")
+    @GenericGenerator(name = "databaseIdGenerator", strategy = "com.swms.utils.id.IdGenerator")
     private Long id;
 
+    @Column(nullable = false, columnDefinition = "varchar(64) comment '任务编号'")
     private String taskNo;
+
+    @Column(nullable = false, columnDefinition = "varchar(20) comment '任务类型'")
+    @Enumerated(EnumType.STRING)
     private OperationTaskTypeEnum taskType;
 
-    private String stationCode;
-
+    @Column(nullable = false, columnDefinition = "varchar(64) comment 'SKU编号'")
     private String skuCode;
+    @Column(nullable = false, columnDefinition = "bigint default 0 comment '批次id'")
     private Long skuBatchAttributeId;
+    @Column(nullable = false, columnDefinition = "bigint default 0 comment '批次库存id'")
     private Long skuBatchStockId;
+    @Column(nullable = false, columnDefinition = "bigint default 0 comment '容器库存id'")
     private Long containerStockId;
 
+    @Column(nullable = false, columnDefinition = "varchar(64) comment '原容器编码'")
     private String sourceContainerCode;
+    @Column(nullable = false, columnDefinition = "varchar(64) comment '原容器格口编码'")
     private String sourceContainerSlot;
 
-    private String boxNo;
+    @Column(nullable = false, columnDefinition = "varchar(64) default '' comment '目标容器编码'")
+    private String boxNo = "";
 
+    @Column(nullable = false, columnDefinition = "varchar(64) comment '工作站编号'")
+    private String stationCode;
+
+    @Column(nullable = false, columnDefinition = "int(11) comment '需求数量'")
     private Integer requiredQty;
+    @Column(nullable = false, columnDefinition = "int(11) comment '操作数量'")
     private Integer operatedQty;
+    @Column(nullable = false, columnDefinition = "int(11) comment '异常数量'")
     private Integer abnormalQty;
 
-    private String targetLocationCode;
-    private String targetContainerCode;
-    private String targetContainerSlotCode;
+    @Column(nullable = false, columnDefinition = "varchar(64) comment '目标容器编码'")
+    private String targetLocationCode = "";
+    @Column(nullable = false, columnDefinition = "varchar(64) comment '目标容器格口编码'")
+    private String targetContainerCode = "";
+    @Column(nullable = false, columnDefinition = "varchar(64) comment '目标容器格口编码'")
+    private String targetContainerSlotCode = "";
 
+    @Column(nullable = false, columnDefinition = "bigint comment '原始订单id'")
     private Long originalOrderId;
+    @Column(nullable = false, columnDefinition = "bigint comment '原始订单明细id'")
     private Long originalOrderDetailId;
 
+    @Column(nullable = false, columnDefinition = "varchar(20) comment '任务状态'")
+    @Enumerated(EnumType.STRING)
     private OperationTaskStatusEnum taskStatus;
 }

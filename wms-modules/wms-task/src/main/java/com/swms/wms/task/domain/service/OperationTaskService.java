@@ -22,18 +22,6 @@ public class OperationTaskService {
     @Autowired
     private OperationTaskRepository operationTaskRepository;
 
-    @Autowired
-    private OperationTaskTransfer operationTaskTransfer;
-
-    public void createOperationTasks(List<OperationTaskDTO> operationTaskDTOS) {
-        List<OperationTask> operationTasks = operationTaskTransfer.toOperationTasks(operationTaskDTOS);
-        operationTaskRepository.saveAll(operationTasks);
-    }
-
-    public List<OperationTask> queryContainerTasksByTaskType(String stationCode, List<String> containerCodes, OperationTaskTypeEnum taskType) {
-        return operationTaskRepository.queryContainerTasksByTaskType(stationCode, containerCodes, taskType);
-    }
-
     @Transactional
     public void handleTasks(HandleTaskDTO handleTaskDTO) {
 

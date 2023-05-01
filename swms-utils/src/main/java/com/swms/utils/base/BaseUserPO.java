@@ -11,13 +11,6 @@ import org.springframework.data.annotation.LastModifiedDate;
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class BaseUserPO extends BaseDatePO {
-    @Column(nullable = false, columnDefinition = "bigint default 0 comment 'Creation time'")
-    @CreatedDate
-    public Long createTime;
-
-    @Column(nullable = false, columnDefinition = "bigint default 0 comment 'Update time'")
-    @LastModifiedDate
-    public Long updateTime;
 
     @CreatedBy
     @Column(nullable = false, columnDefinition = "varchar(60) default '' comment 'Create user'")

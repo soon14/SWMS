@@ -11,5 +11,5 @@ public class SealContainerDTO {
     @NotEmpty
     private String putWallSlotCode;
     @NotEmpty
-    private String containerCode;
+    private String transferContainerCode;
 }
