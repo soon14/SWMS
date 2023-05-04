@@ -9,8 +9,12 @@ public class Location {
     private Long id;
     // unique identifier
     private String locationCode;
-
     private String aisleCode;
+    private String shelfCode;
+
+    private String warehouseCode;
+    private String warehouseAreaCode;
+    private String warehouseLogicCode;
 
     private LocationTypeEnum locationType;
 

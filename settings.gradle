@@ -17,9 +17,13 @@ include 'mdm-modules:mdm-config'
 include 'mdm-modules:mdm-main-data'
 include 'mdm-modules:mdm-api'
 
+include 'user-modules:user'
+include 'user-modules:user-api'
+
 include 'server:wms-server'
 include 'server:station-server'
 include 'server:mdm-server'
+include 'server:user-server'
 
 include 'swms-utils'
 

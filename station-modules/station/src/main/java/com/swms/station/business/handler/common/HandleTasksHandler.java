@@ -68,7 +68,6 @@ public class HandleTasksHandler implements IBusinessHandler {
                 .taskType(workStation.getOperationTaskType())
                 .build();
             handleTask.setAbnormalQty();
-            handleTask.setTaskStatus();
             return handleTask;
         }).toList();
 

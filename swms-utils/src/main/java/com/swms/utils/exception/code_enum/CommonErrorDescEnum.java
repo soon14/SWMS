@@ -6,7 +6,7 @@ import lombok.Getter;
 /**
  * InboundErrorDescEnum
  *
- * @author krystal-2023
+ * @author sws
  * @date 2023/02/24
  */
 @Getter

@@ -1,6 +1,5 @@
 package com.swms.wms.api.task.dto;
 
-import com.swms.wms.api.task.constants.OperationTaskStatusEnum;
 import com.swms.wms.api.task.constants.OperationTaskTypeEnum;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;

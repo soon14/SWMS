@@ -17,7 +17,7 @@ import java.io.IOException;
 /**
  * 处理http header的值
  *
- * @author niekang
+ * @author sws
  */
 @Component
 @WebFilter(filterName = "HttpStationFilter", urlPatterns = "/*")

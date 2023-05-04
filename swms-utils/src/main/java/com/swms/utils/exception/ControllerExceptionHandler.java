@@ -21,7 +21,7 @@ import java.lang.reflect.InvocationTargetException;
 /**
  * 全局异常处理
  *
- * @author niekang
+ * @author sws
  */
 @RestControllerAdvice
 @Slf4j
