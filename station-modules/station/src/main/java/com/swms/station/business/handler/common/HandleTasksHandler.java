@@ -45,7 +45,7 @@ public class HandleTasksHandler implements IBusinessHandler {
         Preconditions.checkState(handleTasksEvent != null);
 
         List<OperationTaskDTO> operateTasks = workStation.getOperateTasks().stream()
-            .filter(operationTaskDTO -> handleTasksEvent.getTaskIds().contains(operationTaskDTO.getTaskId()))
+            .filter(operationTaskDTO -> handleTasksEvent.getTaskIds().contains(operationTaskDTO.getId()))
             // calculate operated qty order by required qty descending
             .sorted(Comparator.comparing(OperationTaskDTO::getOperatedQty)).toList();
         Preconditions.checkState(operateTasks.size() == handleTasksEvent.getTaskIds().size());
@@ -61,7 +61,7 @@ public class HandleTasksHandler implements IBusinessHandler {
             totalOperatedQty.set(Math.max(0, totalOperatedQty.get() - operationTaskDTO.getRequiredQty()));
 
             HandleTaskDTO.HandleTask handleTask = HandleTaskDTO.HandleTask.builder()
-                .taskId(operationTaskDTO.getTaskId())
+                .taskId(operationTaskDTO.getId())
                 .handleTaskType(handleTasksEvent.getHandleTaskType())
                 .operatedQty(operatedQty)
                 .requiredQty(operationTaskDTO.getRequiredQty())

@@ -10,12 +10,14 @@ import com.swms.wms.stock.domain.transfer.ContainerStockTransactionRecordTransfe
 import com.swms.wms.api.task.constants.OperationTaskTypeEnum;
 import com.swms.wms.api.task.event.StockTransferEvent;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 
 @Component
 @Validated
+@Slf4j
 public class StockEventSubscriber {
 
     @Autowired
@@ -23,6 +25,9 @@ public class StockEventSubscriber {
 
     @Subscribe
     public void onEvent(@Valid StockTransferEvent event) {
+
+        log.info("stock module receive event: " + event.toString());
+
         if (event.getTaskType() == OperationTaskTypeEnum.PICKING) {
             stockTransferService.transferAndUnlockStock(event.getStockTransferDTO());
         } else {

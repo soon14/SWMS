@@ -33,8 +33,8 @@ public class DomainEventConfiguration {
     public static class CustomSubscriberExceptionHandler implements SubscriberExceptionHandler {
         @Override
         public void handleException(Throwable exception, SubscriberExceptionContext context) {
-            log.info("Exception: {} occurred while handling event: {} with method: {}.",
-                exception.getMessage(), context.getEvent(), context.getSubscriberMethod().getName());
+            log.info("exception occurred while handling event: {} with method: {}.",
+                context.getEvent(), context.getSubscriberMethod().getName(), exception);
         }
     }
 }

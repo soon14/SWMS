@@ -39,21 +39,15 @@ public class HandleTaskDTO {
         private Integer abnormalQty;
         @NotNull
         private OperationTaskTypeEnum taskType;
-        private OperationTaskStatusEnum taskStatus;
 
         public void setAbnormalQty() {
             if (HandleTaskTypeEnum.REPORT_ABNORMAL.equals(handleTaskType)) {
                 this.abnormalQty = this.requiredQty - this.operatedQty;
+            } else {
+                this.abnormalQty = 0;
             }
         }
 
-        public void setTaskStatus() {
-            if (HandleTaskTypeEnum.REPORT_ABNORMAL.equals(handleTaskType) && this.requiredQty > this.operatedQty) {
-                this.taskStatus = OperationTaskStatusEnum.PROCESSING;
-            } else {
-                this.taskStatus = OperationTaskStatusEnum.PROCESSED;
-            }
-        }
     }
 
     public enum HandleTaskTypeEnum {

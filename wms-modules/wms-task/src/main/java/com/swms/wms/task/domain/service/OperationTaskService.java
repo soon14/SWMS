@@ -1,12 +1,9 @@
 package com.swms.wms.task.domain.service;
 
 import com.swms.wms.api.task.constants.OperationTaskStatusEnum;
-import com.swms.wms.api.task.constants.OperationTaskTypeEnum;
 import com.swms.wms.api.task.dto.HandleTaskDTO;
-import com.swms.wms.api.task.dto.OperationTaskDTO;
 import com.swms.wms.task.domain.entity.OperationTask;
 import com.swms.wms.task.domain.repository.OperationTaskRepository;
-import com.swms.wms.task.domain.transfer.OperationTaskTransfer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,7 +29,7 @@ public class OperationTaskService {
             .stream().map(HandleTaskDTO.HandleTask::getTaskId).toList());
         operationTasks.forEach(operationTask -> {
             HandleTaskDTO.HandleTask handleTask = handleTaskMap.get(operationTask.getId());
-            operationTask.operate(handleTask.getOperatedQty(), handleTask.getAbnormalQty(), handleTask.getTaskStatus());
+            operationTask.operate(handleTask.getOperatedQty(), handleTask.getAbnormalQty());
         });
         operationTaskRepository.saveAll(operationTasks);
 

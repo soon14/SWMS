@@ -14,10 +14,10 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Table(
-        indexes = {
-                @Index(unique = true, name = "idx_task_no", columnList = "taskNo"),
-                @Index(name = "idx_source_container_code", columnList = "sourceContainerCode")
-        }
+    indexes = {
+        @Index(unique = true, name = "idx_task_no", columnList = "taskNo"),
+        @Index(name = "idx_source_container_code", columnList = "sourceContainerCode")
+    }
 )
 public class OperationTaskPO extends BaseUserPO {
 
@@ -54,11 +54,11 @@ public class OperationTaskPO extends BaseUserPO {
     private String stationCode;
 
     @Column(nullable = false, columnDefinition = "int(11) comment '需求数量'")
-    private Integer requiredQty;
+    private Integer requiredQty = 0;
     @Column(nullable = false, columnDefinition = "int(11) comment '操作数量'")
-    private Integer operatedQty;
+    private Integer operatedQty = 0;
     @Column(nullable = false, columnDefinition = "int(11) comment '异常数量'")
-    private Integer abnormalQty;
+    private Integer abnormalQty = 0;
 
     @Column(nullable = false, columnDefinition = "varchar(64) comment '目标容器编码'")
     private String targetLocationCode = "";
@@ -74,5 +74,5 @@ public class OperationTaskPO extends BaseUserPO {
 
     @Column(nullable = false, columnDefinition = "varchar(20) comment '任务状态'")
     @Enumerated(EnumType.STRING)
-    private OperationTaskStatusEnum taskStatus;
+    private OperationTaskStatusEnum taskStatus = OperationTaskStatusEnum.CREATED;
 }

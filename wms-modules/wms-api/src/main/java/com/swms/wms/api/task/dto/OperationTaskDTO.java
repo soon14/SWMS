@@ -1,5 +1,6 @@
 package com.swms.wms.api.task.dto;
 
+import com.swms.wms.api.task.constants.OperationTaskStatusEnum;
 import com.swms.wms.api.task.constants.OperationTaskTypeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,18 +16,27 @@ import java.util.Map;
 @NoArgsConstructor
 public class OperationTaskDTO {
 
+    private Long id;
+
+    private String taskNo;
+    private OperationTaskTypeEnum taskType;
+
     private String stationCode;
 
-    private Long taskId;
     private String skuCode;
     private String skuName;
     private String skuUrl;
-    private Long skuBatchId;
+
+    private Long skuBatchAttributeId;
+    private Long skuBatchStockId;
+    private Long containerStockId;
+
     private Map<String, Object> batchAttributeJson;
-//    private List<SnInfo> snInfos;
 
     private String sourceContainerCode;
     private String sourceContainerSlot;
+
+    private String boxNo;
 
     private boolean processed;
 
@@ -38,5 +48,8 @@ public class OperationTaskDTO {
     private String targetContainerCode;
     private String targetContainerSlot;
 
-    private OperationTaskTypeEnum taskType;
+    private Long originalOrderId;
+    private Long originalOrderDetailId;
+
+    private OperationTaskStatusEnum taskStatus;
 }

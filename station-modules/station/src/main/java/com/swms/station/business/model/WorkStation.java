@@ -169,7 +169,7 @@ public class WorkStation {
     }
 
     public void removeOperateTasks(List<Long> taskIds) {
-        this.operateTasks.removeIf(operationTaskDTO -> taskIds.contains(operationTaskDTO.getTaskId()));
+        this.operateTasks.removeIf(operationTaskDTO -> taskIds.contains(operationTaskDTO.getId()));
     }
 
     public void addArrivedContainers(List<ArrivedContainer> newArrivedContainers) {

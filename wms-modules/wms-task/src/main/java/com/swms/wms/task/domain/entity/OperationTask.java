@@ -7,6 +7,8 @@ import com.swms.wms.api.task.constants.OperationTaskStatusEnum;
 import com.swms.wms.api.task.constants.OperationTaskTypeEnum;
 import lombok.Data;
 
+import java.util.Objects;
+
 @Data
 public class OperationTask {
 
@@ -42,16 +44,21 @@ public class OperationTask {
 
 
     public void validateQty() {
-        Preconditions.checkState(this.requiredQty > 0, "operated qty must be greater 0");
+        Preconditions.checkState(this.requiredQty >= 0, "operated qty must be greater 0");
         Preconditions.checkState(this.operatedQty >= 0, "operated qty must be greater and equal to 0");
         Preconditions.checkState(this.abnormalQty >= 0, "abnormal qty must be greater and equal to 0");
+        Preconditions.checkState(this.requiredQty >= this.operatedQty + this.abnormalQty, "abnormal qty must be greater and equal to 0");
     }
 
-    public void operate(Integer operatedQty, Integer abnormalQty, OperationTaskStatusEnum taskStatus) {
-        this.operatedQty -= operatedQty;
+    public void operate(Integer operatedQty, Integer abnormalQty) {
+        this.operatedQty += operatedQty;
         this.abnormalQty += abnormalQty;
         validateQty();
-        this.taskStatus = taskStatus;
+        if (Objects.equals(this.requiredQty, this.operatedQty)) {
+            this.taskStatus = OperationTaskStatusEnum.PROCESSED;
+        } else {
+            this.taskStatus = OperationTaskStatusEnum.PROCESSING;
+        }
     }
 
     public StockLockTypeEnum transferToLockType() {
@@ -64,7 +71,6 @@ public class OperationTask {
 
     public String transferToWarehouseAreaCode() {
         if (taskType == OperationTaskTypeEnum.PICKING
-            || taskType == OperationTaskTypeEnum.ONE_STEP_RELOCATION
             || taskType == OperationTaskTypeEnum.RELOCATION) {
             return WarehouseAreaCodeEnum.OFF_SHELF_TEMPORARY_STORAGE_AREA.name();
         } else {

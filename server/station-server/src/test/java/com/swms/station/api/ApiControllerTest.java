@@ -138,7 +138,7 @@ class ApiControllerTest {
         Assertions.assertThat(arrivedContainer).isNotNull();
         Assertions.assertThat(arrivedContainer.getContainerCode()).isEqualTo("1");
         Assertions.assertThat(workStation.getOperateTasks()).isNotEmpty();
-        Assertions.assertThat(workStation.getOperateTasks().get(0).getTaskId()).isEqualTo(1);
+        Assertions.assertThat(workStation.getOperateTasks().get(0).getId()).isEqualTo(1);
     }
 
     @Test

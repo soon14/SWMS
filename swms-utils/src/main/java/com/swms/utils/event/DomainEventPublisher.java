@@ -16,6 +16,7 @@ public class DomainEventPublisher {
     private EventBus syncEventBus;
 
     public void sendAsyncEvent(Object event) {
+        log.debug("Sending event: " + event.toString());
         asyncEventBus.post(event);
     }
 
