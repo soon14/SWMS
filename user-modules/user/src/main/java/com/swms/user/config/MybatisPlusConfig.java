@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
  * @since 2020-12-24
  */
 @Configuration
-@MapperScan("com.swms.user.repository.mapper")
+@MapperScan({"com.swms.user.repository.mapper", "com.swms.user.tenant.repository"})
 public class MybatisPlusConfig {
     @Bean
     public PaginationInnerInterceptor paginationInterceptor() {
@@ -27,7 +27,6 @@ public class MybatisPlusConfig {
         // 开启 count 的 join 优化,只针对部分 left join
         return paginationInterceptor;
     }
-
 
     @Component
     public static class GmtTimeHandler implements MetaObjectHandler {
@@ -42,7 +41,7 @@ public class MybatisPlusConfig {
         @Override
         public void updateFill(MetaObject metaObject) {
             this.strictUpdateFill(metaObject, "gmtModified", Long.class, System.currentTimeMillis());
-            this.strictUpdateFill(metaObject, "modifiedUser", () -> UserContext.getCurrentUser(), String.class);
+            this.strictUpdateFill(metaObject, "modifiedUser", UserContext::getCurrentUser, String.class);
         }
     }
 }

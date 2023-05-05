@@ -11,17 +11,20 @@ repositories {
 
 dependencies {
 
-    implementation 'org.springframework.boot:spring-boot-starter-websocket'
-    implementation group: 'org.redisson', name: 'redisson-spring-boot-starter'
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-aop'
-    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    compileOnly 'org.springframework.boot:spring-boot-starter-websocket'
+    compileOnly group: 'org.redisson', name: 'redisson-spring-boot-starter'
+    compileOnly group: 'org.springframework.boot', name: 'spring-boot-starter-aop'
+    compileOnly 'org.springframework.boot:spring-boot-starter-validation'
+    compileOnly 'org.springframework.boot:spring-boot-starter-data-jpa'
 
-    implementation 'com.google.guava:guava'
-    implementation 'org.apache.commons:commons-lang3'
-    implementation 'org.apache.commons:commons-collections4'
+    compileOnly 'com.google.guava:guava'
+    compileOnly 'org.apache.commons:commons-lang3'
+    compileOnly 'org.apache.commons:commons-collections4'
 
-    implementation 'jakarta.validation:jakarta.validation-api'
-    implementation group: 'org.hibernate.orm', name: 'hibernate-core'
+    compileOnly 'jakarta.validation:jakarta.validation-api'
+    compileOnly group: 'org.hibernate.orm', name: 'hibernate-core'
+
+    compileOnly project(path: ':user-modules:user-api', configuration: 'default')
 }
 test {
     useJUnitPlatform()
