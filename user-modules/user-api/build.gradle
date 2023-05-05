@@ -1,0 +1,20 @@
+plugins {
+    id 'java'
+}
+
+group 'com.swms'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compileOnly "jakarta.servlet:jakarta.servlet-api"
+    compileOnly group: 'org.springframework', name: 'spring-webmvc'
+    implementation group: 'com.auth0', name: 'java-jwt'
+}
+
+test {
+    useJUnitPlatform()
+}
