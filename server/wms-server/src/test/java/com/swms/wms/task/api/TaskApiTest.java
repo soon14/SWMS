@@ -1,6 +1,7 @@
 package com.swms.wms.task.api;
 
 import com.google.common.collect.Lists;
+import com.swms.tenant.config.util.TenantContext;
 import com.swms.utils.utils.ObjectUtils;
 import com.swms.wms.BaseTest;
 import com.swms.wms.api.task.ITaskApi;
@@ -21,6 +22,7 @@ class TaskApiTest extends BaseTest {
 
     @Test
     void testFullFlow() {
+
         OperationTaskDTO operationTaskDTO = ObjectUtils.getRandomObject(OperationTaskDTO.class);
         operationTaskDTO.setRequiredQty(10);
         operationTaskDTO.setOperatedQty(0);
@@ -42,5 +44,17 @@ class TaskApiTest extends BaseTest {
         operationTaskDTOS = taskApi.queryTasks(operationTaskDTO.getStationCode(),
             Lists.newArrayList(operationTaskDTO.getSourceContainerCode()), operationTaskDTO.getTaskType());
         Assertions.assertSame(OperationTaskStatusEnum.PROCESSED, operationTaskDTOS.get(0).getTaskStatus());
+    }
+
+    @Test
+    void testMultipleTenant() throws InterruptedException {
+        for (int i = 0; i < 2; i++) {
+            final int count = i;
+            new Thread(() -> {
+                TenantContext.setCurrentTenant("test" + count);
+                testFullFlow();
+            }).start();
+        }
+        Thread.sleep(5000L);
     }
 }

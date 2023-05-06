@@ -4,9 +4,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.Range;
 
 /**
  * 添加菜单参数
@@ -41,14 +40,14 @@ public class MenuAddParam {
      */
     @ApiModelProperty(name = "title", value = "菜单名称", required = true)
     @NotEmpty(message = "菜单名称不能为空")
-    @Length(max = 128, message = "名称不能超过128位")
+    @Size(max = 128, message = "名称不能超过128位")
     private String title;
 
     /**
      * 描述
      */
     @ApiModelProperty(name = "description", value = "描述")
-    @Length(max = 256, message = "描述不能超过256位")
+    @Size(max = 256, message = "描述不能超过256位")
     private String description;
 
     /**
@@ -56,7 +55,7 @@ public class MenuAddParam {
      */
     @ApiModelProperty(name = "permissions", value = "权限标识", required = true)
     @NotEmpty(message = "权限标识不能为空")
-    @Length(max = 128, message = "权限标识不能超过128位")
+    @Size(max = 128, message = "权限标识不能超过128位")
     private String permissions;
 
     /**
@@ -70,21 +69,21 @@ public class MenuAddParam {
      */
     @ApiModelProperty(name = "orderNum", value = "排序", required = true)
     @NotNull(message = "排序不能为空")
-    @Range(min = 0, max = 1000000000, message = "排序值必须为1000000000以内的非负整数")
+    @Size(min = 0, max = 1000000000, message = "排序值必须为1000000000以内的非负整数")
     private Integer orderNum;
 
     /**
      * 图标
      */
     @ApiModelProperty(name = "icon", value = "图标")
-    @Length(max = 32, message = "图标不能超过32位")
+    @Size(max = 32, message = "图标不能超过32位")
     private String icon;
 
     /**
      * 路径地址
      */
     @ApiModelProperty(name = "path", value = "路径地址")
-    @Length(max = 256, message = "路径地址不能超过256位")
+    @Size(max = 256, message = "路径地址不能超过256位")
     private String path;
 
     /**
@@ -97,7 +96,7 @@ public class MenuAddParam {
      * extensionData 扩展属性
      */
     @ApiModelProperty("extensionData 扩展属性")
-    @Length(max = 64, message = "扩展属性不能超过64位")
+    @Size(max = 64, message = "扩展属性不能超过64位")
     private String extensionData;
 
     /**

@@ -1,0 +1,27 @@
+package com.swms.tenant.api.dto;
+
+import jakarta.validation.constraints.NotEmpty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.io.Serial;
+import java.io.Serializable;
+
+@Data
+@NoArgsConstructor
+public class TenantDTO implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    @NotEmpty
+    private String name;
+
+    // md5加密
+    private String tenantId;
+    private String url;
+    private String username;
+    private String password;
+    private String driverClassName;
+
+}

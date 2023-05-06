@@ -9,16 +9,13 @@ repositories {
     mavenCentral()
 }
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+    implementation project(path: ":swms-utils", configuration: 'default')
+    implementation project(path: ":wms-modules:wms-api", configuration: 'default')
 
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework:spring-tx'
-
-    implementation project(path: ":swms-utils", configuration: 'default')
-    implementation project(path: ":wms-modules:wms-api", configuration: 'default')
 
     implementation 'com.google.guava:guava'
     implementation 'org.apache.commons:commons-lang3'
@@ -27,8 +24,6 @@ dependencies {
     implementation 'org.mapstruct:mapstruct'
     annotationProcessor group: 'org.mapstruct', name: 'mapstruct-processor'
     implementation group: 'org.projectlombok', name: 'lombok-mapstruct-binding'
-
-    implementation 'com.baomidou:mybatis-plus-boot-starter'
 }
 
 

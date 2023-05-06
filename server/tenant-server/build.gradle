@@ -1,0 +1,37 @@
+plugins {
+    id 'java'
+}
+
+group 'com.swms'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+    testImplementation('org.springframework.boot:spring-boot-starter-test')
+
+    implementation project(path: ":swms-utils", configuration: 'default')
+    implementation project(path: ":tenant-modules:tenant", configuration: 'default')
+
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui'
+    implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
+
+    implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config'
+    implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery'
+
+    implementation group: 'org.apache.skywalking', name: 'apm-toolkit-logback-1.x'
+
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui'
+
+    implementation 'mysql:mysql-connector-java'
+}
+
+test {
+    useJUnitPlatform()
+}
