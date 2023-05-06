@@ -16,6 +16,7 @@
 package com.swms.tenant.config.config;
 
 import jakarta.persistence.EntityManagerFactory;
+import org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy;
 import org.hibernate.cfg.AvailableSettings;
 import org.hibernate.context.spi.CurrentTenantIdentifierResolver;
 import org.hibernate.engine.jdbc.connections.spi.AbstractDataSourceBasedMultiTenantConnectionProviderImpl;
@@ -96,6 +97,7 @@ public class TenantDatabaseConfig {
         Map<String, Object> hibernateProps = new LinkedHashMap<>(this.jpaProperties.getProperties());
         hibernateProps.put(AvailableSettings.MULTI_TENANT_CONNECTION_PROVIDER, multiTenantConnectionProvider);
         hibernateProps.put(AvailableSettings.MULTI_TENANT_IDENTIFIER_RESOLVER, currentTenantIdentifierResolver);
+        hibernateProps.put(AvailableSettings.PHYSICAL_NAMING_STRATEGY, CustomTableNamingStrategy.class.getName());
         hibernateProps.put("hibernate.hbm2ddl.auto", "update");
         hibernateProps.put("hibernate.dialect", "org.hibernate.dialect.MySQL8Dialect");
         LocalContainerEntityManagerFactoryBean result = new LocalContainerEntityManagerFactoryBean();

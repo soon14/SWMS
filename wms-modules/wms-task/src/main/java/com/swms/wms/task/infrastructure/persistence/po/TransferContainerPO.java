@@ -33,7 +33,8 @@ public class TransferContainerPO extends BaseUserPO {
     private String putWallSlotCode;
 
     @Column(nullable = false, columnDefinition = "int(11) comment '第几个周转箱'")
-    private Integer index = 0;
+    private Integer containerIndex = 0;
+
     @Column(nullable = false, columnDefinition = "int(11) comment '总共多少个周转箱'")
     private Integer total = 0;
 
