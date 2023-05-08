@@ -21,7 +21,7 @@ public final class Response<T> implements Serializable {
     /**
      * 默认成功代码
      */
-    private static final String SUCCESS_CODE = "0";
+    public static final String SUCCESS_CODE = "0";
     /**
      * 默认成功信息
      */

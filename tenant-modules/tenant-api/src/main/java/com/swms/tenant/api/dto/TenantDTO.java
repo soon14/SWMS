@@ -16,9 +16,11 @@ public class TenantDTO implements Serializable {
 
     @NotEmpty
     private String name;
+    private String mobile;
+    private String email;
 
-    // md5加密
     private String tenantId;
+
     private String url;
     private String username;
     private String password;

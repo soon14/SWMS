@@ -34,9 +34,14 @@ public class Tenant {
     @Column(nullable = false, columnDefinition = "varchar(64) comment '租户名称'")
     private String name;
 
-    // md5加密
-    @Column(nullable = false, columnDefinition = "varchar(128) comment 'md5加密租户名称'")
+    @Column(nullable = false, columnDefinition = "varchar(128) comment '加密租户名称'")
     private String tenantId;
+
+    @Column(nullable = false, columnDefinition = "varchar(128) comment '邮箱'")
+    private String email;
+
+    @Column(nullable = false, columnDefinition = "varchar(64) comment '手机号'")
+    private String mobile;
 
     //database
     @Column(nullable = false, columnDefinition = "varchar(256) comment '数据库url'")

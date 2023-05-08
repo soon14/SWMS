@@ -11,7 +11,7 @@ import com.swms.user.rest.param.oauthclient.OauthClientFetchParam;
 import com.swms.user.rest.param.oauthclient.OauthClientPageParam;
 import com.swms.user.rest.param.oauthclient.OauthClientUpdatedParam;
 import com.swms.user.service.OauthClientDetailsService;
-import com.swms.user.utils.Response;
+import com.swms.utils.http.Response;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import jakarta.validation.Valid;

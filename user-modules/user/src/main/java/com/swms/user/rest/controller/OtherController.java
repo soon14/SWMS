@@ -3,7 +3,7 @@ package com.swms.user.rest.controller;
 import com.swms.user.rest.common.BaseResource;
 import com.swms.user.rest.param.other.EnumFetchParam;
 import com.swms.user.service.model.EnumDTO;
-import com.swms.user.utils.Response;
+import com.swms.utils.http.Response;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import jakarta.validation.Valid;

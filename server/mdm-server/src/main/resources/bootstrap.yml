@@ -15,5 +15,5 @@ spring:
         password: nacos
 
 server:
-  port: 9002
+  port: 9020
 
