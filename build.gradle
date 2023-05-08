@@ -147,6 +147,8 @@ subprojects {
             dependency group: 'org.liquibase', name: 'liquibase-core', version: '4.21.1'
 
             dependency group: 'org.lazyluke', name: 'log4jdbc-remix', version: '0.2.7'
+
+            dependency 'com.xuxueli:xxl-job-core:2.4.0'
         }
 
     }
