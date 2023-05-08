@@ -10,7 +10,7 @@ repositories {
 }
 
 dependencies {
-    implementation project(path: ':tenant-modules:tenant-api', configuration: 'default')
+    implementation project(path: ':modules-tenant:tenant-api', configuration: 'default')
     implementation project(path: ':swms-utils', configuration: 'default')
 
     implementation 'org.springframework.boot:spring-boot-starter'

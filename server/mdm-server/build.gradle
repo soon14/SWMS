@@ -23,8 +23,8 @@ dependencies {
     implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config'
     implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery'
 
-    implementation project(path: ":mdm-modules:mdm-config", configuration: 'default')
-    implementation project(path: ":mdm-modules:mdm-main-data", configuration: 'default')
+    implementation project(path: ":modules-mdm:mdm-config", configuration: 'default')
+    implementation project(path: ":modules-mdm:mdm-main-data", configuration: 'default')
 
     implementation group: 'org.apache.skywalking', name: 'apm-toolkit-logback-1.x'
 

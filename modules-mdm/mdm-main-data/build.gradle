@@ -10,25 +10,24 @@ repositories {
 }
 
 dependencies {
-    implementation project(path: ":wms-modules:wms-api", configuration: 'default')
+    implementation project(path: ":modules-mdm:mdm-api", configuration: 'default')
+    implementation project(path: ":swms-utils", configuration: 'default')
 
-    implementation 'org.springframework.boot:spring-boot-starter'
-    implementation 'org.springframework.boot:spring-boot-starter-websocket'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework:spring-tx'
-
-    implementation 'org.apache.dubbo:dubbo-spring-boot-starter'
-
     implementation 'com.google.guava:guava'
     implementation 'org.apache.commons:commons-lang3'
     implementation 'org.apache.commons:commons-collections4'
+
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
     implementation 'org.mapstruct:mapstruct'
     annotationProcessor group: 'org.mapstruct', name: 'mapstruct-processor'
     implementation group: 'org.projectlombok', name: 'lombok-mapstruct-binding'
 
-}
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
 
+    implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery'
+}
 
 test {
     useJUnitPlatform()

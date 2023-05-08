@@ -11,7 +11,7 @@ repositories {
 
 dependencies {
 
-    implementation project(path: ":tenant-modules:tenant-api", configuration: 'default')
+    implementation project(path: ":modules-tenant:tenant-api", configuration: 'default')
 
     implementation 'com.alibaba:transmittable-thread-local'
 

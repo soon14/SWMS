@@ -14,6 +14,9 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
     testImplementation('org.springframework.boot:spring-boot-starter-test')
 
+    implementation project(path: ":modules-user:user", configuration: 'default')
+    implementation project(path: ":modules-user:user-api", configuration: 'default')
+
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
     implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
@@ -22,9 +25,6 @@ dependencies {
 
     implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config'
     implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery'
-
-    implementation project(path: ":user-modules:user", configuration: 'default')
-    implementation project(path: ":user-modules:user-api", configuration: 'default')
 
     implementation group: 'org.apache.skywalking', name: 'apm-toolkit-logback-1.x'
 }

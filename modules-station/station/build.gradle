@@ -14,7 +14,7 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
 
     implementation project(path: ":swms-utils", configuration: 'default')
-    implementation project(path: ":wms-modules:wms-api", configuration: 'default')
+    implementation project(path: ":modules-wms:wms-api", configuration: 'default')
 
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-websocket'

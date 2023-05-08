@@ -28,10 +28,10 @@ dependencies {
 
     implementation 'org.apache.dubbo:dubbo-spring-boot-starter'
 
-    implementation project(path: ":wms-modules:wms-basic", configuration: 'default')
-    implementation project(path: ":wms-modules:wms-stock", configuration: 'default')
-    implementation project(path: ":wms-modules:wms-task", configuration: 'default')
-    implementation project(path: ":tenant-modules:tenant-config", configuration: 'default')
+    implementation project(path: ":modules-wms:wms-basic", configuration: 'default')
+    implementation project(path: ":modules-wms:wms-stock", configuration: 'default')
+    implementation project(path: ":modules-wms:wms-task", configuration: 'default')
+    implementation project(path: ":modules-tenant:tenant-config", configuration: 'default')
 
     implementation group: 'org.apache.skywalking', name: 'apm-toolkit-logback-1.x'
 

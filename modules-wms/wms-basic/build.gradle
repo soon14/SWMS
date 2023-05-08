@@ -8,14 +8,17 @@ version '1.0-SNAPSHOT'
 repositories {
     mavenCentral()
 }
+
 dependencies {
+    implementation project(path: ":modules-wms:wms-api", configuration: 'default')
+    implementation project(path: ":modules-mdm:mdm-api", configuration: 'default')
     implementation project(path: ":swms-utils", configuration: 'default')
-    implementation project(path: ":wms-modules:wms-api", configuration: 'default')
 
     implementation 'org.springframework.boot:spring-boot-starter'
-    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+    implementation 'org.springframework.boot:spring-boot-starter-web-services'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework:spring-tx'
+
+    implementation 'org.apache.dubbo:dubbo-spring-boot-starter'
 
     implementation 'com.google.guava:guava'
     implementation 'org.apache.commons:commons-lang3'
@@ -25,7 +28,6 @@ dependencies {
     annotationProcessor group: 'org.mapstruct', name: 'mapstruct-processor'
     implementation group: 'org.projectlombok', name: 'lombok-mapstruct-binding'
 }
-
 
 test {
     useJUnitPlatform()

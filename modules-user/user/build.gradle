@@ -13,7 +13,7 @@ dependencies {
     implementation('org.springframework.boot:spring-boot-starter') {
         exclude module: 'commons-logging'
     }
-    implementation project(path: ':user-modules:user-api', configuration: 'default')
+    implementation project(path: ':modules-user:user-api', configuration: 'default')
     implementation project(path: ':swms-utils', configuration: 'default')
 
     implementation group: 'com.google.guava', name: 'guava'
