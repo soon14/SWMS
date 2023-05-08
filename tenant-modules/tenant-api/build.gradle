@@ -1,0 +1,18 @@
+plugins {
+    id 'java'
+}
+
+group 'com.swms'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'jakarta.validation:jakarta.validation-api'
+}
+
+test {
+    useJUnitPlatform()
+}

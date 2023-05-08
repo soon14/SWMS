@@ -76,6 +76,8 @@ subprojects {
             //TODO:
             // update to release version when project deployment and it must be tested
             dependency 'org.apache.dubbo:dubbo-spring-boot-starter:3.2.0-beta.6'
+            dependency 'com.alibaba:transmittable-thread-local:2.14.2'
+
             dependency group: 'com.alibaba.cloud', name: 'spring-cloud-starter-alibaba-nacos-config', version: '2022.0.0.0-RC1'
             dependency group: 'com.alibaba.cloud', name: 'spring-cloud-starter-alibaba-nacos-discovery', version: '2022.0.0.0-RC1'
             dependency 'org.redisson:redisson-spring-boot-starter:3.20.1'

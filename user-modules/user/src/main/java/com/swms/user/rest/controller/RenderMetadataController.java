@@ -2,6 +2,7 @@ package com.swms.user.rest.controller;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.swms.user.api.UserContext;
 import com.swms.user.repository.entity.RenderMetadata;
 import com.swms.user.repository.entity.RenderTemplate;
 import com.swms.user.rest.common.BaseResource;
@@ -17,8 +18,7 @@ import com.swms.user.service.MenuService;
 import com.swms.user.service.RenderMetadataService;
 import com.swms.user.service.RenderTemplateService;
 import com.swms.user.service.model.MenuTree;
-import com.swms.user.utils.Response;
-import com.swms.user.api.UserContext;
+import com.swms.utils.http.Response;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import jakarta.validation.Valid;

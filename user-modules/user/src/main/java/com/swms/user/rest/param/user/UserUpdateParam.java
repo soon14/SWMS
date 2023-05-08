@@ -2,11 +2,10 @@ package com.swms.user.rest.param.user;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import org.hibernate.validator.constraints.Length;
-
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import lombok.Data;
 
 import java.util.Set;
 
@@ -41,7 +40,7 @@ public class UserUpdateParam {
      */
     @ApiModelProperty(name = "name", value = "用户名称", required = true)
     @NotEmpty(message = "姓名不能为空")
-    @Length(max = 32, message = "姓名不能超过32位")
+    @Size(max = 32, message = "姓名不能超过32位")
     private String name;
 
     /**
@@ -49,7 +48,7 @@ public class UserUpdateParam {
      */
     @ApiModelProperty(name = "username", value = "用户名", required = true)
     @NotEmpty(message = "用户名不能为空")
-    @Length(max = 32, message = "用户名不能超过32位")
+    @Size(max = 32, message = "用户名不能超过32位")
     private String username;
 
     /**

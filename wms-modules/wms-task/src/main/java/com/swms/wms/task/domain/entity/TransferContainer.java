@@ -13,7 +13,7 @@ public class TransferContainer {
     private String stationCode;
     private String putWallSlotCode;
 
-    private Integer index;
+    private Integer containerIndex;
     private Integer total;
 
     private String destination;

@@ -1,6 +1,7 @@
 package com.swms.user.rest.controller;
 
 import com.google.common.base.Preconditions;
+import com.swms.user.api.UserContext;
 import com.swms.user.rest.common.BaseResource;
 import com.swms.user.rest.common.PageResult;
 import com.swms.user.rest.param.user.CurrentUserInfoUpdatedParam;
@@ -8,12 +9,10 @@ import com.swms.user.rest.param.user.UserUpdatePasswordParam;
 import com.swms.user.service.CurrentUserService;
 import com.swms.user.service.MenuService;
 import com.swms.user.service.model.MenuTree;
-import com.swms.user.utils.Response;
-import com.swms.user.api.UserContext;
+import com.swms.utils.http.Response;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;

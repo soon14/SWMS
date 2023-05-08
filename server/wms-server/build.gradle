@@ -13,6 +13,10 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
     testImplementation('org.springframework.boot:spring-boot-starter-test')
+    testImplementation 'org.powermock:powermock-module-junit4'
+    testImplementation 'org.powermock:powermock-api-mockito2'
+    testImplementation 'org.powermock:powermock-module-junit4-rule'
+    testImplementation 'org.powermock:powermock-classloading-xstream'
 
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -27,6 +31,7 @@ dependencies {
     implementation project(path: ":wms-modules:wms-basic", configuration: 'default')
     implementation project(path: ":wms-modules:wms-stock", configuration: 'default')
     implementation project(path: ":wms-modules:wms-task", configuration: 'default')
+    implementation project(path: ":tenant-modules:tenant-config", configuration: 'default')
 
     implementation group: 'org.apache.skywalking', name: 'apm-toolkit-logback-1.x'
 

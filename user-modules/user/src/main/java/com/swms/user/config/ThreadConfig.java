@@ -18,13 +18,12 @@ public class ThreadConfig {
     @Bean("system")
     public ExecutorService executorService() {
         return new ThreadPoolExecutor(3, 3, 0L, TimeUnit.SECONDS,
-            new LinkedBlockingQueue<Runnable>(1024), new ThreadFactoryBuilder()
+            new LinkedBlockingQueue<>(1024), new ThreadFactoryBuilder()
             .setNameFormat("SystemExecutor-%d")
             .setDaemon(false)
             .setUncaughtExceptionHandler(new LogUncaughtExceptionHandler(log))
             .build());
     }
-
 
     public record LogUncaughtExceptionHandler(Logger log) implements Thread.UncaughtExceptionHandler {
 
