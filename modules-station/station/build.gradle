@@ -30,6 +30,7 @@ dependencies {
 
     implementation group: 'org.redisson', name: 'redisson-spring-boot-starter'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-aop'
+    implementation 'com.xuxueli:xxl-job-core'
 
 }
 
