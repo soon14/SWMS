@@ -24,11 +24,15 @@ include 'modules-tenant:tenant'
 include 'modules-tenant:tenant-api'
 include 'modules-tenant:tenant-config'
 
+include 'modules-gateway:gateway-core'
+include 'modules-gateway:gateway-extend'
+
 include 'server:wms-server'
 include 'server:station-server'
 include 'server:mdm-server'
 include 'server:user-server'
 include 'server:tenant-server'
+include 'server:gateway-server'
 
 include 'swms-utils'
 

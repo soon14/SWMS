@@ -1,10 +1,8 @@
 package com.swms.user.rest.param.user;
 
-import com.swms.user.rest.common.param.PageParam;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 /**
  * 用户分页查询参数
@@ -12,10 +10,9 @@ import lombok.EqualsAndHashCode;
  * @author sws
  * @version 1.0
  */
-@EqualsAndHashCode(callSuper = true)
 @Data
 @ApiModel("用户分页查询参数")
-public class UserPageParam extends PageParam {
+public class UserPageParam {
 
     @ApiModelProperty(name = "name", value = "姓名")
     private String name;

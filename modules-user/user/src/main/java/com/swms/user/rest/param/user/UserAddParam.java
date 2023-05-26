@@ -24,7 +24,6 @@ public class UserAddParam {
      * 所属角色id集合
      */
     @ApiModelProperty(name = "roleIds", value = "角色id集合", required = true)
-    @NotNull(message = "角色id集合不能为空")
     private Set<Long> roleIds;
 
     /**
@@ -39,25 +38,19 @@ public class UserAddParam {
      * 用户名称
      */
     @ApiModelProperty(name = "username", value = "用户名", required = true)
-    @NotEmpty(message = "用户名不能为空")
-    @Size(max = 32, message = "用户名不能超过32位")
     private String username;
 
     /**
      * 密码
      */
     @ApiModelProperty(name = "password", value = "密码", required = true)
-    @NotEmpty(message = "密码不能为空")
-    @Size(min = 6, message = "密码长度不能小于6位")
-    private String password;
-
+    private String password = "123456";
 
     /**
      * 帐号状态（1启用, 0停用）
      */
     @ApiModelProperty(name = "status", value = "帐号状态（1启用, 0停用，参考枚举YesOrNo）", required = true)
-    @NotNull(message = "帐号状态不能为空")
-    private Integer status;
+    private Integer status = 1;
 
     /**
      * 手机号
@@ -69,5 +62,6 @@ public class UserAddParam {
      * 邮箱
      */
     @ApiModelProperty(name = "email", value = "邮箱")
+    @NotEmpty(message = "邮箱不能为空")
     private String email;
 }

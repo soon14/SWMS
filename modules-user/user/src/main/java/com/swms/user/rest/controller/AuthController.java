@@ -1,8 +1,8 @@
 package com.swms.user.rest.controller;
 
-import static com.swms.utils.http.Response.SUCCESS_CODE;
-
-import com.swms.user.config.security.utils.JwtUtils;
+import com.swms.user.api.utils.JwtUtils;
+import com.swms.user.rest.common.vo.AuthModel;
+import com.swms.user.rest.common.vo.UserModel;
 import com.swms.user.rest.param.login.LoginRequest;
 import com.swms.user.service.UserService;
 import com.swms.utils.http.Response;
@@ -14,11 +14,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -32,13 +32,11 @@ public class AuthController {
     UserService userService;
 
     @Autowired
-    PasswordEncoder encoder;
-
-    @Autowired
     JwtUtils jwtUtils;
 
     @PostMapping("/signin")
-    public Response<Object> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+    @ResponseBody
+    public AuthModel authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
         Authentication authentication = authenticationManager
             .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
@@ -47,12 +45,14 @@ public class AuthController {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
         ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userDetails);
-        return Response.builder().code(SUCCESS_CODE).data(jwtCookie).build();
+        UserModel userModel = UserModel.builder().username(userDetails.getUsername()).build();
+        return AuthModel.builder().api_token(jwtCookie.getValue()).user(userModel).build();
     }
 
     @PostMapping("/signout")
     public Response<Object> logoutUser() {
         jwtUtils.getCleanJwtCookie();
         return Response.success();
+
     }
 }

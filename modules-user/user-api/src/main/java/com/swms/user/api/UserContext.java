@@ -2,7 +2,11 @@ package com.swms.user.api;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.swms.user.api.utils.JwtUtils;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -12,6 +16,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Component
+@Slf4j
 public class UserContext {
     public static final String ROLE_GRANTED_AUTHORITY_PREFIX = "$$$&&&!!!ROLE_";
 
@@ -20,8 +26,14 @@ public class UserContext {
     private static final String ANONYMOUS_USER = "unknownUser";
     private static final String AUTHORIZATION = "Authorization";
     private static final String BEARER = "Bearer";
-    private static final String USER_NAME = "user_name";
     private static final String AUTHORITIES = "authorities";
+
+    private static JwtUtils jwtUtils;
+
+    @Autowired
+    public UserContext(JwtUtils jwtUtils) {
+        UserContext.jwtUtils = jwtUtils;
+    }
 
     /**
      * 获取当前用户名
@@ -34,23 +46,11 @@ public class UserContext {
             RequestAttributes requestAttributes = RequestContextHolder.currentRequestAttributes();
             request = ((ServletRequestAttributes) requestAttributes).getRequest();
         } catch (Exception e) {
-//            log.error("resolve the request error", e);
+            log.error("resolve the request error", e);
             return ANONYMOUS_USER;
         }
 
-        String token = request.getHeader(AUTHORIZATION);
-        if (token != null) {
-            token = token.replace(BEARER, "");
-            token = token.trim();
-            try {
-                DecodedJWT jwt = JWT.decode(token);
-                return jwt.getClaim(USER_NAME).asString();
-            } catch (Exception e) {
-//                log.error("resolve the token error: {}", e.getMessage(), e);
-                return ANONYMOUS_USER;
-            }
-        }
-        return ANONYMOUS_USER;
+        return jwtUtils.getUserNameFromJwtToken(jwtUtils.getJwtFromRequest(request));
     }
 
     /**
@@ -65,9 +65,7 @@ public class UserContext {
             .filter(u -> u.startsWith(ROLE_GRANTED_AUTHORITY_PREFIX))
             .collect(Collectors.toSet()));
         if (!CollectionUtils.isEmpty(roles)) {
-            roles.forEach(u -> {
-                result.add(u.replace(ROLE_GRANTED_AUTHORITY_PREFIX, ""));
-            });
+            roles.forEach(u -> result.add(u.replace(ROLE_GRANTED_AUTHORITY_PREFIX, "")));
         }
         return result;
     }
@@ -98,6 +96,7 @@ public class UserContext {
         } catch (Exception e) {
             return result;
         }
+
         String token = request.getHeader(AUTHORIZATION);
         if (token != null) {
             token = token.replace(BEARER, "");

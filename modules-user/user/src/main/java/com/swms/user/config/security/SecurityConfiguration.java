@@ -29,8 +29,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfiguration {
 
     private UserDetailsService userDetailsService;
-    private final JwtAuthFilter jwtAuthFilter;
-    private AuthEntryPointJwt unauthorizedHandler;
     private PasswordEncoder passwordEncoder;
 
     @Bean
@@ -46,21 +44,4 @@ public class SecurityConfiguration {
         return authConfig.getAuthenticationManager();
     }
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.cors().and().csrf().disable()
-            .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-            .authorizeHttpRequests().requestMatchers("/api/auth/**").permitAll()
-            .anyRequest().authenticated();
-
-        // fix H2 database console: Refused to display ' in a frame because it set 'X-Frame-Options' to 'deny'
-        http.headers().frameOptions().sameOrigin();
-
-        http.authenticationProvider(authenticationProvider());
-
-        http.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
-
-        return http.build();
-    }
 }

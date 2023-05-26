@@ -39,4 +39,7 @@ public class AuthUserInfo {
     @ApiModelProperty("权限列表")
     private Set<String> permissions;
 
+    @ApiModelProperty("角色列表")
+    private String roleNames;
+
 }

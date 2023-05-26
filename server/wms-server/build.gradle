@@ -37,6 +37,10 @@ dependencies {
 
     implementation 'mysql:mysql-connector-java'
 
+    // https://mvnrepository.com/artifact/com.github.skjolber.3d-bin-container-packing/core
+    implementation group: 'com.github.skjolber.3d-bin-container-packing', name: 'core', version: '3.0.6'
+
+
 //    implementation('org.apache.shardingsphere:shardingsphere-jdbc-core-spring-boot-starter') {
 //        exclude group: 'org.quartz-scheduler', module: 'quartz'
 //    }

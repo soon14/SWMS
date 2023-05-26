@@ -1,0 +1,29 @@
+plugins {
+    id 'java'
+}
+
+group 'com.swms'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+
+    implementation project(path: ":swms-utils", configuration: 'default')
+
+    implementation 'org.springframework.cloud:spring-cloud-starter-gateway'
+
+    implementation "com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery"
+    implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config'
+
+    implementation 'com.auth0:java-jwt:3.16.0'
+
+    implementation group: 'io.springfox', name: 'springfox-swagger2'
+    implementation group: 'io.springfox', name: 'springfox-swagger-ui'
+    implementation group: 'io.swagger.core.v3', name: 'swagger-models'
+    implementation group: 'io.swagger.core.v3', name: 'swagger-annotations'
+
+    implementation "jakarta.servlet:jakarta.servlet-api"
+}

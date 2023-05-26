@@ -32,7 +32,9 @@ import com.swms.user.service.model.RoleGrantedAuthority;
 import com.swms.user.service.model.UserDetailsModel;
 import com.swms.utils.exception.WmsException;
 import com.swms.utils.exception.code_enum.UserErrorDescEnum;
+import com.swms.utils.utils.PaginationContext;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.core.GrantedAuthority;
@@ -45,6 +47,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -80,7 +83,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public IPage<UserHasRole> getPage(UserPageParam param) {
-        IPage<?> page = new Page<>(param.getCurrentPage(), param.getPageSize());
+        IPage<?> page = new Page<>(PaginationContext.getPageNum(), PaginationContext.getPageSize());
         return this.baseMapper.getUserAndRoleInfo(page, param.getName(), param.getUsername(),
             param.getStatus(), param.getLocked());
     }
@@ -131,6 +134,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         authUserInfo.setLastGmtLoginTime(user.getLastGmtLoginTime());
         authUserInfo.setPhone(user.getPhone());
         authUserInfo.setEmail(user.getEmail());
+        authUserInfo.setRoleNames(authUserInfo.getRoles().stream().map(v -> v).collect(Collectors.joining(",")));
         return authUserInfo;
     }
 
@@ -138,8 +142,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public void addUser(UserAddParam param) throws Exception {
         String username = param.getUsername();
-        Set<Long> roleIds = param.getRoleIds();
-
         synchronized (this) {
             User databaseUser = getByUsername(username);
             if (databaseUser != null) {
@@ -150,16 +152,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             BeanUtils.copyProperties(param, user);
             // 设置密码
             String password = user.getPassword();
-            if (!StrUtil.isEmpty(password)) {
-                user.setPassword(passwordEncoder.encode(password));
-            }
+            user.setPassword(passwordEncoder.encode(password));
             user.setLocked(0);
-            // 保存用户
+            if (StringUtils.isEmpty(user.getUsername())) {
+                user.setUsername(user.getName());
+            }
             save(user);
 
-            List<UserRole> userRoles = getUserRole(user.getId(), roleIds);
-            // 分配角色
-            userRoleService.saveBatch(userRoles);
+            if (CollectionUtils.isNotEmpty(param.getRoleIds())) {
+                List<UserRole> userRoles = getUserRole(user.getId(), param.getRoleIds());
+                // 分配角色
+                userRoleService.saveBatch(userRoles);
+            }
         }
     }
 

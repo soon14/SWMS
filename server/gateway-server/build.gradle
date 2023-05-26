@@ -1,0 +1,30 @@
+plugins {
+    id 'java'
+}
+
+group 'com.swms'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation project(path: ":modules-gateway:gateway-core", configuration: 'default')
+
+    implementation('org.springframework.boot:spring-boot-starter') {
+        exclude module: 'commons-logging'
+    }
+    implementation 'org.springframework.cloud:spring-cloud-starter'
+    implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
+
+    implementation 'org.redisson:redisson-spring-boot-starter'
+
+    implementation group: 'org.apache.skywalking', name: 'apm-toolkit-logback-1.x'
+    implementation 'org.springframework.cloud:spring-cloud-starter-loadbalancer'
+
+}
+
+test {
+    useJUnitPlatform()
+}

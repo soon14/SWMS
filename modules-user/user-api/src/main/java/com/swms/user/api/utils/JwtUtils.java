@@ -1,4 +1,4 @@
-package com.swms.user.config.security.utils;
+package com.swms.user.api.utils;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -16,7 +16,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.util.WebUtils;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 @Component
 @Slf4j
@@ -28,16 +30,24 @@ public class JwtUtils {
     @Value("${jwtExpirationMs:600000}")
     private int jwtExpirationMs;
 
-    @Value("${bezkoder.app.jwtCookieName:jwt}")
+    @Value("${bezkoder.app.jwtCookieName:Authorization}")
     private String jwtCookie;
 
-    public String getJwtFromCookies(HttpServletRequest request) {
+    public String getJwtFromRequest(HttpServletRequest request) {
         Cookie cookie = WebUtils.getCookie(request, jwtCookie);
+
+        String jwt;
         if (cookie != null) {
-            return cookie.getValue();
+            jwt = cookie.getValue();
         } else {
-            return null;
+            jwt = request.getHeader(jwtCookie);
         }
+
+        if (jwt != null && jwt.startsWith("Bearer ")) {
+            jwt = jwt.substring(7);
+        }
+
+        return jwt;
     }
 
     public ResponseCookie generateJwtCookie(UserDetails userPrincipal) {
@@ -51,6 +61,10 @@ public class JwtUtils {
 
     public String getUserNameFromJwtToken(String token) {
         return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().get("username", String.class);
+    }
+
+    public Set getAuthoritiesFromJwtToken(String token) {
+        return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().get("authorities", Set.class);
     }
 
     public boolean validateJwtToken(String authToken) {
@@ -73,10 +87,13 @@ public class JwtUtils {
     }
 
     public String generateToken(UserDetails userDetails) {
+        Map<String, Object> claims = new HashMap<>(2);
+        claims.put("username", userDetails.getUsername());
+        claims.put("authorities", userDetails.getAuthorities());
         return Jwts.builder()
-            .setClaims(Map.of("username", userDetails.getUsername(), "authorities", userDetails.getAuthorities()))
+            .setClaims(claims)
             .setIssuedAt(new Date())
-            .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
+            .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
             .signWith(SignatureAlgorithm.HS512, jwtSecret)
             .compact();
     }

@@ -17,6 +17,8 @@ public enum CommonErrorDescEnum implements IBaseError {
     DATABASE_UNIQUE_ERROR("CM010002", "database unique key repeated."),
     JSON_PARSER_ERROR("CM010003", "json parse error."),
     REPEAT_REQUEST("CM010004", "repeat request, please try again later."),
+    PARAMETER_ERROR("CM010005", "parameter error."),
+    HTTP_REQUEST_ERROR("CM010006", "http request error."),
 
     ;
 

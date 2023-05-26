@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.swms.user.api.UserContext;
 import com.swms.user.repository.entity.Role;
+import com.swms.user.repository.entity.User;
 import com.swms.user.repository.entity.UserRole;
 import com.swms.user.repository.model.UserHasRole;
 import com.swms.user.rest.common.BaseResource;
@@ -32,7 +33,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -58,53 +61,44 @@ public class UserController extends BaseResource {
     private final UserService userService;
     private final RoleService roleService;
     private final UserRoleService userRoleService;
-    private final MenuService menuService;
 
-    @PostMapping("/pageQuery")
-    @ApiOperation("分页条件查询用户(内部测试用)")
-    public Object pageQuery(@RequestBody @Valid UserPageParam param) {
-        return Response.builder().data(userService.getPage(param)).build();
+    @GetMapping("/search")
+    @ApiOperation(value = "分页条件查询用户(前端使用)", response = UserHasRole.class, responseContainer = "List")
+    public Object search(@Valid UserPageParam param) {
+        return userService.getPage(param);
     }
 
-    @PostMapping("/search")
-    @ApiOperation(value = "分页条件查询用户(前端使用)", response = UserHasRole.class)
-    public Object search(@RequestParam Integer pageIndex,
-                         @RequestParam Integer pageSize,
-                         @RequestBody @Valid UserPageParam param) {
-        param.setPageSize(pageSize);
-        param.setCurrentPage(pageIndex);
-        IPage<UserHasRole> page = userService.getPage(param);
-        return Response.builder().data(PageResult.convert(page)).build();
+    @GetMapping("/{id}")
+    @ApiOperation(value = "查询用户", response = UserHasRole.class, responseContainer = "List")
+    public Object getUserById(@Valid @PathVariable Long id) {
+        return userService.getById(id);
     }
 
     @PostMapping("/add")
     @ApiOperation("添加用户")
-    public Object add(@RequestBody @Valid UserAddParam param) throws Exception {
+    public void add(@RequestBody @Valid UserAddParam param) throws Exception {
         userService.addUser(param);
-        return Response.builder().build();
     }
 
-    @PostMapping("/getRoleList")
+    @GetMapping("/getRoleList")
     @ApiOperation(value = "查询启用的角色（修改用户时, 查询所有启用的角色）", response = Role.class)
     public Object getRoleList() {
         LambdaQueryWrapper<Role> wrapper = Wrappers.<Role>lambdaQuery()
             .eq(Role::getStatus, 1)
             .orderByDesc(Role::getGmtCreated);
-        List<Role> list = roleService.list(wrapper);
-        return Response.builder().data(list).build();
+        return roleService.list(wrapper);
     }
 
     @PostMapping("/getRoleByUser")
     @ApiOperation(value = "查询用户所属角色（修改用户时, 查询当前用户所属的角色）", response = UserRole.class)
     public Object getRoleByUser(@RequestBody @Valid UserRoleFetchParam param) {
-        return Response.builder().data(userRoleService.getByUserId(param.getUserId())).build();
+        return userRoleService.getByUserId(param.getUserId());
     }
 
-    @PostMapping("/update")
+    @PostMapping("/{id}")
     @ApiOperation("修改用户")
-    public Object update(@RequestBody @Valid UserUpdateParam param) throws Exception {
+    public void update(@RequestBody @Valid UserUpdateParam param) throws Exception {
         userService.updateUser(param);
-        return Response.builder().build();
     }
 
     @PostMapping("/updateStatus")
@@ -113,7 +107,6 @@ public class UserController extends BaseResource {
         userService.updateStatus(param.getUserId(), param.getStatus());
         return Response.builder().build();
     }
-
 
     @PostMapping("/resetPassword")
     @ApiOperation("重置密码")
@@ -131,7 +124,7 @@ public class UserController extends BaseResource {
         return Response.builder().build();
     }
 
-    @PostMapping("/info")
+    @GetMapping("/info")
     @ApiOperation(value = "获取当前用户信息", response = AuthUserInfo.class)
     public Object getUserInfo() throws Exception {
         AuthUserInfo authUserInfo = userService.getAuthUserInfo();
@@ -141,26 +134,12 @@ public class UserController extends BaseResource {
     @PostMapping("/nav")
     @ApiOperation(value = "获取当前用户角色的菜单", response = NavigationVo.class)
     public Object getCurrentUserNavInfo() {
-        Set<String> roleCodes = UserContext.getCurrentRoleCodes();
-        return Response.builder().data(menuService.getUserNav(roleCodes)).build();
-    }
-
-    @PostMapping("/logout")
-    @ApiOperation("退出登录")
-    public Object logout() {
-        return Response.builder().build();
-    }
-
-    @GetMapping("test")
-    public Object test(@RequestParam String param) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return param;
+        return UserContext.getCurrentRoleCodes();
     }
 
     @PostMapping("/sync")
     @ApiOperation("同步用户-支持新增，修改和删除")
-    public Object sync(@RequestBody @Valid UserAddParam param) throws Exception {
+    public void sync(@RequestBody @Valid UserAddParam param) throws Exception {
         userService.syncUser(param);
-        return Response.builder().build();
     }
 }
