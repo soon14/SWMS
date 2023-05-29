@@ -33,6 +33,9 @@ import com.swms.user.service.model.UserDetailsModel;
 import com.swms.utils.exception.WmsException;
 import com.swms.utils.exception.code_enum.UserErrorDescEnum;
 import com.swms.utils.utils.PaginationContext;
+
+import java.util.Collections;
+
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -271,7 +274,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         List<Role> roles = roleMapper.getRoleByUserId(user.getId());
 
         if (roles == null || roles.isEmpty()) {
-            return null;
+            return Collections.emptySet();
         }
 
         Set<GrantedAuthority> grantedAuthorities = Sets.newHashSet();

@@ -42,7 +42,7 @@ public class AuthGatewayFilter implements GatewayFilter, Ordered {
         "/user/api/currentUser/searchMenuTree",
         "/user/api/user/info",
         "/user/api/user/nav",
-        "/user/oauth/token",
+        "/user/api/auth/signin",
         "/user/external/logout"
     );
 

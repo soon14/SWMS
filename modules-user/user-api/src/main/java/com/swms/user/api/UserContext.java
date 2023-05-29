@@ -13,13 +13,15 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
 @Slf4j
 public class UserContext {
-    public static final String ROLE_GRANTED_AUTHORITY_PREFIX = "$$$&&&!!!ROLE_";
+    public static final String ROLE_GRANTED_AUTHORITY_PREFIX = "ROLE_";
 
     public static final String SUPPER_PERMISSION = "*:*";
 
@@ -59,15 +61,12 @@ public class UserContext {
      * @return
      */
     public static Set<String> getCurrentRoleCodes() {
-        Set<String> result = new HashSet<>();
-        Set<String> roles = (getCurrentAuthorities()
+        return getCurrentAuthorities()
             .stream()
-            .filter(u -> u.startsWith(ROLE_GRANTED_AUTHORITY_PREFIX))
-            .collect(Collectors.toSet()));
-        if (!CollectionUtils.isEmpty(roles)) {
-            roles.forEach(u -> result.add(u.replace(ROLE_GRANTED_AUTHORITY_PREFIX, "")));
-        }
-        return result;
+            .map(u -> u.getOrDefault("authority", "").toString())
+            .filter(v -> v.startsWith(ROLE_GRANTED_AUTHORITY_PREFIX))
+            .map(v -> v.replace(ROLE_GRANTED_AUTHORITY_PREFIX, ""))
+            .collect(Collectors.toSet());
     }
 
     /**
@@ -78,7 +77,8 @@ public class UserContext {
     public static Set<String> getCurrentPermissions() {
         return getCurrentAuthorities()
             .stream()
-            .filter(u -> !u.startsWith(ROLE_GRANTED_AUTHORITY_PREFIX))
+            .filter(u -> !u.containsKey("permission"))
+            .map(v -> v.getOrDefault("permission", "").toString())
             .collect(Collectors.toSet());
     }
 
@@ -87,9 +87,9 @@ public class UserContext {
      *
      * @return
      */
-    public static Set<String> getCurrentAuthorities() {
+    public static Set<Map> getCurrentAuthorities() {
         HttpServletRequest request;
-        Set<String> result = new HashSet<>();
+        Set<Map> result = new HashSet<>();
         try {
             RequestAttributes requestAttributes = RequestContextHolder.currentRequestAttributes();
             request = ((ServletRequestAttributes) requestAttributes).getRequest();
@@ -103,8 +103,10 @@ public class UserContext {
             token = token.trim();
             try {
                 DecodedJWT jwt = JWT.decode(token);
-                result.addAll(jwt.getClaims().get(AUTHORITIES).asList(String.class));
+                List<Map> maps = jwt.getClaims().get(AUTHORITIES).asList(Map.class);
+                result.addAll(maps);
             } catch (Exception e) {
+                log.error("get current user authorities error", e);
                 return result;
             }
         }

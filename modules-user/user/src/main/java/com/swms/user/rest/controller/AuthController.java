@@ -2,7 +2,6 @@ package com.swms.user.rest.controller;
 
 import com.swms.user.api.utils.JwtUtils;
 import com.swms.user.rest.common.vo.AuthModel;
-import com.swms.user.rest.common.vo.UserModel;
 import com.swms.user.rest.param.login.LoginRequest;
 import com.swms.user.service.UserService;
 import com.swms.utils.http.Response;
@@ -14,9 +13,10 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,20 +36,18 @@ public class AuthController {
 
     @PostMapping("/signin")
     @ResponseBody
-    public AuthModel authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+    public AuthModel authenticateUser(@Valid LoginRequest loginRequest) {
 
         Authentication authentication = authenticationManager
             .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-
         ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userDetails);
-        UserModel userModel = UserModel.builder().username(userDetails.getUsername()).build();
-        return AuthModel.builder().api_token(jwtCookie.getValue()).user(userModel).build();
+        return AuthModel.builder().token(jwtCookie.getValue()).build();
     }
 
-    @PostMapping("/signout")
+    @GetMapping("/signout")
     public Response<Object> logoutUser() {
         jwtUtils.getCleanJwtCookie();
         return Response.success();

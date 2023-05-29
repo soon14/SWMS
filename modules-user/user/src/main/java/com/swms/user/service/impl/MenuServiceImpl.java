@@ -20,6 +20,7 @@ import com.swms.user.rest.param.menu.NavigationInfo;
 import com.swms.user.rest.param.menu.NavigationVo;
 import com.swms.user.service.MenuService;
 import com.swms.user.service.RoleMenuService;
+import com.swms.user.service.UserRoleService;
 import com.swms.user.service.UserService;
 import com.swms.user.service.model.MenuTree;
 import com.swms.user.utils.AbstractListToTree;
@@ -130,6 +131,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
         if (null == user) {
             return Collections.emptyList();
         }
+
         Set<String> roleCodes = UserContext.getCurrentRoleCodes();
         boolean containSuperRole = roleCodes.stream().anyMatch(u -> u.equals(systemProp.getSuperRoleCode()));
         if (containSuperRole) {

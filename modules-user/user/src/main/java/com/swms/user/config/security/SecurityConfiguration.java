@@ -44,4 +44,18 @@ public class SecurityConfiguration {
         return authConfig.getAuthenticationManager();
     }
 
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http.cors().and().csrf().disable()
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+            .authorizeHttpRequests().requestMatchers("/**").permitAll()
+            .anyRequest().authenticated();
+
+        // fix H2 database console: Refused to display ' in a frame because it set 'X-Frame-Options' to 'deny'
+        http.headers().frameOptions().sameOrigin();
+        http.authenticationProvider(authenticationProvider());
+
+        return http.build();
+    }
+
 }

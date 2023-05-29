@@ -6,7 +6,7 @@ import lombok.Data;
 @Builder
 @Data
 public class AuthModel {
-    private String api_token;
+    private String token;
     private String refreshToken;
 
     private UserModel user;
