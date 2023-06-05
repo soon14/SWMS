@@ -22,6 +22,17 @@ spring:
             - Path=/user/**
           filters:
             - RewritePath=/user/(?<segment>.*) , /$\{segment}
-
+        - id: mdm
+          uri: lb://mdm
+          predicates:
+            - Path=/mdm/**
+          filters:
+            - RewritePath=/mdm/(?<segment>.*) , /$\{segment}
+        - id: wms
+          uri: lb://wms
+          predicates:
+            - Path=/wms/**
+          filters:
+            - RewritePath=/wms/(?<segment>.*) , /$\{segment}
 server:
   port: 8090

@@ -2,6 +2,9 @@ package com.swms.utils.utils;
 
 public class PaginationContext {
 
+    private PaginationContext() {
+    }
+
     private static final ThreadLocal<Integer> PAGE_NUM = new ThreadLocal<>();
 
     /**

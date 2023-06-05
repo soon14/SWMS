@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Sets;
-import com.swms.user.api.UserContext;
 import com.swms.user.config.prop.SystemProp;
 import com.swms.user.repository.entity.Role;
 import com.swms.user.repository.entity.RoleMenu;
@@ -79,9 +78,9 @@ public class RoleController extends BaseResource {
 
     @PostMapping("/getRoleMenu")
     @ApiOperation(value = "分配角色时, 查询当前角色的菜单和权限", response = RoleMenuVo.class)
-    public Object getRoleMenu(@RequestBody @Valid RoleMenuFetchParam param) throws Exception {
+    public Object getRoleMenu(@RequestBody @Valid RoleMenuFetchParam param) {
         RoleMenuVo roleMenuVo = new RoleMenuVo();
-        List<MenuTree> menuTreeByCurrentUser = menuService.getMenuTreeByUser(UserContext.getCurrentUser());
+        List<MenuTree> menuTreeByCurrentUser = menuService.getMenuTree();
 
         LambdaQueryWrapper<RoleMenu> wrapper = Wrappers.<RoleMenu>lambdaQuery()
             .eq(RoleMenu::getRoleId, param.getRoleId())

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.swms.mdm.query.main.data.mapper.WarehouseMainDataMapper">
+
+    <select id="search" resultType="com.swms.mdm.query.main.data.vo.WarehouseMainDataVO">
+        select t.*
+        from warehouse_main_data t
+        <where>
+            <if test="param.warehouseName != null and param.warehouseName != ''">
+                and t.warehouse_name like CONCAT('%',#{param.warehouseName},'%')
+            </if>
+            <if test="param.warehouseCode != null and param.warehouseCode != ''">
+                and t.warehouse_code like CONCAT('%',#{param.warehouseCode},'%')
+            </if>
+            <if test="param.createUser != null and param.createUser != ''">
+                and t.create_user like CONCAT('%',#{param.createUser},'%')
+            </if>
+            <if test="param.updateUser != null and param.updateUser != ''">
+                and t.update_user like CONCAT('%',#{param.updateUser},'%')
+            </if>
+        </where>
+        order by t.id desc
+    </select>
+</mapper>

@@ -1,7 +1,6 @@
 package com.swms.mdm.main.data.infrastructure.persistence.po;
 
 import com.swms.utils.base.BaseUserPO;
-import com.swms.utils.id.IdGenerator;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;

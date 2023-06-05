@@ -1,0 +1,26 @@
+plugins {
+    id 'java'
+}
+
+group 'com.swms'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation project(path: ":swms-utils", configuration: 'default')
+    implementation project(path: ":modules-mdm:mdm-api", configuration: 'default')
+    implementation 'com.baomidou:mybatis-plus-boot-starter'
+
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+}
+
+sourceSets {
+    main {
+        resources {
+            srcDirs = ['src/main/resources', 'src/main/java']
+        }
+    }
+}

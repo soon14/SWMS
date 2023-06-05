@@ -1,10 +1,7 @@
 package com.swms.mdm.main.data.infrastructure.persistence.po;
 
 import com.swms.mdm.api.main.data.constants.OwnerTypeEnum;
-import com.swms.mdm.api.main.data.dto.AddressDTO;
-import com.swms.mdm.api.main.data.dto.ContactorDTO;
 import com.swms.utils.base.BaseUserPO;
-import com.swms.utils.id.IdGenerator;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
