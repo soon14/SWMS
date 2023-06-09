@@ -14,23 +14,20 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
     testImplementation('org.springframework.boot:spring-boot-starter-test')
 
-    implementation project(path: ":modules-mdm:mdm-config", configuration: 'default')
-    implementation project(path: ":modules-mdm:mdm-main-data", configuration: 'default')
+    implementation project(path: ":modules-search:search-core", configuration: 'default')
 
     implementation 'org.springframework.boot:spring-boot-starter'
-    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
     implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
-
-    implementation 'org.redisson:redisson-spring-boot-starter'
 
     implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config'
     implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery'
+
+//    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 
     implementation group: 'org.apache.skywalking', name: 'apm-toolkit-logback-1.x'
 
     implementation group: 'mysql', name: 'mysql-connector-java'
 
-    implementation 'org.liquibase:liquibase-core'
 }
 
 test {

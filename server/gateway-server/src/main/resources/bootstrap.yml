@@ -34,5 +34,11 @@ spring:
             - Path=/wms/**
           filters:
             - RewritePath=/wms/(?<segment>.*) , /$\{segment}
+        - id: search
+          uri: lb://search
+          predicates:
+            - Path=/search/**
+          filters:
+            - RewritePath=/search/(?<segment>.*) , /$\{segment}
 server:
   port: 8090

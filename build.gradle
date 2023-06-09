@@ -96,10 +96,10 @@ subprojects {
             dependency group: 'commons-codec', name: 'commons-codec', version: '1.15'
             dependency group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.11.3'
             dependency group: 'mysql', name: 'mysql-connector-java', version: '8.0.32'
-//            dependency group: 'org.hibernate.orm', name: 'hibernate-core', version: '6.2.1.Final'
+            dependency group: 'cn.zhxu', name: 'bean-searcher-boot-starter', version: '4.1.2'
+            dependency group: 'org.javassist', name: 'javassist', version: '3.29.2-GA'
 
             dependency group: 'com.auth0', name: 'java-jwt', version: '4.4.0'
-
 
             dependency 'jakarta.servlet:jakarta.servlet-api:6.0.0'
             dependency 'jakarta.validation:jakarta.validation-api:3.0.2'
