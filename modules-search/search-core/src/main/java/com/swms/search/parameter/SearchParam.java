@@ -29,6 +29,7 @@ public class SearchParam {
 
     @Data
     public static class SearchObject {
+        private String dataSource;
         private String tables;
         private String where;
         private String groupBy;

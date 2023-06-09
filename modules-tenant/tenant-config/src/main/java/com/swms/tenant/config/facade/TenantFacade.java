@@ -10,7 +10,7 @@ import java.util.List;
 @Service
 public class TenantFacade {
 
-    @DubboReference(check = false)
+    @DubboReference(check = true)
     private ITenantApi tenantApi;
 
     public void setTenantApi(ITenantApi tenantApi) {

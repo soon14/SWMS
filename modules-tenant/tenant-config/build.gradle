@@ -14,12 +14,10 @@ dependencies {
     implementation project(path: ":modules-tenant:tenant-api", configuration: 'default')
 
     implementation 'com.alibaba:transmittable-thread-local'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.apache.dubbo:dubbo-spring-boot-starter'
 
     compileOnly 'org.springframework.boot:spring-boot-starter-websocket'
-
-    compileOnly 'org.springframework.boot:spring-boot-starter-data-jpa'
-    compileOnly 'org.apache.dubbo:dubbo-spring-boot-starter'
-
     compileOnly 'com.google.guava:guava'
     compileOnly 'org.apache.commons:commons-lang3'
     compileOnly 'org.apache.commons:commons-collections4'

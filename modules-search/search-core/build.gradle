@@ -12,6 +12,7 @@ repositories {
 dependencies {
 
     implementation project(path: ":swms-utils", configuration: 'default')
+    implementation project(path: ":modules-tenant:tenant-config", configuration: 'default')
 
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
 
