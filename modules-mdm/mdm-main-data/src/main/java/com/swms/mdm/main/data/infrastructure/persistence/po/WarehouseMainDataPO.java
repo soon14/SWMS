@@ -69,7 +69,7 @@ public class WarehouseMainDataPO extends BaseUserPO {
     private Integer area = 0;
 
     @Column(nullable = false, columnDefinition = "int default 0 comment '层高(m)'")
-    private Integer height;
+    private Integer height = 0;
     private boolean virtualWarehouse;
 
     @Column(columnDefinition = "varchar(64) comment '联系人'")

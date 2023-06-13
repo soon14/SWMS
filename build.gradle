@@ -100,10 +100,10 @@ subprojects {
             dependency group: 'org.javassist', name: 'javassist', version: '3.29.2-GA'
 
             dependency group: 'com.auth0', name: 'java-jwt', version: '4.4.0'
+            dependency group: 'org.reflections', name: 'reflections', version: '0.10.2'
 
             dependency 'jakarta.servlet:jakarta.servlet-api:6.0.0'
             dependency 'jakarta.validation:jakarta.validation-api:3.0.2'
-
 
             /******************************** 依赖swagger*******************************/
             dependency group: 'io.springfox', name: 'springfox-swagger2', version: '3.0.0'

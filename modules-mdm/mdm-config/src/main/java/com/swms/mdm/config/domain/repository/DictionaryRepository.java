@@ -14,8 +14,6 @@ public interface DictionaryRepository {
 
     Dictionary findByCode(String code);
 
-    Page<Dictionary> search(DictionarySearchParameter parameter);
-
     List<Dictionary> getAll();
 
 }
