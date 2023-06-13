@@ -22,6 +22,7 @@ public class UserExceptionHandler {
         ErrorResponse errorResponse = ErrorResponse.builder().message("Bad credentials")
             .errorCode(String.valueOf(HttpStatus.BAD_REQUEST.value()))
             .build();
+
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 }
