@@ -10,8 +10,6 @@ import jakarta.validation.Valid;
 import org.apache.commons.lang3.StringUtils;
 import org.reflections.Reflections;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.util.ReflectionUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,6 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 @RestController
@@ -41,9 +40,6 @@ public class DictionaryController {
 
     @Autowired
     private DictionaryTransfer dictionaryTransfer;
-
-    @Autowired
-    private ApplicationContext applicationContext;
 
     @PostMapping("createOrUpdate")
     public Object createOrUpdate(@RequestBody @Valid DictionaryDTO dictionaryDTO) {
@@ -91,13 +87,16 @@ public class DictionaryController {
         dictionaryEnums.forEach(cClass -> {
             String simpleName = cClass.getSimpleName();
             if (simpleName.endsWith("Enum")) {
-
-                List<DictionaryDTO.DictionaryItem> items = Arrays.stream(cClass.getDeclaredFields()).map(field -> {
-                    DictionaryDTO.DictionaryItem item = new DictionaryDTO.DictionaryItem();
-                    item.setShowContext(field.getName());
-                    item.setValue(field.getName());
-                    return item;
-                }).toList();
+                AtomicInteger index = new AtomicInteger(0);
+                List<DictionaryDTO.DictionaryItem> items = Arrays.stream(cClass.getDeclaredFields())
+                    .filter(v -> !StringUtils.equals("$VALUES", v.getName()))
+                    .map(field -> {
+                        DictionaryDTO.DictionaryItem item = new DictionaryDTO.DictionaryItem();
+                        item.setShowContext(field.getName());
+                        item.setValue(field.getName());
+                        item.setDefaultItem(index.getAndIncrement() == 0);
+                        return item;
+                    }).toList();
 
                 DictionaryDTO dictionaryDTO = new DictionaryDTO();
                 dictionaryDTO.setCode(simpleName.substring(0, simpleName.indexOf("Enum")));

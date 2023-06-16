@@ -5,10 +5,6 @@ plugins {
 group 'com.swms'
 version '1.0-SNAPSHOT'
 
-repositories {
-    mavenCentral()
-}
-
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
@@ -16,6 +12,7 @@ dependencies {
 
     implementation project(path: ":modules-mdm:mdm-config", configuration: 'default')
     implementation project(path: ":modules-mdm:mdm-main-data", configuration: 'default')
+    implementation project(path: ":modules-tenant:tenant-config", configuration: 'default')
 
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'

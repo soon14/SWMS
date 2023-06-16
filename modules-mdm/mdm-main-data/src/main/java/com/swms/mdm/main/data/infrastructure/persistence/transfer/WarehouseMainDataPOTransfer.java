@@ -19,8 +19,8 @@ import org.mapstruct.ReportingPolicy;
     nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface WarehouseMainDataPOTransfer {
 
-    @Mapping(target = ".", source = "address")
-    @Mapping(target = ".", source = "contactor")
+    @Mapping(target = ".", source = "addressDTO")
+    @Mapping(target = ".", source = "contactorDTO")
     WarehouseMainDataPO toPO(WarehouseMainData warehouse);
 
     @InheritInverseConfiguration

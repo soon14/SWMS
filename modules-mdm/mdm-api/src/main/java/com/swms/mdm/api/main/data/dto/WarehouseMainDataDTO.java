@@ -46,9 +46,9 @@ public class WarehouseMainDataDTO {
     private Integer height;
     private boolean virtualWarehouse;
 
-    private ContactorDTO contactor;
+    private ContactorDTO contactorDTO;
 
-    private AddressDTO address;
+    private AddressDTO addressDTO;
 
     private Long version;
 }

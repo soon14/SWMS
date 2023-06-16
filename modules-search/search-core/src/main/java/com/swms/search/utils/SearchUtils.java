@@ -6,6 +6,7 @@ import cn.zhxu.bs.implement.DefaultSqlExecutor;
 import com.swms.search.parameter.SearchParam;
 import com.swms.tenant.config.util.DataSourceUtil;
 import com.swms.tenant.config.util.TenantContext;
+import com.swms.utils.exception.WmsException;
 import javassist.CannotCompileException;
 import javassist.ClassPool;
 import javassist.CtClass;
@@ -37,7 +38,7 @@ public class SearchUtils {
                 ct = createClass(classPool, searchParam);
             } catch (Exception e) {
                 log.error("create class: {} error: ", searchParam.getSearchIdentity(), e);
-                throw new RuntimeException(e);
+                throw new WmsException("search server create class error:" + e.getMessage());
             }
             return ct.toClass(SearchParam.class);
         } else {
