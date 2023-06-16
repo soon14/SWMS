@@ -21,10 +21,12 @@ public class WarehouseMainDataVO extends WarehouseMainDataDTO {
     private String district;
     private String address;
 
+    @Override
     public ContactorDTO getContactorDTO() {
         return new ContactorDTO(name, tel, mail, fax);
     }
 
+    @Override
     public AddressDTO getAddressDTO() {
         return new AddressDTO(country, province, city, district, address);
     }
