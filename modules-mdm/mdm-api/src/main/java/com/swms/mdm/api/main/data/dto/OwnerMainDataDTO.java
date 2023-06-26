@@ -17,9 +17,9 @@ public class OwnerMainDataDTO {
     @NotNull
     private OwnerTypeEnum ownerType;
 
-    private ContactorDTO contactor;
+    private ContactorDTO contactorDTO;
 
-    private AddressDTO address;
+    private AddressDTO addressDTO;
 
     private Long version;
 }

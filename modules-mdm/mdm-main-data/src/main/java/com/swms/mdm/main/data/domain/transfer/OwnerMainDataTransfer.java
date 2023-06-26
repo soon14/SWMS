@@ -5,6 +5,7 @@ import static org.mapstruct.NullValueMappingStrategy.RETURN_NULL;
 
 import com.swms.mdm.api.main.data.dto.OwnerMainDataDTO;
 import com.swms.mdm.api.main.data.dto.SkuMainDataDTO;
+import com.swms.mdm.main.data.controller.parameter.OwnerMainDataVO;
 import com.swms.mdm.main.data.domain.entity.OwnerMainData;
 import com.swms.mdm.main.data.domain.entity.SkuMainData;
 import org.mapstruct.Mapper;
@@ -23,5 +24,4 @@ public interface OwnerMainDataTransfer {
 
     OwnerMainDataDTO toOwnerMainDataDTO(OwnerMainData ownerMainData);
 
-    List<OwnerMainDataDTO> toOwnerMainDataDTOS(List<OwnerMainData> ownerMainDataList);
 }

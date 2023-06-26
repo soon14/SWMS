@@ -20,8 +20,8 @@ import java.util.List;
     nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface OwnerMainDataPOTransfer {
 
-    @Mapping(target = ".", source = "address")
-    @Mapping(target = ".", source = "contactor")
+    @Mapping(target = ".", source = "addressDTO")
+    @Mapping(target = ".", source = "contactorDTO")
     OwnerMainDataPO toPO(OwnerMainData ownerMainData);
 
     @InheritInverseConfiguration

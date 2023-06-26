@@ -16,4 +16,5 @@ public interface OwnerMainDataRepository {
 
     List<OwnerMainData> getOwnerMainData(Collection<String> ownCodes);
 
+    OwnerMainData findById(Long id);
 }

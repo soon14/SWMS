@@ -38,4 +38,9 @@ public class OwnerMainDataRepositoryImpl implements OwnerMainDataRepository {
     public List<OwnerMainData> getOwnerMainData(Collection<String> ownCodes) {
         return ownerMainDataPOTransfer.toDOS(ownerMainDataPORepository.findAllByOwnerCodeIn(ownCodes));
     }
+
+    @Override
+    public OwnerMainData findById(Long id) {
+        return ownerMainDataPOTransfer.toDO(ownerMainDataPORepository.findById(id).orElseThrow());
+    }
 }
