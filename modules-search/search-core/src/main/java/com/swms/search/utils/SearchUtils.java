@@ -1,11 +1,7 @@
 package com.swms.search.utils;
 
-import cn.zhxu.bs.SqlExecutor;
 import cn.zhxu.bs.bean.SearchBean;
-import cn.zhxu.bs.implement.DefaultSqlExecutor;
 import com.swms.search.parameter.SearchParam;
-import com.swms.tenant.config.util.DataSourceUtil;
-import com.swms.tenant.config.util.TenantContext;
 import com.swms.utils.exception.WmsException;
 import javassist.CannotCompileException;
 import javassist.ClassPool;
@@ -17,10 +13,7 @@ import javassist.bytecode.annotation.Annotation;
 import javassist.bytecode.annotation.StringMemberValue;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import javax.sql.DataSource;
 
 @Slf4j
 @Component
