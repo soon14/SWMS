@@ -8,7 +8,7 @@ import java.util.List;
 @Data
 public class SearchParam {
 
-    // identify search: must start with "com.swms.search.parameter"
+    // identify search
     @NotEmpty
     private String searchIdentity;
 

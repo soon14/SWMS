@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
+import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -35,8 +36,7 @@ import java.util.List;
  * @Description:
  */
 @Slf4j
-@Component
-public class AuthGatewayFilter implements GatewayFilter, Ordered {
+public class AuthGatewayFilter implements GlobalFilter, Ordered {
 
     private static final List<String> USER_WHITE_LIST = Lists.newArrayList(
         "/user/api/currentUser/searchMenuTree",

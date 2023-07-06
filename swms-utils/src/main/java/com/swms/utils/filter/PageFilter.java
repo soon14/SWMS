@@ -20,9 +20,9 @@ import java.io.IOException;
 public class PageFilter implements Filter {
 
     private static final String PAGE = "page";
-    private static final String PAGE_SIZE = "items_per_page";
+    private static final String PAGE_SIZE = "perPage";
 
-    public static final Integer DEFAULT_PAGE_INDEX = 0;
+    public static final Integer DEFAULT_PAGE_INDEX = 1;
     public static final Integer DEFAULT_PAGE_SIZE = 10;
 
 
@@ -59,7 +59,7 @@ public class PageFilter implements Filter {
             String pageNumString = request.getParameter(PAGE);
             if (!StringUtils.isEmpty(pageNumString)) {
                 pageNum = Integer.parseInt(pageNumString);
-                return pageNum == DEFAULT_PAGE_INDEX ? DEFAULT_PAGE_INDEX : pageNum - 1;
+                return pageNum;
             }
         } catch (NumberFormatException e) {
             log.error("getPageNum error page:[{}]", request.getParameter(PAGE), e);

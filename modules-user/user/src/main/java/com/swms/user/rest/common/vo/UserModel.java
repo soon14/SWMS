@@ -8,4 +8,6 @@ import lombok.Data;
 public class UserModel {
     private long id;
     private String username;
+
+    private String icon;
 }

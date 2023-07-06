@@ -29,7 +29,7 @@ public class AuthProperties {
      * 是否启用网关鉴权模式
      */
     @NacosValue(value = "${auth.enable}", autoRefreshed = true)
-    private Boolean enable = true;
+    private Boolean enable = false;
 
     /**
      * 网关鉴权超时续时时长

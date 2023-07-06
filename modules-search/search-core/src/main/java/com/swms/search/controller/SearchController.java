@@ -1,7 +1,9 @@
 package com.swms.search.controller;
 
 import cn.zhxu.bs.MapSearcher;
+import cn.zhxu.bs.SearchResult;
 import cn.zhxu.bs.util.MapUtils;
+import com.google.common.collect.Maps;
 import com.swms.search.parameter.SearchParam;
 import com.swms.search.utils.SearchUtils;
 import com.swms.utils.http.Response;
@@ -9,6 +11,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import javassist.CannotCompileException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +29,13 @@ public class SearchController {
         throws CannotCompileException, ClassNotFoundException {
         return Response.builder().data(
             beanSearcher.search(SearchUtils.createClass(searchParam), MapUtils.flat(request.getParameterMap()))).build();
+    }
+
+    @PostMapping("searchSelectResult")
+    public Object searchSelectResult(HttpServletRequest request, @Validated @RequestBody SearchParam searchParam)
+        throws CannotCompileException, ClassNotFoundException {
+        SearchResult searchResult = beanSearcher.search(SearchUtils.createClass(searchParam), MapUtils.flat(request.getParameterMap()));
+        return Response.builder().data(Maps.immutableEntry("options", searchResult.getDataList())).build();
     }
 
 }

@@ -16,4 +16,7 @@ public class UserHasRole extends User {
 
     @ApiModelProperty("角色")
     private String roleNames;
+
+    private String roleIds;
+
 }

@@ -123,4 +123,14 @@ public class Menu extends BaseEntity implements Serializable {
     private Integer style;
 
 
+    /**
+     * 兼容amis
+     */
+    private String label;
+
+    public String getLabel() {
+        return this.title;
+    }
+
+
 }

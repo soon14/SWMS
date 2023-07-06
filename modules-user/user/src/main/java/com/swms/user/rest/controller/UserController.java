@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.swms.user.api.UserContext;
 import com.swms.user.repository.entity.Role;
+import com.swms.user.repository.entity.User;
 import com.swms.user.repository.entity.UserRole;
 import com.swms.user.repository.model.UserHasRole;
 import com.swms.user.rest.common.BaseResource;
@@ -24,13 +25,18 @@ import com.swms.user.service.UserRoleService;
 import com.swms.user.service.UserService;
 import com.swms.user.service.model.AuthUserInfo;
 import com.swms.utils.http.Response;
+import io.jsonwebtoken.lang.Strings;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import jakarta.validation.Valid;
+import jodd.util.StringUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -63,7 +69,10 @@ public class UserController extends BaseResource {
 
     @PostMapping("/search")
     @ApiOperation(value = "分页条件查询用户(前端使用)", response = UserHasRole.class, responseContainer = "List")
-    public Object search(@Valid @RequestBody UserPageParam param) {
+    public Object search(@Valid @RequestBody(required = false) UserPageParam param) {
+        if (param == null) {
+            param = new UserPageParam();
+        }
         IPage<UserHasRole> page = userService.getPage(param);
         return Response.builder().data(PageResult.convert(page)).build();
     }
@@ -71,9 +80,13 @@ public class UserController extends BaseResource {
     @GetMapping("/{id}")
     @ApiOperation(value = "查询用户", response = UserHasRole.class, responseContainer = "List")
     public Object getUserById(@Valid @PathVariable Long id) {
-        userService.getById(id);
-        return Response.builder().build();
+        User user = userService.getById(id);
+        List<UserRole> userRoles = userRoleService.getByUserId(id);
 
+        UserHasRole userRole = new UserHasRole();
+        BeanUtils.copyProperties(user, userRole);
+        userRole.setRoleIds(StringUtils.join(userRoles.stream().map(UserRole::getRoleId).toList(), ","));
+        return Response.builder().data(userRole).build();
     }
 
     @PostMapping("/add")
@@ -114,19 +127,17 @@ public class UserController extends BaseResource {
     }
 
 
-    @PostMapping("/resetPassword")
+    @PostMapping("/resetPassword/{id}")
     @ApiOperation("重置密码")
-    public Object resetPassword(@RequestBody @Valid UserResetPasswordParam param) throws Exception {
-        userService.resetPassword(param.getUserId(), param.getPassword());
+    public Object resetPassword(@PathVariable long id) throws Exception {
+        userService.resetPassword(id, "123456");
         return Response.builder().build();
     }
 
-    @PostMapping("/delete")
+    @DeleteMapping("/{id}")
     @ApiOperation("删除用户")
-    public Object deleteUser(@RequestBody CommonParam param) throws Exception {
-        for (Long id : param.getIds()) {
-            userService.delete(id);
-        }
+    public Object deleteUser(@PathVariable Long id) throws Exception {
+        userService.delete(id);
         return Response.builder().build();
     }
 

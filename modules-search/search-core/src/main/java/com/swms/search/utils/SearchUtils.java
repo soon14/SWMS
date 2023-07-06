@@ -1,5 +1,6 @@
 package com.swms.search.utils;
 
+import cn.zhxu.bs.bean.DbField;
 import cn.zhxu.bs.bean.SearchBean;
 import com.swms.search.parameter.SearchParam;
 import com.swms.utils.exception.WmsException;
@@ -46,6 +47,15 @@ public class SearchUtils {
         for (SearchParam.Column column : searchParam.getShowColumns()) {
             CtField field = new CtField(classPool.get(column.getJavaType()), column.getObjectField(), dynamicClass);
             dynamicClass.addField(field);
+
+            //add dbField mapping
+            if (StringUtils.isNotBlank(column.getDbField())) {
+                Annotation annotation = new Annotation(DbField.class.getName(), dynamicClass.getClassFile().getConstPool());
+                annotation.addMemberValue("value", new StringMemberValue(column.getDbField(), dynamicClass.getClassFile().getConstPool()));
+                AnnotationsAttribute annotationsAttribute = new AnnotationsAttribute(dynamicClass.getClassFile().getConstPool(), AnnotationsAttribute.visibleTag);
+                annotationsAttribute.addAnnotation(annotation);
+                field.getFieldInfo().addAttribute(annotationsAttribute);
+            }
         }
 
         SearchParam.SearchObject searchObject = searchParam.getSearchObject();

@@ -34,6 +34,7 @@ import com.swms.utils.exception.WmsException;
 import com.swms.utils.exception.code_enum.UserErrorDescEnum;
 import com.swms.utils.utils.PaginationContext;
 
+import java.util.Arrays;
 import java.util.Collections;
 
 import lombok.extern.slf4j.Slf4j;
@@ -145,28 +146,27 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public void addUser(UserAddParam param) throws Exception {
         String username = param.getUsername();
-        synchronized (this) {
-            User databaseUser = getByUsername(username);
-            if (databaseUser != null) {
-                throw new WmsException(UserErrorDescEnum.ERR_USER_NAME_EXISTS);
-            }
+        User databaseUser = getByUsername(username);
+        if (databaseUser != null) {
+            throw new WmsException(UserErrorDescEnum.ERR_USER_NAME_EXISTS);
+        }
 
-            User user = new User();
-            BeanUtils.copyProperties(param, user);
-            // 设置密码
-            String password = user.getPassword();
-            user.setPassword(passwordEncoder.encode(password));
-            user.setLocked(0);
-            if (StringUtils.isEmpty(user.getUsername())) {
-                user.setUsername(user.getName());
-            }
-            save(user);
+        User user = new User();
+        BeanUtils.copyProperties(param, user);
+        // 设置密码
+        String password = user.getPassword();
+        user.setPassword(passwordEncoder.encode(password));
+        user.setLocked(0);
+        if (StringUtils.isEmpty(user.getUsername())) {
+            user.setUsername(user.getName());
+        }
+        save(user);
 
-            if (CollectionUtils.isNotEmpty(param.getRoleIds())) {
-                List<UserRole> userRoles = getUserRole(user.getId(), param.getRoleIds());
-                // 分配角色
-                userRoleService.saveBatch(userRoles);
-            }
+        if (StringUtils.isNotEmpty(param.getRoleIds())) {
+            Set<Long> roleIds = Arrays.stream(param.getRoleIds().split(",")).map(v -> Long.parseLong(v)).collect(Collectors.toSet());
+            List<UserRole> userRoles = getUserRole(user.getId(), roleIds);
+            // 分配角色
+            userRoleService.saveBatch(userRoles);
         }
     }
 
@@ -227,7 +227,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         if (newPassword.length() < 6) {
             throw new WmsException(UserErrorDescEnum.ERR_CRED_TOO_SHORT);
         }
-        //checkSuperUser(userId);
         User databaseUser = getById(userId);
         if (databaseUser == null) {
             throw new WmsException(UserErrorDescEnum.NO_AUTHED_USER_FOUND);

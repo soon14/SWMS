@@ -9,16 +9,17 @@ import io.jsonwebtoken.UnsupportedJwtException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.WebUtils;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 @Component
 @Slf4j
@@ -47,24 +48,20 @@ public class JwtUtils {
             jwt = jwt.substring(7);
         }
 
-        return jwt;
+        return CompressUtils.decompress(Base64.decodeBase64(jwt));
     }
 
     public ResponseCookie generateJwtCookie(UserDetails userPrincipal) {
-        String jwt = generateToken(userPrincipal);
+        String jwt = Base64.encodeBase64String(CompressUtils.compress(generateToken(userPrincipal)));
         return ResponseCookie.from(jwtCookie, jwt).path("/api").maxAge(3600).httpOnly(true).build();
     }
 
-    public ResponseCookie getCleanJwtCookie() {
-        return ResponseCookie.from(jwtCookie, null).path("/api").build();
+    public void cleanJwtCookie() {
+        ResponseCookie.from(jwtCookie, null).path("/api").build();
     }
 
     public String getUserNameFromJwtToken(String token) {
         return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().get("username", String.class);
-    }
-
-    public Set getAuthoritiesFromJwtToken(String token) {
-        return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().get("authorities", Set.class);
     }
 
     public boolean validateJwtToken(String authToken) {

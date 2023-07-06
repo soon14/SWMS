@@ -90,14 +90,10 @@ public class UserContext {
     public static Set<Map> getCurrentAuthorities() {
         HttpServletRequest request;
         Set<Map> result = new HashSet<>();
-        try {
-            RequestAttributes requestAttributes = RequestContextHolder.currentRequestAttributes();
-            request = ((ServletRequestAttributes) requestAttributes).getRequest();
-        } catch (Exception e) {
-            return result;
-        }
+        RequestAttributes requestAttributes = RequestContextHolder.currentRequestAttributes();
+        request = ((ServletRequestAttributes) requestAttributes).getRequest();
 
-        String token = request.getHeader(AUTHORIZATION);
+        String token = jwtUtils.getJwtFromRequest(request);
         if (token != null) {
             token = token.replace(BEARER, "");
             token = token.trim();

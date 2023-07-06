@@ -1,6 +1,7 @@
 package com.swms.user.rest.controller;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Maps;
 import com.swms.user.api.UserContext;
 import com.swms.user.rest.common.BaseResource;
 import com.swms.user.rest.common.PageResult;
@@ -15,6 +16,7 @@ import io.swagger.annotations.ApiOperation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +24,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 
 /**
@@ -39,11 +43,11 @@ public class CurrentUserController extends BaseResource {
     private final CurrentUserService userService;
     private final MenuService menuService;
 
-    @PostMapping("/getMenuTree")
-    @ApiOperation("查询菜单树(内部测试用)")
+    @GetMapping("/getMenuTree")
+    @ApiOperation("查询菜单树")
     public Object getMenuTree() throws Exception {
         List<MenuTree> menuTrees = menuService.getMenuTreeByUser(UserContext.getCurrentUser());
-        return Response.builder().data(menuTrees).build();
+        return menuTrees.stream().collect(Collectors.toMap(MenuTree::getTitle, v -> v));
     }
 
     @PostMapping("/searchMenuTree")

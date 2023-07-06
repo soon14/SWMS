@@ -24,7 +24,7 @@ public class UserAddParam {
      * 所属角色id集合
      */
     @ApiModelProperty(name = "roleIds", value = "角色id集合", required = true)
-    private Set<Long> roleIds;
+    private String roleIds;
 
     /**
      * 用户名称
