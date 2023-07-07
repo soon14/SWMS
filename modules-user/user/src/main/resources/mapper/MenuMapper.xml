@@ -74,7 +74,7 @@ render_template,create_user, gmt_created, modified_user, gmt_modified , extensio
         from menu m
         left join role_menu rm on m.id = rm.menu_id
         left join role r on r.id = rm.role_id
-        where m.enable = 1 and r.status = 1 and r.code in
+        where m.enable = 1 and r.status = 1 and m.type !=3 and r.code in
         <foreach collection="roleCodes" item="roleCode" index="index" open="(" close=")" separator=",">
             #{roleCode}
         </foreach>

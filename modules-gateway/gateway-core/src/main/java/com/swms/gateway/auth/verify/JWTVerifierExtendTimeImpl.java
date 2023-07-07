@@ -10,7 +10,6 @@ import com.auth0.jwt.impl.JWTParser;
 import com.auth0.jwt.impl.NullClaim;
 import com.auth0.jwt.impl.PublicClaims;
 import com.auth0.jwt.interfaces.Claim;
-import com.auth0.jwt.interfaces.Clock;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
 
@@ -29,7 +28,6 @@ public class JWTVerifierExtendTimeImpl implements JWTVerifier {
 
     private final Algorithm algorithm;
     final Map<String, Object> claims;
-    private final Clock clock;
     private final JWTParser parser;
 
     static final String AUDIENCE_EXACT = "AUDIENCE_EXACT";
@@ -41,7 +39,7 @@ public class JWTVerifierExtendTimeImpl implements JWTVerifier {
     public static final Map<String, Date> EXTENDTIME_CACHE_MAP = new ConcurrentHashMap();
 
 
-    public JWTVerifierExtendTimeImpl(Algorithm algorithm, Map<String, Object> claims, Clock clock) {
+    public JWTVerifierExtendTimeImpl(Algorithm algorithm, Map<String, Object> claims) {
         long defaultLeeway = 0;
         if (!claims.containsKey(PublicClaims.EXPIRES_AT)) {
             claims.put(PublicClaims.EXPIRES_AT, defaultLeeway);
@@ -54,7 +52,6 @@ public class JWTVerifierExtendTimeImpl implements JWTVerifier {
         }
         this.algorithm = algorithm;
         this.claims = Collections.unmodifiableMap(claims);
-        this.clock = clock;
         this.parser = new JWTParser();
     }
 
@@ -262,7 +259,7 @@ public class JWTVerifierExtendTimeImpl implements JWTVerifier {
     }
 
     private void assertValidDateClaim(Date date, long leeway, boolean shouldBeFuture) {
-        Date today = new Date(clock.getToday().getTime());
+        Date today = new Date();
         today.setTime(today.getTime() / 1000 * 1000); // truncate millis
         if (shouldBeFuture) {
             assertDateIsFuture(date, leeway, today);
