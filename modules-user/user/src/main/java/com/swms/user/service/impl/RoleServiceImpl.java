@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.base.Objects;
-import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.swms.user.config.prop.SystemProp;
 import com.swms.user.repository.entity.Role;
@@ -131,7 +130,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
         }
         checkSuperRole(role);
         roleMenuService.removeByRoleId(param.getRoleId());
-        Set<Long> menus = param.getMenus();
+        Set<Long> menus = param.getMenuSet();
         if (menus == null || menus.isEmpty()) {
             return;
         }
@@ -144,26 +143,6 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
                 return roleMenu;
             })
             .collect(Collectors.toList());
-
-        //前端无法传入parentMenus，此处需要后端来计算
-        Set<Long> parents = Sets.newHashSet();
-        List<MenuTree> menuTree = menuService.getAllMenuTreeNoChildren();
-        if (!CollectionUtils.isEmpty(menuTree)) {
-            Map<Long, MenuTree> newMap = Maps.newHashMap();
-            for (MenuTree tree : menuTree) {
-                newMap.put(tree.getId(), tree);
-            }
-            getParentMenus(menus, newMap, parents, menus);
-        }
-        if (!CollectionUtils.isEmpty(parents)) {
-            for (Long parentMenuId : parents) {
-                RoleMenu roleMenu = new RoleMenu();
-                roleMenu.setRoleId(param.getRoleId());
-                roleMenu.setMenuId(parentMenuId);
-                roleMenu.setIsParent(Integer.valueOf(YesOrNo.YES.getCode()));
-                roleMenus.add(roleMenu);
-            }
-        }
 
         roleMenuService.saveBatch(roleMenus);
     }

@@ -132,5 +132,7 @@ public class Menu extends BaseEntity implements Serializable {
         return this.title;
     }
 
-
+    public String getValue() {
+        return String.valueOf(this.id);
+    }
 }

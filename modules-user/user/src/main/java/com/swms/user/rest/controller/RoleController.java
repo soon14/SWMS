@@ -3,11 +3,13 @@ package com.swms.user.rest.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.swms.user.config.prop.SystemProp;
 import com.swms.user.repository.entity.Role;
 import com.swms.user.repository.entity.RoleMenu;
 import com.swms.user.rest.common.BaseResource;
+import com.swms.user.rest.common.PageResult;
 import com.swms.user.rest.common.vo.RoleMenuVo;
 import com.swms.user.rest.param.CommonParam;
 import com.swms.user.rest.param.role.RoleAddParam;
@@ -23,6 +25,7 @@ import com.swms.user.service.RoleService;
 import com.swms.user.service.model.MenuTree;
 import com.swms.user.utils.PageHelper;
 import com.swms.utils.http.Response;
+import com.swms.utils.utils.PaginationContext;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import jakarta.validation.Valid;
@@ -30,13 +33,10 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -58,33 +58,25 @@ public class RoleController extends BaseResource {
     private final RoleMenuService roleMenuService;
     private final MenuService menuService;
 
-    @PostMapping("pageQuery")
-    @ApiOperation("分页条件查询角色(内部测试用)")
-    public Object pageQuery(@RequestBody @Valid RolePageParam param) {
-        Page<Role> page = page(param, param.getCurrentPage(), param.getPageSize());
-        return Response.builder().data(page).build();
-    }
-
     @PostMapping("search")
     @ApiOperation(value = "分页条件查询角色(前端使用)", response = RoleVO.class)
-    public Object search(@RequestParam Integer pageIndex,
-                         @RequestParam Integer pageSize,
-                         @RequestBody @Valid RolePageParam param) {
-        param.setPageSize(pageSize);
-        param.setCurrentPage(pageIndex);
+    public Object search(@RequestBody(required = false) @Valid RolePageParam param) {
+        if (param == null) {
+            param = new RolePageParam();
+        }
         Page<Role> page = page(param, param.getCurrentPage(), param.getPageSize());
-        return Response.builder().data(PageHelper.convertWithPageInfo(page, RoleVO.class)).build();
+        return Response.builder().data(PageResult.convert(page)).build();
     }
 
-    @PostMapping("/getRoleMenu")
+    @GetMapping("/getRoleMenu/{id}")
     @ApiOperation(value = "分配角色时, 查询当前角色的菜单和权限", response = RoleMenuVo.class)
-    public Object getRoleMenu(@RequestBody @Valid RoleMenuFetchParam param) {
+    public Object getRoleMenu(@PathVariable Long id) {
         RoleMenuVo roleMenuVo = new RoleMenuVo();
         List<MenuTree> menuTreeByCurrentUser = menuService.getMenuTree();
 
         LambdaQueryWrapper<RoleMenu> wrapper = Wrappers.<RoleMenu>lambdaQuery()
-            .eq(RoleMenu::getRoleId, param.getRoleId())
-            .eq(RoleMenu::getIsParent, 0);
+                .eq(RoleMenu::getRoleId, id)
+                .eq(RoleMenu::getIsParent, 0);
         List<RoleMenu> roleMenus = roleMenuService.list(wrapper);
         Set<Long> menuIds = Sets.newHashSet();
         for (RoleMenu roleMenu : roleMenus) {
@@ -94,12 +86,17 @@ public class RoleController extends BaseResource {
         setRoleHasRight(menuIds, menuTreeByCurrentUser);
         setCurrentIndex(menuTreeByCurrentUser, "");
         roleMenuVo.setMenuTree(menuTreeByCurrentUser);
-        return Response.builder().data(roleMenuVo).build();
+
+        Map<String, Object> result = Maps.newHashMap();
+        result.put("value", StringUtils.join(menuIds, ","));
+        result.put("options", menuTreeByCurrentUser);
+        return Response.builder().data(result).build();
     }
 
-    @PostMapping("/updateRoleMenu")
+    @PostMapping("/updateRoleMenu/{id}")
     @ApiOperation("分配角色菜单和权限")
-    public Object updateRoleMenu(@RequestBody @Valid RoleMenuUpdateParam param) throws Exception {
+    public Object updateRoleMenu(@PathVariable long id, @RequestBody @Valid RoleMenuUpdateParam param) throws Exception {
+        param.setRoleId(id);
         roleService.updateRoleMenu(param);
         return Response.builder().build();
     }
@@ -118,25 +115,16 @@ public class RoleController extends BaseResource {
         return Response.builder().build();
     }
 
-    @PostMapping("/updateStatus")
-    @ApiOperation("修改角色状态")
-    public Object updateStatus(@RequestBody @Valid RoleUpdateStatusParam param) throws Exception {
-        roleService.updateStatus(param.getRoleId(), param.getStatus());
-        return Response.builder().build();
-    }
-
-    @PostMapping("/delete")
+    @DeleteMapping("{id}")
     @ApiOperation("删除角色")
-    public Object delete(@RequestBody @Valid CommonParam param) throws Exception {
-        for (Long id : param.getIds()) {
-            roleService.deleteRole(id);
-        }
+    public Object delete(@PathVariable Long id) throws Exception {
+        roleService.deleteRole(id);
         return Response.builder().build();
     }
 
     private Page<Role> page(RolePageParam param, int pageIndex, int pageSize) {
         LambdaQueryWrapper<Role> wrapper = Wrappers.<Role>lambdaQuery()
-            .ne(Role::getCode, systemProp.getSuperRoleCode());
+                .ne(Role::getCode, systemProp.getSuperRoleCode());
         if (StringUtils.isNotEmpty(param.getName())) {
             wrapper.like(Role::getName, param.getName());
         }
@@ -148,7 +136,7 @@ public class RoleController extends BaseResource {
             wrapper.eq(Role::getStatus, param.getStatus());
         }
         wrapper.orderByDesc(Role::getGmtCreated);
-        Page<Role> page = new Page<>(pageIndex, pageSize);
+        Page<Role> page = new Page<>(PaginationContext.getPageNum(), PaginationContext.getPageSize());
         page = roleService.page(page, wrapper);
 
         return page;

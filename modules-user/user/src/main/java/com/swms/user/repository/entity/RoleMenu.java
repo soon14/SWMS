@@ -46,6 +46,7 @@ public class RoleMenu implements Serializable {
     /**
      * 是否父节点（0否 1是）
      */
+    @Deprecated
     @ApiModelProperty("是否父节点（0否 1是）")
     private Integer isParent;
 }

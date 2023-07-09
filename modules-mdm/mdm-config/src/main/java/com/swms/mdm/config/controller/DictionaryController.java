@@ -71,7 +71,7 @@ public class DictionaryController {
                 .map(item -> {
                     Map<String, String> map = new HashMap<>();
                     map.put("label", item.getShowContext());
-                    map.put("enumValue", item.getValue());
+                    map.put("value", item.getValue());
                     return map;
                 }).toList();
             result.put(k, items);

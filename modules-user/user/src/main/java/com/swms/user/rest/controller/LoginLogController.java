@@ -38,31 +38,18 @@ public class LoginLogController extends BaseResource {
 
     private final LoginLogService loginLogService;
 
-    @PostMapping("/pageQuery")
-    @ApiOperation("分页查询登录日志(内部测试用)")
-    public Object pageQuery(@RequestBody @Valid LoginLogPageParam param) {
-        return Response.builder().data(page(param)).build();
-    }
-
     @PostMapping("/search")
     @ApiOperation(value = "分页查询登录日志(前端使用)", response = LoginLog.class)
-    public Object search(@RequestParam Integer pageIndex,
-                         @RequestParam Integer pageSize,
-                         @RequestBody @Valid LoginLogPageParam param) {
-        param.setPageSize(pageSize);
-        param.setCurrentPage(pageIndex);
+    public Object search(@RequestBody(required = false) @Valid LoginLogPageParam param) {
+        if (param == null) {
+            param = new LoginLogPageParam();
+        }
         return Response.builder().data(PageResult.convert(page(param))).build();
-    }
-
-    @PostMapping("/currentPageQuery")
-    @ApiOperation("分页查询当前登录用户的登录日志(内部测试用)")
-    public Object pageQueryByCurrentUser(@RequestBody @Valid LoginLogPageParam param) throws Exception {
-        return Response.builder().data(currentPage(param)).build();
     }
 
     @PostMapping("/currentSearch")
     @ApiOperation(value = "分页查询当前登录用户的登录日志(前端使用)", response = LoginLog.class)
-    public Object searchByCurrentUser(@RequestBody @Valid LoginLogPageParam param) throws Exception {
+    public Object searchByCurrentUser(@RequestBody @Valid LoginLogPageParam param) {
         return Response.builder().data(PageResult.convert(currentPage(param))).build();
     }
 

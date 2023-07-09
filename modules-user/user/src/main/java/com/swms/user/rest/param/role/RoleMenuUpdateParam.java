@@ -1,14 +1,18 @@
 package com.swms.user.rest.param.role;
 
 
+import com.google.common.collect.Sets;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import org.apache.commons.lang3.StringUtils;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 添加角色权限参数
@@ -23,16 +27,19 @@ public class RoleMenuUpdateParam {
      * 选中菜单id
      */
     @ApiModelProperty(name = "menus", value = "选中菜单id")
-    private Set<Long> menus;
-    /**
-     * 未选中父菜单id
-     */
-    @ApiModelProperty(name = "parentMenus", value = "未选中父菜单id")
-    private Set<Long> parentMenus;
+    private Set<Long> menuSet;
     /**
      * 角色id
      */
-    @ApiModelProperty(name = "roleId", value = "角色id", required = true)
-    @NotNull(message = "角色id不能为空")
+    @ApiModelProperty(name = "roleId", value = "角色id")
     private Long roleId;
+
+    private String menus;
+
+    public Set<Long> getMenuSet() {
+        if (StringUtils.isEmpty(menus)) {
+            return Collections.emptySet();
+        }
+        return Arrays.stream(menus.split(",")).map(Long::parseLong).collect(Collectors.toSet());
+    }
 }

@@ -47,4 +47,8 @@ public class RoleUpdateParam {
     @ApiModelProperty(name = "description", value = "角色描述")
     @Size(max = 32, message = "描述不能超过32位")
     private String description;
+
+    @ApiModelProperty(name = "status", value = "是否启用（1-是、0-否，参考枚举YesOrNo）", required = true)
+    @NotNull(message = "是否启用不能为空")
+    private Integer status;
 }
