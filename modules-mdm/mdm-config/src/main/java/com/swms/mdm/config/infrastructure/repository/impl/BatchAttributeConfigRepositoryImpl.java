@@ -1,5 +1,6 @@
 package com.swms.mdm.config.infrastructure.repository.impl;
 
+import com.swms.mdm.config.domain.entity.BarcodeParseRule;
 import com.swms.mdm.config.domain.entity.BatchAttributeConfig;
 import com.swms.mdm.config.domain.repository.BatchAttributeConfigRepository;
 import com.swms.mdm.config.infrastructure.persistence.mapper.BatchAttributeConfigPORepository;
@@ -26,5 +27,10 @@ public class BatchAttributeConfigRepositoryImpl implements BatchAttributeConfigR
     @Override
     public void save(BatchAttributeConfig toBatchAttributeConfig) {
         batchAttributeConfigPORepository.save(batchAttributeConfigPOTransfer.toPO(toBatchAttributeConfig));
+    }
+
+    @Override
+    public BatchAttributeConfig findById(Long id) {
+        return batchAttributeConfigPOTransfer.toDO(batchAttributeConfigPORepository.findById(id).orElseThrow());
     }
 }
