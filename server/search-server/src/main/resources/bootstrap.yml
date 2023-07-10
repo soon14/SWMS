@@ -21,3 +21,4 @@ bean-searcher:
   params:
     pagination:
       maxAllowedSize: 500
+      start: 1

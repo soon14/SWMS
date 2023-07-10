@@ -15,7 +15,7 @@ public class SkuMainDataDTO {
     private String brand;
 
     private WeightDTO weight;
-    private VolumeDTO volume;
+    private VolumeDTO volumeDTO;
 
     private SkuAttributeDTO skuAttribute;
 

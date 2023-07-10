@@ -2,6 +2,8 @@ package com.swms.search.utils;
 
 import cn.zhxu.bs.bean.DbField;
 import cn.zhxu.bs.bean.SearchBean;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.swms.search.parameter.SearchParam;
 import com.swms.utils.exception.WmsException;
 import javassist.CannotCompileException;
@@ -16,36 +18,51 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
+import java.util.Map;
+import java.util.Set;
+
 @Slf4j
 @Component
 public class SearchUtils {
 
     private static final String PACKAGE_NAME = "com.swms.search.parameter.";
 
-    public static Class createClass(SearchParam searchParam) throws CannotCompileException, ClassNotFoundException {
+    public static Class<?> createClass(SearchParam searchParam) throws CannotCompileException, ClassNotFoundException {
 
-        // Create a new ClassPool
         ClassPool classPool = ClassPool.getDefault();
         CtClass ct = classPool.getOrNull(PACKAGE_NAME + searchParam.getSearchIdentity());
+
         if (ct == null) {
-            try {
-                ct = createClass(classPool, searchParam);
-            } catch (Exception e) {
-                log.error("create class: {} error: ", searchParam.getSearchIdentity(), e);
-                throw new WmsException("search server create class error:" + e.getMessage());
-            }
-            return ct.toClass(SearchParam.class);
+            return createClass(searchParam, classPool);
         } else {
-            return Class.forName(PACKAGE_NAME + searchParam.getSearchIdentity());
+            // if the SearchParam columns size is changed then recreate the class
+            if (ct.getDeclaredFields().length != searchParam.getShowColumns().size()) {
+                ct.detach();
+                return createClass(searchParam, classPool);
+            } else {
+
+                return Class.forName(PACKAGE_NAME + searchParam.getSearchIdentity());
+            }
         }
 
+    }
+
+    private static Class<?> createClass(SearchParam searchParam, ClassPool classPool) throws CannotCompileException {
+        CtClass ct;
+        try {
+            ct = createClass(classPool, searchParam);
+        } catch (Exception e) {
+            log.error("create class: {} error: ", searchParam.getSearchIdentity(), e);
+            throw new WmsException("search server create class error:" + e.getMessage());
+        }
+        return ct.toClass(SearchParam.class);
     }
 
     private static CtClass createClass(ClassPool classPool, SearchParam searchParam) throws NotFoundException, CannotCompileException {
         CtClass dynamicClass = classPool.makeClass(PACKAGE_NAME + searchParam.getSearchIdentity());
 
         for (SearchParam.Column column : searchParam.getShowColumns()) {
-            CtField field = new CtField(classPool.get(column.getJavaType()), column.getObjectField(), dynamicClass);
+            CtField field = new CtField(classPool.get(column.getJavaType()), column.getName(), dynamicClass);
             dynamicClass.addField(field);
 
             //add dbField mapping
@@ -85,4 +102,36 @@ public class SearchUtils {
         return dynamicClass;
     }
 
+    private static final Set<String> arrayOps = Sets.newHashSet("bt", "il");
+
+    /**
+     * amis array parameters is String , we need to convert it to arrays to adapter Bean Searcher framework
+     *
+     * @param paramMap
+     *
+     * @return
+     */
+    public static Map<String, Object> handleArrayParams(Map<String, Object> paramMap) {
+
+        Map<String, Object> newParamMap = Maps.newHashMap(paramMap);
+
+        for (Map.Entry<String, Object> next : paramMap.entrySet()) {
+            String key = next.getKey();
+            String value = String.valueOf(next.getValue());
+            if (arrayOps.contains(value)) {
+                String fieldName = key.trim().split("-")[0];
+                String fieldValue = paramMap.getOrDefault(fieldName, "").toString();
+
+                if (StringUtils.isNotEmpty(fieldValue)) {
+                    int index = 0;
+                    for (String v : fieldValue.split(",")) {
+                        newParamMap.put(fieldName + "-" + (index++), v);
+                    }
+                    newParamMap.remove(fieldName);
+                }
+            }
+        }
+
+        return newParamMap;
+    }
 }

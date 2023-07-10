@@ -1,7 +1,6 @@
 package com.swms.mdm.main.data.controller;
 
 import com.swms.mdm.api.main.data.IOwnerApi;
-import com.swms.mdm.api.main.data.IWarehouseApi;
 import com.swms.mdm.api.main.data.dto.OwnerMainDataDTO;
 import com.swms.mdm.main.data.controller.parameter.OwnerMainDataVO;
 import com.swms.mdm.main.data.domain.entity.OwnerMainData;
@@ -45,7 +44,7 @@ public class OwnerMainDataController {
 
     @PostMapping("getById")
     public Object getById(@RequestParam Long id) {
-        OwnerMainData ownerData = ownerDataRepository.findById(id);
-        return Response.builder().data(ownerDataTransfer.toOwnerMainDataDTO(ownerData)).build();
+        OwnerMainData skuMainData = ownerDataRepository.findById(id);
+        return Response.builder().data(ownerDataTransfer.toOwnerMainDataDTO(skuMainData)).build();
     }
 }

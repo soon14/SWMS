@@ -4,8 +4,10 @@ import static org.mapstruct.NullValueCheckStrategy.ALWAYS;
 import static org.mapstruct.NullValueMappingStrategy.RETURN_NULL;
 
 import com.swms.mdm.api.main.data.dto.SkuMainDataDTO;
+import com.swms.mdm.main.data.controller.parameter.SkuMainDataVO;
 import com.swms.mdm.main.data.domain.entity.SkuMainData;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
 

@@ -6,6 +6,7 @@ import com.swms.mdm.api.main.data.dto.VolumeDTO;
 import com.swms.mdm.api.main.data.dto.WeightDTO;
 import lombok.Data;
 
+
 @Data
 public class SkuMainData {
 
@@ -21,9 +22,10 @@ public class SkuMainData {
     private String color;
     private String size;
     private String brand;
+    private boolean suit;
 
     private WeightDTO weight;
-    private VolumeDTO volume;
+    private VolumeDTO volumeDTO;
 
     private SkuAttributeDTO skuAttribute;
     private SkuConfigDTO skuConfig;

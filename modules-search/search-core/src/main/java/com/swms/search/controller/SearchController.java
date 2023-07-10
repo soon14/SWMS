@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
 @RequestMapping("search")
 @RestController
 public class SearchController {
@@ -25,10 +27,16 @@ public class SearchController {
     private MapSearcher beanSearcher;
 
     @PostMapping
-    public Object search(HttpServletRequest request, @Validated @RequestBody SearchParam searchParam)
+    public Object search(HttpServletRequest request, @Validated @RequestBody Map<String, Object> requestMap)
         throws CannotCompileException, ClassNotFoundException {
-        return Response.builder().data(
-            beanSearcher.search(SearchUtils.createClass(searchParam), MapUtils.flat(request.getParameterMap()))).build();
+
+        SearchParam searchParam = SearchParam.buildSearch(requestMap);
+
+        Map<String, Object> paramMap = MapUtils.flat(request.getParameterMap());
+        paramMap.putAll(requestMap);
+
+        return Response.builder().data(beanSearcher
+            .search(SearchUtils.createClass(searchParam), SearchUtils.handleArrayParams(paramMap))).build();
     }
 
     @PostMapping("searchSelectResult")

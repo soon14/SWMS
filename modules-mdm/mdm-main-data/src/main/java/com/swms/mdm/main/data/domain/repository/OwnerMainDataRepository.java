@@ -1,7 +1,6 @@
 package com.swms.mdm.main.data.domain.repository;
 
 import com.swms.mdm.main.data.domain.entity.OwnerMainData;
-import com.swms.mdm.main.data.domain.entity.SkuMainData;
 
 import java.util.Collection;
 import java.util.List;
