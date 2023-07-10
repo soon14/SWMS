@@ -32,8 +32,8 @@ public class BatchAttributeConfigDTO {
         private String fieldCode;
         @NotEmpty
         private String fieldName;
-        @NotEmpty
-        private String format;
+        //        @NotEmpty
+//        private String format;
         private boolean enable;
         private boolean required;
         private boolean keyAttribute;

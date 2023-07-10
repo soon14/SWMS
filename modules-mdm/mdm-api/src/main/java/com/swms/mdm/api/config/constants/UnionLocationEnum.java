@@ -5,8 +5,6 @@ import lombok.Getter;
 
 @Getter
 @Dictionary
-public enum ConfigApplyObjectEnum {
-    SYSTEM,
-    WAREHOUSE,
-    OWNER;
+public enum UnionLocationEnum {
+    LEFT, RIGHT
 }

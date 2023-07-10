@@ -2,10 +2,9 @@ package com.swms.mdm.api.config.dto;
 
 import com.swms.mdm.api.config.constants.BusinessFlowEnum;
 import com.swms.mdm.api.config.constants.ExecuteTimeEnum;
-import com.swms.utils.validate.IValidate;
+import com.swms.mdm.api.config.constants.UnionLocationEnum;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import lombok.Builder;
 import lombok.Data;
 
 import java.util.List;
@@ -29,8 +28,8 @@ public class BarcodeParseRuleDTO {
 
     private boolean enable;
 
-    private String unionPre;
-    private String unionAft;
+    private UnionLocationEnum unionLocation;
+    private String union;
 
     private String regularExpression;
 

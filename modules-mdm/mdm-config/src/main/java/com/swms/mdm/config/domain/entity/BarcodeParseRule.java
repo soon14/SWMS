@@ -3,6 +3,7 @@ package com.swms.mdm.config.domain.entity;
 import com.google.common.collect.Lists;
 import com.swms.mdm.api.config.constants.BusinessFlowEnum;
 import com.swms.mdm.api.config.constants.ExecuteTimeEnum;
+import com.swms.mdm.api.config.constants.UnionLocationEnum;
 import com.swms.mdm.api.config.dto.BarcodeParseResult;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -31,8 +32,8 @@ public class BarcodeParseRule {
 
     private boolean enable;
 
-    private String unionPre;
-    private String unionAft;
+    private UnionLocationEnum unionLocation;
+    private String union;
 
     private String regularExpression;
 
@@ -48,7 +49,11 @@ public class BarcodeParseRule {
 
 
     private String union(String barcode) {
-        return StringUtils.join(unionPre, barcode, unionAft);
+        if (unionLocation == UnionLocationEnum.LEFT) {
+            return StringUtils.join(union, barcode);
+        } else {
+            return StringUtils.join(barcode, union);
+        }
     }
 
     private List<String> compile(String unionBarcode) {

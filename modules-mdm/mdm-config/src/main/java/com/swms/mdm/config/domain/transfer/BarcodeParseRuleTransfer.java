@@ -17,4 +17,6 @@ import org.mapstruct.ReportingPolicy;
 public interface BarcodeParseRuleTransfer {
 
     BarcodeParseRule toBarcodeParseRule(BarcodeParseRuleDTO barcodeParseRuleDTO);
+
+    BarcodeParseRuleDTO toDTO(BarcodeParseRule barcodeParseRule);
 }
