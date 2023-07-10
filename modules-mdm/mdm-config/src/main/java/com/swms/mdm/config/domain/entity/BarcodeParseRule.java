@@ -47,7 +47,6 @@ public class BarcodeParseRule {
         return buildResult(compileResult);
     }
 
-
     private String union(String barcode) {
         if (unionLocation == UnionLocationEnum.LEFT) {
             return StringUtils.join(union, barcode);
