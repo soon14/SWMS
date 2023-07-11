@@ -7,6 +7,7 @@ import com.swms.mdm.config.domain.repository.DictionaryRepository;
 import com.swms.mdm.config.domain.transfer.DictionaryTransfer;
 import com.swms.utils.http.Response;
 import jakarta.validation.Valid;
+import org.apache.commons.lang3.EnumUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.reflections.Reflections;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,7 +81,7 @@ public class DictionaryController {
     }
 
     @GetMapping("refresh")
-    public Object refresh() {
+    public <E> Object refresh() {
         Reflections reflections = new Reflections("com.swms");
         Set<Class<?>> dictionaryEnums = reflections.getTypesAnnotatedWith(com.swms.utils.dictionary.Dictionary.class);
 
@@ -93,7 +94,12 @@ public class DictionaryController {
                     .map(field -> {
                         DictionaryDTO.DictionaryItem item = new DictionaryDTO.DictionaryItem();
                         item.setShowContext(field.getName());
-                        item.setValue(field.getName());
+                        try {
+                            field.setAccessible(true);
+                            item.setValue(String.valueOf(field.get(cClass)));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                         item.setDefaultItem(index.getAndIncrement() == 0);
                         return item;
                     }).toList();

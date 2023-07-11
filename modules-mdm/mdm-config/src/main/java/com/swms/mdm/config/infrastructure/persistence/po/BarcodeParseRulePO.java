@@ -2,6 +2,7 @@ package com.swms.mdm.config.infrastructure.persistence.po;
 
 import com.swms.mdm.api.config.constants.BusinessFlowEnum;
 import com.swms.mdm.api.config.constants.ExecuteTimeEnum;
+import com.swms.mdm.api.config.constants.UnionLocationEnum;
 import com.swms.utils.base.BaseUserPO;
 import com.swms.utils.id.IdGenerator;
 import com.swms.utils.jpa.converter.ListStringConverter;
@@ -60,10 +61,12 @@ public class BarcodeParseRulePO extends BaseUserPO {
 
     private boolean enable;
 
-    @Column(columnDefinition = "varchar(255) comment '前置拼接符'")
-    private String unionPre;
-    @Column(columnDefinition = "varchar(255) comment '后置拼接符'")
-    private String unionAft;
+    @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "varchar(20) comment '拼接位置'")
+    private UnionLocationEnum unionLocation;
+
+    @Column(columnDefinition = "varchar(255) comment '拼接符'")
+    private String unionStr;
 
     @Column(nullable = false, columnDefinition = "varchar(500) comment '正则表达式'")
     private String regularExpression;

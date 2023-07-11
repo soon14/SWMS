@@ -31,10 +31,10 @@ public class BatchAttributeConfigController {
     @PostMapping("createOrUpdate")
     public Object createOrUpdate(@RequestBody @Valid BatchAttributeConfigDTO batchAttributeConfigDTO) {
         if (batchAttributeConfigDTO.getId() != null && batchAttributeConfigDTO.getId() > 0) {
-            iBatchAttributeConfigApi.save(batchAttributeConfigDTO);
+            iBatchAttributeConfigApi.update(batchAttributeConfigDTO);
             return Response.success();
         }
-        iBatchAttributeConfigApi.update(batchAttributeConfigDTO);
+        iBatchAttributeConfigApi.save(batchAttributeConfigDTO);
         return Response.success();
     }
 

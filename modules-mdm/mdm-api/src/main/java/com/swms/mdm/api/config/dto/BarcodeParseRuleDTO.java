@@ -29,7 +29,7 @@ public class BarcodeParseRuleDTO {
     private boolean enable;
 
     private UnionLocationEnum unionLocation;
-    private String union;
+    private String unionStr;
 
     private String regularExpression;
 

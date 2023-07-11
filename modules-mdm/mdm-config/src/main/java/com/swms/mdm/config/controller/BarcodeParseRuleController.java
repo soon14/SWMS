@@ -32,10 +32,10 @@ public class BarcodeParseRuleController {
     @PostMapping("createOrUpdate")
     public Object createOrUpdate(@RequestBody @Valid BarcodeParseRuleDTO barcodeParseRuleDTO) {
         if (barcodeParseRuleDTO.getId() != null && barcodeParseRuleDTO.getId() > 0) {
-            iBarcodeParseRuleAPi.save(barcodeParseRuleDTO);
+            iBarcodeParseRuleAPi.update(barcodeParseRuleDTO);
             return Response.success();
         }
-        iBarcodeParseRuleAPi.update(barcodeParseRuleDTO);
+        iBarcodeParseRuleAPi.save(barcodeParseRuleDTO);
         return Response.success();
     }
 

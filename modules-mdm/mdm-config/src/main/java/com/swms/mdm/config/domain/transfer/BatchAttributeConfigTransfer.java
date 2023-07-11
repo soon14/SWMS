@@ -18,6 +18,6 @@ public interface BatchAttributeConfigTransfer {
 
     BatchAttributeConfig toBatchAttributeConfig(BatchAttributeConfigDTO batchAttributeConfigDTO);
 
-    BatchAttributeConfigDTO toBatchAttributeConfigDTO(Object batchAttributeConfig);
+    BatchAttributeConfigDTO toBatchAttributeConfigDTO(BatchAttributeConfig batchAttributeConfig);
 
 }

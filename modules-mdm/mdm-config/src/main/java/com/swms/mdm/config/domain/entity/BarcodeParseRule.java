@@ -33,7 +33,7 @@ public class BarcodeParseRule {
     private boolean enable;
 
     private UnionLocationEnum unionLocation;
-    private String union;
+    private String unionStr;
 
     private String regularExpression;
 
@@ -49,9 +49,9 @@ public class BarcodeParseRule {
 
     private String union(String barcode) {
         if (unionLocation == UnionLocationEnum.LEFT) {
-            return StringUtils.join(union, barcode);
+            return StringUtils.join(unionStr, barcode);
         } else {
-            return StringUtils.join(barcode, union);
+            return StringUtils.join(barcode, unionStr);
         }
     }
 
