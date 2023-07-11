@@ -1,10 +1,7 @@
 package com.swms.wms.basic.warehouse.infrastructure.persistence.po;
 
-import com.swms.mdm.api.config.dto.WarehouseMainDataConfigDTO;
 import com.swms.utils.base.BaseUserPO;
-import com.swms.utils.id.IdGenerator;
-import com.swms.wms.basic.warehouse.infrastructure.persistence.converter.WarehouseMainDataConfigDTOConverter;
-import jakarta.persistence.Convert;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
@@ -23,10 +20,10 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @EntityListeners(AuditingEntityListener.class)
 @Table(
     indexes = {
-        @Index(unique = true, name = "idx_warehouse_code", columnList = "warehouseCode")
+        @Index(unique = true, name = "idx_warehouse_area_group_code", columnList = "warehouseAreaGroupCode")
     }
 )
-public class WarehouseConfigPO extends BaseUserPO {
+public class WarehouseAreaGroupPO extends BaseUserPO {
 
 
     @Id
@@ -34,10 +31,20 @@ public class WarehouseConfigPO extends BaseUserPO {
     @GenericGenerator(name = "databaseIdGenerator", strategy = "com.swms.utils.id.IdGenerator")
     private Long id;
 
+    @Column(nullable = false, columnDefinition = "varchar(64) comment '仓库编码'")
     private String warehouseCode;
 
-    @Convert(converter = WarehouseMainDataConfigDTOConverter.class)
-    private WarehouseMainDataConfigDTO warehouseMainDataConfig;
+    @Column(nullable = false, columnDefinition = "varchar(64) comment '仓区编码'")
+    private String warehouseAreaGroupCode;
+
+    @Column(nullable = false, columnDefinition = "varchar(128) comment '仓区名称'")
+    private String warehouseAreaGroupName;
+
+    @Column(nullable = false, columnDefinition = "varchar(500) comment '备注'")
+    private String remark;
+
+    private boolean deleted;
+    private boolean enable;
 
     @Version
     private long version;

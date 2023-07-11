@@ -12,4 +12,6 @@ import lombok.NoArgsConstructor;
 public class WorkStationConfigDTO {
 
     private String stationCode;
+
+    private long version;
 }

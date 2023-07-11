@@ -3,11 +3,11 @@ package com.swms.wms.basic.warehouse.domain.transfer;
 import static org.mapstruct.NullValueCheckStrategy.ALWAYS;
 import static org.mapstruct.NullValueMappingStrategy.RETURN_NULL;
 
-import com.swms.wms.api.basic.dto.WarehouseConfigDTO;
-import com.swms.wms.basic.warehouse.domain.entity.WarehouseConfig;
-import org.mapstruct.InheritInverseConfiguration;
+import com.swms.wms.api.basic.dto.WarehouseAreaDTO;
+import com.swms.wms.api.basic.dto.WarehouseLogicDTO;
+import com.swms.wms.basic.warehouse.domain.entity.WarehouseArea;
+import com.swms.wms.basic.warehouse.domain.entity.WarehouseLogic;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
 
@@ -16,11 +16,9 @@ import org.mapstruct.ReportingPolicy;
     nullValueMappingStrategy = RETURN_NULL,
     unmappedTargetPolicy = ReportingPolicy.IGNORE,
     nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-public interface WarehouseConfigTransfer {
+public interface WarehouseLogicTransfer {
 
-    @InheritInverseConfiguration
-    WarehouseConfig toWarehouseConfig(WarehouseConfigDTO warehouseConfigDTO);
+    WarehouseLogic toDO(WarehouseLogicDTO warehouseLogicDTO);
 
-    @Mapping(target = ".", source = "warehouseMainDataConfig")
-    WarehouseConfigDTO toWarehouseConfigDTO(WarehouseConfig warehouseConfig);
+    WarehouseLogicDTO toDTO(WarehouseLogic warehouseLogic);
 }

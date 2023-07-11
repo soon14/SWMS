@@ -5,13 +5,8 @@ import lombok.Getter;
 
 @Getter
 @Dictionary
-public enum WarehouseAreaTypeEnum {
-
-    RECEIVE_AREA,
-
-    STORAGE_AREA,
-
-    STORAGE_CACHE,
-
-    ABNORMAL_AREA,
+public enum WarehouseAreaUseEnum {
+    RECEIVE,
+    PUT_AWAY_HOLDER,
+    PICK,
 }

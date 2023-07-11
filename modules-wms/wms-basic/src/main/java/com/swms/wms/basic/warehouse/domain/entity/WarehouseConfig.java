@@ -9,4 +9,6 @@ public class WarehouseConfig {
     private Long id;
     private String warehouseCode;
     private WarehouseMainDataConfigDTO warehouseMainDataConfig;
+
+    private long version;
 }

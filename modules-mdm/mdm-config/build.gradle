@@ -11,6 +11,7 @@ repositories {
 
 dependencies {
     implementation project(path: ":modules-mdm:mdm-api", configuration: 'default')
+    implementation project(path: ":modules-wms:wms-api", configuration: 'default')
     implementation project(path: ":swms-utils", configuration: 'default')
 
     implementation 'org.springframework:spring-tx'

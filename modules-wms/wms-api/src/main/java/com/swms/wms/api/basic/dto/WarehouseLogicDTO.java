@@ -1,10 +1,9 @@
-package com.swms.wms.basic.warehouse.domain.entity;
+package com.swms.wms.api.basic.dto;
 
 import lombok.Data;
 
 @Data
-public class WarehouseLogic {
-
+public class WarehouseLogicDTO {
     private Long id;
 
     // union unique identifier
@@ -13,10 +12,9 @@ public class WarehouseLogic {
 
     private String warehouseLogicName;
 
-    private String remark;
+    private String warehouseCode;
 
-    private boolean deleted;
-    private boolean enable;
+    private String remark;
 
     private long version;
 }

@@ -1,12 +1,14 @@
 package com.swms.wms.api.basic;
 
 import com.swms.wms.api.basic.dto.WarehouseConfigDTO;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
 
 public interface IWarehouseConfigApi {
 
-    void save(WarehouseConfigDTO warehouseConfigDTO);
+    void save(@Valid WarehouseConfigDTO warehouseConfigDTO);
 
-    void update(WarehouseConfigDTO warehouseConfigDTO);
+    void update(@Valid WarehouseConfigDTO warehouseConfigDTO);
 
-    WarehouseConfigDTO getWarehouseConfig(String warehouseCode);
+    WarehouseConfigDTO getWarehouseConfig(@NotEmpty String warehouseCode);
 }

@@ -1,17 +1,20 @@
-package com.swms.wms.basic.warehouse.domain.entity;
+package com.swms.wms.api.basic.dto;
 
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 
 @Data
-public class WarehouseAreaGroup {
-
+public class WarehouseAreaGroupDTO {
     private Long id;
 
     // unique identifier
+    @NotEmpty
     private String warehouseAreaGroupCode;
+    @NotEmpty
     private String warehouseAreaGroupName;
-
     private String remark;
+
+    @NotEmpty
     private String warehouseCode;
 
     private boolean deleted;

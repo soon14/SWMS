@@ -7,8 +7,11 @@ import com.swms.wms.basic.warehouse.domain.repository.WarehouseConfigRepository;
 import com.swms.wms.basic.warehouse.domain.transfer.WarehouseConfigTransfer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 
 @Service
+@Validated
 public class WarehouseConfigApplicationImpl implements IWarehouseConfigApi {
 
     @Autowired
@@ -18,6 +21,7 @@ public class WarehouseConfigApplicationImpl implements IWarehouseConfigApi {
     private WarehouseConfigTransfer warehouseConfigTransfer;
 
     @Override
+    @Transactional
     public void save(WarehouseConfigDTO warehouseConfigDTO) {
         warehouseConfigRepository.save(warehouseConfigTransfer.toWarehouseConfig(warehouseConfigDTO));
     }
