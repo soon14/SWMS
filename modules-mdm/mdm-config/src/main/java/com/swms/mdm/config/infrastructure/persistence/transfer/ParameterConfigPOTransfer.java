@@ -21,5 +21,5 @@ public interface ParameterConfigPOTransfer {
 
     List<ParameterConfig> toDOS(List<ParameterConfigPO> parameterConfigPOS);
 
-    ParameterConfig toDO(ParameterConfig parameterConfig);
+    ParameterConfig toDO(ParameterConfigPO parameterConfig);
 }

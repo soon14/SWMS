@@ -10,5 +10,5 @@ import java.util.List;
 public interface ParameterConfigPORepository extends JpaRepository<ParameterConfigPO, Long> {
     List<ParameterConfigPO> findByConfigApplyObject(ConfigApplyObjectEnum configApplyObject);
 
-    ParameterConfig findByCode(String code);
+    ParameterConfigPO findByCode(String code);
 }

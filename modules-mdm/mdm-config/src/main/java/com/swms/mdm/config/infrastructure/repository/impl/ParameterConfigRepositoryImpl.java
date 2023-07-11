@@ -33,4 +33,9 @@ public class ParameterConfigRepositoryImpl implements ParameterConfigRepository 
     public ParameterConfig findByCode(String code) {
         return parameterConfigPOTransfer.toDO(parameterConfigPORepository.findByCode(code));
     }
+
+    @Override
+    public ParameterConfig findById(Long id) {
+        return parameterConfigPOTransfer.toDO(parameterConfigPORepository.findById(id).orElseThrow());
+    }
 }

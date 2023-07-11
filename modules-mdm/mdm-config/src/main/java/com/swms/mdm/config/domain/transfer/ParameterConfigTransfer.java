@@ -21,4 +21,5 @@ public interface ParameterConfigTransfer {
 
     List<ParameterConfigDTO> toParameterConfigDTOS(List<ParameterConfig> parameterConfigs);
 
+    ParameterConfigDTO toDTO(ParameterConfig parameterConfig);
 }
