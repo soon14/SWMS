@@ -1,5 +1,6 @@
 package com.swms.wms.api.basic.dto;
 
+import com.swms.wms.api.basic.constants.TerminalTypeEnum;
 import com.swms.wms.api.basic.constants.WorkLocationTypeEnum;
 import com.swms.wms.api.basic.constants.WorkStationOperationTypeEnum;
 import com.swms.wms.api.basic.constants.WorkStationStatusEnum;
@@ -50,6 +51,7 @@ public class WorkStationDTO {
          */
         private WorkLocationTypeEnum workLocationType;
         private String workLocationCode;
+        private TerminalTypeEnum terminalType;
 
         private boolean enable;
 

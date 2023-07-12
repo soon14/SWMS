@@ -20,6 +20,7 @@ public class Location {
 
     private String heat;
     private boolean locked;
+    private boolean occupied;
 
     private long version;
 }

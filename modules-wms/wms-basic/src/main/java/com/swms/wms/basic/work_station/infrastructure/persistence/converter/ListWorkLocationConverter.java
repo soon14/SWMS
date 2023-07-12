@@ -6,7 +6,6 @@ import jakarta.persistence.AttributeConverter;
 
 import java.util.List;
 
-@SuppressWarnings("unchecked")
 public class ListWorkLocationConverter implements AttributeConverter<List<WorkStationDTO.WorkLocation>, String> {
     @Override
     public String convertToDatabaseColumn(List<WorkStationDTO.WorkLocation> attribute) {

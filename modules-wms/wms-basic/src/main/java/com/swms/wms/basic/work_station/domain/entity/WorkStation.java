@@ -13,6 +13,7 @@ public class WorkStation {
 
     private Long id;
     private String stationCode;
+    private String stationName;
 
     private WorkStationStatusEnum workStationStatus;
 
@@ -34,21 +35,21 @@ public class WorkStation {
 
     public void disable() {
         if (workStationStatus != WorkStationStatusEnum.OFFLINE) {
-            throw new WmsException("work station is not offline, can not enable");
+            throw new WmsException("work station is not offline and can not disable.");
         }
         this.enable = false;
     }
 
     public void delete() {
         if (workStationStatus != WorkStationStatusEnum.OFFLINE) {
-            throw new WmsException("work station is not offline, can not enable");
+            throw new WmsException("work station is not offline and can not delete.");
         }
         this.deleted = true;
     }
 
     public void online(WorkStationOperationTypeEnum operationType) {
         if (workStationStatus != WorkStationStatusEnum.OFFLINE) {
-            throw new WmsException("work station is not offline, can not online");
+            throw new WmsException("work station is not offline and can not online");
         }
         this.operationType = operationType;
         this.workStationStatus = WorkStationStatusEnum.ONLINE;

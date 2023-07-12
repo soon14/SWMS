@@ -1,5 +1,6 @@
 package com.swms.wms.api.basic.constants;
 
+import com.swms.utils.dictionary.Dictionary;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -10,6 +11,7 @@ import lombok.Getter;
  */
 @AllArgsConstructor
 @Getter
+@Dictionary
 public enum WorkStationStatusEnum {
 
     ONLINE("在线"),

@@ -1,11 +1,11 @@
 package com.swms.wms.basic.work_station.infrastructure.persistence.po;
 
 import com.swms.utils.base.BaseUserPO;
-import com.swms.utils.id.IdGenerator;
 import com.swms.wms.api.basic.constants.WorkStationOperationTypeEnum;
 import com.swms.wms.api.basic.constants.WorkStationStatusEnum;
 import com.swms.wms.api.basic.dto.WorkStationDTO;
 import com.swms.wms.basic.work_station.infrastructure.persistence.converter.ListWorkLocationConverter;
+import com.swms.wms.basic.work_station.infrastructure.persistence.converter.ListWorkStationOperationTypeConverter;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
@@ -43,8 +43,11 @@ public class WorkStationPO extends BaseUserPO {
     @Column(nullable = false, columnDefinition = "varchar(64) comment '工作站编码'")
     private String stationCode;
 
+    @Column(nullable = false, columnDefinition = "varchar(128) comment '工作站编码'")
+    private String stationName;
+
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, columnDefinition = "varchar(20) comment '状态'")
+    @Column(columnDefinition = "varchar(20) comment '状态'")
     private WorkStationStatusEnum workStationStatus;
 
     @Column(columnDefinition = "varchar(64) comment '仓库编码'")
@@ -53,8 +56,15 @@ public class WorkStationPO extends BaseUserPO {
     private String warehouseAreaCode;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, columnDefinition = "varchar(20) comment '操作类型'")
+    @Column(columnDefinition = "varchar(20) comment '操作类型'")
     private WorkStationOperationTypeEnum operationType;
+
+    @Column(columnDefinition = "json comment '工作站允许的操作'")
+    @Convert(converter = ListWorkStationOperationTypeConverter.class)
+    private List<WorkStationOperationTypeEnum> allowOperationTypes;
+
+    @Column(nullable = false, columnDefinition = "bigint comment '工作站任务规则'")
+    private Long workStationRuleId = 0L;
 
     @Column(columnDefinition = "json comment '工作站工作位'")
     @Convert(converter = ListWorkLocationConverter.class)
