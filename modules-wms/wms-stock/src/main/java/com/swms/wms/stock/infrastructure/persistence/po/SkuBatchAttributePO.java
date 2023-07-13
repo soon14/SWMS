@@ -25,6 +25,7 @@ import java.util.TreeMap;
 @Table(
     indexes = {
         @Index(name = "id_sku_id", columnList = "skuId"),
+        @Index(name = "batchNo", columnList = "batchNo", unique = true)
     }
 )
 public class SkuBatchAttributePO extends BaseUserPO {
@@ -40,6 +41,9 @@ public class SkuBatchAttributePO extends BaseUserPO {
     @Column(columnDefinition = "json comment '批次属性'")
     @Convert(converter = MapConverter.class)
     private TreeMap<String, Object> skuAttributes;
+
+    @Column(nullable = false, columnDefinition = "varchar(128) comment '批次号'")
+    private String batchNo;
 
     @Column(columnDefinition = "varchar(128) comment '批次属性预留'")
     private String skuAttribute1;

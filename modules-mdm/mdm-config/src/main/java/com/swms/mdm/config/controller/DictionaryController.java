@@ -13,6 +13,7 @@ import org.reflections.Reflections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -52,8 +53,8 @@ public class DictionaryController {
         return Response.success();
     }
 
-    @PostMapping("getById")
-    public Object getById(@RequestParam Long id) {
+    @GetMapping("{id}")
+    public Object getById(@PathVariable Long id) {
         Dictionary dictionary = dictionaryRepository.findById(id);
         return Response.builder().data(dictionaryTransfer.toDTO(dictionary)).build();
     }

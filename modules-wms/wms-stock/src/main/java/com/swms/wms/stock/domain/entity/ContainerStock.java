@@ -30,6 +30,7 @@ public class ContainerStock {
     private Integer outboundLockedQty;
     // other operation locked qty in the warehouse
     private Integer noOutboundLockedQty;
+    private Integer frozenQty;
 
     /**
      * it means the container is or not a physical container
@@ -51,8 +52,9 @@ public class ContainerStock {
         Preconditions.checkState(this.totalQty >= 0, "total qty must be greater than 0");
         Preconditions.checkState(this.outboundLockedQty >= 0, "outbound lock qty must be greater than 0");
         Preconditions.checkState(this.noOutboundLockedQty >= 0, "no outbound lock qty must be greater than 0");
-        Preconditions.checkState(this.totalQty == this.availableQty + this.outboundLockedQty + this.noOutboundLockedQty,
-            "total qty must equals availableQty + noOutboundLockedQty + outboundLockedQty");
+        Preconditions.checkState(this.totalQty == this.availableQty + this.outboundLockedQty
+                + this.noOutboundLockedQty + this.frozenQty,
+            "total qty must equals availableQty + noOutboundLockedQty + outboundLockedQty + frozenQty");
     }
 
     public void lockQty(Integer lockQty, StockLockTypeEnum stockLockType) {
@@ -94,6 +96,18 @@ public class ContainerStock {
         } else {
             this.noOutboundLockedQty -= subtractQty;
         }
+        validateQty();
+    }
+
+    public void freezeQty(Integer freezeQty) {
+        this.frozenQty += freezeQty;
+        this.availableQty -= freezeQty;
+        validateQty();
+    }
+
+    public void unFreezeQty(Integer unFreezeQty) {
+        this.frozenQty -= unFreezeQty;
+        this.availableQty += unFreezeQty;
         validateQty();
     }
 }

@@ -5,6 +5,7 @@ import com.swms.wms.api.basic.IWarehouseLogicApi;
 import com.swms.wms.api.basic.dto.WarehouseLogicDTO;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("warehouseLogic")
+@Validated
 public class WarehouseLogicController {
 
     @Autowired

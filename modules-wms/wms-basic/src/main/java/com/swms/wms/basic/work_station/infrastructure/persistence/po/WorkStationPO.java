@@ -48,7 +48,7 @@ public class WorkStationPO extends BaseUserPO {
 
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "varchar(20) comment '状态'")
-    private WorkStationStatusEnum workStationStatus;
+    private WorkStationStatusEnum workStationStatus = WorkStationStatusEnum.OFFLINE;
 
     @Column(columnDefinition = "varchar(64) comment '仓库编码'")
     private String warehouseCode;

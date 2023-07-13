@@ -7,7 +7,6 @@ import com.swms.wms.api.stock.dto.SkuBatchStockLockDTO;
 import com.swms.wms.api.stock.dto.StockTransferDTO;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.TreeMap;
 
 public interface IStockApi {
@@ -26,4 +25,8 @@ public interface IStockApi {
     void lockContainerStock(List<ContainerStockLockDTO> containerStockLockDTOS);
 
     List<ContainerStockDTO> getContainerStock(String containerCode);
+
+    void freezeContainerStock(Long id, int qty);
+
+    void unFreezeContainerStock(Long id, int qty);
 }

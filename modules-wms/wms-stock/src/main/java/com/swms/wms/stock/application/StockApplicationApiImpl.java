@@ -84,4 +84,18 @@ public class StockApplicationApiImpl implements IStockApi {
     public List<ContainerStockDTO> getContainerStock(String containerCode) {
         return containerStockTransfer.toDTOs(containerStockRepository.findAllByContainerCode(containerCode));
     }
+
+    @Override
+    public void freezeContainerStock(Long id, int qty) {
+        ContainerStock containerStock = containerStockRepository.findById(id);
+        containerStock.freezeQty(qty);
+        containerStockRepository.save(containerStock);
+    }
+
+    @Override
+    public void unFreezeContainerStock(Long id, int qty) {
+        ContainerStock containerStock = containerStockRepository.findById(id);
+        containerStock.unFreezeQty(qty);
+        containerStockRepository.save(containerStock);
+    }
 }

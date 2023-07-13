@@ -3,8 +3,11 @@ package com.swms.wms.stock.domain.entity;
 import com.swms.mdm.api.main.data.dto.SkuMainDataDTO;
 import lombok.Data;
 import org.apache.commons.collections4.MapUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.redis.core.script.DigestUtils;
 
 import java.util.Map;
+import java.util.SortedMap;
 import java.util.TreeMap;
 
 @Data
@@ -12,11 +15,12 @@ public class SkuBatchAttribute {
 
     private Long id;
     private SkuMainDataDTO skuMainData;
-    private TreeMap<String, Object> skuAttributes;
+    private SortedMap<String, Object> skuAttributes;
+    private String batchNo;
 
     private Long version;
 
-    public SkuBatchAttribute(SkuMainDataDTO skuMainData, TreeMap<String, Object> skuAttributes) {
+    public SkuBatchAttribute(SkuMainDataDTO skuMainData, SortedMap<String, Object> skuAttributes) {
         this.skuAttributes = skuAttributes;
         this.skuMainData = skuMainData;
     }
@@ -54,6 +58,18 @@ public class SkuBatchAttribute {
                 || ((sourceObj != null && targetObj != null)
                 && this.skuAttributes.get(skuAttribute.getKey()).equals(skuAttribute.getValue()));
         });
+    }
+
+    private String getBatchNo() {
+        if (StringUtils.isEmpty(this.batchNo)) {
+            return this.batchNo;
+        }
+
+        if (MapUtils.isEmpty(this.skuAttributes)) {
+            return "";
+        }
+
+        return DigestUtils.sha1DigestAsHex(this.skuAttributes.toString());
     }
 
 }
