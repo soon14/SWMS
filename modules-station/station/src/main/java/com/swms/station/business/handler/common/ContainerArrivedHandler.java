@@ -42,7 +42,7 @@ public class ContainerArrivedHandler implements IBusinessHandler {
         List<ArrivedContainer> arrivedContainers = containerArrivedEvents.stream().map(containerArrivedEvent -> {
             ArrivedContainer arrivedContainer = new ArrivedContainer();
             ContainerSpecDTO containerLayoutDTO = containerService.queryContainerLayout(containerArrivedEvent.getContainerCode()
-                , containerArrivedEvent.getFace());
+                , workStation.getWarehouseCode(), containerArrivedEvent.getFace());
             arrivedContainer.setContainerSpec(containerLayoutDTO);
             arrivedContainer.setFace(containerArrivedEvent.getFace());
             arrivedContainer.setLocationCode(containerArrivedEvent.getLocationCode());
