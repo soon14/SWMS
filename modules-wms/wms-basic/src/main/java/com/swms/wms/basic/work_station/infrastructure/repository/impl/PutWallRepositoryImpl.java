@@ -5,10 +5,10 @@ import com.swms.wms.basic.work_station.domain.entity.PutWall;
 import com.swms.wms.basic.work_station.domain.repository.PutWallRepository;
 import com.swms.wms.basic.work_station.infrastructure.persistence.mapper.PutWallPORepository;
 import com.swms.wms.basic.work_station.infrastructure.persistence.mapper.PutWallSlotPORepository;
-import com.swms.wms.basic.work_station.infrastructure.persistence.po.PutWallPO;
 import com.swms.wms.basic.work_station.infrastructure.persistence.po.PutWallSlotPO;
 import com.swms.wms.basic.work_station.infrastructure.persistence.transfer.PutWallPOTransfer;
 import com.swms.wms.basic.work_station.infrastructure.persistence.transfer.PutWallSlotPOTransfer;
+import jakarta.validation.constraints.NotNull;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,26 +39,20 @@ public class PutWallRepositoryImpl implements PutWallRepository {
     }
 
     @Override
-    public PutWall findByStationCode(String stationCode) {
-        PutWallPO putWallPO = putWallPORepository.findByStationCode(stationCode);
-        List<PutWallSlotPO> putWallSlotPOS = putWallSlotPORepository.findByStationCode(stationCode);
-        return putWallPOTransfer.toDO(putWallPO, putWallSlotPOS);
-    }
-
-    @Override
-    public List<PutWallDTO.PutWallSlot> getPutWallSlotsByStationCode(String stationCode) {
-        List<PutWallSlotPO> putWallSlotPOS = putWallSlotPORepository.findByStationCode(stationCode);
+    public List<PutWallDTO.PutWallSlot> getPutWallSlotsByWorkStationId(Long workStationId) {
+        List<PutWallSlotPO> putWallSlotPOS = putWallSlotPORepository.findByWorkStationId(workStationId);
         return putWallSlotPOTransfer.toPutWallSlots(putWallSlotPOS);
     }
 
     @Override
-    public PutWall findByPutWallCode(String putWallCode) {
-        return putWallPOTransfer.toDO(putWallPORepository.findByPutWallCode(putWallCode));
+    public PutWall findById(Long putWallId) {
+        return putWallPOTransfer.toDO(putWallPORepository.findById(putWallId).orElseThrow());
     }
 
     @Override
-    public List<PutWallDTO.PutWallSlot> findByPutWallSlotCodeIn(List<String> putWallSlotCodes) {
-        return putWallSlotPOTransfer.toPutWallSlots(putWallSlotPORepository.findByPutWallSlotCodeIn(putWallSlotCodes));
+    public List<PutWallDTO.PutWallSlot> findByPutWallSlotCodeIn(List<String> putWallSlotCodes, @NotNull Long workStationId) {
+        return putWallSlotPOTransfer.toPutWallSlots(putWallSlotPORepository
+            .findByPutWallSlotCodeInAndWorkStationId(putWallSlotCodes, workStationId));
     }
 
     @Override
@@ -67,8 +61,9 @@ public class PutWallRepositoryImpl implements PutWallRepository {
     }
 
     @Override
-    public PutWallDTO.PutWallSlot findByPutWallSlotCode(String putWallSlotCode) {
-        return putWallSlotPOTransfer.toPutWallSlot(putWallSlotPORepository.findByPutWallSlotCode(putWallSlotCode));
+    public PutWallDTO.PutWallSlot findByPutWallSlotCode(String putWallSlotCode, @NotNull Long workStationId) {
+        return putWallSlotPOTransfer.toPutWallSlot(putWallSlotPORepository
+            .findByPutWallSlotCodeAndWorkStationId(putWallSlotCode, workStationId));
     }
 
     @Override

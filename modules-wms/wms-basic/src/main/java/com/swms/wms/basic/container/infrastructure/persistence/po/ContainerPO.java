@@ -29,7 +29,7 @@ import java.util.List;
 @EntityListeners(AuditingEntityListener.class)
 @Table(
     indexes = {
-        @Index(unique = true, name = "idx_container_code", columnList = "containerCode")
+        @Index(unique = true, name = "idx_container_code_warehouse_code", columnList = "containerCode,warehouseCode")
     }
 )
 public class ContainerPO extends BaseUserPO {
@@ -45,7 +45,7 @@ public class ContainerPO extends BaseUserPO {
     @Column(nullable = false, columnDefinition = "varchar(64) comment '容器规格编码'")
     private String containerSpecCode;
 
-    @Column(columnDefinition = "varchar(64) comment '仓库编码'")
+    @Column(nullable = false, columnDefinition = "varchar(64) comment '仓库编码'")
     private String warehouseCode;
     @Column(columnDefinition = "varchar(64) comment '库区编码'")
     private String warehouseAreaCode;

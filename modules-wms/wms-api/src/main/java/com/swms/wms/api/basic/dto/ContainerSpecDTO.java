@@ -1,6 +1,7 @@
 package com.swms.wms.api.basic.dto;
 
 import static com.swms.utils.exception.code_enum.BasicErrorDescEnum.CONTAINER_SPECIFIC_SLOT_CODE_REPEAT;
+import static com.swms.utils.exception.code_enum.BasicErrorDescEnum.CONTAINER_SPECIFIC_SLOT_LEVEL_BAY_REPEAT;
 
 import com.google.common.collect.Lists;
 import com.swms.utils.exception.WmsException;
@@ -20,24 +21,22 @@ public class ContainerSpecDTO implements IValidate {
     private Long id;
 
     @NotEmpty
+    private String warehouseCode;
+
+    @NotEmpty
     private String containerSpecCode;
 
-    @NotNull
+    @NotEmpty
+    private String containerSpecName;
+
     @Min(1)
     private Integer length;
-    @NotNull
     @Min(1)
     private Integer width;
-    @NotNull
     @Min(1)
     private Integer height;
-    @NotNull
     @Min(1)
     private Long volume;
-
-    @NotNull
-    @Min(1)
-    private Integer containerSlotNum;
 
     private String description;
 
@@ -49,6 +48,10 @@ public class ContainerSpecDTO implements IValidate {
 
     private Long version;
 
+    public Integer getContainerSlotNum() {
+        return containerSlotSpecs == null ? 0 : containerSlotSpecs.size();
+    }
+
     @Override
     public boolean validate() {
         List<String> allSlotSpecCodes = containerSlotSpecs.stream()
@@ -57,6 +60,16 @@ public class ContainerSpecDTO implements IValidate {
         if (allSlotSpecCodes.size() != allSlotSpecCodes.stream().distinct().count()) {
             throw WmsException.throwWmsException(CONTAINER_SPECIFIC_SLOT_CODE_REPEAT);
         }
+
+
+        List<String> allLevelBay = containerSlotSpecs.stream()
+            .flatMap(containerSlotSpec ->
+                containerSlotSpec.getAllLevelBay(containerSlotSpec.getChildren()).stream()).toList();
+
+        if (allLevelBay.size() != allLevelBay.stream().distinct().count()) {
+            throw WmsException.throwWmsException(CONTAINER_SPECIFIC_SLOT_LEVEL_BAY_REPEAT);
+        }
+
         return true;
     }
 
@@ -66,43 +79,57 @@ public class ContainerSpecDTO implements IValidate {
         @NotEmpty
         private String containerSlotSpecCode;
 
-        @NotEmpty
         private String face;
 
-        @NotNull
         @Min(1)
         private Integer length;
-        @NotNull
         @Min(1)
         private Integer width;
-        @NotNull
         @Min(1)
         private Integer height;
-        @NotNull
         @Min(1)
         private Long volume;
 
-        @NotNull
         @Min(1)
+        @NotNull
         private Integer level;
-        @NotNull
         @Min(1)
+        @NotNull
         private Integer bay;
+
+        @Min(1)
+        @NotNull
+        private Integer locLevel;
+        @Min(1)
+        @NotNull
+        private Integer locBay;
 
         @NotEmpty
         private List<ContainerSlotSpec> children;
 
         public List<String> getAllContainerSlotSpecCodes(List<ContainerSlotSpec> children) {
 
+            List<String> allSlotSpecCodes = Lists.newArrayList(containerSlotSpecCode);
             if (CollectionUtils.isEmpty(children)) {
-                return Lists.newArrayList(containerSlotSpecCode);
+                return allSlotSpecCodes;
             }
 
-            List<String> allSlotSpecCodes = Lists.newArrayList(containerSlotSpecCode);
             allSlotSpecCodes.addAll(children.stream()
                 .flatMap(v -> v.getAllContainerSlotSpecCodes(v.getChildren()).stream())
                 .toList());
             return allSlotSpecCodes;
+        }
+
+        public List<String> getAllLevelBay(List<ContainerSlotSpec> children) {
+
+            List<String> allLevelBay = Lists.newArrayList(locLevel + "-" + locBay);
+
+            if (CollectionUtils.isEmpty(children)) {
+                return allLevelBay;
+            }
+
+            allLevelBay.addAll(children.stream().flatMap(v -> v.getAllLevelBay(v.getChildren()).stream()).toList());
+            return allLevelBay;
         }
     }
 }

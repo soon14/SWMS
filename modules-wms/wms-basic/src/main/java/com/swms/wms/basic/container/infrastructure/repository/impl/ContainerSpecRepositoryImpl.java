@@ -11,18 +11,25 @@ import org.springframework.stereotype.Service;
 public class ContainerSpecRepositoryImpl implements ContainerSpecRepository {
 
     @Autowired
-    private ContainerSpecPORepository containerSpecMapper;
+    private ContainerSpecPORepository containerSpecPORepository;
 
     @Autowired
     private ContainerSpecPOTransfer containerSpecPOTransfer;
 
     @Override
-    public ContainerSpec findByContainerSpecCode(String containerSpecCode) {
-        return containerSpecPOTransfer.toContainerSpec(containerSpecMapper.findByContainerSpecCode(containerSpecCode));
+    public ContainerSpec findByContainerSpecCode(String containerSpecCode, String warehouseCode) {
+        return containerSpecPOTransfer.toContainerSpec(containerSpecPORepository
+            .findByContainerSpecCodeAndWarehouseCode(containerSpecCode, warehouseCode));
     }
 
     @Override
     public void save(ContainerSpec containerSpec) {
-        containerSpecMapper.save(containerSpecPOTransfer.toPO(containerSpec));
+        containerSpecPORepository.save(containerSpecPOTransfer.toPO(containerSpec));
+    }
+
+    @Override
+    public ContainerSpec findById(Long id) {
+
+        return containerSpecPOTransfer.toContainerSpec(containerSpecPORepository.findById(id).orElseThrow());
     }
 }

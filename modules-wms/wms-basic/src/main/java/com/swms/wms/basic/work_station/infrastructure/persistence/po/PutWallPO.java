@@ -1,7 +1,6 @@
 package com.swms.wms.basic.work_station.infrastructure.persistence.po;
 
 import com.swms.utils.base.BaseUserPO;
-import com.swms.utils.id.IdGenerator;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -21,8 +20,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @EntityListeners(AuditingEntityListener.class)
 @Table(
     indexes = {
-        @Index(unique = true, name = "idx_put_wall_code", columnList = "putWallCode"),
-        @Index(unique = true, name = "idx_station_code", columnList = "stationCode")
+        @Index(unique = true, name = "idx_put_wall_code_station", columnList = "putWallCode,workStationId"),
+        @Index(name = "idx_work_station_id", columnList = "workStationId")
     }
 )
 public class PutWallPO extends BaseUserPO {
@@ -32,8 +31,8 @@ public class PutWallPO extends BaseUserPO {
     @GenericGenerator(name = "databaseIdGenerator", strategy = "com.swms.utils.id.IdGenerator")
     private Long id;
 
-    @Column(nullable = false, columnDefinition = "varchar(64) comment '工作站编码'")
-    private String stationCode;
+    @Column(nullable = false, columnDefinition = "bigint(11) comment '工作站ID'")
+    private Long workStationId;
 
     @Column(nullable = false, columnDefinition = "varchar(64) comment '播种墙编码'")
     private String putWallCode;

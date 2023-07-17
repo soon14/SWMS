@@ -1,11 +1,10 @@
 package com.swms.wms.api.basic.dto;
 
 import com.google.common.collect.Lists;
+import com.swms.utils.exception.WmsException;
 import com.swms.utils.validate.IValidate;
 import com.swms.wms.api.basic.constants.PutWallSlotStatusEnum;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,7 +22,7 @@ public class PutWallDTO implements IValidate {
     private Long id;
 
     @NotEmpty
-    private String stationCode;
+    private Long workStationId;
     @NotEmpty
     private String putWallCode;
     @NotEmpty
@@ -32,6 +31,8 @@ public class PutWallDTO implements IValidate {
     private String containerSpecCode;
     @NotEmpty
     private List<PutWallSlot> putWallSlots;
+
+    private Long version;
 
     @Override
     public boolean validate() {
@@ -46,18 +47,14 @@ public class PutWallDTO implements IValidate {
 
         private Long id;
         @NotEmpty
-        private String stationCode;
+        private Long workStationId;
         @NotEmpty
         private String putWallCode;
         @NotEmpty
         private String putWallSlotCode;
 
-        @NotNull
-        @Min(value = 1)
-        private Integer level;
-        @Min(value = 1)
-        @NotNull
-        private Integer bay;
+        private String containerSlotSpecCode;
+
         private boolean enable;
 
         private List<Long> orderIds;
@@ -69,11 +66,11 @@ public class PutWallDTO implements IValidate {
         public void assignOrders(List<Long> orderIds) {
 
             if (CollectionUtils.isNotEmpty(this.orderIds)) {
-                throw new RuntimeException("PutWallSlot is not empty");
+                throw new WmsException("PutWallSlot is not empty");
             }
 
             if (this.putWallSlotStatus != PutWallSlotStatusEnum.IDLE) {
-                throw new RuntimeException("PutWallSlot is not IDLE");
+                throw new WmsException("PutWallSlot is not IDLE");
             }
 
             this.orderIds = orderIds;
@@ -83,11 +80,11 @@ public class PutWallDTO implements IValidate {
         public void appendOrders(List<Long> orderIds) {
 
             if (CollectionUtils.isEmpty(this.orderIds)) {
-                throw new RuntimeException("PutWallSlot is empty");
+                throw new WmsException("PutWallSlot is empty");
             }
 
             if (this.putWallSlotStatus == PutWallSlotStatusEnum.IDLE) {
-                throw new RuntimeException("PutWallSlot is IDLE, cannot append orders");
+                throw new WmsException("PutWallSlot is IDLE, cannot append orders");
             }
 
             this.orderIds.addAll(orderIds);
@@ -95,11 +92,11 @@ public class PutWallDTO implements IValidate {
 
         public void release() {
             if (CollectionUtils.isEmpty(this.orderIds)) {
-                throw new RuntimeException("PutWallSlot is empty");
+                throw new WmsException("PutWallSlot is empty");
             }
 
             if (this.putWallSlotStatus != PutWallSlotStatusEnum.WAITING_SEAL) {
-                throw new RuntimeException("PutWallSlot is not WAITING_SEAL, cannot release");
+                throw new WmsException("PutWallSlot is not WAITING_SEAL, cannot release");
             }
 
             this.orderIds = Lists.newArrayList();
@@ -108,13 +105,18 @@ public class PutWallDTO implements IValidate {
 
         public void bindContainer(String containerCode) {
             if (this.putWallSlotStatus != PutWallSlotStatusEnum.WAITING_BINDING) {
-                throw new RuntimeException("PutWallSlot is not WAITING_BINDING, cannot bind container");
+                throw new WmsException("PutWallSlot is not WAITING_BINDING, cannot bind container");
             }
 
             this.transferContainerCode = containerCode;
             this.putWallSlotStatus = PutWallSlotStatusEnum.BOUND;
         }
-    }
 
-    private Long version;
+        public void setPutWallSlot(String putWallCode, Long workStationId) {
+            this.workStationId = workStationId;
+            this.putWallCode = putWallCode;
+
+            this.putWallSlotCode = putWallCode + "-" + this.containerSlotSpecCode;
+        }
+    }
 }

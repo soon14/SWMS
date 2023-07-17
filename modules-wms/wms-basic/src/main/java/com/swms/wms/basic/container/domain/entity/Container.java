@@ -7,7 +7,6 @@ import com.swms.wms.api.basic.constants.ContainerStatusEnum;
 import com.swms.wms.api.basic.dto.ContainerDTO;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.validation.annotation.Validated;
 
 import java.math.BigDecimal;
@@ -45,13 +44,15 @@ public class Container {
 
     private Long version;
 
-    public Container(String containerCode, String containerSpecCode, @NotNull List<ContainerDTO.ContainerSlot> containerSlots) {
+    public Container(String warehouseCode, String containerCode, String containerSpecCode, @NotNull List<ContainerDTO.ContainerSlot> containerSlots) {
+        this.warehouseCode = warehouseCode;
         this.containerSlots = containerSlots;
         this.containerCode = containerCode;
         this.containerSpecCode = containerSpecCode;
         this.containerStatus = ContainerStatusEnum.CREATED;
         this.emptyContainer = true;
         this.emptySlotNum = containerSlots.size();
+        this.containerSlotNum = containerSlots.size();
         this.occupationRatio = BigDecimal.ZERO;
 
         this.containerSlots.forEach(v -> v.setContainerSlotCode(this.containerCode));

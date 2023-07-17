@@ -30,7 +30,7 @@ import java.util.List;
 @EntityListeners(AuditingEntityListener.class)
 @Table(
     indexes = {
-        @Index(unique = true, name = "idx_station_code", columnList = "stationCode")
+        @Index(unique = true, name = "idx_station_code_warehouse", columnList = "stationCode,warehouseCode")
     }
 )
 public class WorkStationPO extends BaseUserPO {
@@ -50,9 +50,9 @@ public class WorkStationPO extends BaseUserPO {
     @Column(columnDefinition = "varchar(20) comment '状态'")
     private WorkStationStatusEnum workStationStatus = WorkStationStatusEnum.OFFLINE;
 
-    @Column(columnDefinition = "varchar(64) comment '仓库编码'")
+    @Column(nullable = false, columnDefinition = "varchar(64) comment '仓库编码'")
     private String warehouseCode;
-    @Column(columnDefinition = "varchar(64) comment '库区编码'")
+    @Column(nullable = false, columnDefinition = "varchar(64) comment '库区编码'")
     private String warehouseAreaCode;
 
     @Enumerated(EnumType.STRING)

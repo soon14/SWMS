@@ -2,6 +2,7 @@ package com.swms.wms.basic.work_station.domain.repository;
 
 import com.swms.wms.api.basic.dto.PutWallDTO;
 import com.swms.wms.basic.work_station.domain.entity.PutWall;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
 
@@ -9,17 +10,15 @@ public interface PutWallRepository {
 
     void save(PutWall putWall);
 
-    PutWall findByStationCode(String stationCode);
+    List<PutWallDTO.PutWallSlot> getPutWallSlotsByWorkStationId(Long workStationId);
 
-    List<PutWallDTO.PutWallSlot> getPutWallSlotsByStationCode(String stationCode);
+    PutWall findById(Long id);
 
-    PutWall findByPutWallCode(String putWallCode);
-
-    List<PutWallDTO.PutWallSlot> findByPutWallSlotCodeIn(List<String> putWallSlotCodes);
+    List<PutWallDTO.PutWallSlot> findByPutWallSlotCodeIn(List<String> putWallSlotCodes, @NotNull Long workStationId);
 
     void saveAll(List<PutWallDTO.PutWallSlot> putWallSlots);
 
-    PutWallDTO.PutWallSlot findByPutWallSlotCode(String putWallSlotCode);
+    PutWallDTO.PutWallSlot findByPutWallSlotCode(String putWallSlotCode, @NotNull Long workStationId);
 
     void save(PutWallDTO.PutWallSlot putWallSlot);
 }

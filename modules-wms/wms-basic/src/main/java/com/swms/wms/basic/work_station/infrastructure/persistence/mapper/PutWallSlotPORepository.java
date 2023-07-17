@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface PutWallSlotPORepository extends JpaRepository<PutWallSlotPO, Long> {
 
-    List<PutWallSlotPO> findByStationCode(String stationCode);
+    List<PutWallSlotPO> findByWorkStationId(Long workStationId);
 
-    List<PutWallSlotPO> findByPutWallSlotCodeIn(List<String> putWallSlotCodes);
+    List<PutWallSlotPO> findByPutWallSlotCodeInAndWorkStationId(List<String> putWallSlotCodes, Long workStationId);
 
-    PutWallSlotPO findByPutWallSlotCode(String putWallSlotCode);
+    PutWallSlotPO findByPutWallSlotCodeAndWorkStationId(String putWallSlotCode, Long workStationId);
 }

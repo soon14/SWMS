@@ -2,6 +2,7 @@ package com.swms.wms.api.basic.dto;
 
 import com.swms.wms.api.basic.constants.ContainerStatusEnum;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,10 +21,13 @@ public class ContainerDTO {
 
     private Long id;
 
+    @NotEmpty
     private String containerCode;
 
+    @NotEmpty
     private String containerSpecCode;
 
+    @NotEmpty
     private String warehouseCode;
     private String warehouseAreaCode;
     private String warehouseLogicCode;

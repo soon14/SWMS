@@ -1,8 +1,10 @@
 package com.swms.wms.basic.container.application;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
 import com.swms.wms.api.basic.IContainerApi;
 import com.swms.wms.api.basic.dto.ContainerSpecDTO;
+import com.swms.wms.api.basic.dto.CreateContainerDTO;
 import com.swms.wms.basic.container.domain.entity.Container;
 import com.swms.wms.basic.container.domain.entity.ContainerSpec;
 import com.swms.wms.basic.container.domain.repository.ContainerRepository;
@@ -29,19 +31,38 @@ public class ContainerApiImpl implements IContainerApi {
     private ContainerSpecTransfer containerSpecTransfer;
 
     @Override
-    public void createContainer(String containerCode, String containerSpecCode) {
-        ContainerSpec containerSpec = containerSpecRepository.findByContainerSpecCode(containerSpecCode);
+    public void createContainer(String warehouseCode, String containerCode, String containerSpecCode) {
+        ContainerSpec containerSpec = containerSpecRepository.findByContainerSpecCode(containerSpecCode, warehouseCode);
         Preconditions.checkState(containerSpec != null, "container spec not exist");
 
-        Container container = new Container(containerCode, containerSpecCode,
+        Container container = new Container(warehouseCode, containerCode, containerSpecCode,
             containerSpecTransfer.toContainerSlots(containerSpec.getContainerSlotSpecs()));
         containerRepository.save(container);
     }
 
     @Override
-    public ContainerSpecDTO queryContainerLayout(String containerCode, String face) {
-        Container container = containerRepository.findByContainerCode(containerCode);
-        ContainerSpec containerSpec = containerSpecRepository.findByContainerSpecCode(container.getContainerSpecCode());
+    public void createContainer(CreateContainerDTO createContainerDTO) {
+        ContainerSpec containerSpec = containerSpecRepository
+            .findByContainerSpecCode(createContainerDTO.getContainerSpecCode(), createContainerDTO.getWarehouseCode());
+        Preconditions.checkState(containerSpec != null, "container spec not exist");
+
+        String format = "%0" + createContainerDTO.getIndexNumber() + "d";
+        List<Container> containers = Lists.newArrayList();
+        for (int i = createContainerDTO.getStartIndex(); i <= createContainerDTO.getCreateNumber(); i++) {
+            String containerCode = createContainerDTO.getContainerCodePrefix() + String.format(format, i);
+            containers.add(new Container(createContainerDTO.getWarehouseCode(), containerCode,
+                createContainerDTO.getContainerSpecCode(),
+                containerSpecTransfer.toContainerSlots(containerSpec.getContainerSlotSpecs())));
+        }
+
+        containerRepository.saveAll(containers);
+    }
+
+    @Override
+    public ContainerSpecDTO queryContainerLayout(String containerCode, String warehouseCode, String face) {
+        Container container = containerRepository.findByContainerCode(containerCode, warehouseCode);
+        ContainerSpec containerSpec = containerSpecRepository
+            .findByContainerSpecCode(container.getContainerSpecCode(), container.getWarehouseCode());
         List<ContainerSpecDTO.ContainerSlotSpec> containerSlotSpecs = containerSpec.getContainerSlotSpecsByFace(face);
         containerSpec.setContainerSlotSpecs(containerSlotSpecs);
         return containerSpecTransfer.toDTO(containerSpec);
@@ -49,12 +70,13 @@ public class ContainerApiImpl implements IContainerApi {
 
     @Override
     public void changeContainerSpec(String containerCode, String containerSpecCode) {
-        Container container = containerRepository.findByContainerCode(containerCode);
+        Container container = containerRepository.findByContainerCode(containerCode, containerCode);
         if (StringUtils.equals(container.getContainerSpecCode(), containerSpecCode)) {
             return;
         }
 
-        ContainerSpec containerSpec = containerSpecRepository.findByContainerSpecCode(containerSpecCode);
+        ContainerSpec containerSpec = containerSpecRepository
+            .findByContainerSpecCode(containerSpecCode, container.getWarehouseCode());
         Preconditions.checkState(containerSpec != null, "container spec not exist");
 
         container.changeContainerSpec(containerSpecCode,

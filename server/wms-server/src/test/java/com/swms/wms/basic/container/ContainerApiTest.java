@@ -16,10 +16,12 @@ class ContainerApiTest extends BaseTest {
     @Autowired
     private ContainerRepository containerRepository;
 
+    private final String warehouseCode = "123";
+
     @Test
     void testCreateContainer() {
-        containerApi.createContainer("containerCode123", "test");
-        Container container = containerRepository.findByContainerCode("containerCode1");
+        containerApi.createContainer(warehouseCode, "containerCode123", "test");
+        Container container = containerRepository.findByContainerCode("containerCode1", warehouseCode);
         Assertions.assertNotNull(container);
     }
 }

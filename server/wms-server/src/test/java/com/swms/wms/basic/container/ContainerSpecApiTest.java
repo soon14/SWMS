@@ -24,24 +24,26 @@ class ContainerSpecApiTest extends BaseTest {
     @Autowired
     private ContainerSpecTransfer containerSpecTransfer;
 
+    final String warehouseCode = "123";
+
     @Test
     @Transactional
     void testSave() {
         ContainerSpecDTO containerSpecDTO = ObjectUtils.getRandomObject(ContainerSpecDTO.class);
         containerSpecDTO.setContainerSpecCode("test");
         Assertions.assertDoesNotThrow(() -> containerSpecApi.save(containerSpecDTO));
-        ContainerSpec containerSpec = containerSpecRepository.findByContainerSpecCode("test");
+        ContainerSpec containerSpec = containerSpecRepository.findByContainerSpecCode("test", warehouseCode);
         Assertions.assertNotNull(containerSpec);
 
     }
 
     @Test
     void testUpdate() {
-        ContainerSpec containerSpec = containerSpecRepository.findByContainerSpecCode("test");
+        ContainerSpec containerSpec = containerSpecRepository.findByContainerSpecCode("test", warehouseCode);
         ContainerSpecDTO.ContainerSlotSpec containerSlotSpec = ObjectUtils.getRandomObject(ContainerSpecDTO.ContainerSlotSpec.class);
         containerSpec.getContainerSlotSpecs().get(0).setChildren(Lists.newArrayList(containerSlotSpec));
         containerSpecApi.save(containerSpecTransfer.toDTO(containerSpec));
-        containerSpec = containerSpecRepository.findByContainerSpecCode("test");
+        containerSpec = containerSpecRepository.findByContainerSpecCode("test", warehouseCode);
         Assertions.assertEquals(2, containerSpec.getContainerSlotSpecs().size());
     }
 }

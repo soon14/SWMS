@@ -27,6 +27,8 @@ public class StationTestApplication {
         SpringApplication.run(StationTestApplication.class, args);
     }
 
+    private final String warehouseCode = "123";
+
     @Bean("mockIworkStationApi")
     public IWorkStationApi iWorkStationApi() throws Exception {
 
@@ -47,7 +49,7 @@ public class StationTestApplication {
     public IContainerApi iContainerApi() {
 
         IContainerApi iContainerApi = PowerMockito.mock(IContainerApi.class);
-        PowerMockito.when(iContainerApi.queryContainerLayout("1", "A"))
+        PowerMockito.when(iContainerApi.queryContainerLayout("1", warehouseCode, "A"))
             .thenAnswer(t -> ContainerDTO.builder().containerCode("1").build());
         return iContainerApi;
     }

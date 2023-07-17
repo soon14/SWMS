@@ -1,11 +1,12 @@
 package com.swms.wms.basic.container.domain.repository;
 
 import com.swms.wms.basic.container.domain.entity.ContainerSpec;
-import com.swms.wms.basic.container.infrastructure.persistence.po.ContainerSpecPO;
 
 public interface ContainerSpecRepository {
 
-    ContainerSpec findByContainerSpecCode(String containerSpecCode);
+    ContainerSpec findByContainerSpecCode(String containerSpecCode, String warehouseCode);
 
     void save(ContainerSpec containerSpec);
+
+    ContainerSpec findById(Long id);
 }

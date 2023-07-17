@@ -8,4 +8,6 @@ public interface IContainerSpecApi {
     void save(@Valid ContainerSpecDTO containerSpecDTO);
 
     void update(@Valid ContainerSpecDTO containerSpecDTO);
+
+    ContainerSpecDTO getContainerSpecDTO(String containerSpecCode, String warehouseCode);
 }

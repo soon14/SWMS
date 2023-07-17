@@ -9,6 +9,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring",
     nullValueCheckStrategy = ALWAYS,
     nullValueMappingStrategy = RETURN_NULL,
@@ -18,4 +20,6 @@ public interface ContainerPOTransfer {
     Container toContainer(ContainerPO containerPO);
 
     ContainerPO toPO(Container container);
+
+    List<ContainerPO> toPOS(List<Container> containers);
 }

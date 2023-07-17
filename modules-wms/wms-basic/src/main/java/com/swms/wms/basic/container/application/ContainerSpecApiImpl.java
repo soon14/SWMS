@@ -28,4 +28,9 @@ public class ContainerSpecApiImpl implements IContainerSpecApi {
     public void update(ContainerSpecDTO containerSpecDTO) {
         containerSpecRepository.save(containerSpecTransfer.toDO(containerSpecDTO));
     }
+
+    @Override
+    public ContainerSpecDTO getContainerSpecDTO(String containerSpecCode, String warehouseCode) {
+        return containerSpecTransfer.toDTO(containerSpecRepository.findByContainerSpecCode(containerSpecCode, warehouseCode));
+    }
 }

@@ -14,6 +14,7 @@ public class ContainerSpec {
 
     // unique identifier
     private String containerSpecCode;
+    private String containerSpecName;
 
     private Integer length;
     private Integer width;
