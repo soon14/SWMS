@@ -18,12 +18,12 @@ public class Container {
 
     private Long id;
 
-    //unique identifier
+    //unique identifier = containerCode + warehouseCode
     private String containerCode;
+    private String warehouseCode;
 
     private String containerSpecCode;
 
-    private String warehouseCode;
     private String warehouseAreaCode;
     private String warehouseLogicCode;
     private String locationCode;

@@ -1,11 +1,11 @@
 package com.swms.wms.stock.domain.service;
 
+import com.swms.wms.api.stock.dto.StockTransferDTO;
 import com.swms.wms.stock.domain.entity.ContainerStock;
 import com.swms.wms.stock.domain.entity.SkuBatchStock;
 import com.swms.wms.stock.domain.repository.ContainerStockRepository;
 import com.swms.wms.stock.domain.repository.SkuBatchStockRepository;
 import com.swms.wms.stock.domain.transfer.SkuBatchStockTransfer;
-import com.swms.wms.api.stock.dto.StockTransferDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -26,8 +26,8 @@ public class StockManagement {
     public void transferContainerStock(StockTransferDTO stockTransferDTO, boolean unlock) {
 
         ContainerStock containerStock = containerStockRepository.findById(stockTransferDTO.getContainerStockId());
-        if (Objects.equals(containerStock.getContainerCode(), stockTransferDTO.getTargetContainerCode())) {
-            containerStock.setWarehouseAreaCode(stockTransferDTO.getWarehouseAreaCode());
+        if (Objects.equals(stockTransferDTO.getWarehouseCode(), containerStock.getWarehouseCode())
+            && Objects.equals(containerStock.getContainerCode(), stockTransferDTO.getTargetContainerCode())) {
             containerStockRepository.save(containerStock);
             return;
         }
@@ -47,11 +47,11 @@ public class StockManagement {
             targetContainerStock.addQty(stockTransferDTO.getTransferQty());
         } else {
             targetContainerStock = ContainerStock.builder()
+                .warehouseCode(stockTransferDTO.getWarehouseCode())
                 .containerCode(stockTransferDTO.getTargetContainerCode())
                 .containerSlotCode(stockTransferDTO.getTargetContainerSlotCode())
                 .availableQty(stockTransferDTO.getTransferQty())
                 .skuBatchAttributeId(stockTransferDTO.getSkuBatchAttributeId())
-                .warehouseAreaCode(stockTransferDTO.getWarehouseAreaCode())
                 .totalQty(stockTransferDTO.getTransferQty())
                 .boxStock(stockTransferDTO.isBoxStock())
                 .boxNo(stockTransferDTO.getBoxNo()).build();

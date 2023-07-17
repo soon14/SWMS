@@ -20,7 +20,8 @@ public class SkuBatchStock {
 
     private Long skuId;
 
-    //unique key union skuBatchAttributeId and warehouseAreaCode
+    //unique key union skuBatchAttributeId and warehouseAreaCode and warehouseCode
+    private String warehouseCode;
     private Long skuBatchAttributeId;
     private String warehouseAreaCode;
 

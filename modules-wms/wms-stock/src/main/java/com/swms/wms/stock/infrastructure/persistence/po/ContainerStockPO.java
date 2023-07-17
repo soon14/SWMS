@@ -1,7 +1,6 @@
 package com.swms.wms.stock.infrastructure.persistence.po;
 
 import com.swms.utils.base.BaseUserPO;
-import com.swms.utils.id.IdGenerator;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -21,7 +20,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @EntityListeners(AuditingEntityListener.class)
 @Table(
     indexes = {
-        @Index(unique = true, name = "idx_container_slot_sku_batch_attribute", columnList = "containerCode,containerSlotCode,skuBatchAttributeId"),
+        @Index(unique = true, name = "idx_container_slot_sku_batch_attribute", columnList = "containerCode,warehouseCode,containerSlotCode,skuBatchAttributeId"),
     }
 )
 public class ContainerStockPO extends BaseUserPO {
@@ -33,6 +32,9 @@ public class ContainerStockPO extends BaseUserPO {
 
     @Column(nullable = false, columnDefinition = "bigint default 0 comment '批次id'")
     private Long skuBatchAttributeId;
+
+    @Column(nullable = false, columnDefinition = "varchar(64) comment '仓库编码'")
+    private String warehouseCode;
 
     /**
      * container is not must be a physical container. e.g.
@@ -62,9 +64,6 @@ public class ContainerStockPO extends BaseUserPO {
     private boolean boxStock;
     @Column(nullable = false, columnDefinition = "varchar(64) comment '箱号'")
     private String boxNo = "";
-
-    @Column(nullable = false, columnDefinition = "varchar(64) comment '库区编码'")
-    private String warehouseAreaCode;
 
     @Version
     private Long version;

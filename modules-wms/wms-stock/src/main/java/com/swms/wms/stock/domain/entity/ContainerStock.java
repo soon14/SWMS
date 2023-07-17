@@ -3,9 +3,7 @@ package com.swms.wms.stock.domain.entity;
 import com.google.common.base.Preconditions;
 import com.swms.wms.api.stock.constants.StockLockTypeEnum;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
-import org.apache.commons.lang3.StringUtils;
 
 @Getter
 @Builder
@@ -21,6 +19,7 @@ public class ContainerStock {
      * then the container code will be received order no ,
      * and when sku put away on the rack, then the container code is the location code;
      */
+    private String warehouseCode;
     private String containerCode;
     private String containerSlotCode;
 
@@ -38,14 +37,7 @@ public class ContainerStock {
     private boolean boxStock;
     private String boxNo;
 
-    private String warehouseAreaCode;
-
     private Long version;
-
-    public void setWarehouseAreaCode(String warehouseAreaCode) {
-        Preconditions.checkState(StringUtils.isNotEmpty(warehouseAreaCode), "warehouseAreaCode cannot be empty");
-        this.warehouseAreaCode = warehouseAreaCode;
-    }
 
     public void validateQty() {
         Preconditions.checkState(this.availableQty >= 0, "available qty must be greater than 0");
