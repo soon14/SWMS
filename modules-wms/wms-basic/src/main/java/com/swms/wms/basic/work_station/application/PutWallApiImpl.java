@@ -1,5 +1,6 @@
 package com.swms.wms.basic.work_station.application;
 
+import com.swms.utils.exception.WmsException;
 import com.swms.utils.validate.ValidationSequence;
 import com.swms.wms.api.basic.IContainerSpecApi;
 import com.swms.wms.api.basic.IPutWallApi;
@@ -11,6 +12,7 @@ import com.swms.wms.api.basic.dto.ReleasePutWallSlotsDTO;
 import com.swms.wms.api.task.dto.BindContainerDTO;
 import com.swms.wms.basic.work_station.domain.entity.PutWall;
 import com.swms.wms.basic.work_station.domain.repository.PutWallRepository;
+import com.swms.wms.basic.work_station.domain.service.PutWallService;
 import com.swms.wms.basic.work_station.domain.transfer.PutWallTransfer;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +36,9 @@ public class PutWallApiImpl implements IPutWallApi {
     @Autowired
     private IContainerSpecApi iContainerSpecApi;
 
+    @Autowired
+    private PutWallService putWallService;
+
     @Override
     public void save(PutWallDTO putWallDTO) {
         putWallRepository.save(putWallTransfer.toDO(putWallDTO));
@@ -54,6 +59,11 @@ public class PutWallApiImpl implements IPutWallApi {
     @Override
     public void disable(Long putWallId) {
         PutWall putWall = putWallRepository.findById(putWallId);
+
+        if (!putWallService.checkDisablePutWall(putWall)) {
+            throw new WmsException("Could not disable");
+        }
+
         putWall.disable();
         putWallRepository.save(putWall);
     }
@@ -132,8 +142,30 @@ public class PutWallApiImpl implements IPutWallApi {
             .getContainerSpecDTO(createPutWallDTO.getContainerSpecCode(), createPutWallDTO.getWarehouseCode());
 
         List<PutWallDTO.PutWallSlot> putWallSlots = putWallTransfer.toPutWallSlots(containerSpecDTO.getContainerSlotSpecs());
-        PutWall putWall = new PutWall(createPutWallDTO.getWorkStationId(),
-            createPutWallDTO.getPutWallCode(), createPutWallDTO.getPutWallName(), putWallSlots);
+        PutWall putWall = new PutWall(createPutWallDTO.getWorkStationId(), createPutWallDTO.getPutWallCode(),
+            createPutWallDTO.getPutWallName(), createPutWallDTO.getContainerSpecCode(), putWallSlots);
+        putWallRepository.save(putWall);
+    }
+
+    @Override
+    public void update(CreatePutWallDTO createPutWallDTO) {
+        PutWall putWall = putWallRepository.findById(createPutWallDTO.getId());
+        if (!putWallService.checkUpdatePutWall(putWall)) {
+            throw new WmsException("Could not update");
+        }
+
+        //remove all putWallSlot
+        putWallRepository.deletePutWallSlots(putWall.getPutWallSlots());
+
+        ContainerSpecDTO containerSpecDTO = iContainerSpecApi
+            .getContainerSpecDTO(createPutWallDTO.getContainerSpecCode(), createPutWallDTO.getWarehouseCode());
+        List<PutWallDTO.PutWallSlot> putWallSlots = putWallTransfer.toPutWallSlots(containerSpecDTO.getContainerSlotSpecs());
+        putWallSlots.forEach(v -> v.initPutWallSlot(putWall.getPutWallCode(), putWall.getWorkStationId()));
+
+        putWall.setPutWallSlots(putWallSlots);
+        putWallTransfer.updateTarget(createPutWallDTO, putWall);
+
+        //create new PutWall
         putWallRepository.save(putWall);
     }
 }

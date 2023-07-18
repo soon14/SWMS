@@ -33,7 +33,7 @@ public class StationWebSocketController {
      */
     private Session session;
 
-    private static final Map<String, StationWebSocketController> STATION_WEBSOCKET_MAP = Maps.newConcurrentMap();
+    private static final Map<Long, StationWebSocketController> STATION_WEBSOCKET_MAP = Maps.newConcurrentMap();
 
     /**
      * 连接建立成功调用的方法
@@ -56,25 +56,24 @@ public class StationWebSocketController {
 
         this.session = session;
 
-        String stationCode;
-        stationCode = (String) config.getUserProperties().get(HttpContext.STATION_CODE);
-
-        if (stationCode == null) {
+        String workStationIdStr = (String) config.getUserProperties().get(HttpContext.WORK_STATION_ID);
+        if (workStationIdStr == null) {
             Map<String, List<String>> parameterMap = session.getRequestParameterMap();
-            List<String> stationCodes = parameterMap.get(HttpContext.STATION_CODE);
+            List<String> stationCodes = parameterMap.get(HttpContext.WORK_STATION_ID);
             if (ObjectUtils.isNotEmpty(stationCodes)) {
-                stationCode = stationCodes.get(0);
+                workStationIdStr = stationCodes.get(0);
             }
         }
 
-        if (stationCode != null) {
-            StationWebSocketController webSocketController = STATION_WEBSOCKET_MAP.get(stationCode);
+        if (workStationIdStr != null) {
+            Long workStationId = Long.parseLong(workStationIdStr);
+            StationWebSocketController webSocketController = STATION_WEBSOCKET_MAP.get(workStationId);
             Optional.ofNullable(webSocketController).ifPresent(StationWebSocketController::closeSession);
 
-            log.info("station: {} websocket is open and websocket id is: {}.", stationCode, session.getId());
+            log.info("station: {} websocket is open and websocket id is: {}.", workStationId, session.getId());
 
             //操作台连接后，将websocket对象加入到map中，如果相同操作台Code的连进来，直接覆盖
-            STATION_WEBSOCKET_MAP.put(stationCode, this);
+            STATION_WEBSOCKET_MAP.put(workStationId, this);
 
         } else {
             log.warn("client pass no stationCode, close session");
@@ -144,8 +143,8 @@ public class StationWebSocketController {
         return this.session.isOpen();
     }
 
-    public static StationWebSocketController getInstance(String stationCodeInfo) {
-        return STATION_WEBSOCKET_MAP.get(stationCodeInfo);
+    public static StationWebSocketController getInstance(Long workStationId) {
+        return STATION_WEBSOCKET_MAP.get(workStationId);
     }
 
     public Session getSession() {

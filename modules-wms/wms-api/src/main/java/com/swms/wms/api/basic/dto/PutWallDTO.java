@@ -53,6 +53,9 @@ public class PutWallDTO implements IValidate {
         @NotEmpty
         private String putWallSlotCode;
 
+        // it's define the put wall LEFT or RIGHT or MIDDLE
+        private String face;
+
         private String containerSlotSpecCode;
 
         private boolean enable;
@@ -112,11 +115,11 @@ public class PutWallDTO implements IValidate {
             this.putWallSlotStatus = PutWallSlotStatusEnum.BOUND;
         }
 
-        public void setPutWallSlot(String putWallCode, Long workStationId) {
+        public void initPutWallSlot(String putWallCode, Long workStationId) {
             this.workStationId = workStationId;
             this.putWallCode = putWallCode;
 
-            this.putWallSlotCode = putWallCode + "-" + this.containerSlotSpecCode;
+            this.putWallSlotCode = this.containerSlotSpecCode;
         }
     }
 }

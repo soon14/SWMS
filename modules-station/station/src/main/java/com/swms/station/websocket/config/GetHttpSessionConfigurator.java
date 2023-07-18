@@ -25,14 +25,14 @@ public class GetHttpSessionConfigurator extends ServerEndpointConfig.Configurato
     @Override
     public void modifyHandshake(ServerEndpointConfig serverEndpointConfig, HandshakeRequest request, HandshakeResponse response) {
 
-        List<String> strings = request.getHeaders().get(HttpContext.STATION_CODE);
+        List<String> strings = request.getHeaders().get(HttpContext.WORK_STATION_ID);
 
         if (strings == null || strings.size() != 1) {
             return;
         }
 
         String stationCode = strings.get(0);
-        serverEndpointConfig.getUserProperties().put(HttpContext.STATION_CODE, stationCode);
+        serverEndpointConfig.getUserProperties().put(HttpContext.WORK_STATION_ID, stationCode);
         super.modifyHandshake(serverEndpointConfig, request, response);
     }
 

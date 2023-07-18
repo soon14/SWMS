@@ -12,24 +12,24 @@ public class WorkStationService {
     @DubboReference
     private IWorkStationApi workStationApi;
 
-    public void online(String stationCode, WorkStationOperationTypeEnum operationType) {
-        workStationApi.online(stationCode, operationType);
+    public void online(Long workStationId, WorkStationOperationTypeEnum operationType) {
+        workStationApi.online(workStationId, operationType);
     }
 
-    public void offline(String stationCode) {
-        workStationApi.offline(stationCode);
+    public void offline(Long workStationId) {
+        workStationApi.offline(workStationId);
     }
 
-    public void pause(String stationCode) {
-        workStationApi.pause(stationCode);
+    public void pause(Long workStationId) {
+        workStationApi.pause(workStationId);
     }
 
-    public void resume(String stationCode) {
-        workStationApi.resume(stationCode);
+    public void resume(Long workStationId) {
+        workStationApi.resume(workStationId);
     }
 
-    public WorkStationDTO queryWorkStation(String stationCode) {
-        return workStationApi.queryWorkStation(stationCode);
+    public WorkStationDTO queryWorkStation(Long workStationId) {
+        return workStationApi.queryWorkStation(workStationId);
     }
 
     public void setWorkStationApi(IWorkStationApi iWorkStationApi) {

@@ -1,15 +1,18 @@
 package com.swms.wms.api.basic.dto;
 
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
 public class CreatePutWallDTO {
 
-    @NotEmpty
-    private String warehouseCode;
+    private Long id;
+    private Long version;
 
     @NotEmpty
+    private String warehouseCode;
+    @NotNull
     private Long workStationId;
     @NotEmpty
     private String putWallCode;

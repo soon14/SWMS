@@ -20,12 +20,12 @@ public class ResumeHandler implements IBusinessHandler {
     private WorkStationManagement workStationManagement;
 
     @Override
-    public void execute(String body, String stationCode) {
-        WorkStation workStation = workStationManagement.getWorkStation(stationCode);
+    public void execute(String body, Long workStationId) {
+        WorkStation workStation = workStationManagement.getWorkStation(workStationId);
         Preconditions.checkState(workStation != null);
         Preconditions.checkState(workStation.getWorkStationStatus() == WorkStationStatusEnum.PAUSED);
 
-        workStationService.resume(stationCode);
+        workStationService.resume(workStationId);
 
         workStation.setWorkStationStatus(WorkStationStatusEnum.ONLINE);
     }

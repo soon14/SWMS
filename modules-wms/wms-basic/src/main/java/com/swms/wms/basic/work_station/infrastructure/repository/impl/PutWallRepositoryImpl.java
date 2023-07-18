@@ -5,6 +5,7 @@ import com.swms.wms.basic.work_station.domain.entity.PutWall;
 import com.swms.wms.basic.work_station.domain.repository.PutWallRepository;
 import com.swms.wms.basic.work_station.infrastructure.persistence.mapper.PutWallPORepository;
 import com.swms.wms.basic.work_station.infrastructure.persistence.mapper.PutWallSlotPORepository;
+import com.swms.wms.basic.work_station.infrastructure.persistence.po.PutWallPO;
 import com.swms.wms.basic.work_station.infrastructure.persistence.po.PutWallSlotPO;
 import com.swms.wms.basic.work_station.infrastructure.persistence.transfer.PutWallPOTransfer;
 import com.swms.wms.basic.work_station.infrastructure.persistence.transfer.PutWallSlotPOTransfer;
@@ -12,6 +13,7 @@ import jakarta.validation.constraints.NotNull;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -31,6 +33,7 @@ public class PutWallRepositoryImpl implements PutWallRepository {
     private PutWallSlotPOTransfer putWallSlotPOTransfer;
 
     @Override
+    @Transactional
     public void save(PutWall putWall) {
         putWallPORepository.save(putWallPOTransfer.toPO(putWall));
         if (CollectionUtils.isNotEmpty(putWall.getPutWallSlots())) {
@@ -46,7 +49,11 @@ public class PutWallRepositoryImpl implements PutWallRepository {
 
     @Override
     public PutWall findById(Long putWallId) {
-        return putWallPOTransfer.toDO(putWallPORepository.findById(putWallId).orElseThrow());
+        PutWallPO putWallPO = putWallPORepository.findById(putWallId).orElseThrow();
+        List<PutWallSlotPO> putWallSlotPOS = putWallSlotPORepository
+            .findByPutWallCodeAndWorkStationId(putWallPO.getPutWallCode(), putWallPO.getWorkStationId());
+
+        return putWallPOTransfer.toDO(putWallPO, putWallSlotPOS);
     }
 
     @Override
@@ -69,6 +76,11 @@ public class PutWallRepositoryImpl implements PutWallRepository {
     @Override
     public void save(PutWallDTO.PutWallSlot putWallSlot) {
         putWallSlotPORepository.save(putWallSlotPOTransfer.toPO(putWallSlot));
+    }
+
+    @Override
+    public void deletePutWallSlots(List<PutWallDTO.PutWallSlot> putWallSlots) {
+        putWallSlotPORepository.deleteAll(putWallSlotPOTransfer.toPOS(putWallSlots));
     }
 
 }

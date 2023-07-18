@@ -42,9 +42,9 @@ public class WorkStationController {
         return Response.success();
     }
 
-    @GetMapping("{stationCode}")
-    public Object getByStationCode(@PathVariable String stationCode) {
-        WorkStation workStation = workStationRepository.findByStationCode(stationCode);
+    @GetMapping("{id}")
+    public Object getByStationCode(@PathVariable Long id) {
+        WorkStation workStation = workStationRepository.findById(id);
         WorkStationVO workStationVO = new WorkStationVO();
         BeanUtils.copyProperties(workStation, workStationVO);
         workStationVO.flatWorkLocation();

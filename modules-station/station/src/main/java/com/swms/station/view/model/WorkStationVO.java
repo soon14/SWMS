@@ -20,7 +20,7 @@ import java.util.Objects;
 @NoArgsConstructor
 public class WorkStationVO {
 
-    private String stationCode;
+    private Long workStationId;
     private WorkStationStatusEnum workStationStatus;
     private WorkStationOperationTypeEnum operationType;
     private String chooseArea;

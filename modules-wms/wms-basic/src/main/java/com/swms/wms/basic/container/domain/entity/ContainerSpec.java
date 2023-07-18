@@ -12,6 +12,8 @@ public class ContainerSpec {
 
     private Long id;
 
+    private String warehouseCode;
+
     // unique identifier
     private String containerSpecCode;
     private String containerSpecName;

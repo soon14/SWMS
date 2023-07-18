@@ -1,6 +1,5 @@
 package com.swms.station.view;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.swms.station.api.ApiCodeEnum;
 import com.swms.station.business.model.WorkStation;
@@ -10,14 +9,13 @@ import com.swms.station.view.model.WorkStationVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 @Component
 public class ViewHelper {
 
-    private static final Map<String, WorkStationVO> workStationVOMap = Maps.newHashMap();
+    private static final Map<Long, WorkStationVO> workStationVOMap = Maps.newHashMap();
 
     @Autowired
     private List<IViewHandler> iViewHandlers;
@@ -25,19 +23,19 @@ public class ViewHelper {
     @Autowired
     private WorkStationManagement workStationManagement;
 
-    public void buildView(ApiCodeEnum apiCode, String stationCode) {
-        WorkStation workStation = workStationManagement.getWorkStation(stationCode);
+    public void buildView(ApiCodeEnum apiCode, Long workStationId) {
+        WorkStation workStation = workStationManagement.getWorkStation(workStationId);
         if (workStation == null) {
-            removeWorkStationVO(stationCode);
+            removeWorkStationVO(workStationId);
             return;
         }
 
-        WorkStationVO workStationVO = getWorkStationVO(stationCode);
+        WorkStationVO workStationVO = getWorkStationVO(workStationId);
         if (workStationVO == null) {
             workStationVO = new WorkStationVO();
-            workStationVO.setStationCode(stationCode);
+            workStationVO.setWorkStationId(workStationId);
 
-            workStationVOMap.put(stationCode, workStationVO);
+            workStationVOMap.put(workStationId, workStationVO);
         }
 
         List<IViewHandler> viewHandlers = getViewHandlers(apiCode);
@@ -52,15 +50,15 @@ public class ViewHelper {
         return iViewHandlers;
     }
 
-    public WorkStationVO getWorkStationVO(String stationCode) {
+    public WorkStationVO getWorkStationVO(Long stationCode) {
         return workStationVOMap.get(stationCode);
     }
 
     private void updateWorkStationVO(WorkStationVO workStationVO) {
-        workStationVOMap.put(workStationVO.getStationCode(), workStationVO);
+        workStationVOMap.put(workStationVO.getWorkStationId(), workStationVO);
     }
 
-    private void removeWorkStationVO(String stationCode) {
-        workStationVOMap.put(stationCode, null);
+    private void removeWorkStationVO(Long workStationId) {
+        workStationVOMap.put(workStationId, null);
     }
 }

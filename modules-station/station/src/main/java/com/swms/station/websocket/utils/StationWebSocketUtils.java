@@ -14,18 +14,18 @@ public class StationWebSocketUtils {
      * @param stationCode 操作台Code
      * @param message     消息
      */
-    public static void sendInfo(String stationCode, String message) {
+    public static void sendInfo(Long workStationId, String message) {
 
-        StationWebSocketController stationWebSocketController = StationWebSocketController.getInstance(stationCode);
+        StationWebSocketController stationWebSocketController = StationWebSocketController.getInstance(workStationId);
 
         if (stationWebSocketController != null) {
             //增加这个日志主要是为了查看什么时间接收到kafka的消息
-            log.info("station: {} send message to websocket: {}.", stationCode,
+            log.info("station: {} send message to websocket: {}.", workStationId,
                 stationWebSocketController.getSession() == null ? "NULL" : stationWebSocketController.getSession().getId());
 
             stationWebSocketController.sendMessage(message);
         } else {
-            log.debug("StationWebSocketUtils STATION_WEBSOCKET does not exist! station: {}, message:{}", stationCode, message);
+            log.debug("StationWebSocketUtils STATION_WEBSOCKET does not exist! station: {}, message:{}", workStationId, message);
         }
 
     }
@@ -35,7 +35,7 @@ public class StationWebSocketUtils {
      *
      * @param stationCode
      */
-    public static void noticeWebStationStatusChanged(String stationCode) {
-        sendInfo(stationCode, "changed");
+    public static void noticeWebStationStatusChanged(Long workStationId) {
+        sendInfo(workStationId, "changed");
     }
 }

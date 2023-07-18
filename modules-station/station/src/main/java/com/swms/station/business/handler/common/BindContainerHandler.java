@@ -22,8 +22,8 @@ public class BindContainerHandler implements IBusinessHandler {
     private TaskService taskService;
 
     @Override
-    public void execute(String body, String stationCode) {
-        WorkStation workStation = workStationManagement.getWorkStation(stationCode);
+    public void execute(String body, Long workStationId) {
+        WorkStation workStation = workStationManagement.getWorkStation(workStationId);
         Preconditions.checkState(workStation != null);
         Preconditions.checkState(body != null);
         Preconditions.checkState(workStation.getWorkStationStatus() == WorkStationStatusEnum.ONLINE);

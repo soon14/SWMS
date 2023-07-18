@@ -22,6 +22,8 @@ public class WorkStationDTO {
 
     @NotEmpty
     private String stationCode;
+    @NotEmpty
+    private String stationName;
 
     private WorkStationStatusEnum workStationStatus;
 

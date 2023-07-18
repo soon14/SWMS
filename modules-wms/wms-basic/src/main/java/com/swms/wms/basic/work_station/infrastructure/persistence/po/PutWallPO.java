@@ -21,7 +21,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Table(
     indexes = {
         @Index(unique = true, name = "idx_put_wall_code_station", columnList = "putWallCode,workStationId"),
-        @Index(name = "idx_work_station_id", columnList = "workStationId")
+        @Index(unique = true, name = "idx_work_station_id", columnList = "workStationId")
     }
 )
 public class PutWallPO extends BaseUserPO {
@@ -39,6 +39,9 @@ public class PutWallPO extends BaseUserPO {
 
     @Column(nullable = false, columnDefinition = "varchar(128) comment '播种墙名称'")
     private String putWallName;
+
+    @Column(nullable = false, columnDefinition = "varchar(64) comment '容器规格'")
+    private String containerSpecCode;
 
     private boolean deleted;
 

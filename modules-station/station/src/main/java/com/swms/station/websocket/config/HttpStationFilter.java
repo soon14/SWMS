@@ -32,13 +32,13 @@ public class HttpStationFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
         throws IOException, ServletException {
 
-        String stationCode = request.getParameter(HttpContext.STATION_CODE);
+        String stationCode = request.getParameter(HttpContext.WORK_STATION_ID);
         if (StringUtils.isEmpty(stationCode)) {
-            stationCode = ((HttpServletRequest) request).getHeader(HttpContext.STATION_CODE);
+            stationCode = ((HttpServletRequest) request).getHeader(HttpContext.WORK_STATION_ID);
         }
 
         if (StringUtils.isNotEmpty(stationCode)) {
-            HttpContext.setStationCode(stationCode);
+            HttpContext.setWorkStationId(Long.parseLong(stationCode));
         }
 
         try {

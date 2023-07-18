@@ -34,8 +34,8 @@ public class ContainerArrivedHandler implements IBusinessHandler {
     private EquipmentService equipmentService;
 
     @Override
-    public void execute(String body, String stationCode) {
-        WorkStation workStation = workStationManagement.getWorkStation(stationCode);
+    public void execute(String body, Long workStationId) {
+        WorkStation workStation = workStationManagement.getWorkStation(workStationId);
         Preconditions.checkState(workStation != null);
 
         List<ContainerArrivedEvent> containerArrivedEvents = JsonUtils.string2List(body, ContainerArrivedEvent.class);

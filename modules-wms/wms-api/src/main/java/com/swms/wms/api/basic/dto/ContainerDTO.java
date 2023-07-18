@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -68,10 +69,10 @@ public class ContainerDTO {
 
         private List<ContainerSlot> children;
 
-        public void setContainerSlotCode(String containerCode) {
-            this.containerSlotCode = containerCode + "-" + this.containerSlotSpecCode;
+        public void setContainerSlotCode(String parentSpecCode) {
+            this.containerSlotCode = StringUtils.isEmpty(parentSpecCode) ? "" : (parentSpecCode + "-") + this.containerSlotSpecCode;
             if (CollectionUtils.isNotEmpty(children)) {
-                children.forEach(v -> v.setContainerSlotCode(containerCode));
+                children.forEach(v -> v.setContainerSlotCode(this.containerSlotSpecCode));
             }
         }
     }

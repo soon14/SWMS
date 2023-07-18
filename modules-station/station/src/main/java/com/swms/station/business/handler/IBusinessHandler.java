@@ -13,7 +13,7 @@ public interface IBusinessHandler {
      *
      * @return
      */
-    void execute(String body, String stationCode);
+    void execute(String body, Long workStationId);
 
     ApiCodeEnum getApiCode();
 

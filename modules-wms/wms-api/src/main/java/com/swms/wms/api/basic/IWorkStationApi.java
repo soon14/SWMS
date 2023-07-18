@@ -9,19 +9,19 @@ public interface IWorkStationApi {
 
     void update(WorkStationDTO workStationDTO);
 
-    void enable(String stationCode);
+    void enable(Long id);
 
-    void disable(String stationCode);
+    void disable(Long id);
 
-    void delete(String stationCode);
+    void delete(Long id);
 
-    void online(String stationCode, WorkStationOperationTypeEnum operationType);
+    void online(Long id, WorkStationOperationTypeEnum operationType);
 
-    void offline(String stationCode);
+    void offline(Long id);
 
-    void pause(String stationCode);
+    void pause(Long id);
 
-    void resume(String stationCode);
+    void resume(Long id);
 
-    WorkStationDTO queryWorkStation(String stationCode);
+    WorkStationDTO queryWorkStation(Long id);
 }

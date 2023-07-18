@@ -26,8 +26,6 @@ dependencies {
     implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config'
     implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery'
 
-    implementation 'org.apache.dubbo:dubbo-spring-boot-starter'
-
     implementation project(path: ":modules-wms:wms-basic", configuration: 'default')
     implementation project(path: ":modules-wms:wms-stock", configuration: 'default')
     implementation project(path: ":modules-wms:wms-task", configuration: 'default')

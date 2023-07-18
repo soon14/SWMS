@@ -2,7 +2,6 @@ package com.swms.wms.basic.work_station.domain.entity;
 
 import com.swms.wms.api.basic.dto.PutWallDTO;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -20,15 +19,17 @@ public class PutWall {
     private String putWallCode;
     private String putWallName;
     private String containerSpecCode;
+    private Long version;
     private List<PutWallDTO.PutWallSlot> putWallSlots;
 
-    public PutWall(Long workStationId, String putWallCode, String putWallName, @NotNull List<PutWallDTO.PutWallSlot> putWallSlots) {
+    public PutWall(Long workStationId, String putWallCode, String putWallName, String containerSpecCode, @NotNull List<PutWallDTO.PutWallSlot> putWallSlots) {
         this.workStationId = workStationId;
         this.putWallCode = putWallCode;
         this.putWallName = putWallName;
         this.putWallSlots = putWallSlots;
+        this.containerSpecCode = containerSpecCode;
 
-        this.putWallSlots.forEach(v -> v.setPutWallSlot(this.putWallCode, this.workStationId));
+        this.putWallSlots.forEach(v -> v.initPutWallSlot(this.putWallCode, this.workStationId));
     }
 
     private boolean deleted;

@@ -27,7 +27,9 @@ public class StationTestApplication {
         SpringApplication.run(StationTestApplication.class, args);
     }
 
-    private final String warehouseCode = "123";
+    public final static String WAREHOUSE_CODE = "123";
+
+    private final Long workStationId = 1L;
 
     @Bean("mockIworkStationApi")
     public IWorkStationApi iWorkStationApi() throws Exception {
@@ -37,7 +39,7 @@ public class StationTestApplication {
         WorkStationDTO workStationModelDTO = JsonUtils.string2Object(s, WorkStationDTO.class);
 
         IWorkStationApi iWorkStationApi = PowerMockito.mock(IWorkStationApi.class);
-        PowerMockito.when(iWorkStationApi.queryWorkStation("1"))
+        PowerMockito.when(iWorkStationApi.queryWorkStation(workStationId))
             .thenAnswer(t -> workStationModelDTO);
         PowerMockito.doNothing().when(iWorkStationApi, "online", "1", WorkStationOperationTypeEnum.PICKING);
         PowerMockito.doNothing().when(iWorkStationApi, "offline", "1");
@@ -49,7 +51,7 @@ public class StationTestApplication {
     public IContainerApi iContainerApi() {
 
         IContainerApi iContainerApi = PowerMockito.mock(IContainerApi.class);
-        PowerMockito.when(iContainerApi.queryContainerLayout("1", warehouseCode, "A"))
+        PowerMockito.when(iContainerApi.queryContainerLayout("1", WAREHOUSE_CODE, "A"))
             .thenAnswer(t -> ContainerDTO.builder().containerCode("1").build());
         return iContainerApi;
     }

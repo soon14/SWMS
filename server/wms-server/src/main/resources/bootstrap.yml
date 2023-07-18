@@ -16,3 +16,20 @@ spring:
 
 server:
   port: 9030
+
+dubbo:
+  application:
+    id: search
+    name: search
+  consumer:
+    check: false
+  scan:
+    base-packages: com.swms
+  protocol:
+    name: dubbo
+    port: -1
+  registry:
+    address: nacos://192.168.83.128:8848
+    timeout: 10000
+  cloud:
+    subscribed-services: tenant

@@ -49,6 +49,8 @@ class ApiControllerTest {
     @Autowired
     private WorkStationManagement workStationManagement;
 
+    private static final Long WORK_STATION_ID = 1L;
+
     @BeforeEach
     public void initBean() {
         WorkStationService workStationService = applicationContext.getBean(WorkStationService.class);
@@ -66,10 +68,10 @@ class ApiControllerTest {
 
     @Test
     void testOnline() {
-        HttpContext.setStationCode("1");
+        HttpContext.setWorkStationId(1L);
         apiController.execute(ApiCodeEnum.ONLINE, WorkStationOperationTypeEnum.PICKING.name());
 
-        WorkStationVO workStationVO = viewHelper.getWorkStationVO("1");
+        WorkStationVO workStationVO = viewHelper.getWorkStationVO(WORK_STATION_ID);
         Assertions.assertThat(workStationVO).isNotNull();
     }
 
@@ -78,7 +80,7 @@ class ApiControllerTest {
         testOnline();
 
         apiController.execute(ApiCodeEnum.OFFLINE, null);
-        WorkStationVO workStationVO = viewHelper.getWorkStationVO("1");
+        WorkStationVO workStationVO = viewHelper.getWorkStationVO(WORK_STATION_ID);
         Assertions.assertThat(workStationVO).isNull();
     }
 
@@ -87,7 +89,7 @@ class ApiControllerTest {
         testOnline();
 
         apiController.execute(ApiCodeEnum.PAUSE, null);
-        WorkStationVO workStationVO = viewHelper.getWorkStationVO("1");
+        WorkStationVO workStationVO = viewHelper.getWorkStationVO(WORK_STATION_ID);
         Assertions.assertThat(workStationVO).isNotNull();
         Assertions.assertThat(workStationVO.getWorkStationStatus()).isEqualTo(WorkStationStatusEnum.PAUSED);
     }
@@ -97,7 +99,7 @@ class ApiControllerTest {
         testPause();
 
         apiController.execute(ApiCodeEnum.RESUME, null);
-        WorkStationVO workStationVO = viewHelper.getWorkStationVO("1");
+        WorkStationVO workStationVO = viewHelper.getWorkStationVO(WORK_STATION_ID);
         Assertions.assertThat(workStationVO).isNotNull();
         Assertions.assertThat(workStationVO.getWorkStationStatus()).isEqualTo(WorkStationStatusEnum.ONLINE);
 
@@ -107,19 +109,19 @@ class ApiControllerTest {
     void testOrderAssign() {
         testOnline();
 
-        WorkStation workStation = workStationManagement.getWorkStation("1");
+        WorkStation workStation = workStationManagement.getWorkStation(WORK_STATION_ID);
         PutWallDTO putWallDTO = workStation.getPutWalls().get(0);
 
         PutWallDTO.PutWallSlot putWallSlotDTO = PutWallDTO.PutWallSlot.builder()
             .putWallCode(putWallDTO.getPutWallCode())
             .putWallSlotCode(putWallDTO.getPutWallSlots().get(0).getPutWallSlotCode())
             .putWallSlotStatus(PutWallSlotStatusEnum.WAITING_BINDING)
-            .stationCode("1")
+            .workStationId(WORK_STATION_ID)
             .orderIds(Lists.newArrayList(1L)).build();
 
         workStationMqConsumer.listenOrderAssigned("1", Lists.newArrayList(putWallSlotDTO));
 
-        workStation = workStationManagement.getWorkStation("1");
+        workStation = workStationManagement.getWorkStation(WORK_STATION_ID);
         Assertions.assertThat(workStation.getPutWalls().get(0).getPutWallSlots().get(0).getOrderIds()).contains(1L);
         Assertions.assertThat(workStation.getPutWalls().get(0).getPutWallSlots().get(0).getPutWallSlotStatus())
             .isEqualTo(PutWallSlotStatusEnum.WAITING_BINDING);
@@ -133,7 +135,7 @@ class ApiControllerTest {
             .workLocationCode("2").build();
         apiController.execute(ApiCodeEnum.CONTAINER_ARRIVED, JsonUtils.obj2String(Lists.newArrayList(containerArrivedEvent)));
 
-        WorkStation workStation = workStationManagement.getWorkStation("1");
+        WorkStation workStation = workStationManagement.getWorkStation(WORK_STATION_ID);
         ArrivedContainer arrivedContainer = workStation.getWorkLocations().get(0).getWorkLocationSlots().get(0).getArrivedContainer();
         Assertions.assertThat(arrivedContainer).isNotNull();
         Assertions.assertThat(arrivedContainer.getContainerCode()).isEqualTo("1");
@@ -149,7 +151,7 @@ class ApiControllerTest {
             .handleTaskType(HandleTaskDTO.HandleTaskTypeEnum.COMPLETE).taskIds(Lists.newArrayList(1L)).build();
         apiController.execute(ApiCodeEnum.HANDLE_TASKS, JsonUtils.obj2String(handleTasksEvent));
 
-        WorkStation workStation = workStationManagement.getWorkStation("1");
+        WorkStation workStation = workStationManagement.getWorkStation(WORK_STATION_ID);
         Assertions.assertThat(workStation.getOperateTasks()).isEmpty();
     }
 
@@ -161,7 +163,7 @@ class ApiControllerTest {
             .handleTaskType(HandleTaskDTO.HandleTaskTypeEnum.REPORT_ABNORMAL).taskIds(Lists.newArrayList(1L)).build();
         apiController.execute(ApiCodeEnum.HANDLE_TASKS, JsonUtils.obj2String(handleTasksEvent));
 
-        WorkStation workStation = workStationManagement.getWorkStation("1");
+        WorkStation workStation = workStationManagement.getWorkStation(WORK_STATION_ID);
         Assertions.assertThat(workStation.getOperateTasks()).isEmpty();
     }
 
@@ -173,12 +175,8 @@ class ApiControllerTest {
             .handleTaskType(HandleTaskDTO.HandleTaskTypeEnum.SPLIT).taskIds(Lists.newArrayList(1L)).build();
         apiController.execute(ApiCodeEnum.HANDLE_TASKS, JsonUtils.obj2String(handleTasksEvent));
 
-        WorkStation workStation = workStationManagement.getWorkStation("1");
+        WorkStation workStation = workStationManagement.getWorkStation(WORK_STATION_ID);
         Assertions.assertThat(workStation.getOperateTasks()).isEmpty();
-    }
-
-    @Test
-    void fullFlowTest() {
     }
 
 }

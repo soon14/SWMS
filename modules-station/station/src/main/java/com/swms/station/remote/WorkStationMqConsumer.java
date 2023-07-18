@@ -28,7 +28,7 @@ public class WorkStationMqConsumer {
             return;
         }
 
-        WorkStation workStation = workStationManagement.getWorkStation(workStationConfigDTO.getStationCode());
+        WorkStation workStation = workStationManagement.getWorkStation(workStationConfigDTO.getId());
         if (workStation == null) {
             return;
         }
@@ -43,10 +43,10 @@ public class WorkStationMqConsumer {
             return;
         }
 
-        Map<String, List<PutWallDTO.PutWallSlot>> stationCodeMap = putWallSlotDTOS.stream().collect(Collectors.groupingBy(PutWallDTO.PutWallSlot::getStationCode));
+        Map<Long, List<PutWallDTO.PutWallSlot>> stationCodeMap = putWallSlotDTOS.stream().collect(Collectors.groupingBy(PutWallDTO.PutWallSlot::getWorkStationId));
 
-        stationCodeMap.forEach((stationCode, values) -> {
-            WorkStation workStation = workStationManagement.getWorkStation(stationCode);
+        stationCodeMap.forEach((workStationId, values) -> {
+            WorkStation workStation = workStationManagement.getWorkStation(workStationId);
             if (workStation == null) {
                 return;
             }
@@ -59,7 +59,7 @@ public class WorkStationMqConsumer {
                     }
                 });
             }));
-            StationWebSocketUtils.noticeWebStationStatusChanged(stationCode);
+            StationWebSocketUtils.noticeWebStationStatusChanged(workStationId);
         });
     }
 }

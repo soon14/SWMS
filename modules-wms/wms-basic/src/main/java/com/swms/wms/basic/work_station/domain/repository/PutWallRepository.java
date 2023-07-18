@@ -21,4 +21,6 @@ public interface PutWallRepository {
     PutWallDTO.PutWallSlot findByPutWallSlotCode(String putWallSlotCode, @NotNull Long workStationId);
 
     void save(PutWallDTO.PutWallSlot putWallSlot);
+
+    void deletePutWallSlots(List<PutWallDTO.PutWallSlot> putWallSlots);
 }

@@ -29,15 +29,15 @@ public class ApiController {
 
     @PutMapping
     public Response<Object> execute(@RequestParam ApiCodeEnum apiCode, @RequestBody(required = false) String body) {
-        String stationCode = HttpContext.getStationCode();
-        handlerExecutor.execute(apiCode, body, stationCode);
+        Long workStationId = HttpContext.getWorkStationId();
+        handlerExecutor.execute(apiCode, body, workStationId);
         return Response.success();
     }
 
     @GetMapping
     public Response<Object> getWorkStationVO() {
-        String stationCode = HttpContext.getStationCode();
-        return Response.success(viewHelper.getWorkStationVO(stationCode));
+        Long workStationId = HttpContext.getWorkStationId();
+        return Response.success(viewHelper.getWorkStationVO(workStationId));
     }
 
 }

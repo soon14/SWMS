@@ -17,8 +17,8 @@ public class WorkStationRepositoryImpl implements WorkStationRepository {
     private WorkStationPOTransfer workStationPOTransfer;
 
     @Override
-    public WorkStation findByStationCode(String stationCode) {
-        return workStationPOTransfer.toDO(workStationPORepository.findByStationCode(stationCode));
+    public WorkStation findById(Long id) {
+        return workStationPOTransfer.toDO(workStationPORepository.findById(id).orElseThrow());
     }
 
     @Override

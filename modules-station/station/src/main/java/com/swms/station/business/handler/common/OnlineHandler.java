@@ -21,16 +21,16 @@ public class OnlineHandler implements IBusinessHandler {
     private WorkStationManagement workStationManagement;
 
     @Override
-    public void execute(String body, String stationCode) {
+    public void execute(String body, Long workStationId) {
 
-        WorkStation workStation = workStationManagement.getWorkStation(stationCode);
+        WorkStation workStation = workStationManagement.getWorkStation(workStationId);
         if (workStation == null) {
-            workStation = workStationManagement.initWorkStation(stationCode);
+            workStation = workStationManagement.initWorkStation(workStationId);
         }
 
         Preconditions.checkState(workStation.getWorkStationStatus() == WorkStationStatusEnum.OFFLINE);
 
-        workStationService.online(stationCode, WorkStationOperationTypeEnum.valueOf(body));
+        workStationService.online(workStationId, WorkStationOperationTypeEnum.valueOf(body));
 
         workStation.setWorkStationStatus(WorkStationStatusEnum.ONLINE);
         workStation.setOperationType(WorkStationOperationTypeEnum.valueOf(body));

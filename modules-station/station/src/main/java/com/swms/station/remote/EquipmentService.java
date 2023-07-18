@@ -1,7 +1,7 @@
 package com.swms.station.remote;
 
-import com.swms.wms.api.basic.constants.ContainerLeaveTypeEnum;
 import com.swms.station.business.model.ArrivedContainer;
+import com.swms.wms.api.basic.constants.ContainerLeaveTypeEnum;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -11,7 +11,7 @@ public class EquipmentService {
 
     }
 
-    public void callRobot(String stationCode) {
+    public void callRobot(Long workStationId) {
 
     }
 

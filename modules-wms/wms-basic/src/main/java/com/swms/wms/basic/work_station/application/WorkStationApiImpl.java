@@ -31,57 +31,57 @@ public class WorkStationApiImpl implements IWorkStationApi {
     }
 
     @Override
-    public void enable(String stationCode) {
-        WorkStation workStation = workStationRepository.findByStationCode(stationCode);
+    public void enable(Long id) {
+        WorkStation workStation = workStationRepository.findById(id);
         workStation.enable();
         workStationRepository.save(workStation);
     }
 
     @Override
-    public void disable(String stationCode) {
-        WorkStation workStation = workStationRepository.findByStationCode(stationCode);
+    public void disable(Long id) {
+        WorkStation workStation = workStationRepository.findById(id);
         workStation.disable();
         workStationRepository.save(workStation);
     }
 
     @Override
-    public void delete(String stationCode) {
-        WorkStation workStation = workStationRepository.findByStationCode(stationCode);
+    public void delete(Long id) {
+        WorkStation workStation = workStationRepository.findById(id);
         workStation.delete();
         workStationRepository.save(workStation);
     }
 
     @Override
-    public void online(String stationCode, WorkStationOperationTypeEnum operationType) {
-        WorkStation workStation = workStationRepository.findByStationCode(stationCode);
+    public void online(Long id, WorkStationOperationTypeEnum operationType) {
+        WorkStation workStation = workStationRepository.findById(id);
         workStation.online(operationType);
         workStationRepository.save(workStation);
     }
 
     @Override
-    public void offline(String stationCode) {
-        WorkStation workStation = workStationRepository.findByStationCode(stationCode);
+    public void offline(Long id) {
+        WorkStation workStation = workStationRepository.findById(id);
         workStation.offline();
         workStationRepository.save(workStation);
     }
 
     @Override
-    public void pause(String stationCode) {
-        WorkStation workStation = workStationRepository.findByStationCode(stationCode);
+    public void pause(Long id) {
+        WorkStation workStation = workStationRepository.findById(id);
         workStation.pause();
         workStationRepository.save(workStation);
     }
 
     @Override
-    public void resume(String stationCode) {
-        WorkStation workStation = workStationRepository.findByStationCode(stationCode);
+    public void resume(Long id) {
+        WorkStation workStation = workStationRepository.findById(id);
         workStation.resume();
         workStationRepository.save(workStation);
     }
 
     @Override
-    public WorkStationDTO queryWorkStation(String stationCode) {
-        return workStationTransfer.toDTO(workStationRepository.findByStationCode(stationCode));
+    public WorkStationDTO queryWorkStation(Long id) {
+        return workStationTransfer.toDTO(workStationRepository.findById(id));
     }
 
 }

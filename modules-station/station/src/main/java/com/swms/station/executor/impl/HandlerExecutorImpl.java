@@ -16,13 +16,13 @@ public class HandlerExecutorImpl implements HandlerExecutor {
     private ViewHelper viewHelper;
 
     @Override
-    public void execute(ApiCodeEnum apiCode, String body, String stationCode) {
+    public void execute(ApiCodeEnum apiCode, String body, Long workStationId) {
 
         IBusinessHandler businessHandler = BusinessHandlerFactory.getHandler(apiCode);
-        businessHandler.execute(body, stationCode);
+        businessHandler.execute(body, workStationId);
 
-        viewHelper.buildView(apiCode, stationCode);
+        viewHelper.buildView(apiCode, workStationId);
 
-        StationWebSocketUtils.noticeWebStationStatusChanged(stationCode);
+        StationWebSocketUtils.noticeWebStationStatusChanged(workStationId);
     }
 }

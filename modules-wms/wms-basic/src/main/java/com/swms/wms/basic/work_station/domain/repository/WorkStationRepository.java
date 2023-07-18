@@ -6,5 +6,5 @@ public interface WorkStationRepository {
 
     void save(WorkStation workStation);
 
-    WorkStation findByStationCode(String stationCode);
+    WorkStation findById(Long id);
 }

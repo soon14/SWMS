@@ -20,13 +20,12 @@ public class CallRobotHandler implements IBusinessHandler {
     private EquipmentService equipmentService;
 
     @Override
-    public void execute(String body, String stationCode) {
-
-        WorkStation workStation = workStationManagement.getWorkStation(stationCode);
+    public void execute(String body, Long workStationId) {
+        WorkStation workStation = workStationManagement.getWorkStation(workStationId);
         Preconditions.checkState(workStation != null);
         Preconditions.checkState(workStation.getWorkStationStatus() == WorkStationStatusEnum.ONLINE);
 
-        equipmentService.callRobot(stationCode);
+        equipmentService.callRobot(workStationId);
     }
 
     @Override

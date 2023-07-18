@@ -13,29 +13,29 @@ import java.util.Set;
 @Component
 public class WorkStationManagement {
 
-    private static final Map<String, WorkStation> workStationMap = Maps.newConcurrentMap();
+    private static final Map<Long, WorkStation> workStationMap = Maps.newConcurrentMap();
 
     @Autowired
     private WorkStationService workStationService;
 
-    public synchronized WorkStation initWorkStation(String stationCode) {
+    public synchronized WorkStation initWorkStation(Long workStationId) {
 
-        WorkStationDTO workStationObj = workStationService.queryWorkStation(stationCode);
+        WorkStationDTO workStationObj = workStationService.queryWorkStation(workStationId);
         WorkStation workStation = JsonUtils.string2Object(JsonUtils.obj2String(workStationObj), WorkStation.class);
-        workStationMap.put(stationCode, workStation);
+        workStationMap.put(workStationId, workStation);
 
         return workStation;
     }
 
-    public WorkStation getWorkStation(String stationCode) {
-        return workStationMap.get(stationCode);
+    public WorkStation getWorkStation(Long workStationId) {
+        return workStationMap.get(workStationId);
     }
 
-    public void removeWorkStation(String stationCode) {
-        workStationMap.remove(stationCode);
+    public void removeWorkStation(Long workStationId) {
+        workStationMap.remove(workStationId);
     }
 
-    public Set<String> getOperatingWorkStations() {
+    public Set<Long> getOperatingWorkStations() {
         return workStationMap.keySet();
     }
 }

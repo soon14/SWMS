@@ -55,7 +55,7 @@ public class Container {
         this.containerSlotNum = containerSlots.size();
         this.occupationRatio = BigDecimal.ZERO;
 
-        this.containerSlots.forEach(v -> v.setContainerSlotCode(this.containerCode));
+        this.containerSlots.forEach(v -> v.setContainerSlotCode(null));
     }
 
     public boolean canReceive() {

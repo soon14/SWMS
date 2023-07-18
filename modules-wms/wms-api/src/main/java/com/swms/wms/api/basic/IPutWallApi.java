@@ -32,4 +32,6 @@ public interface IPutWallApi {
     void bindContainer(@Valid BindContainerDTO bindContainerDTO);
 
     void create(@Valid CreatePutWallDTO createPutWallDTO);
+
+    void update(@Valid CreatePutWallDTO putWallDTO);
 }

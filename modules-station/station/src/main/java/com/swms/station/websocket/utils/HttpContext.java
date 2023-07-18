@@ -5,19 +5,19 @@ public class HttpContext {
     protected HttpContext() {
     }
 
-    public static final String STATION_CODE = "stationCode";
+    public static final String WORK_STATION_ID = "stationCode";
 
-    private static final ThreadLocal<String> stationCodeContext = new ThreadLocal<>();
+    private static final ThreadLocal<Long> stationCodeContext = new ThreadLocal<>();
 
-    public static void setStationCode(String stationCode) {
-        stationCodeContext.set(stationCode);
+    public static void setWorkStationId(Long workStationId) {
+        stationCodeContext.set(workStationId);
     }
 
     public static void removeStationCode() {
         stationCodeContext.remove();
     }
 
-    public static String getStationCode() {
+    public static Long getWorkStationId() {
         return stationCodeContext.get();
     }
 

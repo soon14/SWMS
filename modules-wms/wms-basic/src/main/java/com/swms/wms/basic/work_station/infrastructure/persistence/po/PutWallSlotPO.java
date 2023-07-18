@@ -16,7 +16,6 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Version;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.apache.commons.collections4.Put;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -50,11 +49,6 @@ public class PutWallSlotPO extends BaseUserPO {
     @Column(nullable = false, columnDefinition = "varchar(64) comment '播种墙格口编码'")
     private String putWallSlotCode;
 
-    @Column(nullable = false, columnDefinition = "int default 0 comment '层'")
-    private Integer level;
-    @Column(nullable = false, columnDefinition = "int default 0 comment '列'")
-    private Integer bay;
-
     @Column(columnDefinition = "json comment '播种墙格口订单'")
     @Convert(converter = ListLongConverter.class)
     private List<Long> orderIds;
@@ -63,7 +57,7 @@ public class PutWallSlotPO extends BaseUserPO {
     @Column(nullable = false, columnDefinition = "varchar(20) comment '状态'")
     private PutWallSlotStatusEnum putWallSlotStatus = PutWallSlotStatusEnum.IDLE;
 
-    @Column(nullable = false, columnDefinition = "varchar(64) comment '周转容器编码'")
+    @Column(columnDefinition = "varchar(64) comment '周转容器编码'")
     private String transferContainerCode;
 
     private boolean enable;

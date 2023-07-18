@@ -21,16 +21,15 @@ public class OfflineHandler implements IBusinessHandler {
     private WorkStationManagement workStationManagement;
 
     @Override
-    public void execute(String body, String stationCode) {
-
-        WorkStation workStation = workStationManagement.getWorkStation(stationCode);
+    public void execute(String body, Long workStationId) {
+        WorkStation workStation = workStationManagement.getWorkStation(workStationId);
         Preconditions.checkState(workStation != null);
         Preconditions.checkState(workStation.getWorkStationStatus() != WorkStationStatusEnum.OFFLINE);
         Preconditions.checkState(CollectionUtils.isEmpty(workStation.getOperateTasks()));
 
-        workStationService.offline(stationCode);
+        workStationService.offline(workStationId);
 
-        workStationManagement.removeWorkStation(stationCode);
+        workStationManagement.removeWorkStation(workStationId);
     }
 
     @Override

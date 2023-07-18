@@ -20,12 +20,12 @@ public class PauseHandler implements IBusinessHandler {
     private WorkStationManagement workStationManagement;
 
     @Override
-    public void execute(String body, String stationCode) {
-        WorkStation workStation = workStationManagement.getWorkStation(stationCode);
+    public void execute(String body, Long workStationId) {
+        WorkStation workStation = workStationManagement.getWorkStation(workStationId);
         Preconditions.checkState(workStation != null);
         Preconditions.checkState(workStation.getWorkStationStatus() == WorkStationStatusEnum.ONLINE);
 
-        workStationService.pause(stationCode);
+        workStationService.pause(workStationId);
 
         workStation.setWorkStationStatus(WorkStationStatusEnum.PAUSED);
     }
