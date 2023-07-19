@@ -15,7 +15,6 @@ dependencies {
     implementation('org.springframework.boot:spring-boot-starter') {
         exclude module: 'commons-logging'
     }
-    implementation 'org.springframework.cloud:spring-cloud-starter'
     implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
 
     implementation 'org.redisson:redisson-spring-boot-starter'

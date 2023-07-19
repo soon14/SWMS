@@ -1,38 +1,36 @@
 package com.swms.user.api.utils;
 
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.SignatureException;
-import io.jsonwebtoken.UnsupportedJwtException;
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.DecodedJWT;
+import com.swms.user.api.UserContext;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseCookie;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.WebUtils;
 
-import java.nio.charset.StandardCharsets;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 @Component
 @Slf4j
 public class JwtUtils {
 
-    @Value("${app.jwtSecret:linsan}")
+    @Value("${Jwt.jwtSecret:linsan}")
     private String jwtSecret;
 
-    @Value("${jwtExpirationMs:600000}")
+    @Value("${Jwt.jwtExpirationMs:600000}")
     private int jwtExpirationMs;
 
-    @Value("${bezkoder.app.jwtCookieName:Authorization}")
+    @Value("${Jwt.jwtCookieName:Authorization}")
     private String jwtCookie;
+
+    @Value("${Jwt.claim.parameter.authorities:authorities}")
+    private String authorities;
 
     public String getJwtFromRequest(HttpServletRequest request) {
         Cookie cookie = WebUtils.getCookie(request, jwtCookie);
@@ -51,47 +49,31 @@ public class JwtUtils {
         return CompressUtils.decompress(Base64.decodeBase64(jwt));
     }
 
-    public ResponseCookie generateJwtCookie(UserDetails userPrincipal) {
-        String jwt = Base64.encodeBase64String(CompressUtils.compress(generateToken(userPrincipal)));
-        return ResponseCookie.from(jwtCookie, jwt).path("/api").maxAge(3600).httpOnly(true).build();
-    }
 
-    public void cleanJwtCookie() {
-        ResponseCookie.from(jwtCookie, null).path("/api").build();
+    public DecodedJWT verifyJwt(String token) {
+        JWTVerifier verifier = JWT.require(Algorithm.HMAC256(jwtSecret)).build();
+        return verifier.verify(token);
     }
 
     public String getUserNameFromJwtToken(String token) {
-        return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().get("username", String.class);
+        DecodedJWT jwt = verifyJwt(token);
+        return String.valueOf(jwt.getClaims().get(UserContext.USERNAME));
     }
 
-    public boolean validateJwtToken(String authToken) {
-        try {
-            Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
-            return true;
-        } catch (SignatureException e) {
-            log.error("Invalid JWT signature: {}", e.getMessage());
-        } catch (MalformedJwtException e) {
-            log.error("Invalid JWT token: {}", e.getMessage());
-        } catch (ExpiredJwtException e) {
-            log.error("JWT token is expired: {}", e.getMessage());
-        } catch (UnsupportedJwtException e) {
-            log.error("JWT token is unsupported: {}", e.getMessage());
-        } catch (IllegalArgumentException e) {
-            log.error("JWT claims string is empty: {}", e.getMessage());
-        }
-
-        return false;
+    public String getUserNameFromJwtToken(DecodedJWT jwt) {
+        return String.valueOf(jwt.getClaims().get(UserContext.USERNAME));
     }
 
-    public String generateToken(UserDetails userDetails) {
-        Map<String, Object> claims = new HashMap<>(2);
-        claims.put("username", userDetails.getUsername());
-        claims.put("authorities", userDetails.getAuthorities());
-        return Jwts.builder()
-            .setClaims(claims)
-            .setIssuedAt(new Date())
-            .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
-            .signWith(SignatureAlgorithm.HS512, jwtSecret)
-            .compact();
+    public String generateJwtCookie(List<String> authorities, String userName) {
+        return Base64.encodeBase64String(CompressUtils.compress(generateToken(authorities, userName)));
+    }
+
+    public String generateToken(List<String> authorityList, String userName) {
+        Algorithm algorithm = Algorithm.HMAC256(jwtSecret);
+        return JWT.create()
+            .withClaim(UserContext.USERNAME, userName)
+            .withClaim(authorities, authorityList)
+            .withExpiresAt(new Date(System.currentTimeMillis() + jwtExpirationMs)) // 1 hour
+            .sign(algorithm);
     }
 }

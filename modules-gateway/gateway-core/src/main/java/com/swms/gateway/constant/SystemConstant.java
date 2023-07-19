@@ -24,7 +24,7 @@ public interface SystemConstant {
     /**
      * 用户名称
      */
-    String USER_NAME = "user_name";
+    String USER_NAME = "username";
     /**
      * SUPPER_PERMISSION
      */
@@ -41,8 +41,6 @@ public interface SystemConstant {
      * JWT_AUTHORITIES
      */
     String JWT_AUTHORITIES = "authorities";
-    /**
-     * ANONYMOUS_USER
-     */
-    String ANONYMOUS_USER = "anonymousUser";
+
+    String JWT_SECRET = "linsan";
 }

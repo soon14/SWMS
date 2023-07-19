@@ -10,9 +10,11 @@ import com.swms.user.repository.entity.Menu;
 import com.swms.user.repository.entity.Role;
 import com.swms.user.repository.entity.RoleMenu;
 import com.swms.user.repository.entity.User;
+import com.swms.user.repository.entity.UserRole;
 import com.swms.user.repository.mapper.MenuMapper;
 import com.swms.user.repository.mapper.RoleMapper;
 import com.swms.user.repository.mapper.RoleMenuMapper;
+import com.swms.user.repository.mapper.UserRoleMapper;
 import com.swms.user.rest.common.enums.MenuTypeEnum;
 import com.swms.user.rest.common.enums.YesOrNo;
 import com.swms.user.rest.param.menu.MenuAddParam;
@@ -56,6 +58,7 @@ public class MenuServiceImpl implements MenuService {
     private final RoleMenuService roleMenuService;
     private final UserService userService;
     private final MenuMapper menuMapper;
+    private final UserRoleMapper userRoleMapper;
 
     @Override
     public NavigationVo getUserNav(Set<String> roleCodes) {
@@ -125,7 +128,9 @@ public class MenuServiceImpl implements MenuService {
             return Collections.emptyList();
         }
 
-        Set<String> roleCodes = UserContext.getCurrentRoleCodes();
+        List<UserRole> userRoles = userRoleMapper.findByUserId(user.getId());
+        List<Role> roles = roleMapper.findAllById(userRoles.stream().map(UserRole::getRoleId).toList());
+        Set<String> roleCodes = roles.stream().map(Role::getCode).collect(Collectors.toSet());
         boolean containSuperRole = roleCodes.stream().anyMatch(u -> u.equals(systemProp.getSuperRoleCode()));
         if (containSuperRole) {
             // 为超级管理员

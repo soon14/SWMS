@@ -1,50 +1,40 @@
 package com.swms.gateway.config;
 
-import com.alibaba.nacos.api.config.annotation.NacosValue;
 import lombok.Data;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * @Author guizhigang
- * @Date 2021/5/17 15:26
- * @Description:
- */
 @Data
 @Configuration
-@RefreshScope
+@ConfigurationProperties(prefix = "auth")
 public class AuthProperties {
 
     /**
      * 忽略URL，List列表形式
      */
-    @NacosValue(value = "${auth.ignore-url}", autoRefreshed = true)
     private List<String> ignoreUrl = new ArrayList<>();
 
     /**
      * 是否启用网关鉴权模式
      */
-    @NacosValue(value = "${auth.enable}", autoRefreshed = true)
     private Boolean enable = false;
 
     /**
      * 网关鉴权超时续时时长
      */
-    @NacosValue(value = "${auth.extend-time-second:3600}", autoRefreshed = true)
     private long extendTimeSecond;
 
     /**
      * JWT签名KEY
      */
-    @NacosValue(value = "${auth.signing-key}", autoRefreshed = true)
     private String signingKey = "defaultSigningKey";
 
     /**
-     * 监控中心和swagger需要访问的url
+     * Some url needed check for login
      */
     private static final String[] ENDPOINTS = {
         "/oauth/**",
@@ -55,13 +45,8 @@ public class AuthProperties {
         "/swagger-ui.html",
         "/doc.html",
         "/swagger-resources/**",
-        "/webjars/**",
         "/druid/**",
-        "/error/**",
-        "/assets/**",
-        "/auth/logout",
-        "/auth/code",
-        "/user/config.js"
+        "/user/api/auth/signin"
     };
 
     /**

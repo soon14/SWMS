@@ -109,30 +109,6 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    @Override
-    public AuthUserInfo getAuthUserInfo() {
-        String currentUsername = UserContext.getCurrentUser();
-        if (StrUtil.isEmpty(currentUsername)) {
-            throw new WmsException(UserErrorDescEnum.NO_AUTHED_USER_FOUND);
-        }
-        User user = getByUsername(currentUsername);
-        if (user == null) {
-            throw new WmsException(UserErrorDescEnum.NO_AUTHED_USER_FOUND);
-        }
-        AuthUserInfo authUserInfo = new AuthUserInfo();
-        authUserInfo.setName(user.getName());
-        authUserInfo.setUsername(currentUsername);
-        authUserInfo.setRoles(UserContext.getCurrentRoleCodes());
-        authUserInfo.setPermissions(UserContext.getCurrentPermissions());
-        authUserInfo.setAvatar(user.getAvatar());
-        authUserInfo.setLastLoginIp(user.getLastLoginIp());
-        authUserInfo.setLastGmtLoginTime(user.getLastGmtLoginTime());
-        authUserInfo.setPhone(user.getPhone());
-        authUserInfo.setEmail(user.getEmail());
-        authUserInfo.setRoleNames(authUserInfo.getRoles().stream().map(v -> v).collect(Collectors.joining(",")));
-        return authUserInfo;
-    }
-
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void addUser(UserAddParam param) {

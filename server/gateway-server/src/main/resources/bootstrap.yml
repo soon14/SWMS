@@ -40,5 +40,7 @@ spring:
             - Path=/search/**
           filters:
             - RewritePath=/search/(?<segment>.*) , /$\{segment}
+  main:
+    web-application-type: reactive
 server:
   port: 8090

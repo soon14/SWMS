@@ -106,20 +106,6 @@ public class UserController extends BaseResource {
         return Response.builder().build();
     }
 
-    @PostMapping("/info")
-    @ApiOperation(value = "获取当前用户信息", response = AuthUserInfo.class)
-    public Object getUserInfo() {
-        AuthUserInfo authUserInfo = userService.getAuthUserInfo();
-        return Response.builder().data(authUserInfo).build();
-    }
-
-    @PostMapping("/nav")
-    @ApiOperation(value = "获取当前用户角色的菜单", response = NavigationVo.class)
-    public Object getCurrentUserNavInfo() {
-        Set<String> roleCodes = UserContext.getCurrentRoleCodes();
-        return Response.builder().data(menuService.getUserNav(roleCodes)).build();
-    }
-
     @PostMapping("/logout")
     @ApiOperation("退出登录")
     public Object logout() {

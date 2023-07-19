@@ -1,15 +1,18 @@
 package com.swms.gateway.auth;
 
 import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.google.common.collect.Lists;
-import com.swms.gateway.auth.verify.JWTVerifierExtendTimeImpl;
 import com.swms.gateway.config.AuthProperties;
 import com.swms.gateway.constant.SystemConstant;
 import com.swms.gateway.util.ResponseUtil;
+import com.swms.utils.compress.CompressUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
@@ -22,8 +25,6 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -34,16 +35,16 @@ import java.util.List;
 @Slf4j
 public class AuthGatewayFilter implements GlobalFilter, Ordered {
 
-    private static final List<String> USER_WHITE_LIST = Lists.newArrayList(
-        "/user/api/currentUser/searchMenuTree",
-        "/user/api/user/info",
-        "/user/api/user/nav",
-        "/user/api/auth/signin",
-        "/user/external/logout"
+    /**
+     * some url needn't be verified authentication
+     */
+    private static final List<String> USER_WHITE_AUTH_LIST = Lists.newArrayList(
+        "/user/api/currentUser/getMenuTree",
+        "/user/api/auth/signout",
+        "/search/search"
     );
 
     private AuthProperties authProperties;
-
     private Algorithm algorithm;
 
     public AuthGatewayFilter(AuthProperties authProperties) {
@@ -75,45 +76,31 @@ public class AuthGatewayFilter implements GlobalFilter, Ordered {
             return ResponseUtil.webFluxResponseWriter(exchange.getResponse(), SystemConstant.APPLICATION_JSON_UTF8,
                 HttpStatus.OK, SystemConstant.LOGOUT_MSG);
         }
-        if (authorizeNotRequired && USER_WHITE_LIST.contains(requestUrl)) {
+        if (authorizeNotRequired) {
             return chain.filter(exchange);
         }
-
-        String username = SystemConstant.ANONYMOUS_USER;
 
         // 无论是否需要鉴权，都要从请求头中的 Authorization 获得 jwt，进而获取当前用户名
-        ServerHttpResponse resp = exchange.getResponse();
-        String headerToken = exchange.getRequest().getHeaders().getFirst(SystemConstant.HEADER_AUTHORIZATION);
-        DecodedJWT jwt = null;
-
-        if (headerToken != null) {
-            //重写解析token逻辑进行操作续时
-            jwt = resolveToken(headerToken);
-            if (jwt != null) {
-                username = jwt.getClaim(SystemConstant.USER_NAME).asString();
-            }
+        String token = exchange.getRequest().getHeaders().getFirst(SystemConstant.HEADER_AUTHORIZATION);
+        if (token == null) {
+            return unauthorized(exchange.getResponse(), "token not passed, please login.");
         }
 
-        if (!authorizeNotRequired) {
-            //鉴权
-            Mono<Void> monoResp = authenticate(exchange, resp, headerToken, jwt);
-            if (monoResp != null) {
-                return monoResp;
-            }
+        token = CompressUtils.decompress(Base64.decodeBase64(token));
+        DecodedJWT jwt = verifyJwt(token);
+        if (jwt == null) {
+            return unauthorized(exchange.getResponse(), "token is not illegal.");
         }
 
-        // user应用保留token，非user应用，去掉原token中的权限角色等数据，只保留用户名，减少token大小
-        if (requestUrl.toLowerCase().startsWith("/user/")) {
-            return chain.filter(exchange);
+        //authorization verify
+        if (!USER_WHITE_AUTH_LIST.contains(requestUrl) && !verifyAuthorization(jwt, requestUrl)) {
+            return unauthorized(exchange.getResponse(), "request access denied, may be unauthorized.");
         }
 
-        String newToken = JWT.create()
-            .withClaim(SystemConstant.USER_NAME, username)
-            .sign(this.algorithm);
-
+        //set username in request header
         ServerHttpRequest newRequest = exchange.getRequest().mutate()
-            .header(SystemConstant.HEADER_AUTHORIZATION, SystemConstant.TOKEN_BEARER + " " + newToken)
-            .build();
+            .header(SystemConstant.HEADER_AUTHORIZATION, "")
+            .header(SystemConstant.USER_NAME, jwt.getClaim(SystemConstant.USER_NAME).asString()).build();
         return chain.filter(exchange.mutate().request(newRequest).build());
     }
 
@@ -130,42 +117,6 @@ public class AuthGatewayFilter implements GlobalFilter, Ordered {
     }
 
     /**
-     * 鉴权
-     *
-     * @param exchange    服务网络交换器
-     * @param resp        响应结果
-     * @param headerToken 请求头中的token
-     * @param jwt         解码token后的解码对象
-     *
-     * @return 返回结果
-     */
-    private Mono<Void> authenticate(ServerWebExchange exchange, ServerHttpResponse resp, String headerToken, DecodedJWT jwt) {
-        // 对于需要鉴权的 url，token 与 jwt 均不能为空
-        if (headerToken == null) {
-            return unauthorized(resp, "Invalid Token");
-        }
-
-        if (jwt == null) {
-            return unauthorized(resp, "Invalid Token");
-        }
-
-        //本地缓存全局变量中获取超时时间戳
-        Date expiresAt = JWTVerifierExtendTimeImpl.EXTENDTIME_CACHE_MAP.get(jwt.getToken());
-        if (expiresAt == null) {
-            expiresAt = jwt.getExpiresAt();
-        }
-        Date today = new Date();
-        // 鉴权
-        if (today.after(expiresAt)) {
-            return unauthorized(resp, "Token expired");
-        }
-        if (!hasPermission(jwt, exchange)) {
-            return ResponseUtil.webFluxResponseWriter(resp, SystemConstant.APPLICATION_JSON_UTF8, HttpStatus.FORBIDDEN, "unauthorized");
-        }
-        return null;
-    }
-
-    /**
      * filter排序
      *
      * @return
@@ -173,27 +124,6 @@ public class AuthGatewayFilter implements GlobalFilter, Ordered {
     @Override
     public int getOrder() {
         return Integer.MIN_VALUE;
-    }
-
-    /**
-     * 解析JWT Token
-     *
-     * @param token
-     *
-     * @return
-     */
-    private DecodedJWT resolveToken(String token) {
-        try {
-            JWTVerifierExtendTimeImpl verifierExtendTime = new JWTVerifierExtendTimeImpl(algorithm, new HashMap<>());
-            if (token.startsWith(SystemConstant.TOKEN_BEARER)) {
-                token = token.replace(SystemConstant.TOKEN_BEARER, "");
-            }
-            token = token.trim();
-            return verifierExtendTime.verify(token, authProperties.getExtendTimeSecond());
-        } catch (Exception e) {
-            log.error("AuthGatewayFilter#verify error. token:{}", token, e);
-            return null;
-        }
     }
 
     /**
@@ -223,14 +153,18 @@ public class AuthGatewayFilter implements GlobalFilter, Ordered {
     }
 
     /**
-     * 是否有权限
+     * 无权限时返回
      *
-     * @param jwt
-     * @param exchange
+     * @param resp
+     * @param msg
      *
      * @return
      */
-    private boolean hasPermission(DecodedJWT jwt, ServerWebExchange exchange) {
+    private Mono<Void> unauthorized(ServerHttpResponse resp, String msg) {
+        return ResponseUtil.webFluxResponseWriter(resp, SystemConstant.APPLICATION_JSON_UTF8, HttpStatus.UNAUTHORIZED, msg);
+    }
+
+    public boolean verifyAuthorization(DecodedJWT jwt, String requestUrl) throws JWTVerificationException {
         Claim authorities = jwt.getClaim(SystemConstant.JWT_AUTHORITIES);
         if (null == authorities) {
             return false;
@@ -242,19 +176,11 @@ public class AuthGatewayFilter implements GlobalFilter, Ordered {
         if (authoritySet.contains(SystemConstant.SUPPER_PERMISSION)) {
             return true;
         }
-        String path = exchange.getRequest().getURI().getRawPath();
-        return authoritySet.stream().anyMatch(path::startsWith);
+        return authoritySet.stream().anyMatch(requestUrl::startsWith);
     }
 
-    /**
-     * 无权限时返回
-     *
-     * @param resp
-     * @param msg
-     *
-     * @return
-     */
-    private Mono<Void> unauthorized(ServerHttpResponse resp, String msg) {
-        return ResponseUtil.webFluxResponseWriter(resp, SystemConstant.APPLICATION_JSON_UTF8, HttpStatus.UNAUTHORIZED, msg);
+    public DecodedJWT verifyJwt(String token) {
+        JWTVerifier verifier = JWT.require(Algorithm.HMAC256(SystemConstant.JWT_SECRET)).build();
+        return verifier.verify(token);
     }
 }

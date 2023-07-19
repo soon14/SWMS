@@ -29,17 +29,6 @@ public interface UserService extends UserDetailsService {
      */
     User getByUsername(String username);
 
-
-    /**
-     * 得到当前认证后的用户信息
-     *
-     * @return AuthUserInfo
-     *
-     * @throws Exception
-     */
-    AuthUserInfo getAuthUserInfo();
-
-
     /**
      * 添加用户
      *
