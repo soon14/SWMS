@@ -3,13 +3,12 @@ package com.swms.user.rest.controller;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
 import com.swms.user.api.UserContext;
+import com.swms.user.repository.entity.Menu;
 import com.swms.user.rest.common.BaseResource;
-import com.swms.user.rest.common.PageResult;
 import com.swms.user.rest.param.user.CurrentUserInfoUpdatedParam;
 import com.swms.user.rest.param.user.UserUpdatePasswordParam;
 import com.swms.user.service.CurrentUserService;
 import com.swms.user.service.MenuService;
-import com.swms.user.service.model.MenuTree;
 import com.swms.utils.http.Response;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -46,12 +45,12 @@ public class CurrentUserController extends BaseResource {
     @GetMapping("/getMenuTree")
     @ApiOperation("查询菜单树")
     public Object getMenuTree() throws Exception {
-        List<MenuTree> menuTrees = menuService.getMenuTreeByUser(UserContext.getCurrentUser());
-        return menuTrees.stream().collect(Collectors.toMap(MenuTree::getTitle, v -> v));
+        List<Menu> menuTrees = menuService.getMenuTreeByUser(UserContext.getCurrentUser());
+        return menuTrees.stream().collect(Collectors.toMap(Menu::getTitle, v -> v));
     }
 
     @PostMapping("/searchMenuTree")
-    @ApiOperation(value = "查询菜单树(前端使用)", response = MenuTree.class)
+    @ApiOperation(value = "查询菜单树(前端使用)", response = Menu.class)
     public Object searchMenuTree(@RequestParam Integer pageIndex,
                                  @RequestParam Integer pageSize) throws Exception {
         if (pageIndex == null || pageIndex <= 0) {
@@ -60,8 +59,8 @@ public class CurrentUserController extends BaseResource {
         if (pageSize == null || pageSize <= 0) {
             pageSize = 10;
         }
-        PageResult result = new PageResult();
-        List<MenuTree> menuTrees = menuService.getMenuTreeByUser(UserContext.getCurrentUser());
+        Map<String, Object> result = Maps.newHashMap();
+        List<Menu> menuTrees = menuService.getMenuTreeByUser(UserContext.getCurrentUser());
         if (null != menuTrees && menuTrees.size() >= pageSize) {
             int fromIndex = (pageIndex - 1) * pageSize;
             int toIndex = pageIndex * pageSize;
@@ -71,12 +70,12 @@ public class CurrentUserController extends BaseResource {
             if (toIndex > menuTrees.size()) {
                 toIndex = menuTrees.size();
             }
-            result.setResults(menuTrees.subList(fromIndex, toIndex));
+            result.put("results", menuTrees.subList(fromIndex, toIndex));
         } else {
-            result.setResults(menuTrees);
+            result.put("results", menuTrees);
         }
         if (menuTrees != null) {
-            result.setTotal(String.valueOf(menuTrees.size()));
+            result.put("total", String.valueOf(menuTrees.size()));
         }
         return Response.builder().data(result).build();
     }

@@ -1,7 +1,9 @@
 package com.swms.user.repository.mapper;
 
 import com.swms.user.repository.entity.UserRole;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
 
 /**
  * <p>
@@ -11,7 +13,13 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author sws
  * @since 2020-12-31
  */
-public interface UserRoleMapper extends BaseMapper<UserRole> {
+public interface UserRoleMapper extends JpaRepository<UserRole, Long> {
 
+    List<UserRole> findByUserId(Long userId);
 
+    List<UserRole> findByRoleId(Long roleId);
+
+    void deleteByRoleId(Long roleId);
+
+    void deleteByUserId(Long userId);
 }

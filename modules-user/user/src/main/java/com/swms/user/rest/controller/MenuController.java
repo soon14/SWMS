@@ -1,8 +1,5 @@
 package com.swms.user.rest.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.swms.user.repository.entity.Menu;
 import com.swms.user.rest.common.BaseResource;
 import com.swms.user.rest.param.CommonParam;
 import com.swms.user.rest.param.menu.MenuAddParam;
@@ -66,15 +63,6 @@ public class MenuController extends BaseResource {
             menuService.removeMenuById(u);
         });
         return Response.builder().build();
-    }
-
-    @PostMapping("/getMenus")
-    @ApiOperation("getMenus")
-    public Object getMenus() {
-        LambdaQueryWrapper<Menu> wrapper = Wrappers.<Menu>lambdaQuery()
-            .eq(Menu::getType, 3);
-        List<Menu> list = menuService.list(wrapper);
-        return list;
     }
 
     @PostMapping("/addList")

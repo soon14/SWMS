@@ -1,7 +1,7 @@
 package com.swms.user.repository.mapper;
 
 import com.swms.user.repository.entity.LoginLog;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  * <p>
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author sws
  * @since 2021-01-29
  */
-public interface LoginLogMapper extends BaseMapper<LoginLog> {
+public interface LoginLogMapper extends JpaRepository<LoginLog, Long> {
 
 }

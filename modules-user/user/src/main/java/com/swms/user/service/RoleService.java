@@ -1,7 +1,5 @@
 package com.swms.user.service;
 
-import com.swms.user.repository.entity.Role;
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.swms.user.rest.param.role.RoleAddParam;
 import com.swms.user.rest.param.role.RoleMenuUpdateParam;
 import com.swms.user.rest.param.role.RoleUpdateParam;
@@ -14,7 +12,7 @@ import com.swms.user.rest.param.role.RoleUpdateParam;
  * @author sws
  * @since 2020-12-31
  */
-public interface RoleService extends IService<Role> {
+public interface RoleService {
 
     /**
      * 判断角色编号是否存在

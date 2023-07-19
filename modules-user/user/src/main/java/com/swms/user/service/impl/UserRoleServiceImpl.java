@@ -1,18 +1,15 @@
 package com.swms.user.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.swms.user.repository.entity.UserRole;
 import com.swms.user.repository.mapper.UserRoleMapper;
 import com.swms.user.service.UserRoleService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -23,7 +20,10 @@ import java.util.stream.Collectors;
  * @since 2020-12-25
  */
 @Service
-public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> implements UserRoleService {
+public class UserRoleServiceImpl implements UserRoleService {
+
+    @Autowired
+    private UserRoleMapper userRoleMapper;
 
     @Override
     public void add(Long userId, Set<Long> roleIds) {
@@ -37,12 +37,11 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> i
                 userRole.setUserId(userId);
                 userRole.setRoleId(roleId);
                 return userRole;
-            })
-            .collect(Collectors.toList());
+            }).toList();
         if (userRoles.isEmpty()) {
             return;
         }
-        saveBatch(userRoles);
+        userRoleMapper.saveAll(userRoles);
     }
 
     @Override
@@ -50,9 +49,7 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> i
         if (null == roleId) {
             return;
         }
-        Wrapper<UserRole> wrapper = Wrappers.<UserRole>lambdaQuery()
-            .eq(UserRole::getRoleId, roleId);
-        remove(wrapper);
+        userRoleMapper.deleteByRoleId(roleId);
     }
 
     @Override
@@ -60,9 +57,7 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> i
         if (null == userId) {
             return;
         }
-        Wrapper<UserRole> wrapper = Wrappers.<UserRole>lambdaQuery()
-            .eq(UserRole::getUserId, userId);
-        remove(wrapper);
+        userRoleMapper.deleteByUserId(userId);
     }
 
     @Override
@@ -70,9 +65,7 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> i
         if (null == userId) {
             return Collections.emptyList();
         }
-        Wrapper<UserRole> wrapper = Wrappers.<UserRole>lambdaQuery()
-            .eq(UserRole::getUserId, userId);
-        return list(wrapper);
+        return userRoleMapper.findByUserId(userId);
     }
 
     @Override
@@ -81,8 +74,6 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> i
             return Collections.emptyList();
         }
 
-        Wrapper<UserRole> wrapper = Wrappers.<UserRole>lambdaQuery()
-            .eq(UserRole::getRoleId, roleId);
-        return list(wrapper);
+        return userRoleMapper.findByRoleId(roleId);
     }
 }

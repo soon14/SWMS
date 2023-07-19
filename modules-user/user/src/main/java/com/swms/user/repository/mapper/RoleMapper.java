@@ -1,8 +1,9 @@
 package com.swms.user.repository.mapper;
 
 import com.swms.user.repository.entity.Role;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -13,15 +14,9 @@ import java.util.List;
  * @author sws
  * @since 2020-12-31
  */
-public interface RoleMapper extends BaseMapper<Role> {
+public interface RoleMapper extends JpaRepository<Role, Long> {
 
-    /**
-     * 通过用户id获取角色信息
-     *
-     * @param userId 用户id
-     *
-     * @return 角色列表
-     */
-    List<Role> getRoleByUserId(Long userId);
+    List<Role> findByCodeIn(Collection<String> codes);
 
+    Role findByCode(String code);
 }

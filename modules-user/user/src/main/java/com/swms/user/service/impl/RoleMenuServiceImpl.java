@@ -1,12 +1,9 @@
 package com.swms.user.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.swms.user.repository.entity.RoleMenu;
 import com.swms.user.repository.mapper.RoleMenuMapper;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.swms.user.service.RoleMenuService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -21,16 +18,18 @@ import java.util.Collection;
  */
 @Service
 @AllArgsConstructor
-public class RoleMenuServiceImpl extends ServiceImpl<RoleMenuMapper, RoleMenu> implements RoleMenuService {
+public class RoleMenuServiceImpl implements RoleMenuService {
+
+    @Autowired
+    private RoleMenuMapper roleMenuMapper;
 
     @Override
     public void removeByMenuId(Collection<Long> menuIds) {
         if (menuIds == null || menuIds.isEmpty()) {
             return;
         }
-        Wrapper<RoleMenu> wrapper = Wrappers.<RoleMenu>lambdaQuery()
-            .in(RoleMenu::getMenuId, menuIds);
-        remove(wrapper);
+
+        roleMenuMapper.deleteByMenuIdIn(menuIds);
     }
 
     @Override
@@ -38,8 +37,6 @@ public class RoleMenuServiceImpl extends ServiceImpl<RoleMenuMapper, RoleMenu> i
         if (null == roleId) {
             return;
         }
-        Wrapper<RoleMenu> wrapper = Wrappers.<RoleMenu>lambdaQuery()
-            .eq(RoleMenu::getRoleId, roleId);
-        remove(wrapper);
+        roleMenuMapper.deleteByRoleId(roleId);
     }
 }

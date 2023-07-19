@@ -27,7 +27,7 @@ dependencies {
     implementation 'org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure'
 
     implementation "mysql:mysql-connector-java"
-    implementation 'com.baomidou:mybatis-plus-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
     implementation group: 'io.springfox', name: 'springfox-swagger2'
 

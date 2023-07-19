@@ -1,7 +1,5 @@
 package com.swms.user.service;
 
-import com.swms.user.repository.entity.OauthClientDetails;
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.swms.user.rest.param.oauthclient.OauthClientUpdatedParam;
 
 /**
@@ -12,7 +10,7 @@ import com.swms.user.rest.param.oauthclient.OauthClientUpdatedParam;
  * @author sws
  * @since 2020-12-31
  */
-public interface OauthClientDetailsService extends IService<OauthClientDetails> {
+public interface OauthClientDetailsService {
 
     /**
      * 添加授权客户端

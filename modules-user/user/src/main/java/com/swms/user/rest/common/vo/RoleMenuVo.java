@@ -1,6 +1,6 @@
 package com.swms.user.rest.common.vo;
 
-import com.swms.user.service.model.MenuTree;
+import com.swms.user.repository.entity.Menu;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -22,6 +22,6 @@ public class RoleMenuVo {
     private Set<Long> menuIds;
 
     @ApiModelProperty("当前登录的用户所拥有的菜单树")
-    private List<MenuTree> menuTree;
+    private List<Menu> menuTree;
 
 }

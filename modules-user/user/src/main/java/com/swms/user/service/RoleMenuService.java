@@ -1,8 +1,5 @@
 package com.swms.user.service;
 
-import com.swms.user.repository.entity.RoleMenu;
-import com.baomidou.mybatisplus.extension.service.IService;
-
 import java.util.Collection;
 
 
@@ -14,7 +11,7 @@ import java.util.Collection;
  * @author sws
  * @since 2020-12-31
  */
-public interface RoleMenuService extends IService<RoleMenu> {
+public interface RoleMenuService {
 
     /**
      * 通过菜单id删除

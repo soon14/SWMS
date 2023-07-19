@@ -1,17 +1,18 @@
 package com.swms.user.service.impl;
 
 import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.swms.user.api.UserContext;
 import com.swms.user.config.prop.SystemProp;
 import com.swms.user.repository.entity.Menu;
+import com.swms.user.repository.entity.Role;
+import com.swms.user.repository.entity.RoleMenu;
 import com.swms.user.repository.entity.User;
 import com.swms.user.repository.mapper.MenuMapper;
+import com.swms.user.repository.mapper.RoleMapper;
+import com.swms.user.repository.mapper.RoleMenuMapper;
 import com.swms.user.rest.common.enums.MenuTypeEnum;
 import com.swms.user.rest.common.enums.YesOrNo;
 import com.swms.user.rest.param.menu.MenuAddParam;
@@ -20,24 +21,24 @@ import com.swms.user.rest.param.menu.NavigationInfo;
 import com.swms.user.rest.param.menu.NavigationVo;
 import com.swms.user.service.MenuService;
 import com.swms.user.service.RoleMenuService;
-import com.swms.user.service.UserRoleService;
 import com.swms.user.service.UserService;
-import com.swms.user.service.model.MenuTree;
-import com.swms.user.utils.AbstractListToTree;
-import com.swms.user.api.UserContext;
 import com.swms.utils.exception.WmsException;
 import com.swms.utils.exception.code_enum.UserErrorDescEnum;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -49,11 +50,12 @@ import java.util.function.Consumer;
  */
 @Service
 @AllArgsConstructor
-public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements MenuService {
+public class MenuServiceImpl implements MenuService {
 
     private final SystemProp systemProp;
     private final RoleMenuService roleMenuService;
     private final UserService userService;
+    private final MenuMapper menuMapper;
 
     @Override
     public NavigationVo getUserNav(Set<String> roleCodes) {
@@ -61,11 +63,11 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
         if (roleCodes.isEmpty()) {
             return navigationVo;
         }
-        List<Menu> menus = null;
+        List<Menu> menus;
         if (roleCodes.contains(systemProp.getSuperRoleCode())) {
             menus = getAllNav(false);
         } else {
-            menus = baseMapper.getNavByRoleCodes(roleCodes);
+            menus = getMenuByRoleCodes(roleCodes);
         }
 
         if (menus == null || menus.isEmpty()) {
@@ -99,31 +101,22 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
 
     @Override
     public List<Menu> getAllNav(boolean haveDisable) {
-        LambdaQueryWrapper<Menu> wrapper = Wrappers.<Menu>lambdaQuery()
-            .in(Menu::getType, Integer.valueOf(MenuTypeEnum.MENU.getCode()), Integer.valueOf(MenuTypeEnum.PAGE.getCode()));
-        if (!haveDisable) {
-            wrapper.eq(Menu::getEnable, Integer.valueOf(YesOrNo.YES.getCode()));
-        }
-        wrapper.orderByAsc(Menu::getOrderNum);
-        return list(wrapper);
+        ArrayList<Integer> types = Lists.newArrayList(Integer.valueOf(MenuTypeEnum.MENU.getCode()),
+            Integer.valueOf(MenuTypeEnum.PAGE.getCode()));
+        return menuMapper.findByTypeInAndEnableOrderByOrderNum(types, Integer.valueOf(YesOrNo.YES.getCode()));
     }
 
     @Override
-    public List<MenuTree> getMenuTree() {
-        List<MenuTree> menus = baseMapper.getMenuTree();
-        if (menus == null || menus.isEmpty()) {
+    public List<Menu> getMenuTree() {
+        List<Menu> menus = menuMapper.findAll();
+        if (menus.isEmpty()) {
             return Collections.emptyList();
         }
-        return getListToTree().listToTree(menus);
+        return buildMenuTree(menus, 0L);
     }
 
     @Override
-    public List<MenuTree> getAllMenuTreeNoChildren() {
-        return baseMapper.getMenuTree();
-    }
-
-    @Override
-    public List<MenuTree> getMenuTreeByUser(String currentUsername) {
+    public List<Menu> getMenuTreeByUser(String currentUsername) {
         if (StrUtil.isEmpty(currentUsername)) {
             throw new WmsException(UserErrorDescEnum.NO_AUTHED_USER_FOUND);
         }
@@ -141,21 +134,21 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
         if (roleCodes.isEmpty()) {
             return Collections.emptyList();
         }
-        return getListToTree().listToTree(super.baseMapper.getMenuTreeByRole(roleCodes));
+
+        List<Menu> menus = getMenuByRoleCodes(roleCodes);
+        List<Menu> pageMenus = menus.stream().filter(v -> v.getType() == 1 || v.getType() == 2).collect(Collectors.toList());
+        return buildMenuTree(pageMenus, 0L);
     }
 
     @Transactional
     @Override
     public void updateStatus(Long menuId, int status) {
         Set<Long> menuIds = Sets.newHashSet(menuId);
-        resolveChildMenu(menuId, m -> {
-            menuIds.add(m.getId());
-        });
-        Wrapper<Menu> wrapper = Wrappers.<Menu>lambdaQuery()
-            .in(Menu::getId, menuIds);
-        Menu menu = new Menu();
-        menu.setEnable(status);
-        update(menu, wrapper);
+        resolveChildMenu(menuId, m -> menuIds.add(m.getId()));
+
+        List<Menu> menus = menuMapper.findAllById(menuIds);
+        menus.forEach(menu -> menu.setEnable(status));
+        menuMapper.saveAll(menus);
     }
 
     @Transactional
@@ -165,18 +158,17 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
             return;
         }
         Set<Long> menuIds = Sets.newHashSet(menuId);
-        resolveChildMenu(menuId, m -> {
-            menuIds.add(m.getId());
-        });
-        removeByIds(menuIds);
+        resolveChildMenu(menuId, m -> menuIds.add(m.getId()));
+        List<Menu> menus = menuMapper.findAllById(menuIds);
+        menuMapper.deleteAll(menus);
         roleMenuService.removeByMenuId(menuIds);
     }
 
     @Override
     public void updateMenu(MenuUpdatedParam param) {
-        Menu updateBean = new Menu();
-        BeanUtils.copyProperties(param, updateBean);
-        updateById(updateBean);
+        Menu menu = menuMapper.findById(param.getId()).orElseThrow();
+        BeanUtils.copyProperties(param, menu);
+        menuMapper.save(menu);
     }
 
     @Transactional
@@ -185,8 +177,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
         if (null == menuId) {
             return Collections.emptyList();
         }
-        Wrapper<Menu> wrapper = Wrappers.<Menu>lambdaQuery().eq(Menu::getParentId, menuId);
-        return list(wrapper);
+        return menuMapper.findByParentId(menuId);
     }
 
     private void resolveChildMenu(Long parentMenuId, Consumer<Menu> consumer) {
@@ -206,15 +197,16 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
     @Transactional
     @Override
     public void addMenu(MenuAddParam param) {
-        Menu add = new Menu();
-        BeanUtils.copyProperties(param, add);
-        if (null == add.getParentId()) {
-            add.setParentId(0L);
-        } else if (StrUtil.isBlank(add.getSystemCode())) {
-            add.setSystemCode(getById(add.getParentId()).getSystemCode());
+        Menu menu = new Menu();
+        BeanUtils.copyProperties(param, menu);
+        if (null == menu.getParentId()) {
+            menu.setParentId(0L);
+        } else if (StrUtil.isBlank(menu.getSystemCode())) {
+            Menu parentMenu = menuMapper.findById(param.getParentId()).orElseThrow();
+            menu.setSystemCode(parentMenu.getSystemCode());
         }
-        add.setEnable(Integer.valueOf(YesOrNo.YES.getCode()));
-        save(add);
+        menu.setEnable(Integer.valueOf(YesOrNo.YES.getCode()));
+        menuMapper.save(menu);
     }
 
     /**
@@ -229,16 +221,11 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
         navigationInfo.setId(menu.getId());
         navigationInfo.setParentId(menu.getParentId());
         navigationInfo.setKey(menu.getPermissions());
-        navigationInfo.setComponent(menu.getComponent());
         navigationInfo.setPath(menu.getPath());
         NavigationInfo.Meta meta = new NavigationInfo.Meta();
         meta.setTitle(menu.getTitle());
         meta.setShow(true);
         meta.setIcon(menu.getIcon());
-        if (Objects.equals(menu.getType(), MenuTypeEnum.PAGE.getCode())) {
-            // 菜单
-            meta.setTarget(menu.getHtmlTarget());
-        }
         navigationInfo.setMeta(meta);
         return navigationInfo;
     }
@@ -282,29 +269,31 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
         }
     }
 
-    public static AbstractListToTree<MenuTree> getListToTree() {
-        return new AbstractListToTree<MenuTree>() {
+    @Autowired
+    private RoleMenuMapper roleMenuMapper;
 
-            @Override
-            protected Long getKey(MenuTree node) {
-                return node.getId();
-            }
+    @Autowired
+    private RoleMapper roleMapper;
 
-            @Override
-            protected Long getParentId(MenuTree node) {
-                return node.getParentId();
-            }
+    private List<Menu> getMenuByRoleCodes(Collection<String> roleCodes) {
+        List<Role> roles = roleMapper.findByCodeIn(roleCodes);
+        List<RoleMenu> roleMenus = roleMenuMapper.findByRoleIdIn(roles.stream().map(Role::getId).toList());
+        return menuMapper.findAllById(roleMenus.stream().map(RoleMenu::getMenuId).toList());
+    }
 
-            @Override
-            protected List<MenuTree> getChildrenList(MenuTree node) {
-                return node.getChildren();
-            }
 
-            @Override
-            protected void setChildrenList(MenuTree parentNode, List<MenuTree> childNodes) {
-                parentNode.setChildren(childNodes);
+    public static List<Menu> buildMenuTree(List<Menu> menuList, Long parentId) {
+        List<Menu> menuTree = new ArrayList<>();
+
+        for (Menu menu : menuList) {
+            if (Objects.equals(menu.getParentId(), parentId)) {
+                List<Menu> subMenu = buildMenuTree(menuList, menu.getId());
+                menu.setChildren(subMenu);
+                menuTree.add(menu);
             }
-        };
+        }
+
+        return menuTree;
     }
 
 }

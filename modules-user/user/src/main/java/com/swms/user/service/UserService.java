@@ -1,13 +1,9 @@
 package com.swms.user.service;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.swms.user.repository.entity.User;
-import com.baomidou.mybatisplus.extension.service.IService;
-import com.swms.user.service.model.AuthUserInfo;
-import com.swms.user.repository.model.UserHasRole;
 import com.swms.user.rest.param.user.UserAddParam;
-import com.swms.user.rest.param.user.UserPageParam;
 import com.swms.user.rest.param.user.UserUpdateParam;
+import com.swms.user.service.model.AuthUserInfo;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
@@ -21,16 +17,7 @@ import java.util.Set;
  * @author sws
  * @since 2020-12-31
  */
-public interface UserService extends IService<User>, UserDetailsService {
-
-    /**
-     * 分页查询用户列表
-     *
-     * @param param 参数
-     *
-     * @return 分页结果
-     */
-    IPage<UserHasRole> getPage(UserPageParam param);
+public interface UserService extends UserDetailsService {
 
 
     /**
@@ -50,7 +37,7 @@ public interface UserService extends IService<User>, UserDetailsService {
      *
      * @throws Exception
      */
-    AuthUserInfo getAuthUserInfo() throws Exception;
+    AuthUserInfo getAuthUserInfo();
 
 
     /**
@@ -60,7 +47,7 @@ public interface UserService extends IService<User>, UserDetailsService {
      *
      * @throws Exception 添加异常
      */
-    void addUser(UserAddParam param) throws Exception;
+    void addUser(UserAddParam param);
 
 
     /**
@@ -70,7 +57,7 @@ public interface UserService extends IService<User>, UserDetailsService {
      *
      * @throws Exception 添加异常
      */
-    void updateUser(UserUpdateParam param) throws Exception;
+    void updateUser(UserUpdateParam param);
 
     /**
      * 修改用户状态
@@ -80,7 +67,7 @@ public interface UserService extends IService<User>, UserDetailsService {
      *
      * @throws Exception 更新状态异常
      */
-    void updateStatus(Long userId, Integer status) throws Exception;
+    void updateStatus(Long userId, Integer status);
 
     /**
      * 重置用户密码
@@ -90,7 +77,7 @@ public interface UserService extends IService<User>, UserDetailsService {
      *
      * @throws Exception 重置密码异常
      */
-    void resetPassword(Long userId, String newPassword) throws Exception;
+    void resetPassword(Long userId, String newPassword);
 
 
     /**
@@ -100,7 +87,7 @@ public interface UserService extends IService<User>, UserDetailsService {
      *
      * @throws Exception
      */
-    void delete(Long userId) throws Exception;
+    void delete(Long userId);
 
     /**
      * 得到超级管理员用户
@@ -123,5 +110,7 @@ public interface UserService extends IService<User>, UserDetailsService {
      *
      * @param param
      */
-    void syncUser(UserAddParam param) throws Exception;
+    void syncUser(UserAddParam param);
+
+    User getById(Long id);
 }

@@ -1,11 +1,9 @@
 package com.swms.user.service;
 
 import com.swms.user.repository.entity.Menu;
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.swms.user.rest.param.menu.MenuAddParam;
 import com.swms.user.rest.param.menu.MenuUpdatedParam;
 import com.swms.user.rest.param.menu.NavigationVo;
-import com.swms.user.service.model.MenuTree;
 
 import java.util.List;
 import java.util.Set;
@@ -18,7 +16,7 @@ import java.util.Set;
  * @author sws
  * @since 2020-12-31
  */
-public interface MenuService extends IService<Menu> {
+public interface MenuService {
 
     /**
      * 得到当前认证的用户导航
@@ -43,14 +41,7 @@ public interface MenuService extends IService<Menu> {
      *
      * @return List
      */
-    List<MenuTree> getMenuTree();
-
-    /**
-     * 获取所有菜单
-     *
-     * @return
-     */
-    List<MenuTree> getAllMenuTreeNoChildren();
+    List<Menu> getMenuTree();
 
     /**
      * 根据当前登录的用户得到系统导航树
@@ -61,7 +52,7 @@ public interface MenuService extends IService<Menu> {
      *
      * @throws Exception 获取异常
      */
-    List<MenuTree> getMenuTreeByUser(String currentUsername) throws Exception;
+    List<Menu> getMenuTreeByUser(String currentUsername) throws Exception;
 
     /**
      * 修改状态

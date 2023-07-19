@@ -4,6 +4,7 @@ import cn.zhxu.bs.MapSearcher;
 import cn.zhxu.bs.SearchResult;
 import cn.zhxu.bs.util.MapUtils;
 import com.google.common.collect.Maps;
+import com.swms.search.parameter.SearchPageResult;
 import com.swms.search.parameter.SearchParam;
 import com.swms.search.utils.SearchUtils;
 import com.swms.utils.http.Response;
@@ -11,7 +12,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import javassist.CannotCompileException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,8 +35,10 @@ public class SearchController {
         Map<String, Object> paramMap = MapUtils.flat(request.getParameterMap());
         paramMap.putAll(requestMap);
 
-        return Response.builder().data(beanSearcher
-            .search(SearchUtils.createClass(searchParam), SearchUtils.handleArrayParams(paramMap))).build();
+        SearchResult<Map<String, Object>> search = beanSearcher.search(SearchUtils.createClass(searchParam), SearchUtils.handleArrayParams(paramMap));
+        SearchPageResult searchPageResult = SearchPageResult.builder().items(search.getDataList())
+            .total(search.getTotalCount().intValue()).build();
+        return Response.builder().data(searchPageResult).build();
     }
 
     @PostMapping("searchSelectResult")

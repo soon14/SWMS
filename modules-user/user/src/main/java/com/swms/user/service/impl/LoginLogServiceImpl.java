@@ -1,11 +1,11 @@
 package com.swms.user.service.impl;
 
-import com.swms.user.service.LoginLogService;
 import com.swms.user.repository.entity.LoginLog;
 import com.swms.user.repository.mapper.LoginLogMapper;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.swms.user.rest.common.enums.YesOrNo;
+import com.swms.user.service.LoginLogService;
 import com.swms.user.utils.TimeUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -17,7 +17,10 @@ import org.springframework.stereotype.Service;
  * @since 2021-01-29
  */
 @Service
-public class LoginLogServiceImpl extends ServiceImpl<LoginLogMapper, LoginLog> implements LoginLogService {
+public class LoginLogServiceImpl implements LoginLogService {
+
+    @Autowired
+    private LoginLogMapper loginLogMapper;
 
     /**
      * 自行实现ip转换物理地址
@@ -38,7 +41,7 @@ public class LoginLogServiceImpl extends ServiceImpl<LoginLogMapper, LoginLog> i
         loginLog.setLoginResult(Integer.valueOf(YesOrNo.YES.getCode()));
         loginLog.setLoginAddress(getAddressByIp(ip));
         setTime(loginLog, loginTimestamp);
-        save(loginLog);
+        loginLogMapper.save(loginLog);
     }
 
     @Override
@@ -50,7 +53,7 @@ public class LoginLogServiceImpl extends ServiceImpl<LoginLogMapper, LoginLog> i
         loginLog.setLoginFailureMsg(failureMsg);
         loginLog.setLoginAddress(getAddressByIp(ip));
         setTime(loginLog, loginTimestamp);
-        save(loginLog);
+        loginLogMapper.save(loginLog);
     }
 
 

@@ -1,7 +1,10 @@
 package com.swms.user.repository.mapper;
 
 import com.swms.user.repository.entity.RoleMenu;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.Collection;
+import java.util.List;
 
 /**
  * <p>
@@ -11,7 +14,11 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author sws
  * @since 2020-12-31
  */
-public interface RoleMenuMapper extends BaseMapper<RoleMenu> {
+public interface RoleMenuMapper extends JpaRepository<RoleMenu, Long> {
 
+    List<RoleMenu> findByRoleIdIn(Collection<Long> roleIds);
 
+    void deleteByMenuIdIn(Collection<Long> menuIds);
+
+    void deleteByRoleId(Long roleId);
 }

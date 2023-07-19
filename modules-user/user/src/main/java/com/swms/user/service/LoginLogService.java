@@ -1,8 +1,5 @@
 package com.swms.user.service;
 
-import com.swms.user.repository.entity.LoginLog;
-import com.baomidou.mybatisplus.extension.service.IService;
-
 /**
  * <p>
  * 登录日志 服务类
@@ -11,7 +8,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author sws
  * @since 2021-01-29
  */
-public interface LoginLogService extends IService<LoginLog> {
+public interface LoginLogService {
 
     /**
      * 新增登录成功日志

@@ -1,6 +1,5 @@
 package com.swms.user.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.swms.user.repository.entity.UserRole;
 
 import java.util.List;
@@ -14,7 +13,7 @@ import java.util.Set;
  * @author sws
  * @since 2020-12-31
  */
-public interface UserRoleService extends IService<UserRole> {
+public interface UserRoleService {
 
     /**
      * 新增映射
