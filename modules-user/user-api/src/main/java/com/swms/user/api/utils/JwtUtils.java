@@ -23,7 +23,7 @@ public class JwtUtils {
     @Value("${Jwt.jwtSecret:linsan}")
     private String jwtSecret;
 
-    @Value("${Jwt.jwtExpirationMs:600000}")
+    @Value("${Jwt.jwtExpirationMs:6000000}")
     private int jwtExpirationMs;
 
     @Value("${Jwt.jwtCookieName:Authorization}")

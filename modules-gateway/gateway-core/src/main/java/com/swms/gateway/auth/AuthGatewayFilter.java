@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.google.common.collect.Lists;
@@ -87,7 +88,13 @@ public class AuthGatewayFilter implements GlobalFilter, Ordered {
         }
 
         token = CompressUtils.decompress(Base64.decodeBase64(token));
-        DecodedJWT jwt = verifyJwt(token);
+
+        DecodedJWT jwt = null;
+        try {
+            jwt = verifyJwt(token);
+        } catch (TokenExpiredException e) {
+            return unauthorized(exchange.getResponse(), "token is expired.");
+        }
         if (jwt == null) {
             return unauthorized(exchange.getResponse(), "token is not illegal.");
         }
