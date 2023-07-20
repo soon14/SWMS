@@ -20,5 +20,6 @@ server:
 bean-searcher:
   params:
     pagination:
-      maxAllowedSize: 500
+      maxAllowedSize: 100000
       start: 1
+      size: perPage

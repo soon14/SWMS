@@ -19,6 +19,7 @@ import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
@@ -42,14 +43,14 @@ public class AuthGatewayFilter implements GlobalFilter, Ordered {
     private static final List<String> USER_WHITE_AUTH_LIST = Lists.newArrayList(
         "/user/api/currentUser/getMenuTree",
         "/user/api/auth/signout",
-        "/search/search"
+        "/search/search",
+        "/search/search/searchSelectResult",
+        "/mdm/dictionary/getAll"
     );
 
-    private AuthProperties authProperties;
-    private Algorithm algorithm;
+    private final AuthProperties authProperties;
 
     public AuthGatewayFilter(AuthProperties authProperties) {
-        this.algorithm = Algorithm.HMAC256(authProperties.getSigningKey());
         this.authProperties = authProperties;
     }
 
@@ -89,7 +90,7 @@ public class AuthGatewayFilter implements GlobalFilter, Ordered {
 
         token = CompressUtils.decompress(Base64.decodeBase64(token));
 
-        DecodedJWT jwt = null;
+        DecodedJWT jwt;
         try {
             jwt = verifyJwt(token);
         } catch (TokenExpiredException e) {
@@ -100,7 +101,7 @@ public class AuthGatewayFilter implements GlobalFilter, Ordered {
         }
 
         //authorization verify
-        if (!USER_WHITE_AUTH_LIST.contains(requestUrl) && !verifyAuthorization(jwt, requestUrl)) {
+        if (!USER_WHITE_AUTH_LIST.contains(requestUrl) && !verifyAuthorization(jwt, requestUrl, exchange.getRequest().getMethod())) {
             return unauthorized(exchange.getResponse(), "request access denied, may be unauthorized.");
         }
 
@@ -171,7 +172,7 @@ public class AuthGatewayFilter implements GlobalFilter, Ordered {
         return ResponseUtil.webFluxResponseWriter(resp, SystemConstant.APPLICATION_JSON_UTF8, HttpStatus.UNAUTHORIZED, msg);
     }
 
-    public boolean verifyAuthorization(DecodedJWT jwt, String requestUrl) throws JWTVerificationException {
+    public boolean verifyAuthorization(DecodedJWT jwt, String requestUrl, HttpMethod httpMethod) throws JWTVerificationException {
         Claim authorities = jwt.getClaim(SystemConstant.JWT_AUTHORITIES);
         if (null == authorities) {
             return false;
@@ -183,7 +184,8 @@ public class AuthGatewayFilter implements GlobalFilter, Ordered {
         if (authoritySet.contains(SystemConstant.SUPPER_PERMISSION)) {
             return true;
         }
-        return authoritySet.stream().anyMatch(requestUrl::startsWith);
+        String url = httpMethod.name().toLowerCase() + ":" + requestUrl;
+        return authoritySet.stream().anyMatch(url::startsWith);
     }
 
     public DecodedJWT verifyJwt(String token) {

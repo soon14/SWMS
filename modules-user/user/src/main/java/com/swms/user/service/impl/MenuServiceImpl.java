@@ -4,7 +4,6 @@ import cn.hutool.core.util.StrUtil;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.swms.user.api.UserContext;
 import com.swms.user.config.prop.SystemProp;
 import com.swms.user.repository.entity.Menu;
 import com.swms.user.repository.entity.Role;
@@ -15,8 +14,8 @@ import com.swms.user.repository.mapper.MenuMapper;
 import com.swms.user.repository.mapper.RoleMapper;
 import com.swms.user.repository.mapper.RoleMenuMapper;
 import com.swms.user.repository.mapper.UserRoleMapper;
-import com.swms.user.rest.common.enums.MenuTypeEnum;
-import com.swms.user.rest.common.enums.YesOrNo;
+import com.swms.user.api.dto.constants.MenuTypeEnum;
+import com.swms.user.api.dto.constants.YesOrNo;
 import com.swms.user.rest.param.menu.MenuAddParam;
 import com.swms.user.rest.param.menu.MenuUpdatedParam;
 import com.swms.user.rest.param.menu.NavigationInfo;
@@ -104,9 +103,9 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public List<Menu> getAllNav(boolean haveDisable) {
-        ArrayList<Integer> types = Lists.newArrayList(Integer.valueOf(MenuTypeEnum.MENU.getCode()),
-            Integer.valueOf(MenuTypeEnum.PAGE.getCode()));
-        return menuMapper.findByTypeInAndEnableOrderByOrderNum(types, Integer.valueOf(YesOrNo.YES.getCode()));
+        ArrayList<Integer> types = Lists.newArrayList(Integer.valueOf(MenuTypeEnum.MENU.getValue()),
+            Integer.valueOf(MenuTypeEnum.PAGE.getValue()));
+        return menuMapper.findByTypeInAndEnableOrderByOrderNum(types, Integer.valueOf(YesOrNo.YES.getValue()));
     }
 
     @Override
@@ -134,15 +133,15 @@ public class MenuServiceImpl implements MenuService {
         boolean containSuperRole = roleCodes.stream().anyMatch(u -> u.equals(systemProp.getSuperRoleCode()));
         if (containSuperRole) {
             // 为超级管理员
-            return getMenuTree();
+            List<Menu> menus = menuMapper.findAll().stream().filter(v -> v.getType() == 1 || v.getType() == 2).toList();
+            return buildMenuTree(menus, 0L);
         }
         if (roleCodes.isEmpty()) {
             return Collections.emptyList();
         }
 
-        List<Menu> menus = getMenuByRoleCodes(roleCodes);
-        List<Menu> pageMenus = menus.stream().filter(v -> v.getType() == 1 || v.getType() == 2).collect(Collectors.toList());
-        return buildMenuTree(pageMenus, 0L);
+        List<Menu> menus = getMenuByRoleCodes(roleCodes).stream().filter(v -> v.getType() == 1 || v.getType() == 2).toList();
+        return buildMenuTree(menus, 0L);
     }
 
     @Transactional
@@ -210,7 +209,7 @@ public class MenuServiceImpl implements MenuService {
             Menu parentMenu = menuMapper.findById(param.getParentId()).orElseThrow();
             menu.setSystemCode(parentMenu.getSystemCode());
         }
-        menu.setEnable(Integer.valueOf(YesOrNo.YES.getCode()));
+        menu.setEnable(Integer.valueOf(YesOrNo.YES.getValue()));
         menuMapper.save(menu);
     }
 
@@ -267,7 +266,7 @@ public class MenuServiceImpl implements MenuService {
         if (menu == null) {
             return null;
         }
-        if (Objects.equals(menu.getType(), Integer.valueOf(MenuTypeEnum.PAGE.getCode()))) {
+        if (Objects.equals(menu.getType(), Integer.valueOf(MenuTypeEnum.PAGE.getValue()))) {
             return menu.getPath();
         } else {
             return getFirstRedirect(menu.getId(), notTopMenus);

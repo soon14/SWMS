@@ -2,7 +2,7 @@ package com.swms.user.service.impl;
 
 import com.swms.user.repository.entity.LoginLog;
 import com.swms.user.repository.mapper.LoginLogMapper;
-import com.swms.user.rest.common.enums.YesOrNo;
+import com.swms.user.api.dto.constants.YesOrNo;
 import com.swms.user.service.LoginLogService;
 import com.swms.user.utils.TimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +38,7 @@ public class LoginLogServiceImpl implements LoginLogService {
         LoginLog loginLog = new LoginLog();
         loginLog.setUsername(username);
         loginLog.setLoginIp(ip);
-        loginLog.setLoginResult(Integer.valueOf(YesOrNo.YES.getCode()));
+        loginLog.setLoginResult(Integer.valueOf(YesOrNo.YES.getValue()));
         loginLog.setLoginAddress(getAddressByIp(ip));
         setTime(loginLog, loginTimestamp);
         loginLogMapper.save(loginLog);
@@ -49,7 +49,7 @@ public class LoginLogServiceImpl implements LoginLogService {
         LoginLog loginLog = new LoginLog();
         loginLog.setUsername(username);
         loginLog.setLoginIp(ip);
-        loginLog.setLoginResult(Integer.valueOf(YesOrNo.NO.getCode()));
+        loginLog.setLoginResult(Integer.valueOf(YesOrNo.NO.getValue()));
         loginLog.setLoginFailureMsg(failureMsg);
         loginLog.setLoginAddress(getAddressByIp(ip));
         setTime(loginLog, loginTimestamp);

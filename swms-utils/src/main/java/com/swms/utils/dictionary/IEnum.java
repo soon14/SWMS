@@ -1,4 +1,4 @@
-package com.swms.user.rest.common.enums;
+package com.swms.utils.dictionary;
 
 /**
  * @author sws
@@ -12,22 +12,13 @@ public interface IEnum {
      *
      * @return 枚举Code
      */
-    String getCode();
+    String getValue();
 
     /**
      * 获得枚举的Desc
      *
      * @return 枚举Desc
      */
-    String getDesc();
+    String getLabel();
 
-
-    /**
-     * 获取枚举的类名
-     *
-     * @return ""
-     */
-    default String getName() {
-        return "";
-    }
 }

@@ -3,6 +3,7 @@ package com.swms.mdm.config.infrastructure.persistence.transfer;
 import static org.mapstruct.NullValueCheckStrategy.ALWAYS;
 import static org.mapstruct.NullValueMappingStrategy.RETURN_NULL;
 
+import com.swms.mdm.api.config.dto.DictionaryDTO;
 import com.swms.mdm.config.domain.entity.Dictionary;
 import com.swms.mdm.config.infrastructure.persistence.po.DictionaryPO;
 import org.mapstruct.Mapper;
@@ -18,6 +19,8 @@ import java.util.List;
     nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface DictionaryPOTransfer {
     DictionaryPO toPO(Dictionary dictionary);
+
+    List<DictionaryPO> toPOS(List<Dictionary> dictionary);
 
     Dictionary toDO(DictionaryPO id);
 

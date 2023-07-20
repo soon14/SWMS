@@ -1,5 +1,6 @@
 package com.swms.mdm.config.infrastructure.repository.impl;
 
+import com.swms.mdm.api.config.dto.DictionaryDTO;
 import com.swms.mdm.config.domain.entity.Dictionary;
 import com.swms.mdm.config.domain.repository.DictionaryRepository;
 import com.swms.mdm.config.infrastructure.persistence.mapper.DictionaryPORepository;
@@ -38,5 +39,10 @@ public class DictionaryRepositoryImpl implements DictionaryRepository {
     @Override
     public List<Dictionary> getAll() {
         return dictionaryPOTransfer.toDOS(dictionaryPORepository.findAll());
+    }
+
+    @Override
+    public void saveAll(List<Dictionary> dictionarys) {
+        dictionaryPORepository.saveAll(dictionaryPOTransfer.toPOS(dictionarys));
     }
 }

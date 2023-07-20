@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Response<T> {
 
-    private transient static final Object DEFAULT_DATA = new Object();
+    private static final transient Object DEFAULT_DATA = new Object();
 
     /**
      * 错误码

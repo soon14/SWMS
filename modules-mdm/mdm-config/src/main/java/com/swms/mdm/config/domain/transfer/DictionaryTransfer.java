@@ -14,6 +14,8 @@ import org.mapstruct.Named;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring",
     nullValueCheckStrategy = ALWAYS,
     nullValueMappingStrategy = RETURN_NULL,
@@ -24,6 +26,8 @@ public interface DictionaryTransfer {
     @Mapping(source = "name", target = "name", qualifiedByName = "toMultiLanguage")
     @Mapping(source = "description", target = "description", qualifiedByName = "toMultiLanguage")
     Dictionary toDO(DictionaryDTO dictionaryDTO);
+
+    List<Dictionary> toDOS(List<DictionaryDTO> dictionaryDTOS);
 
     @Mapping(source = "name", target = "name", qualifiedByName = "toCurrentLanguage")
     @Mapping(source = "description", target = "description", qualifiedByName = "toCurrentLanguage")

@@ -23,7 +23,7 @@ public class SystemProp {
     /**
      * 超级角色的编码
      */
-    @Value("${superRoleCode: super_admin}")
+    @Value("${superRoleCode:superAdmin}")
     private String superRoleCode;
 
     /**

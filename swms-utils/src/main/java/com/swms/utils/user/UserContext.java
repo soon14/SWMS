@@ -1,4 +1,4 @@
-package com.swms.user.api;
+package com.swms.utils.user;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;

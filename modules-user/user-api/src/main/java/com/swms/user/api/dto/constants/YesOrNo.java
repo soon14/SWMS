@@ -1,5 +1,7 @@
-package com.swms.user.rest.common.enums;
+package com.swms.user.api.dto.constants;
 
+import com.swms.utils.dictionary.Dictionary;
+import com.swms.utils.dictionary.IEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -11,6 +13,7 @@ import lombok.Getter;
 @SuppressWarnings("ALL")
 @Getter
 @AllArgsConstructor
+@Dictionary
 public enum YesOrNo implements IEnum {
     YES("1", "是"),
     NO("0", "否");
@@ -19,17 +22,12 @@ public enum YesOrNo implements IEnum {
     private String desc;
 
     @Override
-    public String getCode() {
+    public String getValue() {
         return code;
     }
 
     @Override
-    public String getDesc() {
+    public String getLabel() {
         return desc;
-    }
-
-    @Override
-    public String getName() {
-        return YesOrNo.class.getSimpleName();
     }
 }

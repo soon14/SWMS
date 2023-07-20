@@ -1,12 +1,10 @@
 package com.swms.user.rest.controller;
 
 
-import com.swms.user.api.UserContext;
 import com.swms.user.repository.entity.User;
 import com.swms.user.repository.entity.UserRole;
 import com.swms.user.repository.model.UserHasRole;
 import com.swms.user.rest.common.BaseResource;
-import com.swms.user.rest.param.menu.NavigationVo;
 import com.swms.user.rest.param.user.UserAddParam;
 import com.swms.user.rest.param.user.UserRoleFetchParam;
 import com.swms.user.rest.param.user.UserUpdateParam;
@@ -14,7 +12,6 @@ import com.swms.user.rest.param.user.UserUpdateStatusParam;
 import com.swms.user.service.MenuService;
 import com.swms.user.service.UserRoleService;
 import com.swms.user.service.UserService;
-import com.swms.user.service.model.AuthUserInfo;
 import com.swms.utils.http.Response;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -32,7 +29,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * 用户资源接口
@@ -50,7 +46,6 @@ public class UserController extends BaseResource {
 
     private final UserService userService;
     private final UserRoleService userRoleService;
-    private final MenuService menuService;
 
     @GetMapping("/{id}")
     @ApiOperation(value = "查询用户", response = UserHasRole.class, responseContainer = "List")
@@ -69,12 +64,6 @@ public class UserController extends BaseResource {
     public Response<Object> add(@RequestBody @Valid UserAddParam param) throws Exception {
         userService.addUser(param);
         return Response.builder().build();
-    }
-
-    @PostMapping("/getRoleByUser")
-    @ApiOperation(value = "查询用户所属角色（修改用户时, 查询当前用户所属的角色）", response = UserRole.class)
-    public Object getRoleByUser(@RequestBody @Valid UserRoleFetchParam param) {
-        return Response.builder().data(userRoleService.getByUserId(param.getUserId())).build();
     }
 
     @PostMapping("/update")
@@ -103,12 +92,6 @@ public class UserController extends BaseResource {
     @ApiOperation("删除用户")
     public Object deleteUser(@PathVariable Long id) {
         userService.delete(id);
-        return Response.builder().build();
-    }
-
-    @PostMapping("/logout")
-    @ApiOperation("退出登录")
-    public Object logout() {
         return Response.builder().build();
     }
 

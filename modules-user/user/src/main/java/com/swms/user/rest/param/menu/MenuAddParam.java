@@ -2,6 +2,7 @@ package com.swms.user.rest.param.menu;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -69,7 +70,7 @@ public class MenuAddParam {
      */
     @ApiModelProperty(name = "orderNum", value = "排序", required = true)
     @NotNull(message = "排序不能为空")
-    @Size(min = 0, max = 1000000000, message = "排序值必须为1000000000以内的非负整数")
+    @Min(1)
     private Integer orderNum;
 
     /**

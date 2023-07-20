@@ -14,4 +14,5 @@ public interface DictionaryRepository {
 
     List<Dictionary> getAll();
 
+    void saveAll(List<Dictionary> dictionarys);
 }

@@ -12,6 +12,7 @@ import jakarta.persistence.Transient;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -33,6 +34,7 @@ import java.util.List;
 @EntityListeners(AuditingEntityListener.class)
 @Table(
 )
+@DynamicUpdate
 @Accessors(chain = true)
 public class Menu extends BaseUserPO implements Serializable {
 
@@ -50,8 +52,8 @@ public class Menu extends BaseUserPO implements Serializable {
     /**
      * 所属系统 ess/iwms/algo
      */
-    @ApiModelProperty("所属系统 ESS/IWMS/ALGO")
-    @Column(nullable = false, columnDefinition = "varchar(64) comment '所属系统 ESS/IWMS/ALGO'")
+    @ApiModelProperty("所属系统")
+    @Column(nullable = false, columnDefinition = "varchar(64) comment '所属系统'")
     private String systemCode;
 
     /**

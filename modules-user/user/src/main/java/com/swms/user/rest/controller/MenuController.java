@@ -1,7 +1,6 @@
 package com.swms.user.rest.controller;
 
 import com.swms.user.rest.common.BaseResource;
-import com.swms.user.rest.param.CommonParam;
 import com.swms.user.rest.param.menu.MenuAddParam;
 import com.swms.user.rest.param.menu.MenuUpdateStatusParam;
 import com.swms.user.rest.param.menu.MenuUpdatedParam;
@@ -12,6 +11,8 @@ import io.swagger.annotations.ApiOperation;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -56,12 +57,10 @@ public class MenuController extends BaseResource {
     }
 
 
-    @PostMapping("/delete")
+    @DeleteMapping("/{id}")
     @ApiOperation("删除菜单")
-    public Object delete(@RequestBody @Valid CommonParam param) {
-        param.getIds().forEach(u -> {
-            menuService.removeMenuById(u);
-        });
+    public Object delete(@PathVariable @Valid Long id) {
+        menuService.removeMenuById(id);
         return Response.builder().build();
     }
 

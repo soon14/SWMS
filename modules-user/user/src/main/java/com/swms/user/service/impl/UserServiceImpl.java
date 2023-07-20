@@ -4,7 +4,6 @@ import cn.hutool.core.util.StrUtil;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import com.swms.user.api.UserContext;
 import com.swms.user.config.prop.SystemProp;
 import com.swms.user.repository.entity.Menu;
 import com.swms.user.repository.entity.Role;
@@ -16,19 +15,19 @@ import com.swms.user.repository.mapper.RoleMapper;
 import com.swms.user.repository.mapper.RoleMenuMapper;
 import com.swms.user.repository.mapper.UserMapper;
 import com.swms.user.repository.mapper.UserRoleMapper;
-import com.swms.user.rest.common.enums.UserTypeEnum;
-import com.swms.user.rest.common.enums.YesOrNo;
+import com.swms.user.api.dto.constants.UserTypeEnum;
+import com.swms.user.api.dto.constants.YesOrNo;
 import com.swms.user.rest.param.user.UserAddParam;
 import com.swms.user.rest.param.user.UserUpdateParam;
 import com.swms.user.service.UserRoleService;
 import com.swms.user.service.UserService;
-import com.swms.user.service.model.AuthUserInfo;
 import com.swms.user.service.model.PermissionGrantedAuthority;
-import com.swms.user.service.model.RoleGrantedAuthority;
 import com.swms.user.service.model.UserDetailsModel;
 import com.swms.utils.exception.WmsException;
 import com.swms.utils.exception.code_enum.UserErrorDescEnum;
+import com.swms.utils.user.UserContext;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +53,6 @@ import java.util.stream.Collectors;
  * @author sws
  * @since 2020-12-25
  */
-@SuppressWarnings("ALL")
 @Service
 @Slf4j
 public class UserServiceImpl implements UserService {
@@ -70,8 +68,6 @@ public class UserServiceImpl implements UserService {
     private UserRoleMapper userRoleMapper;
     @Autowired
     private RoleMenuMapper roleMenuMapper;
-
-    private User superUser;
 
     public UserServiceImpl(RoleMapper roleMapper,
                            UserRoleService userRoleService,
@@ -101,7 +97,7 @@ public class UserServiceImpl implements UserService {
             throw new WmsException(UserErrorDescEnum.ERR_WRONG_CREDENTIALS);
         }
 
-        if (UserTypeEnum.NORMAL.getCode().equalsIgnoreCase(user.getType())) {
+        if (UserTypeEnum.NORMAL.getValue().equalsIgnoreCase(user.getType())) {
             return new UserDetailsModel(user, getPermissionModels(user));
         } else {
             log.error("username:{},user:{}", username, user);
@@ -174,7 +170,7 @@ public class UserServiceImpl implements UserService {
         if (Objects.equals(user.getStatus(), status)) {
             return;
         }
-        if (Objects.equals(status.toString(), YesOrNo.NO.getCode())) {
+        if (Objects.equals(status.toString(), YesOrNo.NO.getValue())) {
             checkSelfUser(userId);
         }
         user.setStatus(status);
@@ -209,9 +205,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public synchronized User getSuperAdmin() {
-        if (superUser != null) {
-            return superUser;
-        }
         return userMapper.findById(systemProp.getSuperAdminId())
             .orElseThrow(() -> new WmsException(UserErrorDescEnum.NO_AUTHED_USER_FOUND));
     }
@@ -226,48 +219,27 @@ public class UserServiceImpl implements UserService {
     @Override
     public Set<? extends GrantedAuthority> getPermissionModels(User user) {
         List<UserRole> userRoles = userRoleMapper.findByUserId(user.getId());
-        List<Role> roles = roleMapper.findAllById(userRoles.stream().map(v -> v.getRoleId()).toList());
+        List<Role> roles = roleMapper.findAllById(userRoles.stream().map(UserRole::getRoleId).toList());
 
-        if (roles == null || roles.isEmpty()) {
+        if (CollectionUtils.isEmpty(roles)) {
             return Collections.emptySet();
         }
 
-        Set<GrantedAuthority> grantedAuthorities = Sets.newHashSet();
-        boolean haveSuperRole = false;
-        Set<Long> roleIds = Sets.newHashSetWithExpectedSize(roles.size());
-        for (Role role : roles) {
-            if (role == null || StringUtils.isEmpty(role.getCode())) {
-                continue;
-            }
-            String code = role.getCode();
-            if (Objects.equals(systemProp.getSuperRoleCode(), code)) {
-                haveSuperRole = true;
-            }
-            grantedAuthorities.add(new RoleGrantedAuthority(role));
-            roleIds.add(role.getId());
-        }
-
+        boolean haveSuperRole = roles.stream().anyMatch(v -> Objects.equals(systemProp.getSuperRoleCode(), v.getCode()));
         if (haveSuperRole) {
             // 如果是超级角色, 则返回 *:* 权限
-            grantedAuthorities.add(new PermissionGrantedAuthority(UserContext.SUPPER_PERMISSION));
-            return grantedAuthorities;
+            return Sets.newHashSet(new PermissionGrantedAuthority(UserContext.SUPPER_PERMISSION));
         }
 
-        if (roleIds.isEmpty()) {
-            return grantedAuthorities;
-        }
-
-        List<RoleMenu> roleMenus = roleMenuMapper.findByRoleIdIn(roleIds);
-        List<Menu> menus = menuMapper.findAllById(roleMenus.stream().map(v -> v.getMenuId()).toList());
+        Set<GrantedAuthority> grantedAuthorities = Sets.newHashSet();
+        List<RoleMenu> roleMenus = roleMenuMapper.findByRoleIdIn(roles.stream().map(Role::getId).toList());
+        List<Menu> menus = menuMapper.findAllById(roleMenus.stream().map(RoleMenu::getMenuId).toList());
         // 拥有的权限
-        if (menus == null || menus.isEmpty()) {
+        if (CollectionUtils.isEmpty(menus)) {
             return grantedAuthorities;
         }
 
-        for (Menu menu : menus) {
-            if (menu == null) {
-                continue;
-            }
+        for (Menu menu : menus.stream().filter(Objects::nonNull).toList()) {
             String permissionsString = menu.getPermissions();
             if (StrUtil.isEmpty(permissionsString)) {
                 continue;
@@ -290,28 +262,26 @@ public class UserServiceImpl implements UserService {
     @Override
     public void syncUser(UserAddParam param) {
         String username = param.getUsername();
-        synchronized (this) {
-            User databaseUser = getByUsername(username);
-            //新增用户
-            if (null == databaseUser) {
-                addUser(param);
-                return;
-            }
-
-            //删除用户
-            if (Integer.valueOf(YesOrNo.NO.getCode()).equals(param.getStatus())) {
-                checkSuperUser(databaseUser.getId());
-                userMapper.delete(databaseUser);
-                userRoleService.removeByUserId(databaseUser.getId());
-                return;
-            }
-
-            //修改用户
-            UserUpdateParam param2 = new UserUpdateParam();
-            BeanUtils.copyProperties(param, param2);
-            param2.setId(databaseUser.getId());
-            updateUser(param2);
+        User databaseUser = getByUsername(username);
+        //新增用户
+        if (null == databaseUser) {
+            addUser(param);
+            return;
         }
+
+        //删除用户
+        if (Integer.valueOf(YesOrNo.NO.getValue()).equals(param.getStatus())) {
+            checkSuperUser(databaseUser.getId());
+            userMapper.delete(databaseUser);
+            userRoleService.removeByUserId(databaseUser.getId());
+            return;
+        }
+
+        //修改用户
+        UserUpdateParam param2 = new UserUpdateParam();
+        BeanUtils.copyProperties(param, param2);
+        param2.setId(databaseUser.getId());
+        updateUser(param2);
     }
 
     @Override
@@ -321,7 +291,7 @@ public class UserServiceImpl implements UserService {
 
     private List<UserRole> getUserRole(Long userId, Set<Long> roleIds) {
         List<Role> roles = roleMapper.findAllById(roleIds);
-        if (roles == null || roles.isEmpty()) {
+        if (CollectionUtils.isEmpty(roles)) {
             throw new WmsException(UserErrorDescEnum.ERR_ROLE_NOT_FOUND);
         }
         List<UserRole> userRoles = Lists.newArrayListWithCapacity(roles.size());
@@ -356,7 +326,7 @@ public class UserServiceImpl implements UserService {
         if (user == null) {
             return;
         }
-        if (user.getStatus().toString().equals(YesOrNo.YES.getCode())) {
+        if (user.getStatus().toString().equals(YesOrNo.YES.getValue())) {
             throw new WmsException(UserErrorDescEnum.ERR_USER_IS_NOT_DISABLED);
         }
     }

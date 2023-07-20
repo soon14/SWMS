@@ -5,10 +5,9 @@ import com.swms.mdm.api.config.dto.DictionaryDTO;
 import com.swms.mdm.config.domain.entity.Dictionary;
 import com.swms.mdm.config.domain.repository.DictionaryRepository;
 import com.swms.mdm.config.domain.transfer.DictionaryTransfer;
+import com.swms.utils.dictionary.IEnum;
 import com.swms.utils.http.Response;
 import jakarta.validation.Valid;
-import org.apache.commons.lang3.EnumUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.reflections.Reflections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -17,9 +16,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -86,34 +86,45 @@ public class DictionaryController {
         Reflections reflections = new Reflections("com.swms");
         Set<Class<?>> dictionaryEnums = reflections.getTypesAnnotatedWith(com.swms.utils.dictionary.Dictionary.class);
 
-        dictionaryEnums.forEach(cClass -> {
-            String simpleName = cClass.getSimpleName();
-            if (simpleName.endsWith("Enum")) {
+        List<DictionaryDTO> dictionaryDTOS = dictionaryEnums.stream().filter(v -> v.getSimpleName().endsWith("Enum"))
+            .map(cClass -> {
+                Object[] enumConstants = cClass.getEnumConstants();
+
                 AtomicInteger index = new AtomicInteger(0);
-                List<DictionaryDTO.DictionaryItem> items = Arrays.stream(cClass.getDeclaredFields())
-                    .filter(v -> !StringUtils.equals("$VALUES", v.getName()))
-                    .map(field -> {
-                        DictionaryDTO.DictionaryItem item = new DictionaryDTO.DictionaryItem();
-                        item.setShowContext(field.getName());
+                List<DictionaryDTO.DictionaryItem> items = Arrays.stream(enumConstants).map(enumConstant -> {
+                    DictionaryDTO.DictionaryItem item = new DictionaryDTO.DictionaryItem();
+                    String value = null;
+                    String label = null;
+                    if (cClass.getInterfaces().length > 0) {
                         try {
-                            field.setAccessible(true);
-                            item.setValue(String.valueOf(field.get(cClass)));
-                        } catch (Exception e) {
+                            Method labelM = cClass.getMethod("getLabel");
+                            Method valueM = cClass.getMethod("getValue");
+                            value = valueM.invoke(enumConstant).toString();
+                            label = labelM.invoke(enumConstant).toString();
+                        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
                             e.printStackTrace();
                         }
-                        item.setDefaultItem(index.getAndIncrement() == 0);
-                        return item;
-                    }).toList();
+                    } else {
+                        value = enumConstant.toString();
+                        label = enumConstant.toString();
+                    }
+                    item.setDefaultItem(index.getAndIncrement() == 0);
+                    item.setShowContext(label);
+                    item.setValue(value);
 
+                    return item;
+                }).toList();
+
+                String simpleName = cClass.getSimpleName();
                 DictionaryDTO dictionaryDTO = new DictionaryDTO();
                 dictionaryDTO.setCode(simpleName.substring(0, simpleName.indexOf("Enum")));
                 dictionaryDTO.setName(simpleName);
                 dictionaryDTO.setEditable(true);
                 dictionaryDTO.setItems(items);
-                dictionaryApi.save(dictionaryDTO);
-            }
 
-        });
+                return dictionaryDTO;
+            }).toList();
+        dictionaryRepository.saveAll(dictionaryTransfer.toDOS(dictionaryDTOS));
         return Response.success();
     }
 

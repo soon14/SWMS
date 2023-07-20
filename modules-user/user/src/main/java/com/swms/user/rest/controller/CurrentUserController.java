@@ -2,7 +2,7 @@ package com.swms.user.rest.controller;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
-import com.swms.user.api.UserContext;
+import com.swms.utils.user.UserContext;
 import com.swms.user.repository.entity.Menu;
 import com.swms.user.rest.common.BaseResource;
 import com.swms.user.rest.param.user.CurrentUserInfoUpdatedParam;
