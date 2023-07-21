@@ -14,6 +14,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Table(
+    name = "w_operation_task",
     indexes = {
         @Index(unique = true, name = "idx_task_no", columnList = "taskNo"),
         @Index(name = "idx_source_container_code", columnList = "sourceContainerCode")

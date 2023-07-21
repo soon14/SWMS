@@ -26,6 +26,7 @@ import java.util.List;
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Table(
+    name = "w_put_wall_slot",
     indexes = {
         @Index(unique = true, name = "idx_put_wall_slot_code_station", columnList = "putWallSlotCode,workStationId"),
         @Index(name = "idx_work_station_id", columnList = "workStationId")

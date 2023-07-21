@@ -28,6 +28,7 @@ import java.io.Serializable;
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Table(
+    name = "u_user_role",
     indexes = {
         @Index(name = "idx_user_id", columnList = "userId"),
     }

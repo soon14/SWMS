@@ -22,6 +22,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Table(
+    name = "m_owner_main_data",
     indexes = {
         @Index(unique = true, name = "idx_owner_code", columnList = "ownerCode")
     }

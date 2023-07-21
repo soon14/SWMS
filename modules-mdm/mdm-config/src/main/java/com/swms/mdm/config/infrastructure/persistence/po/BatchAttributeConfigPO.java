@@ -25,6 +25,7 @@ import java.util.List;
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Table(
+    name = "m_batch_attribute_config",
     indexes = {
         @Index(unique = true, name = "idx_batch_attribute_config_code", columnList = "code")
     }

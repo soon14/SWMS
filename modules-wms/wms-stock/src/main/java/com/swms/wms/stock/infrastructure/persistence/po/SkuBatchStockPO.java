@@ -20,6 +20,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Table(
+    name = "w_sku_batch_stock",
     indexes = {
         @Index(unique = true, name = "idx_sku_batch_attribute_warehouse_area", columnList = "skuBatchAttributeId,warehouseAreaCode")
     }

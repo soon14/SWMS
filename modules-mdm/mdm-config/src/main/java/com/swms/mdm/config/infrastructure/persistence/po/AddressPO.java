@@ -18,6 +18,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Table(
+    name = "m_address",
     indexes = {
         @Index(unique = true, name = "idx_c_p_c_d", columnList = "country,province,city,district")
     }

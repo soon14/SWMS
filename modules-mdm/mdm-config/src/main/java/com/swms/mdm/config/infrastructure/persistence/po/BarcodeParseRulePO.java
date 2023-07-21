@@ -30,6 +30,7 @@ import java.util.List;
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Table(
+    name = "m_barcode_parse_rule",
     indexes = {
         @Index(unique = true, name = "idx_barcode_parse_code", columnList = "code")
     }

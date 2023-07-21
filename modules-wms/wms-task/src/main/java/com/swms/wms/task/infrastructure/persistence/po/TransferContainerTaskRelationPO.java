@@ -12,10 +12,11 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Table(
-        indexes = {
-                @Index(unique = true, name = "idx_operation_task_id", columnList = "operationTaskId"),
-                @Index(name = "idx_transfer_container_id", columnList = "transferContainerId")
-        }
+    name = "w_transfer_container_task_relation",
+    indexes = {
+        @Index(unique = true, name = "idx_operation_task_id", columnList = "operationTaskId"),
+        @Index(name = "idx_transfer_container_id", columnList = "transferContainerId")
+    }
 )
 public class TransferContainerTaskRelationPO extends BaseDatePO {
 

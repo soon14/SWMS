@@ -7,6 +7,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import lombok.Data;
@@ -33,6 +34,10 @@ import java.util.List;
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Table(
+    name = "u_menu",
+    indexes = {
+        @Index(name = "idx_system_code", columnList = "systemCode")
+    }
 )
 @DynamicUpdate
 @Accessors(chain = true)

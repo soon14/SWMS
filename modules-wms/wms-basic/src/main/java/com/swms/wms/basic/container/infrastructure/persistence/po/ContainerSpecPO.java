@@ -29,6 +29,7 @@ import java.util.List;
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Table(
+    name = "w_container_spec",
     indexes = {
         @Index(unique = true, name = "idx_container_spec_code_warehouse", columnList = "containerSpecCode,warehouseCode")
     }

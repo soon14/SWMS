@@ -1,7 +1,13 @@
 package com.swms.wms.task.infrastructure.persistence.po;
 
 import com.swms.utils.base.BaseUserPO;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Index;
+import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.GenericGenerator;
@@ -12,9 +18,10 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Table(
-        indexes = {
-                @Index(name = "idx_transfer_container_code", columnList = "transferContainerCode")
-        }
+    name = "w_transfer_container",
+    indexes = {
+        @Index(name = "idx_transfer_container_code", columnList = "transferContainerCode")
+    }
 )
 public class TransferContainerPO extends BaseUserPO {
 

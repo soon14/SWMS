@@ -23,6 +23,7 @@ import java.util.TreeMap;
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Table(
+    name = "w_sku_batch_attribute",
     indexes = {
         @Index(name = "id_sku_id", columnList = "skuId"),
         @Index(name = "batchNo", columnList = "batchNo", unique = true)

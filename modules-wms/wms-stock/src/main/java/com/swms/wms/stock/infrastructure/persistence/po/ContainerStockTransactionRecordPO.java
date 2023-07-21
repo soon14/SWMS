@@ -12,6 +12,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Table(
+    name = "w_container_stock_transaction_record",
     indexes = {
         @Index(name = "idx_container_code", columnList = "sourceContainerCode")
     }

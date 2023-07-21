@@ -25,6 +25,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Table(
+    name = "m_parameter_config",
     indexes = {
         @Index(unique = true, name = "idx_parameter_config_code", columnList = "code")
     }
