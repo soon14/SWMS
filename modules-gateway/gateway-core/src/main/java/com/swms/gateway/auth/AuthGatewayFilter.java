@@ -63,6 +63,14 @@ public class AuthGatewayFilter implements GlobalFilter, Ordered {
      */
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
+
+        //tenantId must be sent
+        List<String> tenantIds = exchange.getRequest().getHeaders().get("X-TenantID");
+        if (CollectionUtils.isEmpty(tenantIds) || tenantIds.stream().filter(StringUtils::isNotEmpty).toList().isEmpty()) {
+            return ResponseUtil.webFluxResponseWriter(exchange.getResponse(), SystemConstant.APPLICATION_JSON_UTF8,
+                HttpStatus.BAD_REQUEST, "X-TenantID can't be empty.");
+        }
+
         // 如果未启用网关验证，则跳过
         if (Boolean.FALSE.equals(authProperties.getEnable())) {
             return chain.filter(exchange);
