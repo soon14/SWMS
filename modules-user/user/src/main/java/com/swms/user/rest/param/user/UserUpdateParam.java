@@ -72,7 +72,8 @@ public class UserUpdateParam {
     /**
      * 手机号
      */
-    @ApiModelProperty(name = "phone", value = "手机号")
+    @ApiModelProperty(name = "phone", value = "手机号", required = true)
+    @NotEmpty
     private String phone;
 
     /**

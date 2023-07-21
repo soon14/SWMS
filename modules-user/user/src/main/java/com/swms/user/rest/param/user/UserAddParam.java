@@ -38,6 +38,7 @@ public class UserAddParam {
      * 用户名称
      */
     @ApiModelProperty(name = "username", value = "用户名", required = true)
+    @NotEmpty
     private String username;
 
     /**
@@ -50,18 +51,19 @@ public class UserAddParam {
      * 帐号状态（1启用, 0停用）
      */
     @ApiModelProperty(name = "status", value = "帐号状态（1启用, 0停用，参考枚举YesOrNo）", required = true)
+    @NotNull
     private Integer status = 1;
 
     /**
      * 手机号
      */
-    @ApiModelProperty(name = "phone", value = "手机号")
+    @ApiModelProperty(name = "phone", value = "手机号", required = true)
+    @NotEmpty
     private String phone;
 
     /**
      * 邮箱
      */
     @ApiModelProperty(name = "email", value = "邮箱")
-    @NotEmpty(message = "邮箱不能为空")
     private String email;
 }

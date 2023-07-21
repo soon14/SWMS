@@ -87,22 +87,4 @@ public class MenuAddParam {
     @Size(max = 256, message = "路径地址不能超过256位")
     private String path;
 
-    /**
-     * 页面渲染模板
-     */
-    @ApiModelProperty(name = "renderTemplate", value = "页面渲染模板（type=2时必填）")
-    private String renderTemplate;
-
-    /**
-     * extensionData 扩展属性
-     */
-    @ApiModelProperty("extensionData 扩展属性")
-    @Size(max = 64, message = "扩展属性不能超过64位")
-    private String extensionData;
-
-    /**
-     * 样式 (1:左侧菜单,2:卡片)
-     */
-    @ApiModelProperty("样式(1:左侧菜单,2:卡片)")
-    private Integer style;
 }
