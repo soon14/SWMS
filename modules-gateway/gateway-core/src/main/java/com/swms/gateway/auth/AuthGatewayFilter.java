@@ -18,7 +18,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
@@ -70,8 +69,6 @@ public class AuthGatewayFilter implements GlobalFilter, Ordered {
         }
 
         String requestUrl = exchange.getRequest().getURI().getRawPath();
-        // 网关国际化语言标记传递,我们业务定义的lang 覆盖 浏览器传入的
-        reCoverLangTarget(exchange);
         boolean authorizeNotRequired = ignore(requestUrl);
         //如是登出请求直接登出防止由于网关续时导致致退出失败
         if (StringUtils.equals(SystemConstant.LOGOUT_URL, requestUrl)) {
@@ -110,18 +107,6 @@ public class AuthGatewayFilter implements GlobalFilter, Ordered {
             .header(SystemConstant.HEADER_AUTHORIZATION, "")
             .header(SystemConstant.USER_NAME, jwt.getClaim(SystemConstant.USER_NAME).asString()).build();
         return chain.filter(exchange.mutate().request(newRequest).build());
-    }
-
-    private void reCoverLangTarget(ServerWebExchange exchange) {
-        try {
-            HttpHeaders httpHeaders = HttpHeaders.writableHttpHeaders(exchange.getRequest().getHeaders());
-            List<String> langs = httpHeaders.get(SystemConstant.LANG);
-            if (!CollectionUtils.isEmpty(langs)) {
-                httpHeaders.set(SystemConstant.ACCEPT_LANGUAGE, langs.get(0).replace("_", "-"));
-            }
-        } catch (Exception e) {
-            log.error("重覆盖国际化语言头异常", e);
-        }
     }
 
     /**
