@@ -20,4 +20,9 @@ public class WarehouseAreaRepositoryImpl implements WarehouseAreaRepository {
     public void save(WarehouseArea warehouseArea) {
         warehouseAreaPORepository.save(warehouseAreaPOTransfer.toPO(warehouseArea));
     }
+
+    @Override
+    public WarehouseArea getById(Long warehouseAreaId) {
+        return warehouseAreaPOTransfer.toDO(warehouseAreaPORepository.findById(warehouseAreaId).orElseThrow());
+    }
 }

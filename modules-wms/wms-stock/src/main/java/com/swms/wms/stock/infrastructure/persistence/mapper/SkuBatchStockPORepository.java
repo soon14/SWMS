@@ -8,5 +8,5 @@ import java.util.List;
 public interface SkuBatchStockPORepository extends JpaRepository<SkuBatchStockPO, Long> {
     List<SkuBatchStockPO> findAllBySkuBatchAttributeId(Long skuBatchAttributeId);
 
-    SkuBatchStockPO findBySkuBatchAttributeIdAndWarehouseAreaCode(Long skuBatchAttributeId, String warehouseAreaCode);
+    SkuBatchStockPO findBySkuBatchAttributeIdAndWarehouseAreaId(Long skuBatchAttributeId, Long warehouseAreaId);
 }

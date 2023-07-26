@@ -42,4 +42,9 @@ public class WarehouseAreaApiImpl implements IWarehouseAreaApi {
     public void delete(WarehouseAreaDTO WarehouseAreaDTO) {
 
     }
+
+    @Override
+    public WarehouseAreaDTO getById(Long warehouseAreaId) {
+        return warehouseAreaTransfer.toDTO(warehouseAreaRepository.getById(warehouseAreaId));
+    }
 }

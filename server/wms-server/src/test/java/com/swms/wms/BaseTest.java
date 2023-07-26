@@ -21,6 +21,6 @@ public class BaseTest {
         tenantFacade.setTenantApi(iTenantApi);
 
         //set default tenant
-        TenantContext.setCurrentTenant("default");
+        TenantContext.setCurrentTenant("test");
     }
 }

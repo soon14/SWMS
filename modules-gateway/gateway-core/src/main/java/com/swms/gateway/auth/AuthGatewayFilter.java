@@ -12,6 +12,7 @@ import com.swms.gateway.config.AuthProperties;
 import com.swms.gateway.constant.SystemConstant;
 import com.swms.gateway.util.ResponseUtil;
 import com.swms.utils.compress.CompressUtils;
+import com.swms.utils.user.UserContext;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.StringUtils;
@@ -77,12 +78,13 @@ public class AuthGatewayFilter implements GlobalFilter, Ordered {
         }
 
         String requestUrl = exchange.getRequest().getURI().getRawPath();
-        boolean authorizeNotRequired = ignore(requestUrl);
         //如是登出请求直接登出防止由于网关续时导致致退出失败
         if (StringUtils.equals(SystemConstant.LOGOUT_URL, requestUrl)) {
             return ResponseUtil.webFluxResponseWriter(exchange.getResponse(), SystemConstant.APPLICATION_JSON_UTF8,
                 HttpStatus.OK, SystemConstant.LOGOUT_MSG);
         }
+
+        boolean authorizeNotRequired = ignore(requestUrl);
         if (authorizeNotRequired) {
             return chain.filter(exchange);
         }
@@ -113,8 +115,15 @@ public class AuthGatewayFilter implements GlobalFilter, Ordered {
         //set username in request header
         ServerHttpRequest newRequest = exchange.getRequest().mutate()
             .header(SystemConstant.HEADER_AUTHORIZATION, "")
-            .header(SystemConstant.USER_NAME, jwt.getClaim(SystemConstant.USER_NAME).asString()).build();
+            .header(UserContext.USERNAME, jwt.getClaim(UserContext.USERNAME).asString()).build();
         return chain.filter(exchange.mutate().request(newRequest).build());
+    }
+
+    public static void main(String[] args) {
+        String token = "eJwVzNEKgjAUANAvUjZJwUfTkrtxlUzH9CV0DZxpWQo1v756PnC0ZX2XKpMbBtUGNDOwwL3wVQwB3GYpYha62jKqPGG76bg25x8MB4vbiYJ5m1oK0qahbWUxNxJNPi6GD48njGSBSez+EZa1jwl4mOAHJXFpMqyjFNrxrvUrj9IhdHgkkbPKJ1msL4Fy9qrsFWfkC9CtNBA=";
+        token = CompressUtils.decompress(Base64.decodeBase64(token));
+        DecodedJWT jwt = verifyJwt(token);
+        System.out.println(jwt.getClaim(UserContext.USERNAME).asString());
     }
 
     /**
@@ -181,7 +190,7 @@ public class AuthGatewayFilter implements GlobalFilter, Ordered {
         return authoritySet.stream().anyMatch(url::startsWith);
     }
 
-    public DecodedJWT verifyJwt(String token) {
+    public static DecodedJWT verifyJwt(String token) {
         JWTVerifier verifier = JWT.require(Algorithm.HMAC256(SystemConstant.JWT_SECRET)).build();
         return verifier.verify(token);
     }

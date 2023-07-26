@@ -69,13 +69,15 @@ public class OperationTask {
         }
     }
 
-    public String transferToWarehouseAreaCode() {
-        if (taskType == OperationTaskTypeEnum.PICKING
-            || taskType == OperationTaskTypeEnum.RELOCATION) {
-            return WarehouseAreaCodeEnum.OFF_SHELF_TEMPORARY_STORAGE_AREA.name();
-        } else {
-            return WarehouseAreaCodeEnum.PUTTING_ON_THE_STAGING_AREA.name();
-        }
+    //TODO implement
+    public Long transferToWarehouseAreaCode() {
+//        if (taskType == OperationTaskTypeEnum.PICKING
+//            || taskType == OperationTaskTypeEnum.RELOCATION) {
+//            return WarehouseAreaCodeEnum.OFF_SHELF_TEMPORARY_STORAGE_AREA.name();
+//        } else {
+//            return WarehouseAreaCodeEnum.PUTTING_ON_THE_STAGING_AREA.name();
+//        }
 
+        return 1L;
     }
 }

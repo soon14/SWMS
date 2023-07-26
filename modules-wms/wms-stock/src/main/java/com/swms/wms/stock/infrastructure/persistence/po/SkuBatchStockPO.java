@@ -22,7 +22,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Table(
     name = "w_sku_batch_stock",
     indexes = {
-        @Index(unique = true, name = "idx_sku_batch_attribute_warehouse_area", columnList = "skuBatchAttributeId,warehouseAreaCode")
+        @Index(unique = true, name = "idx_sku_batch_attribute_warehouse_area", columnList = "skuBatchAttributeId,warehouseAreaId")
     }
 )
 public class SkuBatchStockPO extends BaseUserPO {
@@ -35,11 +35,11 @@ public class SkuBatchStockPO extends BaseUserPO {
     @Column(nullable = false, columnDefinition = "bigint default 0 comment 'skuId'")
     private Long skuId;
 
-    @Column(nullable = false, columnDefinition = "bigint default 0 comment '批次id'")
+    @Column(nullable = false, columnDefinition = "bigint default 0 comment '批次ID'")
     private Long skuBatchAttributeId;
 
-    @Column(nullable = false, columnDefinition = "varchar(64) comment '库区编码'")
-    private String warehouseAreaCode;
+    @Column(nullable = false, columnDefinition = "bigint default 0 comment '库区ID'")
+    private Long warehouseAreaId;
 
     @Column(nullable = false, columnDefinition = "int(11) default 0 comment '总数量'")
     private Integer totalQty = 0;

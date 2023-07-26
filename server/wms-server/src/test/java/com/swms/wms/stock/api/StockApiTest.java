@@ -31,7 +31,7 @@ class StockApiTest extends BaseTest {
         stockTransferDTO.setSkuBatchAttributeId(1L);
         stockTransferDTO.setTaskId(1L);
         stockTransferDTO.setSkuId(1L);
-        stockTransferDTO.setWarehouseAreaCode("warehouseAreaCode");
+        stockTransferDTO.setWarehouseAreaId(1L);
         stockApi.createStock(Lists.newArrayList(stockTransferDTO));
 
         List<ContainerStockDTO> containerStocks = stockApi.getContainerStock("containerCode");
@@ -53,7 +53,7 @@ class StockApiTest extends BaseTest {
         stockTransferDTO.setTaskId(1L);
         stockTransferDTO.setSkuId(1L);
         stockTransferDTO.setSkuBatchStockId(439838141709422592L);
-        stockTransferDTO.setWarehouseAreaCode("B");
+        stockTransferDTO.setWarehouseAreaId(1L);
         stockTransferDTO.setOrderNo("orderNo");
         stockEventSubscriber.onEvent(StockTransferEvent.builder().stockTransferDTO(stockTransferDTO).taskType(OperationTaskTypeEnum.ONE_STEP_RELOCATION).build());
         containerStocks = stockApi.getContainerStock("containerCode");

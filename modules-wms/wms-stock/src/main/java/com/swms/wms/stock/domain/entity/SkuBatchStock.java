@@ -4,7 +4,6 @@ import com.google.common.base.Preconditions;
 import com.swms.wms.api.stock.constants.StockLockTypeEnum;
 import lombok.Builder;
 import lombok.Getter;
-import org.apache.commons.lang3.StringUtils;
 
 /**
  * stock design rule:
@@ -23,7 +22,7 @@ public class SkuBatchStock {
     //unique key union skuBatchAttributeId and warehouseAreaCode and warehouseCode
     private String warehouseCode;
     private Long skuBatchAttributeId;
-    private String warehouseAreaCode;
+    private Long warehouseAreaId;
 
     private Integer totalQty;
     private Integer availableQty;
@@ -33,9 +32,9 @@ public class SkuBatchStock {
     private Integer noOutboundLockedQty;
     private Long version;
 
-    public void setWarehouseAreaCode(String warehouseAreaCode) {
-        Preconditions.checkState(StringUtils.isNotEmpty(warehouseAreaCode), "warehouseAreaCode cannot be empty");
-        this.warehouseAreaCode = warehouseAreaCode;
+    public void setWarehouseAreaCode(Long warehouseAreaId) {
+        Preconditions.checkState(warehouseAreaId != null && warehouseAreaId > 0, "warehouseAreaCode cannot be empty");
+        this.warehouseAreaId = warehouseAreaId;
     }
 
     public void validateQty() {

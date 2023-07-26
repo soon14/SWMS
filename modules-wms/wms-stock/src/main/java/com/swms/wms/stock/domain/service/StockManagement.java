@@ -70,7 +70,7 @@ public class StockManagement {
         skuBatchStockRepository.save(skuBatchStock);
 
         SkuBatchStock targetSkuBatch = skuBatchStockRepository.findBySkuBatchAttributeIdAndWarehouseAreaCode(
-            stockTransferDTO.getSkuBatchAttributeId(), stockTransferDTO.getWarehouseAreaCode());
+            stockTransferDTO.getSkuBatchAttributeId(), stockTransferDTO.getWarehouseAreaId());
         if (targetSkuBatch == null) {
             targetSkuBatch = skuBatchStockTransfer.toDO(stockTransferDTO);
         } else {

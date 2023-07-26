@@ -48,9 +48,9 @@ public class SkuBatchRepositoryImpl implements SkuBatchStockRepository {
     }
 
     @Override
-    public SkuBatchStock findBySkuBatchAttributeIdAndWarehouseAreaCode(Long skuBatchAttributeId, String warehouseAreaCode) {
+    public SkuBatchStock findBySkuBatchAttributeIdAndWarehouseAreaCode(Long skuBatchAttributeId, Long warehouseAreaId) {
         SkuBatchStockPO skuBatchStockPO = skuBatchStockPORepository
-            .findBySkuBatchAttributeIdAndWarehouseAreaCode(skuBatchAttributeId, warehouseAreaCode);
+            .findBySkuBatchAttributeIdAndWarehouseAreaId(skuBatchAttributeId, warehouseAreaId);
         return skuBatchStockPOTransfer.toSkuBatchStock(skuBatchStockPO);
     }
 }

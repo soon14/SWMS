@@ -42,7 +42,7 @@ public class StockTransferDTO {
 
     // if stock move from one warehouse area to another area in warehouse, this field is required
     @NotNull
-    private String warehouseAreaCode;
+    private Long warehouseAreaId;
 
     @NotNull
     private Long containerStockTransactionRecordId;

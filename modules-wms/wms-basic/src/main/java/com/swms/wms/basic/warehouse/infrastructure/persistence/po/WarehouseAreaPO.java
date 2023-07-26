@@ -25,7 +25,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Table(
     name = "w_warehouse_area",
     indexes = {
-        @Index(unique = true, name = "idx_warehouse_area_code", columnList = "warehouseAreaCode")
+        @Index(unique = true, name = "idx_warehouse_area_group_code", columnList = "warehouseAreaCode,warehouseGroupCode,warehouseCode")
     }
 )
 public class WarehouseAreaPO extends BaseUserPO {
@@ -39,7 +39,7 @@ public class WarehouseAreaPO extends BaseUserPO {
     @Column(nullable = false, columnDefinition = "varchar(64) comment '仓库编码'")
     private String warehouseCode;
 
-    @Column(nullable = false, columnDefinition = "varchar(64) comment '仓区名称'")
+    @Column(nullable = false, columnDefinition = "varchar(64) comment '仓区编码'")
     private String warehouseGroupCode;
 
     @Column(nullable = false, columnDefinition = "varchar(64) comment '库区编码'")

@@ -82,15 +82,15 @@ public class OperationTaskApplicationImpl implements ITaskApi {
         List<OperationTask> operationTasks = operationTaskService.queryOperationTasksByIds(taskIds);
         operationTasks.forEach(v -> {
             StockTransferDTO stockTransferDTO = StockTransferDTO.builder()
-                    .lockType(v.transferToLockType())
-                    .containerStockId(v.getContainerStockId())
-                    .skuBatchStockId(v.getSkuBatchStockId())
-                    .skuBatchAttributeId(v.getSkuBatchAttributeId())
-                    .taskId(v.getId())
-                    .targetContainerCode(v.getTargetContainerCode())
-                    .targetContainerSlotCode(v.getTargetContainerSlotCode())
-                    .transferQty(v.getOperatedQty())
-                    .warehouseAreaCode(v.transferToWarehouseAreaCode())
+                .lockType(v.transferToLockType())
+                .containerStockId(v.getContainerStockId())
+                .skuBatchStockId(v.getSkuBatchStockId())
+                .skuBatchAttributeId(v.getSkuBatchAttributeId())
+                .taskId(v.getId())
+                .targetContainerCode(v.getTargetContainerCode())
+                .targetContainerSlotCode(v.getTargetContainerSlotCode())
+                .transferQty(v.getOperatedQty())
+                .warehouseAreaId(v.transferToWarehouseAreaCode())
                     .build();
             domainEventPublisher.sendAsyncEvent(StockTransferEvent.builder().stockTransferDTO(stockTransferDTO).taskType(v.getTaskType()).build());
         });
