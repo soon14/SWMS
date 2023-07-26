@@ -27,8 +27,17 @@ public class WarehouseArea {
     private int temperatureLimit;
     private int wetLimit;
 
-    private boolean deleted;
     private boolean enable;
+    private boolean deleted;
+    private Long deleteTime;
 
     private long version;
+
+    public void enable() {
+        this.enable = true;
+    }
+
+    public void disable() {
+        this.enable = false;
+    }
 }

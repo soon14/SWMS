@@ -26,7 +26,6 @@ public class Location {
 
     private LocationStatusEnum locationStatus;
 
-    private boolean deleted;
     private long version;
 
 
@@ -34,6 +33,13 @@ public class Location {
         if (occupied) {
             throw WmsException.throwWmsException(BasicErrorDescEnum.LOCATION_CONTAINS_STOCK);
         }
-        this.deleted = true;
+    }
+
+    public void enable() {
+        this.setLocationStatus(LocationStatusEnum.PUT_AWAY_PUT_DOWN);
+    }
+
+    public void disable() {
+        this.setLocationStatus(LocationStatusEnum.NONE);
     }
 }

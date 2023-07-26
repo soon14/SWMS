@@ -12,6 +12,7 @@ import jakarta.persistence.Version;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Where;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
@@ -21,9 +22,10 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Table(
     name = "w_warehouse_area_group",
     indexes = {
-        @Index(unique = true, name = "idx_warehouse_area_group_code", columnList = "warehouseAreaGroupCode,warehouseCode")
+        @Index(unique = true, name = "idx_warehouse_area_group_code", columnList = "warehouseAreaGroupCode,warehouseCode,deleteTime")
     }
 )
+@Where(clause = "deleted=false")
 public class WarehouseAreaGroupPO extends BaseUserPO {
 
 
@@ -44,8 +46,11 @@ public class WarehouseAreaGroupPO extends BaseUserPO {
     @Column(nullable = false, columnDefinition = "varchar(500) comment '备注'")
     private String remark;
 
-    private boolean deleted;
     private boolean enable;
+    private boolean deleted;
+
+    @Column(nullable = false, columnDefinition = "bigint default 0 comment '备注'")
+    private Long deleteTime = 0L;
 
     @Version
     private long version;

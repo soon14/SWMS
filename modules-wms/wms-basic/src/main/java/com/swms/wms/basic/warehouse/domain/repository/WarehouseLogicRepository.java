@@ -4,4 +4,6 @@ import com.swms.wms.basic.warehouse.domain.entity.WarehouseLogic;
 
 public interface WarehouseLogicRepository {
     void save(WarehouseLogic warehouseLogic);
+
+    WarehouseLogic getById(Long id);
 }

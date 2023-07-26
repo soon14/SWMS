@@ -26,7 +26,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
     name = "w_location",
     indexes = {
         @Index(unique = true, name = "idx_warehouse_area_location", columnList = "locationCode,warehouseAreaId"),
-        @Index(name = "idx_aisle_warehouse_area", columnList = "aisleCode,warehouseAreaId")
+        @Index(name = "idx_aisle_warehouse_area", columnList = "aisleCode,warehouseAreaId"),
+        @Index(name = "idx_warehouse_area_id", columnList = "warehouseAreaId"),
+        @Index(name = "idx_warehouse_logic_id", columnList = "warehouseLogicId")
     }
 )
 public class LocationPO extends BaseUserPO {

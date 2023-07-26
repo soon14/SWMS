@@ -11,6 +11,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring",
     nullValueCheckStrategy = ALWAYS,
     nullValueMappingStrategy = RETURN_NULL,
@@ -21,4 +23,6 @@ public interface WarehouseAreaPOTransfer {
     WarehouseAreaPO toPO(WarehouseArea warehouseArea);
 
     WarehouseArea toDO(WarehouseAreaPO warehouseAreaPO);
+
+    List<WarehouseArea> toDOS(List<WarehouseAreaPO> warehouseAreaPOS);
 }

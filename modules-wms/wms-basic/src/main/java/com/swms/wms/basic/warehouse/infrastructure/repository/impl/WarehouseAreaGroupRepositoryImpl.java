@@ -20,4 +20,14 @@ public class WarehouseAreaGroupRepositoryImpl implements WarehouseAreaGroupRepos
     public void save(WarehouseAreaGroup warehouseAreaGroup) {
         warehouseAreaGroupPORepository.save(warehouseAreaGroupPOTransfer.toPO(warehouseAreaGroup));
     }
+
+    @Override
+    public WarehouseAreaGroup getById(Long id) {
+        return warehouseAreaGroupPOTransfer.toDO(warehouseAreaGroupPORepository.findById(id).orElseThrow());
+    }
+
+    @Override
+    public void delete(WarehouseAreaGroup warehouseAreaGroup) {
+
+    }
 }

@@ -20,4 +20,9 @@ public class WarehouseLogicRepositoryImpl implements WarehouseLogicRepository {
     public void save(WarehouseLogic warehouseLogic) {
         warehouseLogicPORepository.save(warehouseLogicPOTransfer.toPO(warehouseLogic));
     }
+
+    @Override
+    public WarehouseLogic getById(Long id) {
+        return warehouseLogicPOTransfer.toDO(warehouseLogicPORepository.findById(id).orElseThrow());
+    }
 }

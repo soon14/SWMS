@@ -2,11 +2,18 @@ package com.swms.wms.basic.warehouse.application;
 
 import com.swms.wms.api.basic.IWarehouseAreaApi;
 import com.swms.wms.api.basic.dto.WarehouseAreaDTO;
+import com.swms.wms.basic.warehouse.domain.entity.Location;
+import com.swms.wms.basic.warehouse.domain.entity.WarehouseArea;
+import com.swms.wms.basic.warehouse.domain.repository.LocationRepository;
 import com.swms.wms.basic.warehouse.domain.repository.WarehouseAreaRepository;
+import com.swms.wms.basic.warehouse.domain.service.WarehouseService;
 import com.swms.wms.basic.warehouse.domain.transfer.WarehouseAreaTransfer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
+
+import java.util.List;
 
 @Service
 @Validated
@@ -17,6 +24,12 @@ public class WarehouseAreaApiImpl implements IWarehouseAreaApi {
 
     @Autowired
     private WarehouseAreaTransfer warehouseAreaTransfer;
+
+    @Autowired
+    private WarehouseService warehouseService;
+
+    @Autowired
+    private LocationRepository locationRepository;
 
     @Override
     public void save(WarehouseAreaDTO warehouseAreaDTO) {
@@ -29,13 +42,29 @@ public class WarehouseAreaApiImpl implements IWarehouseAreaApi {
     }
 
     @Override
+    @Transactional
     public void enable(Long id) {
+        WarehouseArea warehouseArea = warehouseAreaRepository.getById(id);
+        List<Location> locations = warehouseService.getLocationsByWarehouseArea(warehouseArea);
 
+        locations.forEach(Location::enable);
+        locationRepository.saveAll(locations);
+
+        warehouseArea.enable();
+        warehouseAreaRepository.save(warehouseArea);
     }
 
     @Override
+    @Transactional
     public void disable(Long id) {
+        WarehouseArea warehouseArea = warehouseAreaRepository.getById(id);
+        List<Location> locations = warehouseService.getLocationsByWarehouseArea(warehouseArea);
 
+        locations.forEach(Location::disable);
+        locationRepository.saveAll(locations);
+
+        warehouseArea.disable();
+        warehouseAreaRepository.save(warehouseArea);
     }
 
     @Override

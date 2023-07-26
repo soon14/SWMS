@@ -6,6 +6,8 @@ import com.swms.wms.api.basic.dto.WarehouseAreaGroupDTO;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +28,24 @@ public class WarehouseAreaGroupController {
             return Response.success();
         }
         iWarehouseAreaGroupApi.save(warehouseAreaGroupDTO);
+        return Response.success();
+    }
+
+    @GetMapping("{id}")
+    public Object delete(@PathVariable Long id) {
+        iWarehouseAreaGroupApi.delete(id);
+        return Response.success();
+    }
+
+    @GetMapping("{id}")
+    public Object enable(@PathVariable Long id) {
+        iWarehouseAreaGroupApi.enable(id);
+        return Response.success();
+    }
+
+    @GetMapping("{id}")
+    public Object disable(@PathVariable Long id) {
+        iWarehouseAreaGroupApi.disable(id);
         return Response.success();
     }
 }

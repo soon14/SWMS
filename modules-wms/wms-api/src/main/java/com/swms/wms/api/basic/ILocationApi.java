@@ -18,4 +18,5 @@ public interface ILocationApi {
     List<LocationDTO> getByAisle(String aisleCode, Long warehouseAreaId);
 
     void deleteByAisle(String aisleCode, Long warehouseAreaId);
+
 }

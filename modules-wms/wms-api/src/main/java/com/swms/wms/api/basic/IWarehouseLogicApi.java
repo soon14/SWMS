@@ -14,6 +14,6 @@ public interface IWarehouseLogicApi {
 
     void disable(@NotNull Long id);
 
-    void delete(@Valid WarehouseLogicDTO warehouseLogicDTO);
+    void delete(@Valid Long id);
 
 }

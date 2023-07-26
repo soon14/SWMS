@@ -8,4 +8,8 @@ import java.util.List;
 public interface LocationPORepository extends JpaRepository<LocationPO, Long> {
 
     List<LocationPO> findByAisleCodeAndWarehouseAreaId(String aisleCode, Long warehouseAreaId);
+
+    List<LocationPO> findByWarehouseAreaId(Long warehouseAreaId);
+
+    List<LocationPO> findByWarehouseLogicId(Long warehouseLogicId);
 }

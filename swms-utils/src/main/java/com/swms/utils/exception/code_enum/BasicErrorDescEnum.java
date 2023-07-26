@@ -18,8 +18,12 @@ public enum BasicErrorDescEnum implements IBaseError {
 
     // location error
     LOCATION_CONTAINS_STOCK("BAS010001", "location contains stocks"),
-    FORBIDDEN_OPERATE_MULTIPLE_AISLE("BAS010002", "forbidden operate multiple aisles");
+    FORBIDDEN_OPERATE_MULTIPLE_AISLE("BAS010002", "forbidden operate multiple aisles"),
 
+    //warehouse
+    WAREHOUSE_LOGIC_CONTAINER_LOCATION("BAS020001", "warehouse logic {0} contains locations"),
+
+    ;
 
     private final String code;
 

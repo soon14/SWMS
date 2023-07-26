@@ -36,4 +36,16 @@ public class WarehouseAreaController {
         iWarehouseAreaApi.save(warehouseAreaDTO);
         return Response.success();
     }
+
+    @GetMapping("{id}")
+    public Object enable(@PathVariable Long id) {
+        iWarehouseAreaApi.enable(id);
+        return Response.success();
+    }
+
+    @GetMapping("{id}")
+    public Object disable(@PathVariable Long id) {
+        iWarehouseAreaApi.disable(id);
+        return Response.success();
+    }
 }

@@ -12,6 +12,6 @@ public interface IWarehouseAreaGroupApi {
 
     void disable(Long id);
 
-    void delete(WarehouseAreaGroupDTO warehouseAreaGroupDTO);
+    void delete(Long id);
 
 }

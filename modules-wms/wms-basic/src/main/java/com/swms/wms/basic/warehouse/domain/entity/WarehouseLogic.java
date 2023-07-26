@@ -16,7 +16,21 @@ public class WarehouseLogic {
     private String remark;
 
     private boolean deleted;
+    private Long deleteTime;
     private boolean enable;
 
     private long version;
+
+    public void enable() {
+        this.enable = true;
+    }
+
+    public void disable() {
+        this.enable = false;
+    }
+
+    public void delete() {
+        this.deleted = true;
+        this.deleteTime = System.currentTimeMillis();
+    }
 }

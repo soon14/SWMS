@@ -51,4 +51,19 @@ public class LocationRepositoryImpl implements LocationRepository {
     public List<Location> getByAisle(String aisleCode, Long warehouseAreaId) {
         return locationPOTransfer.toLocationDOS(locationRepository.findByAisleCodeAndWarehouseAreaId(aisleCode, warehouseAreaId));
     }
+
+    @Override
+    public void deleteAll(List<Location> locations) {
+        locationRepository.deleteAll(locationPOTransfer.toLocationPOS(locations));
+    }
+
+    @Override
+    public List<Location> getByWarehouseAreaId(Long warehouseAreaId) {
+        return locationPOTransfer.toLocationDOS(locationRepository.findByWarehouseAreaId(warehouseAreaId));
+    }
+
+    @Override
+    public List<Location> getByWarehouseLogicId(Long warehouseLogicId) {
+        return locationPOTransfer.toLocationDOS(locationRepository.findByWarehouseLogicId(warehouseLogicId));
+    }
 }

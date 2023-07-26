@@ -46,7 +46,7 @@ public class LocationApiImpl implements ILocationApi {
     public void delete(Long id) {
         Location location = locationRepository.getById(id);
         location.delete();
-        locationRepository.saveAll(Lists.newArrayList(location));
+        locationRepository.deleteAll(Lists.newArrayList(location));
     }
 
     @Override
@@ -58,6 +58,6 @@ public class LocationApiImpl implements ILocationApi {
     public void deleteByAisle(String aisleCode, Long warehouseAreaId) {
         List<Location> locations = locationRepository.getByAisle(aisleCode, warehouseAreaId);
         locations.forEach(Location::delete);
-        locationRepository.saveAll(locations);
+        locationRepository.deleteAll(locations);
     }
 }
