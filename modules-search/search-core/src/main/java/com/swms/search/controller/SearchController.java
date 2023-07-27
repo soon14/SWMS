@@ -35,7 +35,8 @@ public class SearchController {
         Map<String, Object> paramMap = MapUtils.flat(request.getParameterMap());
         paramMap.putAll(requestMap);
 
-        SearchResult<Map<String, Object>> search = beanSearcher.search(SearchUtils.createClass(searchParam), SearchUtils.handleArrayParams(paramMap));
+        SearchResult<Map<String, Object>> search = beanSearcher
+            .search(SearchUtils.createClass(searchParam), SearchUtils.handleArrayParams(paramMap));
         SearchPageResult searchPageResult = SearchPageResult.builder().items(search.getDataList())
             .total(search.getTotalCount().intValue()).build();
         return Response.builder().data(searchPageResult).build();
@@ -44,7 +45,8 @@ public class SearchController {
     @PostMapping("searchSelectResult")
     public Object searchSelectResult(HttpServletRequest request, @Validated @RequestBody SearchParam searchParam)
         throws CannotCompileException, ClassNotFoundException {
-        SearchResult searchResult = beanSearcher.search(SearchUtils.createClass(searchParam), MapUtils.flat(request.getParameterMap()));
+        SearchResult<Map<String, Object>> searchResult = beanSearcher
+            .search(SearchUtils.createClass(searchParam), MapUtils.flat(request.getParameterMap()));
         return Response.builder().data(Maps.immutableEntry("options", searchResult.getDataList())).build();
     }
 
