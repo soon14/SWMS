@@ -9,6 +9,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring",
     nullValueCheckStrategy = ALWAYS,
     nullValueMappingStrategy = RETURN_NULL,
@@ -19,4 +21,8 @@ public interface WarehouseLogicPOTransfer {
     WarehouseLogicPO toPO(WarehouseLogic warehouseLogic);
 
     WarehouseLogic toDO(WarehouseLogicPO warehouseLogicPO);
+
+    List<WarehouseLogic> toDOS(List<WarehouseLogicPO> warehouseLogicPOS);
+
+    List<WarehouseLogicPO> toPOS(List<WarehouseLogic> warehouseLogics);
 }

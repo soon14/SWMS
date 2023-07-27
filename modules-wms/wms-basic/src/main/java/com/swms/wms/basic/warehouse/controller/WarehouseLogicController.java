@@ -31,19 +31,19 @@ public class WarehouseLogicController {
         return Response.success();
     }
 
-    @GetMapping("{id}")
+    @GetMapping("enable/{id}")
     public Object enable(@PathVariable Long id) {
         iWarehouseLogicApi.enable(id);
         return Response.success();
     }
 
-    @GetMapping("{id}")
+    @GetMapping("disable/{id}")
     public Object disable(@PathVariable Long id) {
         iWarehouseLogicApi.disable(id);
         return Response.success();
     }
 
-    @GetMapping("{id}")
+    @GetMapping("delete/{id}")
     public Object delete(@PathVariable Long id) {
         iWarehouseLogicApi.delete(id);
         return Response.success();

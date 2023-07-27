@@ -1,11 +1,14 @@
 package com.swms.wms.basic.warehouse.application;
 
+import com.google.common.collect.Lists;
 import com.swms.wms.api.basic.IWarehouseAreaApi;
 import com.swms.wms.api.basic.dto.WarehouseAreaDTO;
 import com.swms.wms.basic.warehouse.domain.entity.Location;
 import com.swms.wms.basic.warehouse.domain.entity.WarehouseArea;
+import com.swms.wms.basic.warehouse.domain.entity.WarehouseLogic;
 import com.swms.wms.basic.warehouse.domain.repository.LocationRepository;
 import com.swms.wms.basic.warehouse.domain.repository.WarehouseAreaRepository;
+import com.swms.wms.basic.warehouse.domain.repository.WarehouseLogicRepository;
 import com.swms.wms.basic.warehouse.domain.service.WarehouseService;
 import com.swms.wms.basic.warehouse.domain.transfer.WarehouseAreaTransfer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +24,9 @@ public class WarehouseAreaApiImpl implements IWarehouseAreaApi {
 
     @Autowired
     private WarehouseAreaRepository warehouseAreaRepository;
+
+    @Autowired
+    private WarehouseLogicRepository warehouseLogicRepository;
 
     @Autowired
     private WarehouseAreaTransfer warehouseAreaTransfer;
@@ -68,8 +74,17 @@ public class WarehouseAreaApiImpl implements IWarehouseAreaApi {
     }
 
     @Override
-    public void delete(WarehouseAreaDTO WarehouseAreaDTO) {
+    public void delete(Long id) {
 
+        WarehouseArea warehouseArea = warehouseAreaRepository.getById(id);
+        List<WarehouseLogic> warehouseLogics = warehouseService
+            .getWarehouseLogicsByWarehouseAreaIds(Lists.newArrayList(warehouseArea.getId()));
+
+        warehouseLogics.forEach(WarehouseLogic::delete);
+        warehouseLogicRepository.saveAll(warehouseLogics);
+
+        warehouseArea.delete();
+        warehouseAreaRepository.save(warehouseArea);
     }
 
     @Override

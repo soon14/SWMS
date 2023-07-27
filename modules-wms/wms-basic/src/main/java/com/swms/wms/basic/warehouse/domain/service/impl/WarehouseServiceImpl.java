@@ -6,6 +6,7 @@ import com.swms.wms.basic.warehouse.domain.entity.WarehouseAreaGroup;
 import com.swms.wms.basic.warehouse.domain.entity.WarehouseLogic;
 import com.swms.wms.basic.warehouse.domain.repository.LocationRepository;
 import com.swms.wms.basic.warehouse.domain.repository.WarehouseAreaRepository;
+import com.swms.wms.basic.warehouse.domain.repository.WarehouseLogicRepository;
 import com.swms.wms.basic.warehouse.domain.service.WarehouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,9 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     @Autowired
     private WarehouseAreaRepository warehouseAreaRepository;
+
+    @Autowired
+    private WarehouseLogicRepository warehouseLogicRepository;
 
     @Autowired
     private LocationRepository locationRepository;
@@ -49,5 +53,16 @@ public class WarehouseServiceImpl implements WarehouseService {
     @Override
     public List<Location> getLocationsByWarehouseLogic(WarehouseLogic warehouseLogic) {
         return locationRepository.getByWarehouseLogicId(warehouseLogic.getId());
+    }
+
+    @Override
+    public List<WarehouseArea> getWarehouseAreasByWarehouseAreaGroup(WarehouseAreaGroup warehouseAreaGroup) {
+        return warehouseAreaRepository
+            .getByWarehouseAreaGroup(warehouseAreaGroup.getWarehouseAreaGroupCode(), warehouseAreaGroup.getWarehouseCode());
+    }
+
+    @Override
+    public List<WarehouseLogic> getWarehouseLogicsByWarehouseAreaIds(List<Long> warehouseAreaIds) {
+        return warehouseLogicRepository.getByWarehouseAreaIds(warehouseAreaIds);
     }
 }

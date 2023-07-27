@@ -1,13 +1,15 @@
 package com.swms.wms.basic.warehouse.application;
 
-import com.swms.utils.exception.WmsException;
-import com.swms.utils.exception.code_enum.BasicErrorDescEnum;
 import com.swms.wms.api.basic.IWarehouseAreaGroupApi;
 import com.swms.wms.api.basic.dto.WarehouseAreaGroupDTO;
 import com.swms.wms.basic.warehouse.domain.entity.Location;
+import com.swms.wms.basic.warehouse.domain.entity.WarehouseArea;
 import com.swms.wms.basic.warehouse.domain.entity.WarehouseAreaGroup;
+import com.swms.wms.basic.warehouse.domain.entity.WarehouseLogic;
 import com.swms.wms.basic.warehouse.domain.repository.LocationRepository;
 import com.swms.wms.basic.warehouse.domain.repository.WarehouseAreaGroupRepository;
+import com.swms.wms.basic.warehouse.domain.repository.WarehouseAreaRepository;
+import com.swms.wms.basic.warehouse.domain.repository.WarehouseLogicRepository;
 import com.swms.wms.basic.warehouse.domain.service.WarehouseService;
 import com.swms.wms.basic.warehouse.domain.transfer.WarehouseAreaGroupTransfer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,12 @@ public class WarehouseAreaGroupApiImpl implements IWarehouseAreaGroupApi {
 
     @Autowired
     private WarehouseAreaGroupRepository warehouseAreaGroupRepository;
+
+    @Autowired
+    private WarehouseLogicRepository warehouseLogicRepository;
+
+    @Autowired
+    private WarehouseAreaRepository warehouseAreaRepository;
 
     @Autowired
     private WarehouseAreaGroupTransfer warehouseAreaGroupTransfer;
@@ -70,13 +78,21 @@ public class WarehouseAreaGroupApiImpl implements IWarehouseAreaGroupApi {
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
         WarehouseAreaGroup warehouseAreaGroup = warehouseAreaGroupRepository.getById(id);
-        boolean validateResult = warehouseAreaGroupService.validate(warehouseAreaGroup);
-        if (validateResult) {
-            throw WmsException.throwWmsException(BasicErrorDescEnum.LOCATION_CONTAINS_STOCK);
-        }
 
-        warehouseAreaGroupRepository.delete(warehouseAreaGroup);
+        List<WarehouseArea> warehouseAreas = warehouseAreaGroupService.getWarehouseAreasByWarehouseAreaGroup(warehouseAreaGroup);
+        List<WarehouseLogic> warehouseLogics = warehouseAreaGroupService
+            .getWarehouseLogicsByWarehouseAreaIds(warehouseAreas.stream().map(WarehouseArea::getId).toList());
+
+        warehouseLogics.forEach(WarehouseLogic::delete);
+        warehouseLogicRepository.saveAll(warehouseLogics);
+
+        warehouseAreas.forEach(WarehouseArea::delete);
+        warehouseAreaRepository.saveAll(warehouseAreas);
+
+        warehouseAreaGroup.delete();
+        warehouseAreaGroupRepository.save(warehouseAreaGroup);
     }
 }

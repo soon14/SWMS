@@ -4,9 +4,7 @@ import static org.mapstruct.NullValueCheckStrategy.ALWAYS;
 import static org.mapstruct.NullValueMappingStrategy.RETURN_NULL;
 
 import com.swms.wms.basic.warehouse.domain.entity.WarehouseArea;
-import com.swms.wms.basic.warehouse.domain.entity.WarehouseConfig;
 import com.swms.wms.basic.warehouse.infrastructure.persistence.po.WarehouseAreaPO;
-import com.swms.wms.basic.warehouse.infrastructure.persistence.po.WarehouseConfigPO;
 import org.mapstruct.Mapper;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
@@ -25,4 +23,6 @@ public interface WarehouseAreaPOTransfer {
     WarehouseArea toDO(WarehouseAreaPO warehouseAreaPO);
 
     List<WarehouseArea> toDOS(List<WarehouseAreaPO> warehouseAreaPOS);
+
+    List<WarehouseAreaPO> toPOS(List<WarehouseArea> warehouseAreas);
 }

@@ -19,7 +19,7 @@ class LocationApiTest extends BaseTest {
         AisleLocationVO locationVO = new AisleLocationVO();
         locationVO.setWarehouseCode("123");
         locationVO.setLocationType(LocationTypeEnum.RACK);
-        locationVO.setWarehouseAreaId(1L);
+        locationVO.setWarehouseAreaId(466669475480080384L);
 
         AisleLocationVO.LocationDesc locationDesc = AisleLocationVO.LocationDesc.builder()
             .aisleCode("01").shelfLine("A").shelfNumber(2).singleEntrance(true)

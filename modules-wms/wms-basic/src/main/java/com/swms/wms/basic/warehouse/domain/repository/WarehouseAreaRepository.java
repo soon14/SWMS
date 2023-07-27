@@ -11,4 +11,6 @@ public interface WarehouseAreaRepository {
     WarehouseArea getById(Long warehouseAreaId);
 
     List<WarehouseArea> getByWarehouseAreaGroup(String warehouseAreaGroupCode, String warehouseCode);
+
+    void saveAll(List<WarehouseArea> warehouseAreas);
 }

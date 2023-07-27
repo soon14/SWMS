@@ -7,6 +7,8 @@ import com.swms.wms.basic.warehouse.infrastructure.persistence.transfer.Warehous
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class WarehouseLogicRepositoryImpl implements WarehouseLogicRepository {
 
@@ -24,5 +26,15 @@ public class WarehouseLogicRepositoryImpl implements WarehouseLogicRepository {
     @Override
     public WarehouseLogic getById(Long id) {
         return warehouseLogicPOTransfer.toDO(warehouseLogicPORepository.findById(id).orElseThrow());
+    }
+
+    @Override
+    public List<WarehouseLogic> getByWarehouseAreaIds(List<Long> warehouseAreaIds) {
+        return warehouseLogicPOTransfer.toDOS(warehouseLogicPORepository.findByWarehouseAreaIdIn(warehouseAreaIds));
+    }
+
+    @Override
+    public void saveAll(List<WarehouseLogic> warehouseLogics) {
+        warehouseLogicPORepository.saveAll(warehouseLogicPOTransfer.toPOS(warehouseLogics));
     }
 }

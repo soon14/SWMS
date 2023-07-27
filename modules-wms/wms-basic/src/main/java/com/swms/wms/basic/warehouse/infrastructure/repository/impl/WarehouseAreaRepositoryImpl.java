@@ -33,4 +33,9 @@ public class WarehouseAreaRepositoryImpl implements WarehouseAreaRepository {
         return warehouseAreaPOTransfer
             .toDOS(warehouseAreaPORepository.findByWarehouseGroupCodeAndWarehouseCode(warehouseAreaGroupCode, warehouseCode));
     }
+
+    @Override
+    public void saveAll(List<WarehouseArea> warehouseAreas) {
+        warehouseAreaPORepository.saveAll(warehouseAreaPOTransfer.toPOS(warehouseAreas));
+    }
 }

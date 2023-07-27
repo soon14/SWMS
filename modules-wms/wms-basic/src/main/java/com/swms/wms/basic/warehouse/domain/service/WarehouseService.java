@@ -16,4 +16,8 @@ public interface WarehouseService {
     List<Location> getLocationsByWarehouseArea(WarehouseArea warehouseArea);
 
     List<Location> getLocationsByWarehouseLogic(WarehouseLogic warehouseLogic);
+
+    List<WarehouseArea> getWarehouseAreasByWarehouseAreaGroup(WarehouseAreaGroup warehouseAreaGroup);
+
+    List<WarehouseLogic> getWarehouseLogicsByWarehouseAreaIds(List<Long> warehouseAreaIds);
 }

@@ -27,4 +27,9 @@ public class WarehouseAreaGroup {
     public void enable() {
         this.enable = true;
     }
+
+    public void delete() {
+        this.deleted = true;
+        this.deleteTime = System.currentTimeMillis();
+    }
 }

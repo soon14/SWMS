@@ -14,7 +14,7 @@ public interface IWarehouseAreaApi {
 
     void disable(@NotNull Long id);
 
-    void delete(@Valid WarehouseAreaDTO warehouseAreaDTO);
+    void delete(@Valid Long id);
 
     WarehouseAreaDTO getById(Long warehouseAreaId);
 }

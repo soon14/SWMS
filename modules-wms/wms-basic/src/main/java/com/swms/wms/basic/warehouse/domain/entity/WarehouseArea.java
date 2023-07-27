@@ -9,7 +9,6 @@ public class WarehouseArea {
 
     private Long id;
 
-    // union unique identifier
     private String warehouseAreaCode;
     private String warehouseCode;
 
@@ -39,5 +38,10 @@ public class WarehouseArea {
 
     public void disable() {
         this.enable = false;
+    }
+
+    public void delete() {
+        this.deleteTime = System.currentTimeMillis();
+        this.deleted = true;
     }
 }

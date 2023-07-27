@@ -8,8 +8,7 @@ public class WarehouseLogic {
     private Long id;
 
     private String warehouseCode;
-    private String warehouseGroupCode;
-    private String warehouseAreaCode;
+    private Long warehouseAreaId;
     private String warehouseLogicCode;
     private String warehouseLogicName;
 
