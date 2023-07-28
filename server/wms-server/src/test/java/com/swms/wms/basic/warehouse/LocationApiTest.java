@@ -5,6 +5,7 @@ import com.swms.wms.api.basic.constants.LocationTypeEnum;
 import com.swms.wms.basic.warehouse.controller.LocationController;
 import com.swms.wms.basic.warehouse.controller.parameter.AisleLocationVO;
 import org.assertj.core.util.Lists;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -26,6 +27,6 @@ class LocationApiTest extends BaseTest {
             .warehouseLogicId(1L).containerSpecCode("12213").build();
         locationVO.setLocationDescList(Lists.newArrayList(locationDesc));
 
-        locationController.create(locationVO);
+        Assertions.assertDoesNotThrow(() -> locationController.create(locationVO), String.valueOf(Exception.class));
     }
 }

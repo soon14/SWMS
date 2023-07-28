@@ -2,12 +2,8 @@ package com.swms.user.rest.param.user;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-
-import java.util.Set;
+import lombok.Data;
 
 /**
  * 修改角色参数

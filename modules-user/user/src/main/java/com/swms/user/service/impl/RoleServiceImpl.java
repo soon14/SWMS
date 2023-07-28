@@ -142,10 +142,9 @@ public class RoleServiceImpl implements RoleService {
 
     private void checkRoleStatus(Role role) {
         // 当角色处于启用状态且被用户关联时，不允许删除
-        if (Objects.equal(role.getStatus().toString(), YesOrNo.YES.getValue())) {
-            if (!CollectionUtils.isEmpty(userRoleService.getByRoleId(role.getId()))) {
-                throw new WmsException(UserErrorDescEnum.ERR_ROLE_IS_ENABLE_AND_USED);
-            }
+        if (Objects.equal(role.getStatus().toString(), YesOrNo.YES.getValue())
+            && !CollectionUtils.isEmpty(userRoleService.getByRoleId(role.getId()))) {
+            throw new WmsException(UserErrorDescEnum.ERR_ROLE_IS_ENABLE_AND_USED);
         }
     }
 }

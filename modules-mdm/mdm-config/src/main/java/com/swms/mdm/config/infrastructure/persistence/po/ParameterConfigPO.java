@@ -4,7 +4,6 @@ import com.swms.mdm.api.config.constants.ConfigApplyModuleEnum;
 import com.swms.mdm.api.config.constants.ConfigApplyObjectEnum;
 import com.swms.mdm.api.config.constants.ConfigTypeEnum;
 import com.swms.utils.base.BaseUserPO;
-import com.swms.utils.id.IdGenerator;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;

@@ -4,7 +4,6 @@ import com.swms.mdm.api.config.constants.BusinessFlowEnum;
 import com.swms.mdm.api.config.constants.ExecuteTimeEnum;
 import com.swms.mdm.api.config.constants.UnionLocationEnum;
 import com.swms.utils.base.BaseUserPO;
-import com.swms.utils.id.IdGenerator;
 import com.swms.utils.jpa.converter.ListStringConverter;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;

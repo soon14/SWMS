@@ -1,7 +1,6 @@
 package com.swms.mdm.config.infrastructure.persistence.mapper;
 
 import com.swms.mdm.api.config.constants.ConfigApplyObjectEnum;
-import com.swms.mdm.config.domain.entity.ParameterConfig;
 import com.swms.mdm.config.infrastructure.persistence.po.ParameterConfigPO;
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -2,7 +2,6 @@ package com.swms.wms.basic.warehouse.infrastructure.persistence.po;
 
 import com.swms.mdm.api.config.dto.WarehouseMainDataConfigDTO;
 import com.swms.utils.base.BaseUserPO;
-import com.swms.utils.id.IdGenerator;
 import com.swms.wms.basic.warehouse.infrastructure.persistence.converter.WarehouseMainDataConfigDTOConverter;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;

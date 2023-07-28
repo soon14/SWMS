@@ -16,15 +16,12 @@
 package com.swms.tenant.config.config;
 
 import jakarta.persistence.EntityManagerFactory;
-import org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy;
 import org.hibernate.cfg.AvailableSettings;
 import org.hibernate.context.spi.CurrentTenantIdentifierResolver;
 import org.hibernate.engine.jdbc.connections.spi.AbstractDataSourceBasedMultiTenantConnectionProviderImpl;
 import org.hibernate.engine.jdbc.connections.spi.MultiTenantConnectionProvider;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -48,9 +45,6 @@ import java.util.Map;
 @Configuration
 @EnableTransactionManagement
 public class TenantDatabaseConfig {
-
-    @Autowired
-    private JpaProperties jpaProperties;
 
     @Bean(name = "tenantJpaVendorAdapter")
     public JpaVendorAdapter jpaVendorAdapter() {
@@ -92,9 +86,9 @@ public class TenantDatabaseConfig {
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean(
         AbstractDataSourceBasedMultiTenantConnectionProviderImpl multiTenantConnectionProvider,
-        CurrentTenantIdentifierResolver currentTenantIdentifierResolver) {
+        CurrentTenantIdentifierResolver currentTenantIdentifierResolver, JpaProperties jpaProperties) {
 
-        Map<String, Object> hibernateProps = new LinkedHashMap<>(this.jpaProperties.getProperties());
+        Map<String, Object> hibernateProps = new LinkedHashMap<>(jpaProperties.getProperties());
         hibernateProps.put(AvailableSettings.MULTI_TENANT_CONNECTION_PROVIDER, multiTenantConnectionProvider);
         hibernateProps.put(AvailableSettings.MULTI_TENANT_IDENTIFIER_RESOLVER, currentTenantIdentifierResolver);
         hibernateProps.put(AvailableSettings.PHYSICAL_NAMING_STRATEGY, CustomTableNamingStrategy.class.getName());

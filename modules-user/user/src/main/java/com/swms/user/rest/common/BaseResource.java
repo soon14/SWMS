@@ -7,5 +7,6 @@ package com.swms.user.rest.common;
  * @version 1.0
  */
 public abstract class BaseResource {
+
     public static final String API = "/api/";
 }

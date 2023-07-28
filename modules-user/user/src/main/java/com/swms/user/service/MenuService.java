@@ -52,7 +52,7 @@ public interface MenuService {
      *
      * @throws Exception 获取异常
      */
-    List<Menu> getMenuTreeByUser(String currentUsername) throws Exception;
+    List<Menu> getMenuTreeByUser(String currentUsername);
 
     /**
      * 修改状态

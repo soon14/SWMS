@@ -3,9 +3,6 @@ package com.swms.user.rest.common.param;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
-
 /**
  * 分页参数
  *

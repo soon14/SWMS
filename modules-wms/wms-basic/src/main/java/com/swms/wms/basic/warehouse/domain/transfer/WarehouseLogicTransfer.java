@@ -3,9 +3,7 @@ package com.swms.wms.basic.warehouse.domain.transfer;
 import static org.mapstruct.NullValueCheckStrategy.ALWAYS;
 import static org.mapstruct.NullValueMappingStrategy.RETURN_NULL;
 
-import com.swms.wms.api.basic.dto.WarehouseAreaDTO;
 import com.swms.wms.api.basic.dto.WarehouseLogicDTO;
-import com.swms.wms.basic.warehouse.domain.entity.WarehouseArea;
 import com.swms.wms.basic.warehouse.domain.entity.WarehouseLogic;
 import org.mapstruct.Mapper;
 import org.mapstruct.NullValuePropertyMappingStrategy;

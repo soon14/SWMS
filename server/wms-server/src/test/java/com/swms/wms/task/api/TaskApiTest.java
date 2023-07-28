@@ -55,6 +55,5 @@ class TaskApiTest extends BaseTest {
                 testFullFlow();
             }).start();
         }
-        Thread.sleep(5000L);
     }
 }

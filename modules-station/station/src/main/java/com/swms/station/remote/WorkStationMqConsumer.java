@@ -51,14 +51,14 @@ public class WorkStationMqConsumer {
                 return;
             }
 
-            values.forEach(putWallSlotDTO -> workStation.getPutWalls().forEach(putWall -> {
-                putWall.getPutWallSlots().forEach(cachePutWallSlot -> {
-                    if (StringUtils.equals(putWallSlotDTO.getPutWallSlotCode(), cachePutWallSlot.getPutWallSlotCode())) {
-                        cachePutWallSlot.setOrderIds(putWallSlotDTO.getOrderIds());
-                        cachePutWallSlot.setPutWallSlotStatus(putWallSlotDTO.getPutWallSlotStatus());
-                    }
-                });
-            }));
+            values.forEach(putWallSlotDTO -> workStation.getPutWalls()
+                .forEach(putWall -> putWall.getPutWallSlots()
+                    .forEach(cachePutWallSlot -> {
+                        if (StringUtils.equals(putWallSlotDTO.getPutWallSlotCode(), cachePutWallSlot.getPutWallSlotCode())) {
+                            cachePutWallSlot.setOrderIds(putWallSlotDTO.getOrderIds());
+                            cachePutWallSlot.setPutWallSlotStatus(putWallSlotDTO.getPutWallSlotStatus());
+                        }
+                    })));
             StationWebSocketUtils.noticeWebStationStatusChanged(workStationId);
         });
     }

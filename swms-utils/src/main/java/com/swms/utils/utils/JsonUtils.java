@@ -26,8 +26,11 @@ import java.util.TimeZone;
  * Json工具
  */
 @Slf4j
-@SuppressWarnings("unchecked,rawtypes")
 public class JsonUtils {
+
+    private JsonUtils() {
+
+    }
 
     /**
      * 通用策略

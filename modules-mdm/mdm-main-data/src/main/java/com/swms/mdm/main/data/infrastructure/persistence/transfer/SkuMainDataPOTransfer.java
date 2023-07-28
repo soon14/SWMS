@@ -5,7 +5,6 @@ import static org.mapstruct.NullValueMappingStrategy.RETURN_NULL;
 
 import com.swms.mdm.main.data.domain.entity.SkuMainData;
 import com.swms.mdm.main.data.infrastructure.persistence.po.SkuMainDataPO;
-import org.mapstruct.InheritConfiguration;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

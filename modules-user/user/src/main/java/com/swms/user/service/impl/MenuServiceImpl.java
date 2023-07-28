@@ -88,9 +88,7 @@ public class MenuServiceImpl implements MenuService {
             if (Objects.equals(parentId, 0L)) {
                 topNavigationInfo.add(navigationInfo);
             } else {
-                if (!notTopMenus.containsKey(parentId)) {
-                    notTopMenus.put(parentId, menu);
-                }
+                notTopMenus.putIfAbsent(parentId, menu);
             }
             // 非插件菜单
             navigationInfos.add(navigationInfo);

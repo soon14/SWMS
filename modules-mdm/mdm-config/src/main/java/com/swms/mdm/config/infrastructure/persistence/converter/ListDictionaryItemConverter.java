@@ -1,7 +1,6 @@
 package com.swms.mdm.config.infrastructure.persistence.converter;
 
 import com.swms.mdm.config.domain.entity.Dictionary;
-import com.swms.mdm.config.infrastructure.persistence.po.DictionaryPO;
 import com.swms.utils.utils.JsonUtils;
 import jakarta.persistence.AttributeConverter;
 

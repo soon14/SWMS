@@ -1,9 +1,7 @@
 package com.swms.user.rest.controller;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import com.swms.user.repository.entity.Menu;
 import com.swms.user.repository.entity.Role;
 import com.swms.user.rest.common.BaseResource;
@@ -27,8 +25,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;

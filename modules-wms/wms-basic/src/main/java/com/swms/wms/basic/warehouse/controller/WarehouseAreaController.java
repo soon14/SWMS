@@ -2,13 +2,7 @@ package com.swms.wms.basic.warehouse.controller;
 
 import com.swms.utils.http.Response;
 import com.swms.wms.api.basic.IWarehouseAreaApi;
-import com.swms.wms.api.basic.IWarehouseConfigApi;
 import com.swms.wms.api.basic.dto.WarehouseAreaDTO;
-import com.swms.wms.api.basic.dto.WarehouseConfigDTO;
-import com.swms.wms.basic.warehouse.domain.entity.WarehouseArea;
-import com.swms.wms.basic.warehouse.domain.entity.WarehouseConfig;
-import com.swms.wms.basic.warehouse.domain.repository.WarehouseConfigRepository;
-import com.swms.wms.basic.warehouse.domain.transfer.WarehouseConfigTransfer;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;

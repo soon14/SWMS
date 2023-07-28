@@ -5,7 +5,6 @@ import org.redisson.api.RedissonClient;
 import org.redisson.api.listener.MessageListener;
 import org.redisson.codec.JsonJacksonCodec;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.stereotype.Component;
 
 @Component

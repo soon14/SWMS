@@ -9,6 +9,7 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.google.common.collect.Lists;
+import com.swms.utils.compress.CompressUtils;
 import com.swms.utils.user.UserContext;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base64;

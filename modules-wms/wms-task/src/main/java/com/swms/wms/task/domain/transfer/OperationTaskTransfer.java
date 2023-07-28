@@ -6,7 +6,6 @@ import static org.mapstruct.NullValueMappingStrategy.RETURN_NULL;
 import com.swms.wms.api.task.dto.OperationTaskDTO;
 import com.swms.wms.task.domain.entity.OperationTask;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
 

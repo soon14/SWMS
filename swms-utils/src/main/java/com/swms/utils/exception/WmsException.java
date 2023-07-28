@@ -57,13 +57,14 @@ public final class WmsException extends RuntimeException {
      * 抛出wms异常
      *
      * @param iBaseError 基本错误
+     *
      * @return {@link WmsException}
      */
     public static WmsException throwWmsException(IBaseError iBaseError) {
         return WmsException.builder()
-                .code(iBaseError.getCode())
-                .message(iBaseError.getDesc())
-                .build();
+            .code(iBaseError.getCode())
+            .message(iBaseError.getDesc())
+            .build();
     }
 
 
@@ -86,13 +87,14 @@ public final class WmsException extends RuntimeException {
      * 抛出wms异常
      *
      * @param iBaseError 基本错误
+     *
      * @return {@link Supplier}<{@link WmsException}>
      */
     public static Supplier<WmsException> throwWmsExceptionSup(IBaseError iBaseError) {
         return () -> WmsException.builder()
-                .code(iBaseError.getCode())
-                .message(iBaseError.getDesc())
-                .build();
+            .code(iBaseError.getCode())
+            .message(iBaseError.getDesc())
+            .build();
     }
 
     /**
@@ -103,7 +105,7 @@ public final class WmsException extends RuntimeException {
      *
      * @return {@link Supplier}<{@link WmsException}>
      */
-    public static Supplier<WmsException> throwWmsExceptionSup(IBaseError iBaseError,Object... args) {
+    public static Supplier<WmsException> throwWmsExceptionSup(IBaseError iBaseError, Object... args) {
         return () -> WmsException.builder()
             .code(iBaseError.getCode())
             .message(MessageFormat.format(iBaseError.getDesc(), args))

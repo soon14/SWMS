@@ -1,5 +1,6 @@
 package com.swms.gateway.util;
 
+import com.swms.utils.http.Response;
 import com.swms.utils.utils.JsonUtils;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpHeaders;
@@ -13,6 +14,11 @@ import reactor.core.publisher.Mono;
  * @Description:
  */
 public class ResponseUtil {
+
+    private ResponseUtil() {
+
+    }
+
     /**
      * 设置webflux模型响应
      *

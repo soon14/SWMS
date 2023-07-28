@@ -1,11 +1,9 @@
 package com.swms.tenant.api.dto;
 
 import jakarta.validation.constraints.NotEmpty;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serial;
 import java.io.Serializable;
 
 @Data

@@ -13,6 +13,10 @@ import java.util.zip.InflaterInputStream;
 @Slf4j
 public class CompressUtils {
 
+    private CompressUtils() {
+
+    }
+
     public static byte[] compress(String value) {
 
         if (value == null) {

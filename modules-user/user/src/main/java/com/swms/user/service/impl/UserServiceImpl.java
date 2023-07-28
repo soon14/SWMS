@@ -5,6 +5,8 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.swms.tenant.config.util.TenantContext;
+import com.swms.user.api.dto.constants.UserTypeEnum;
+import com.swms.user.api.dto.constants.YesOrNo;
 import com.swms.user.config.prop.SystemProp;
 import com.swms.user.repository.entity.Menu;
 import com.swms.user.repository.entity.Role;
@@ -16,8 +18,6 @@ import com.swms.user.repository.mapper.RoleMapper;
 import com.swms.user.repository.mapper.RoleMenuMapper;
 import com.swms.user.repository.mapper.UserMapper;
 import com.swms.user.repository.mapper.UserRoleMapper;
-import com.swms.user.api.dto.constants.UserTypeEnum;
-import com.swms.user.api.dto.constants.YesOrNo;
 import com.swms.user.rest.param.user.UserAddParam;
 import com.swms.user.rest.param.user.UserUpdateParam;
 import com.swms.user.service.UserRoleService;
@@ -32,7 +32,6 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -214,7 +213,7 @@ public class UserServiceImpl implements UserService {
      * @return 权限集合
      */
     @Override
-    public Set<? extends GrantedAuthority> getPermissionModels(User user) {
+    public Set<PermissionGrantedAuthority> getPermissionModels(User user) {
         List<UserRole> userRoles = userRoleMapper.findByUserId(user.getId());
         List<Role> roles = roleMapper.findAllById(userRoles.stream().map(UserRole::getRoleId).toList());
 
@@ -228,7 +227,7 @@ public class UserServiceImpl implements UserService {
             return Sets.newHashSet(new PermissionGrantedAuthority(UserContext.SUPPER_PERMISSION));
         }
 
-        Set<GrantedAuthority> grantedAuthorities = Sets.newHashSet();
+        Set<PermissionGrantedAuthority> grantedAuthorities = Sets.newHashSet();
         List<RoleMenu> roleMenus = roleMenuMapper.findByRoleIdIn(roles.stream().map(Role::getId).toList());
         List<Menu> menus = menuMapper.findAllById(roleMenus.stream().map(RoleMenu::getMenuId).toList());
         // 拥有的权限

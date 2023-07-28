@@ -14,7 +14,6 @@ import com.swms.wms.stock.domain.repository.SkuBatchAttributeRepository;
 import com.swms.wms.stock.domain.repository.SkuBatchStockRepository;
 import com.swms.wms.stock.domain.service.StockTransferService;
 import com.swms.wms.stock.domain.transfer.ContainerStockTransfer;
-import com.swms.wms.stock.domain.transfer.SkuBatchAttributeTransfer;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

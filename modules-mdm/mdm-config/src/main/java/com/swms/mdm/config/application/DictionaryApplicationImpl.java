@@ -2,7 +2,6 @@ package com.swms.mdm.config.application;
 
 import com.swms.mdm.api.config.IDictionaryApi;
 import com.swms.mdm.api.config.dto.DictionaryDTO;
-import com.swms.mdm.config.domain.entity.Dictionary;
 import com.swms.mdm.config.domain.repository.DictionaryRepository;
 import com.swms.mdm.config.domain.transfer.DictionaryTransfer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,15 +24,10 @@ public class DictionaryApplicationImpl implements IDictionaryApi {
     }
 
     /**
-     * need more detail update logic
-     * //TODO
-     *
      * @param dictionaryDTO
      */
     @Override
     public void update(DictionaryDTO dictionaryDTO) {
-
-        Dictionary dictionary = dictionaryRepository.findById(dictionaryDTO.getId());
         dictionaryRepository.save(dictionaryTransfer.toDO(dictionaryDTO));
     }
 

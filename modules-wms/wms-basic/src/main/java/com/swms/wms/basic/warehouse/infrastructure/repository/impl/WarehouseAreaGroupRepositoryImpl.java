@@ -26,8 +26,4 @@ public class WarehouseAreaGroupRepositoryImpl implements WarehouseAreaGroupRepos
         return warehouseAreaGroupPOTransfer.toDO(warehouseAreaGroupPORepository.findById(id).orElseThrow());
     }
 
-    @Override
-    public void delete(WarehouseAreaGroup warehouseAreaGroup) {
-
-    }
 }

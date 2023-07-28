@@ -8,7 +8,6 @@ import org.springframework.data.redis.core.script.DigestUtils;
 
 import java.util.Map;
 import java.util.SortedMap;
-import java.util.TreeMap;
 
 @Data
 public class SkuBatchAttribute {
@@ -60,7 +59,7 @@ public class SkuBatchAttribute {
         });
     }
 
-    private String getBatchNo() {
+    public String getBatchNo() {
         if (StringUtils.isEmpty(this.batchNo)) {
             return this.batchNo;
         }

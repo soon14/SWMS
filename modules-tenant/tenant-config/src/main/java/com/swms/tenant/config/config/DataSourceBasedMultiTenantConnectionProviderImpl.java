@@ -17,6 +17,7 @@ package com.swms.tenant.config.config;
 
 import com.google.common.collect.Maps;
 import com.swms.tenant.api.dto.TenantDTO;
+import com.swms.tenant.config.exception.TenantException;
 import com.swms.tenant.config.facade.TenantFacade;
 import com.swms.tenant.config.util.DataSourceUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -40,7 +41,6 @@ import javax.sql.DataSource;
  */
 @Configuration
 @Slf4j
-@SuppressWarnings("unchecked")
 public class DataSourceBasedMultiTenantConnectionProviderImpl
     extends AbstractDataSourceBasedMultiTenantConnectionProviderImpl {
 
@@ -84,14 +84,14 @@ public class DataSourceBasedMultiTenantConnectionProviderImpl
             TenantDTO tenantDTO = tenantApi.getTenant(tenantIdentifier);
             if (tenantDTO == null) {
                 log.error("Trying to get tenant: {} which was not found in master db after rescan.", tenantIdentifier);
-                throw new RuntimeException(String.format("Tenant not found after rescan, " + " tenant=%s", tenantIdentifier));
+                throw new TenantException(String.format("Tenant not found after rescan, " + " tenant=%s", tenantIdentifier));
             }
             dataSourcesMtApp.put(tenantDTO.getTenantId(), DataSourceUtil.createAndConfigureDataSource(tenantDTO));
         }
         //check again if tenant exist in map after rescan master_db, if not, throw UsernameNotFoundException
         if (!dataSourcesMtApp.containsKey(tenantIdentifier)) {
             log.warn("Trying to get tenant: {} which was not found in master db after rescan.", tenantIdentifier);
-            throw new RuntimeException(String.format("Tenant not found after rescan, " + " tenant=%s", tenantIdentifier));
+            throw new TenantException(String.format("Tenant not found after rescan, " + " tenant=%s", tenantIdentifier));
         }
         return dataSourcesMtApp.get(tenantIdentifier);
     }

@@ -56,7 +56,8 @@ public class LocationPO extends BaseUserPO {
     @Column(nullable = false, columnDefinition = "bigint default 0 comment '逻辑区ID'")
     private Long warehouseLogicId;
 
-    @Column(nullable = false, columnDefinition = "varchar(64) comment '库位类型'")
+    @Column(nullable = false, columnDefinition = "varchar(20) comment '库位类型'")
+    @Enumerated(EnumType.STRING)
     private LocationTypeEnum locationType;
 
     @Column(columnDefinition = "varchar(64) comment '热度'")

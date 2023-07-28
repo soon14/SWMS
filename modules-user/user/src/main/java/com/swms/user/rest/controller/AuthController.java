@@ -9,7 +9,6 @@ import com.swms.user.service.UserRoleService;
 import com.swms.user.service.UserService;
 import com.swms.user.service.model.UserDetailsModel;
 import com.swms.utils.http.Response;
-import com.swms.utils.user.UserContext;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;

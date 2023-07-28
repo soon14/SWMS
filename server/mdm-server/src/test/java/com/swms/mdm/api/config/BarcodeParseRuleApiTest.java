@@ -38,18 +38,18 @@ class BarcodeParseRuleApiTest extends BaseTest {
 
     @Test
     void testUpdate() {
-//        BarcodeParseRule barcodeParseRule = barcodeParseRuleRepository.getBarcodeParseRule("123");
-//        BarcodeParseRuleDTO barcodeParseRuleDTO = new BarcodeParseRuleDTO();
-//        barcodeParseRuleDTO.setId(438390613814153216L);
-//        barcodeParseRuleDTO.setBusinessFlow(BusinessFlowEnum.INBOUND);
-//        barcodeParseRuleDTO.setCode("123");
-//        barcodeParseRuleDTO.setEnable(true);
-//        barcodeParseRuleDTO.setExecuteTime(ExecuteTimeEnum.SCAN_SKU);
-//        barcodeParseRuleDTO.setRegularExpression("(.*)");
-//        barcodeParseRuleDTO.setName("解析1234");
-//        barcodeParseRuleDTO.setResultFields(Lists.newArrayList("skuCode"));
-//        barcodeParseRuleDTO.setVersion(barcodeParseRule.getVersion());
-//        Assertions.assertDoesNotThrow(() -> iBarcodeParseRuleApi.update(barcodeParseRuleDTO));
+        BarcodeParseRule barcodeParseRule = barcodeParseRuleRepository.getBarcodeParseRule("123");
+        BarcodeParseRuleDTO barcodeParseRuleDTO = new BarcodeParseRuleDTO();
+        barcodeParseRuleDTO.setId(438390613814153216L);
+        barcodeParseRuleDTO.setBusinessFlow(BusinessFlowEnum.INBOUND);
+        barcodeParseRuleDTO.setCode("123");
+        barcodeParseRuleDTO.setEnable(true);
+        barcodeParseRuleDTO.setExecuteTime(ExecuteTimeEnum.SCAN_SKU);
+        barcodeParseRuleDTO.setRegularExpression("(.*)");
+        barcodeParseRuleDTO.setName("解析1234");
+        barcodeParseRuleDTO.setResultFields(Lists.newArrayList("skuCode"));
+        barcodeParseRuleDTO.setVersion(barcodeParseRule.getVersion());
+        Assertions.assertDoesNotThrow(() -> iBarcodeParseRuleApi.update(barcodeParseRuleDTO));
     }
 
     @Test
@@ -77,6 +77,6 @@ class BarcodeParseRuleApiTest extends BaseTest {
         List<BarcodeParseResult> parseResults = iBarcodeParseRuleApi.parse(barcodeParseRequestDTO);
 
         Assertions.assertEquals(1, parseResults.size());
-        Assertions.assertEquals(parseResults.get(0).getFileValue(), "123");
+        Assertions.assertEquals("123", parseResults.get(0).getFileValue());
     }
 }

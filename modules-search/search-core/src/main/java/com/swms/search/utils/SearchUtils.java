@@ -25,6 +25,10 @@ import java.util.Set;
 @Component
 public class SearchUtils {
 
+    private SearchUtils() {
+
+    }
+
     private static final String PACKAGE_NAME = "com.swms.search.parameter.";
 
     public static Class<?> createClass(SearchParam searchParam) throws CannotCompileException, ClassNotFoundException {

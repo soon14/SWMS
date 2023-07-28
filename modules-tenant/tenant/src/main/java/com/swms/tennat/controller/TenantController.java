@@ -6,7 +6,6 @@ import com.swms.tenant.api.dto.TenantDTO;
 import com.swms.tennat.model.entity.Tenant;
 import com.swms.tennat.model.repository.TenantRepository;
 import com.swms.utils.http.Response;
-import jodd.net.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/tenant")

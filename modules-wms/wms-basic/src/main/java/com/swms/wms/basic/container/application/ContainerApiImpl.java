@@ -1,5 +1,7 @@
 package com.swms.wms.basic.container.application;
 
+import static com.swms.utils.exception.code_enum.BasicErrorDescEnum.CONTAINER_SPECIFIC_NOT_EXIST;
+
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.swms.wms.api.basic.IContainerApi;
@@ -33,7 +35,7 @@ public class ContainerApiImpl implements IContainerApi {
     @Override
     public void createContainer(String warehouseCode, String containerCode, String containerSpecCode) {
         ContainerSpec containerSpec = containerSpecRepository.findByContainerSpecCode(containerSpecCode, warehouseCode);
-        Preconditions.checkState(containerSpec != null, "container spec not exist");
+        Preconditions.checkState(containerSpec != null, CONTAINER_SPECIFIC_NOT_EXIST.getDesc());
 
         Container container = new Container(warehouseCode, containerCode, containerSpecCode,
             containerSpecTransfer.toContainerSlots(containerSpec.getContainerSlotSpecs()));
@@ -44,7 +46,7 @@ public class ContainerApiImpl implements IContainerApi {
     public void createContainer(CreateContainerDTO createContainerDTO) {
         ContainerSpec containerSpec = containerSpecRepository
             .findByContainerSpecCode(createContainerDTO.getContainerSpecCode(), createContainerDTO.getWarehouseCode());
-        Preconditions.checkState(containerSpec != null, "container spec not exist");
+        Preconditions.checkState(containerSpec != null, CONTAINER_SPECIFIC_NOT_EXIST.getDesc());
 
         String format = "%0" + createContainerDTO.getIndexNumber() + "d";
         List<Container> containers = Lists.newArrayList();
@@ -77,7 +79,7 @@ public class ContainerApiImpl implements IContainerApi {
 
         ContainerSpec containerSpec = containerSpecRepository
             .findByContainerSpecCode(containerSpecCode, container.getWarehouseCode());
-        Preconditions.checkState(containerSpec != null, "container spec not exist");
+        Preconditions.checkState(containerSpec != null, CONTAINER_SPECIFIC_NOT_EXIST.getDesc());
 
         container.changeContainerSpec(containerSpecCode,
             containerSpecTransfer.toContainerSlots(containerSpec.getContainerSlotSpecs()));

@@ -1,8 +1,6 @@
 package com.swms.wms.basic.container.infrastructure.persistence.po;
 
 import com.swms.utils.base.BaseUserPO;
-import com.swms.utils.id.IdGenerator;
-import com.swms.utils.jpa.converter.ListStringConverter;
 import com.swms.wms.api.basic.constants.ContainerTypeEnum;
 import com.swms.wms.api.basic.dto.ContainerSpecDTO;
 import com.swms.wms.basic.container.infrastructure.persistence.converter.ListContainerSlotSpecConverter;

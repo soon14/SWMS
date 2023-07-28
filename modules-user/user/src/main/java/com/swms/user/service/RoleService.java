@@ -31,7 +31,7 @@ public interface RoleService {
      *
      * @throws Exception Exception 异常
      */
-    void addRole(RoleAddParam param) throws Exception;
+    void addRole(RoleAddParam param);
 
     /**
      * 修改角色
@@ -40,7 +40,7 @@ public interface RoleService {
      *
      * @throws Exception 异常
      */
-    void updateRole(RoleUpdateParam param) throws Exception;
+    void updateRole(RoleUpdateParam param);
 
     /**
      * 删除角色
@@ -49,7 +49,7 @@ public interface RoleService {
      *
      * @throws Exception 删除角色异常
      */
-    void deleteRole(Long roleId) throws Exception;
+    void deleteRole(Long roleId);
 
 
     /**
@@ -60,7 +60,7 @@ public interface RoleService {
      *
      * @throws Exception 修改异常
      */
-    void updateStatus(Long roleId, Integer status) throws Exception;
+    void updateStatus(Long roleId, Integer status);
 
     /**
      * 修改角色权限
@@ -69,7 +69,7 @@ public interface RoleService {
      *
      * @throws Exception
      */
-    void updateRoleMenu(RoleMenuUpdateParam param) throws Exception;
+    void updateRoleMenu(RoleMenuUpdateParam param);
 
     Role getRole(Long id);
 }

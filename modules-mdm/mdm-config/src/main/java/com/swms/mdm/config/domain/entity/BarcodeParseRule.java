@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -73,10 +74,10 @@ public class BarcodeParseRule {
 
     private List<BarcodeParseResult> buildResult(List<String> compileResult) {
         if (CollectionUtils.isEmpty(compileResult)) {
-            return null;
+            return Collections.emptyList();
         }
         if (compileResult.size() != resultFields.size()) {
-            return null;
+            return Collections.emptyList();
         }
 
         List<BarcodeParseResult> barcodeParseResults = Lists.newArrayListWithCapacity(resultFields.size());

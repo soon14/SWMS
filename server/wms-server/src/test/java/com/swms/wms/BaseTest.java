@@ -3,7 +3,9 @@ package com.swms.wms;
 import com.swms.tenant.api.ITenantApi;
 import com.swms.tenant.config.facade.TenantFacade;
 import com.swms.tenant.config.util.TenantContext;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
@@ -22,5 +24,10 @@ public class BaseTest {
 
         //set default tenant
         TenantContext.setCurrentTenant("test");
+    }
+
+    @Test
+    void test() {
+        Assertions.assertTrue(true);
     }
 }

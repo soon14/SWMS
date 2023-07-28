@@ -40,6 +40,6 @@ public class CreateContainerDTO implements IValidate {
     }
 
     public Integer getEndIndex() {
-        return (int) Math.pow(10, indexNumber - 1);
+        return (int) Math.pow(10d, indexNumber - 1d);
     }
 }

@@ -5,7 +5,6 @@ import com.swms.mdm.api.config.dto.DictionaryDTO;
 import com.swms.mdm.config.domain.entity.Dictionary;
 import com.swms.mdm.config.domain.repository.DictionaryRepository;
 import com.swms.mdm.config.domain.transfer.DictionaryTransfer;
-import com.swms.utils.dictionary.IEnum;
 import com.swms.utils.http.Response;
 import jakarta.validation.Valid;
 import org.reflections.Reflections;
@@ -82,7 +81,7 @@ public class DictionaryController {
     }
 
     @GetMapping("refresh")
-    public <E> Object refresh() {
+    public Object refresh() {
         Reflections reflections = new Reflections("com.swms");
         Set<Class<?>> dictionaryEnums = reflections.getTypesAnnotatedWith(com.swms.utils.dictionary.Dictionary.class);
 

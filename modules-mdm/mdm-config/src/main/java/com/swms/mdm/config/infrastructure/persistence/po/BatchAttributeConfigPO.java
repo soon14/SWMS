@@ -3,7 +3,6 @@ package com.swms.mdm.config.infrastructure.persistence.po;
 import com.swms.mdm.api.config.dto.BatchAttributeConfigDTO;
 import com.swms.mdm.config.infrastructure.persistence.converter.ListBatchAttributeFieldConfigConverter;
 import com.swms.utils.base.BaseUserPO;
-import com.swms.utils.id.IdGenerator;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;

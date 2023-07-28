@@ -22,16 +22,7 @@ public class PageFilter implements Filter {
     private static final String PAGE = "page";
     private static final String PAGE_SIZE = "perPage";
 
-    public static final Integer DEFAULT_PAGE_INDEX = 1;
     public static final Integer DEFAULT_PAGE_SIZE = 10;
-
-
-    public PageFilter() {
-    }
-
-    @Override
-    public void destroy() {
-    }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)

@@ -1,6 +1,5 @@
 package com.swms.mdm.config.application;
 
-import static com.swms.utils.constants.RedisConstants.BARCODE_PARSE_RULE_ADD_LOCK;
 import static com.swms.utils.constants.RedisConstants.BATCH_ATTRIBUTE_CONFIG_ADD_LOCK;
 import static com.swms.utils.exception.code_enum.CommonErrorDescEnum.REPEAT_REQUEST;
 import static com.swms.utils.exception.code_enum.MainDataErrorDescEnum.BARCODE_PARSE_RULE_REPEAT;

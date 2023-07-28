@@ -6,7 +6,6 @@ import com.swms.mdm.main.data.controller.parameter.SkuMainDataVO;
 import com.swms.mdm.main.data.controller.transfer.SkuMainDataDTOTransfer;
 import com.swms.mdm.main.data.domain.entity.SkuMainData;
 import com.swms.mdm.main.data.domain.repository.SkuMainDataRepository;
-import com.swms.mdm.main.data.domain.transfer.SkuMainDataTransfer;
 import com.swms.utils.http.Response;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController

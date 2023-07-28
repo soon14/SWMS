@@ -56,7 +56,7 @@ public class RoleAddParam {
     @NotNull
     private String warehouseCodes;
 
-    private List<String> getWarehouseCodes() {
+    public List<String> getWarehouseCodes() {
         if (StringUtils.isEmpty(warehouseCodes)) {
             return Collections.emptyList();
         }

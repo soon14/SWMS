@@ -4,12 +4,12 @@ import com.swms.tenant.api.ITenantApi;
 import com.swms.tenant.api.dto.TenantDTO;
 import com.swms.tennat.model.entity.Tenant;
 import com.swms.tennat.model.repository.TenantRepository;
-import com.swms.tennat.service.TenantService;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 
+import java.util.Collections;
 import java.util.List;
 
 @DubboService
@@ -40,6 +40,6 @@ public class TenantServiceImpl implements ITenantApi {
                 return tenantDTO;
             }).toList();
         }
-        return null;
+        return Collections.emptyList();
     }
 }

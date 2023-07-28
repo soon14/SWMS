@@ -4,6 +4,8 @@ import com.alibaba.cloud.commons.io.FileUtils;
 import com.swms.tenant.api.ITenantApi;
 import com.swms.tenant.api.dto.TenantDTO;
 import com.swms.utils.utils.JsonUtils;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.powermock.api.mockito.PowerMockito;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -34,5 +36,10 @@ public class WmsApplicationTest {
 
 
         return iTenantApi;
+    }
+
+    @Test
+    void test() {
+        Assertions.assertTrue(true);
     }
 }

@@ -1,7 +1,5 @@
 package com.swms.gateway.auth;
 
-import static com.swms.gateway.constant.SystemConstant.HEADER_WAREHOUSE;
-
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.Claim;
@@ -116,7 +114,7 @@ public class AuthGatewayFilter implements GlobalFilter, Ordered {
         }
 
         //verify auth warehouse
-        List<String> warehouseCodes = exchange.getRequest().getHeaders().get(HEADER_WAREHOUSE);
+        List<String> warehouseCodes = exchange.getRequest().getHeaders().get(SystemConstant.HEADER_WAREHOUSE);
         if (CollectionUtils.isNotEmpty(warehouseCodes)) {
             String warehouseCode = warehouseCodes.get(0);
             if (StringUtils.isNotEmpty(warehouseCode) && !verifyAuthWarehouse(jwt, warehouseCode)) {

@@ -1,7 +1,6 @@
 package com.swms.user.exception;
 
 import com.swms.utils.exception.ErrorResponse;
-import io.jsonwebtoken.ClaimJwtException;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

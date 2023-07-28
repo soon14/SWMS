@@ -2,10 +2,8 @@ package com.swms.user.rest.param.other;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
+import lombok.Data;
 
 /**
  * @author sws

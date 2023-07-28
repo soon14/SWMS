@@ -6,10 +6,8 @@ import com.swms.user.repository.entity.UserRole;
 import com.swms.user.repository.model.UserHasRole;
 import com.swms.user.rest.common.BaseResource;
 import com.swms.user.rest.param.user.UserAddParam;
-import com.swms.user.rest.param.user.UserRoleFetchParam;
 import com.swms.user.rest.param.user.UserUpdateParam;
 import com.swms.user.rest.param.user.UserUpdateStatusParam;
-import com.swms.user.service.MenuService;
 import com.swms.user.service.UserRoleService;
 import com.swms.user.service.UserService;
 import com.swms.utils.http.Response;
@@ -61,14 +59,14 @@ public class UserController extends BaseResource {
 
     @PostMapping("/add")
     @ApiOperation("添加用户")
-    public Response<Object> add(@RequestBody @Valid UserAddParam param) throws Exception {
+    public Response<Object> add(@RequestBody @Valid UserAddParam param) {
         userService.addUser(param);
         return Response.builder().build();
     }
 
     @PostMapping("/update")
     @ApiOperation("修改用户")
-    public Object update(@RequestBody @Valid UserUpdateParam param) throws Exception {
+    public Object update(@RequestBody @Valid UserUpdateParam param) {
         userService.updateUser(param);
         return Response.builder().build();
     }

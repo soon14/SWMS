@@ -26,13 +26,6 @@ public class PageHelper {
         return result;
     }
 
-    public static <T> PageResult<T> covertIPage(IPage iPage) {
-        PageResult<T> result = new PageResult<>();
-        result.setResults(iPage.getRecords());
-        result.setTotal(iPage.getTotal());
-        return result;
-    }
-
     @Builder
     @Data
     @NoArgsConstructor

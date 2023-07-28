@@ -2,13 +2,13 @@ package com.swms.station.business.model;
 
 import com.swms.station.remote.EquipmentService;
 import com.swms.station.remote.TaskService;
-import com.swms.wms.api.task.constants.OperationTaskTypeEnum;
-import com.swms.wms.api.task.dto.OperationTaskDTO;
 import com.swms.wms.api.basic.constants.ContainerLeaveTypeEnum;
 import com.swms.wms.api.basic.constants.WorkStationOperationTypeEnum;
 import com.swms.wms.api.basic.constants.WorkStationStatusEnum;
 import com.swms.wms.api.basic.dto.PutWallDTO;
 import com.swms.wms.api.basic.dto.WorkStationConfigDTO;
+import com.swms.wms.api.task.constants.OperationTaskTypeEnum;
+import com.swms.wms.api.task.dto.OperationTaskDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

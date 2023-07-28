@@ -1,8 +1,8 @@
 package com.swms.user.service.impl;
 
+import com.swms.user.api.dto.constants.YesOrNo;
 import com.swms.user.repository.entity.LoginLog;
 import com.swms.user.repository.mapper.LoginLogMapper;
-import com.swms.user.api.dto.constants.YesOrNo;
 import com.swms.user.service.LoginLogService;
 import com.swms.user.utils.TimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +30,7 @@ public class LoginLogServiceImpl implements LoginLogService {
      * @return
      */
     private String getAddressByIp(String ip) {
-        return "无";
+        return ip;
     }
 
     @Override

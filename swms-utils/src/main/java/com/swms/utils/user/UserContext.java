@@ -9,6 +9,10 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 @Slf4j
 public class UserContext {
+
+    private UserContext() {
+    }
+
     public static final String ROLE_GRANTED_AUTHORITY_PREFIX = "ROLE_";
     public static final String SUPPER_PERMISSION = "*:*";
     public static final String ANONYMOUS_USER = "unknownUser";

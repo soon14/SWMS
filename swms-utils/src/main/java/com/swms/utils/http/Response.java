@@ -6,18 +6,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serial;
-import java.io.Serializable;
-
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@SuppressWarnings("unchecked")
-public final class Response<T> implements Serializable {
+public final class Response<T> {
 
-    @Serial
-    private static final long serialVersionUID = 9140878780328792981L;
     /**
      * 默认成功代码
      */
@@ -71,6 +65,7 @@ public final class Response<T> implements Serializable {
     public static <T> Response<T> fail() {
         return ((Response<T>) Response.builder().code(FAIL_CODE).msg(FAILED_MSG).build());
     }
+
     public static <T> Response<T> fail(IBaseError baseEr) {
         return ((Response<T>) Response.builder().code(baseEr.getCode()).msg(baseEr.getDesc()).build());
     }

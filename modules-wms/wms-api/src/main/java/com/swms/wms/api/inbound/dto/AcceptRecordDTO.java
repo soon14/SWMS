@@ -2,7 +2,6 @@ package com.swms.wms.api.inbound.dto;
 
 import lombok.Data;
 
-import java.util.Map;
 import java.util.SortedMap;
 
 @Data

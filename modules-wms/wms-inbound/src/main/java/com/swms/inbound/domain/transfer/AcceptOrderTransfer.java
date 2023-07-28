@@ -5,7 +5,6 @@ import static org.mapstruct.NullValueMappingStrategy.RETURN_NULL;
 
 import com.swms.inbound.domain.entity.AcceptOrder;
 import com.swms.inbound.domain.entity.InboundPlanOrder;
-import com.swms.inbound.domain.entity.ReceiveOrder;
 import org.mapstruct.Mapper;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;

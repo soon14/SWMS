@@ -8,5 +8,4 @@ public interface WarehouseAreaGroupRepository {
 
     WarehouseAreaGroup getById(Long id);
 
-    void delete(WarehouseAreaGroup warehouseAreaGroup);
 }

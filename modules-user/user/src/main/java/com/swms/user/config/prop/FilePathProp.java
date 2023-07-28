@@ -11,8 +11,4 @@ import lombok.Data;
 @Data
 public class FilePathProp {
 
-    /**
-     * 用户头像文件路径
-     */
-    private String userAvatarPath = "D://user-avatar";
 }

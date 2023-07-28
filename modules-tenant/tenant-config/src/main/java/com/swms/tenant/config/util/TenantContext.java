@@ -4,6 +4,10 @@ import com.alibaba.ttl.TransmittableThreadLocal;
 
 public class TenantContext {
 
+    private TenantContext() {
+
+    }
+
     private static final TransmittableThreadLocal<String> CURRENT_TENANT = new TransmittableThreadLocal<>();
 
     public static String getTenant() {

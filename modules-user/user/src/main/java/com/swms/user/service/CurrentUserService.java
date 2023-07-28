@@ -19,7 +19,7 @@ public interface CurrentUserService {
      *
      * @throws Exception 修改密码异常
      */
-    void updateCurrentUserPassword(String currentUsername, String oldPassword, String newPassword) throws Exception;
+    void updateCurrentUserPassword(String currentUsername, String oldPassword, String newPassword);
 
     /**
      * 登录成功
@@ -39,6 +39,6 @@ public interface CurrentUserService {
      *
      * @throws Exception 更新异常
      */
-    void updateInfo(String currentUsername, CurrentUserInfoUpdatedParam param) throws Exception;
+    void updateInfo(String currentUsername, CurrentUserInfoUpdatedParam param);
 
 }

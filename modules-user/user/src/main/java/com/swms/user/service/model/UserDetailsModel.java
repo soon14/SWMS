@@ -1,7 +1,7 @@
 package com.swms.user.service.model;
 
-import com.swms.user.repository.entity.User;
 import com.google.common.collect.Sets;
+import com.swms.user.repository.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -20,11 +20,6 @@ public class UserDetailsModel implements UserDetails {
 
     private final User user;
     private final Set<? extends GrantedAuthority> grantedAuthorities;
-
-
-    public UserDetailsModel(User user) {
-        this(user, null);
-    }
 
     public UserDetailsModel(User user, Set<? extends GrantedAuthority> grantedAuthorities) {
         this.user = user;

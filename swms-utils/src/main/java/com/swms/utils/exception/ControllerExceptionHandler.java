@@ -76,14 +76,6 @@ public class ControllerExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> exceptionHandler(HttpServletRequest request, HttpServletResponse response, Exception e) {
 
-//        if (e instanceof BadSqlGrammarException) {
-//            log.error("BadSqlGrammarException error:", e);
-//            return Response.builder().code(ErrorCodeEnum.B_BAD_SQL_ERROR.getCode())
-//                .msg(I18nHelper.getMessage(request, ErrorCodeEnum.B_BAD_SQL_ERROR))
-//                .errorMsg(e.getCause().getMessage())
-//                .build();
-//        }
-
         ErrorResponse errorResponse = ErrorResponse.builder().message("System Error")
             .errorCode(CommonErrorDescEnum.SYSTEM_EXEC_ERROR.getCode())
             .description(CommonErrorDescEnum.SYSTEM_EXEC_ERROR.getDesc())

@@ -3,8 +3,7 @@ package com.swms.user.service;
 import com.swms.user.repository.entity.User;
 import com.swms.user.rest.param.user.UserAddParam;
 import com.swms.user.rest.param.user.UserUpdateParam;
-import com.swms.user.service.model.AuthUserInfo;
-import org.springframework.security.core.GrantedAuthority;
+import com.swms.user.service.model.PermissionGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.Set;
@@ -92,7 +91,7 @@ public interface UserService extends UserDetailsService {
      *
      * @return 权限集合
      */
-    Set<? extends GrantedAuthority> getPermissionModels(User user);
+    Set<PermissionGrantedAuthority> getPermissionModels(User user);
 
     /**
      * 同步用户（适用于客户用户同步，支持新增，修改和删除）
