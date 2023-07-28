@@ -4,6 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.swms.tenant.config.util.TenantContext;
 import com.swms.user.config.prop.SystemProp;
 import com.swms.user.repository.entity.Menu;
 import com.swms.user.repository.entity.Role;
@@ -123,6 +124,7 @@ public class UserServiceImpl implements UserService {
         if (StringUtils.isEmpty(user.getUsername())) {
             user.setUsername(user.getName());
         }
+        user.setTenantName(TenantContext.getTenant());
         userMapper.save(user);
 
         if (StringUtils.isNotEmpty(param.getRoleIds())) {
@@ -137,27 +139,24 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateUser(UserUpdateParam param) {
         checkSuperUser(param.getId());
-        synchronized (this) {
-            User user = userMapper.findById(param.getId()).orElseThrow(() -> new WmsException(UserErrorDescEnum.NO_AUTHED_USER_FOUND));
-            if (!Objects.equals(user.getUsername(), param.getUsername())) {
-                if (getByUsername(param.getUsername()) != null) {
-                    throw new WmsException(UserErrorDescEnum.ERR_USER_NAME_EXISTS);
-                }
-                // 禁止第三方账号修改其在海柔系统内的识别标识：用户名
-                if (!Objects.equals(UserTypeEnum.NORMAL, UserTypeEnum.getByCode(user.getType()))) {
-                    throw new WmsException("update external account username is not allowed");
-                }
+        User user = userMapper.findById(param.getId()).orElseThrow(() -> new WmsException(UserErrorDescEnum.NO_AUTHED_USER_FOUND));
+        if (!Objects.equals(user.getUsername(), param.getUsername())) {
+            if (getByUsername(param.getUsername()) != null) {
+                throw new WmsException(UserErrorDescEnum.ERR_USER_NAME_EXISTS);
             }
-            BeanUtils.copyProperties(param, user);
-            if (StringUtils.isNotBlank(param.getPassword())) {
-                user.setPassword(passwordEncoder.encode(param.getPassword()));
+            // 禁止第三方账号修改其在海柔系统内的识别标识：用户名
+            if (!Objects.equals(UserTypeEnum.NORMAL, UserTypeEnum.getByCode(user.getType()))) {
+                throw new WmsException("update external account username is not allowed");
             }
-            userMapper.save(user);
-            // 处理角色
-            userRoleService.removeByUserId(param.getId());
-            userRoleService.add(param.getId(), param.getRoleIds());
         }
-
+        BeanUtils.copyProperties(param, user);
+        if (StringUtils.isNotBlank(param.getPassword())) {
+            user.setPassword(passwordEncoder.encode(param.getPassword()));
+        }
+        userMapper.save(user);
+        // 处理角色
+        userRoleService.removeByUserId(param.getId());
+        userRoleService.add(param.getId(), param.getRoleIds());
     }
 
     @Override
@@ -197,10 +196,8 @@ public class UserServiceImpl implements UserService {
         checkSuperUser(userId);
         checkDisabledUser(userId);
         checkSelfUser(userId);
-        synchronized (this) {
-            userMapper.delete(user);
-            userRoleService.removeByUserId(userId);
-        }
+        userMapper.delete(user);
+        userRoleService.removeByUserId(userId);
     }
 
     @Override

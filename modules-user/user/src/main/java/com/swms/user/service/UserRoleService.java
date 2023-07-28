@@ -1,5 +1,6 @@
 package com.swms.user.service;
 
+import com.swms.user.repository.entity.Role;
 import com.swms.user.repository.entity.UserRole;
 
 import java.util.List;
@@ -47,4 +48,6 @@ public interface UserRoleService {
     List<UserRole> getByUserId(Long userId);
 
     List<UserRole> getByRoleId(Long roleId);
+
+    List<Role> getByUserName(String currentUser);
 }

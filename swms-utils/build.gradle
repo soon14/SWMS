@@ -24,8 +24,6 @@ dependencies {
     compileOnly 'org.springframework.boot:spring-boot-starter-websocket'
     compileOnly 'org.springframework.boot:spring-boot-starter-aop'
     compileOnly 'com.baomidou:mybatis-plus-boot-starter'
-    compileOnly('io.jsonwebtoken:jjwt:0.9.1')
-
 }
 test {
     useJUnitPlatform()

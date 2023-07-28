@@ -3,6 +3,7 @@ package com.swms.user.rest.controller;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.swms.user.repository.entity.Menu;
+import com.swms.user.repository.entity.Role;
 import com.swms.user.repository.entity.RoleMenu;
 import com.swms.user.repository.mapper.RoleMenuMapper;
 import com.swms.user.rest.common.BaseResource;
@@ -10,6 +11,7 @@ import com.swms.user.rest.common.vo.RoleMenuVo;
 import com.swms.user.rest.param.role.RoleAddParam;
 import com.swms.user.rest.param.role.RoleMenuUpdateParam;
 import com.swms.user.rest.param.role.RoleUpdateParam;
+import com.swms.user.rest.param.role.RoleVO;
 import com.swms.user.service.MenuService;
 import com.swms.user.service.RoleService;
 import com.swms.utils.http.Response;
@@ -19,6 +21,7 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -88,6 +91,15 @@ public class RoleController extends BaseResource {
     public Object delete(@PathVariable Long id) throws Exception {
         roleService.deleteRole(id);
         return Response.builder().build();
+    }
+
+    @GetMapping("{id}")
+    @ApiOperation("查询角色")
+    public Object getRole(@PathVariable Long id) {
+        Role role = roleService.getRole(id);
+        RoleVO roleVO = new RoleVO();
+        BeanUtils.copyProperties(role, roleVO);
+        return Response.builder().data(roleVO).build();
     }
 
 }

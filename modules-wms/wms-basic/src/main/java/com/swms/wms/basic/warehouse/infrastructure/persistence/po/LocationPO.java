@@ -59,7 +59,7 @@ public class LocationPO extends BaseUserPO {
     @Column(nullable = false, columnDefinition = "varchar(64) comment '库位类型'")
     private LocationTypeEnum locationType;
 
-    @Column(columnDefinition = "varchar(64) default '' comment '热度'")
+    @Column(columnDefinition = "varchar(64) comment '热度'")
     private String heat;
     private boolean occupied;
 

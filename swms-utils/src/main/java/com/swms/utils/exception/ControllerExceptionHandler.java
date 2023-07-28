@@ -2,8 +2,6 @@ package com.swms.utils.exception;
 
 import com.swms.utils.exception.code_enum.CommonErrorDescEnum;
 import com.swms.utils.utils.JsonUtils;
-import io.jsonwebtoken.ClaimJwtException;
-import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -128,15 +126,4 @@ public class ControllerExceptionHandler {
             .build();
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
-
-    @ResponseBody
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    @ExceptionHandler(ClaimJwtException.class)
-    public ResponseEntity<ErrorResponse> expiredJwtExceptionHandler(HttpServletResponse response) {
-        ErrorResponse errorResponse = ErrorResponse.builder().message("token error , please login again.")
-            .errorCode(String.valueOf(HttpStatus.UNAUTHORIZED.value()))
-            .build();
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
-    }
-
 }

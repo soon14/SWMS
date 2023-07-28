@@ -1,12 +1,15 @@
 package com.swms.user.rest.controller;
 
 import com.swms.user.api.utils.JwtUtils;
+import com.swms.user.repository.entity.Role;
 import com.swms.user.rest.common.vo.AuthModel;
 import com.swms.user.rest.common.vo.UserModel;
 import com.swms.user.rest.param.login.LoginRequest;
+import com.swms.user.service.UserRoleService;
 import com.swms.user.service.UserService;
 import com.swms.user.service.model.UserDetailsModel;
 import com.swms.utils.http.Response;
+import com.swms.utils.user.UserContext;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,6 +26,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -33,6 +38,9 @@ public class AuthController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    private UserRoleService userRoleService;
 
     @Autowired
     JwtUtils jwtUtils;
@@ -47,7 +55,13 @@ public class AuthController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         UserDetailsModel userDetails = (UserDetailsModel) authentication.getPrincipal();
         List<String> authorities = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
-        String jwtCookie = jwtUtils.generateJwtCookie(authorities, userDetails.getUsername());
+
+        List<Role> roles = userRoleService.getByUserName(loginRequest.getUsername());
+        Set<String> authWarehouseCodes = roles.stream().filter(v -> v.getWarehouseCodes() != null)
+            .flatMap(v -> v.getWarehouseCodes().stream())
+            .collect(Collectors.toSet());
+
+        String jwtCookie = jwtUtils.generateJwtCookie(authorities, userDetails.getUsername(), authWarehouseCodes, userDetails.getUser().getTenantName());
         UserModel userModel = UserModel.builder().username(userDetails.getUsername()).icon(userDetails.getUser().getAvatar()).build();
 
         return AuthModel.builder().token(jwtCookie).user(userModel).build();

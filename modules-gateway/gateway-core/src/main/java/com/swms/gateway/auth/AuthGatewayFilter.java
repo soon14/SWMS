@@ -1,8 +1,7 @@
 package com.swms.gateway.auth;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTVerifier;
-import com.auth0.jwt.algorithms.Algorithm;
+import static com.swms.gateway.constant.SystemConstant.HEADER_WAREHOUSE;
+
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.Claim;
@@ -11,10 +10,13 @@ import com.google.common.collect.Lists;
 import com.swms.gateway.config.AuthProperties;
 import com.swms.gateway.constant.SystemConstant;
 import com.swms.gateway.util.ResponseUtil;
+import com.swms.user.api.dto.constants.AuthConstants;
+import com.swms.user.api.utils.JwtUtils;
 import com.swms.utils.compress.CompressUtils;
 import com.swms.utils.user.UserContext;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
@@ -23,7 +25,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
@@ -50,8 +51,11 @@ public class AuthGatewayFilter implements GlobalFilter, Ordered {
 
     private final AuthProperties authProperties;
 
-    public AuthGatewayFilter(AuthProperties authProperties) {
+    private final JwtUtils jwtUtils;
+
+    public AuthGatewayFilter(AuthProperties authProperties, JwtUtils jwtUtils) {
         this.authProperties = authProperties;
+        this.jwtUtils = jwtUtils;
     }
 
     /**
@@ -66,7 +70,7 @@ public class AuthGatewayFilter implements GlobalFilter, Ordered {
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
 
         //tenantId must be sent
-        List<String> tenantIds = exchange.getRequest().getHeaders().get("X-TenantID");
+        List<String> tenantIds = exchange.getRequest().getHeaders().get(SystemConstant.HEADER_TENANT_ID);
         if (CollectionUtils.isEmpty(tenantIds) || tenantIds.stream().filter(StringUtils::isNotEmpty).toList().isEmpty()) {
             return ResponseUtil.webFluxResponseWriter(exchange.getResponse(), SystemConstant.APPLICATION_JSON_UTF8,
                 HttpStatus.BAD_REQUEST, "X-TenantID can't be empty.");
@@ -78,12 +82,6 @@ public class AuthGatewayFilter implements GlobalFilter, Ordered {
         }
 
         String requestUrl = exchange.getRequest().getURI().getRawPath();
-        //如是登出请求直接登出防止由于网关续时导致致退出失败
-        if (StringUtils.equals(SystemConstant.LOGOUT_URL, requestUrl)) {
-            return ResponseUtil.webFluxResponseWriter(exchange.getResponse(), SystemConstant.APPLICATION_JSON_UTF8,
-                HttpStatus.OK, SystemConstant.LOGOUT_MSG);
-        }
-
         boolean authorizeNotRequired = ignore(requestUrl);
         if (authorizeNotRequired) {
             return chain.filter(exchange);
@@ -99,7 +97,7 @@ public class AuthGatewayFilter implements GlobalFilter, Ordered {
 
         DecodedJWT jwt;
         try {
-            jwt = verifyJwt(token);
+            jwt = jwtUtils.verifyJwt(token);
         } catch (TokenExpiredException e) {
             return unauthorized(exchange.getResponse(), "token is expired.");
         }
@@ -107,9 +105,23 @@ public class AuthGatewayFilter implements GlobalFilter, Ordered {
             return unauthorized(exchange.getResponse(), "token is not illegal.");
         }
 
-        //authorization verify
+        String tenantId = tenantIds.get(0);
+        if (!verifyAuthTenant(jwt, tenantId)) {
+            return unauthorized(exchange.getResponse(), "request access tenant: " + tenantId + " denied, user maybe other tenant.");
+        }
+
+        //verify authorization
         if (!USER_WHITE_AUTH_LIST.contains(requestUrl) && !verifyAuthorization(jwt, requestUrl, exchange.getRequest().getMethod())) {
             return unauthorized(exchange.getResponse(), "request access denied, may be unauthorized.");
+        }
+
+        //verify auth warehouse
+        List<String> warehouseCodes = exchange.getRequest().getHeaders().get(HEADER_WAREHOUSE);
+        if (CollectionUtils.isNotEmpty(warehouseCodes)) {
+            String warehouseCode = warehouseCodes.get(0);
+            if (StringUtils.isNotEmpty(warehouseCode) && !verifyAuthWarehouse(jwt, warehouseCode)) {
+                return unauthorized(exchange.getResponse(), "request access warehouse: " + warehouseCode + " denied, may be unauthorized.");
+            }
         }
 
         //set username in request header
@@ -119,11 +131,27 @@ public class AuthGatewayFilter implements GlobalFilter, Ordered {
         return chain.filter(exchange.mutate().request(newRequest).build());
     }
 
-    public static void main(String[] args) {
-        String token = "eJwVzNEKgjAUANAvUjZJwUfTkrtxlUzH9CV0DZxpWQo1v756PnC0ZX2XKpMbBtUGNDOwwL3wVQwB3GYpYha62jKqPGG76bg25x8MB4vbiYJ5m1oK0qahbWUxNxJNPi6GD48njGSBSez+EZa1jwl4mOAHJXFpMqyjFNrxrvUrj9IhdHgkkbPKJ1msL4Fy9qrsFWfkC9CtNBA=";
-        token = CompressUtils.decompress(Base64.decodeBase64(token));
-        DecodedJWT jwt = verifyJwt(token);
-        System.out.println(jwt.getClaim(UserContext.USERNAME).asString());
+    private boolean verifyAuthTenant(DecodedJWT jwt, String tenantId) {
+        Claim claim = jwt.getClaim(AuthConstants.AUTH_TENANT);
+        if (null == claim) {
+            return false;
+        }
+        String authTenant = claim.asString();
+        return StringUtils.equals(authTenant, tenantId);
+    }
+
+    private boolean verifyAuthWarehouse(DecodedJWT jwt, String warehouseCode) {
+        Claim claim = jwt.getClaim(AuthConstants.AUTH_WAREHOUSE);
+        if (null == claim) {
+            return false;
+        }
+        List<String> authWarehouseList = claim.asList(String.class);
+        if (CollectionUtils.isEmpty(authWarehouseList)) {
+            return false;
+        }
+
+        return authWarehouseList.contains(warehouseCode);
+
     }
 
     /**
@@ -175,7 +203,7 @@ public class AuthGatewayFilter implements GlobalFilter, Ordered {
     }
 
     public boolean verifyAuthorization(DecodedJWT jwt, String requestUrl, HttpMethod httpMethod) throws JWTVerificationException {
-        Claim authorities = jwt.getClaim(SystemConstant.JWT_AUTHORITIES);
+        Claim authorities = jwt.getClaim(AuthConstants.AUTH_MENUS);
         if (null == authorities) {
             return false;
         }
@@ -190,8 +218,4 @@ public class AuthGatewayFilter implements GlobalFilter, Ordered {
         return authoritySet.stream().anyMatch(url::startsWith);
     }
 
-    public static DecodedJWT verifyJwt(String token) {
-        JWTVerifier verifier = JWT.require(Algorithm.HMAC256(SystemConstant.JWT_SECRET)).build();
-        return verifier.verify(token);
-    }
 }

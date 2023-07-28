@@ -123,4 +123,7 @@ public class User extends BaseUserPO {
     @ApiModelProperty("账号标识,默认为 NORMAL:普通账号")
     @Column(nullable = false, columnDefinition = "varchar(64) comment '账号标识,默认为 NORMAL:普通账号'")
     private String type = "NORMAL";
+
+    @Column(nullable = false, columnDefinition = "varchar(64) comment '租户'")
+    private String tenantName;
 }

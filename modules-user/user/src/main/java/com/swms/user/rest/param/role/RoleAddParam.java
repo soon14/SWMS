@@ -1,11 +1,16 @@
 package com.swms.user.rest.param.role;
 
+import com.google.common.collect.Lists;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * 添加角色参数
@@ -46,4 +51,15 @@ public class RoleAddParam {
     @ApiModelProperty(name = "description", value = "角色描述")
     @Size(max = 32, message = "描述不能超过32位")
     private String description;
+
+    @ApiModelProperty(value = "仓库权限")
+    @NotNull
+    private String warehouseCodes;
+
+    private List<String> getWarehouseCodes() {
+        if (StringUtils.isEmpty(warehouseCodes)) {
+            return Collections.emptyList();
+        }
+        return Lists.newArrayList(warehouseCodes.split(","));
+    }
 }

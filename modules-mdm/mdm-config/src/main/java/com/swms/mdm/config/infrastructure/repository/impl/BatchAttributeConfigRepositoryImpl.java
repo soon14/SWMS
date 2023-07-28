@@ -1,6 +1,5 @@
 package com.swms.mdm.config.infrastructure.repository.impl;
 
-import com.swms.mdm.config.domain.entity.BarcodeParseRule;
 import com.swms.mdm.config.domain.entity.BatchAttributeConfig;
 import com.swms.mdm.config.domain.repository.BatchAttributeConfigRepository;
 import com.swms.mdm.config.infrastructure.persistence.mapper.BatchAttributeConfigPORepository;

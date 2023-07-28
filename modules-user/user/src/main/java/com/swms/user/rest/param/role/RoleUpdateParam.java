@@ -1,11 +1,16 @@
 package com.swms.user.rest.param.role;
 
+import com.google.common.collect.Lists;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * 修改角色参数
@@ -16,7 +21,6 @@ import lombok.Data;
 @Data
 @ApiModel("修改角色参数")
 public class RoleUpdateParam {
-
 
     /**
      * 角色名称
@@ -51,4 +55,12 @@ public class RoleUpdateParam {
     @ApiModelProperty(name = "status", value = "是否启用（1-是、0-否，参考枚举YesOrNo）", required = true)
     @NotNull(message = "是否启用不能为空")
     private Integer status;
+
+    @ApiModelProperty(value = "仓库权限")
+    @NotNull
+    private String warehouseCodes;
+
+    public List<String> getWarehouseCodes() {
+        return Lists.newArrayList(warehouseCodes.split(","));
+    }
 }

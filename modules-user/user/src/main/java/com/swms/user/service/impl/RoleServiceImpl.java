@@ -52,7 +52,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public synchronized void addRole(RoleAddParam param) throws Exception {
+    public void addRole(RoleAddParam param) {
         checkRoleCode(param.getCode());
         Role role = new Role();
         BeanUtils.copyProperties(param, role);
@@ -60,7 +60,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public synchronized void updateRole(RoleUpdateParam param) throws Exception {
+    public void updateRole(RoleUpdateParam param) {
         Role role = roleMapper.findById(param.getId()).orElseThrow();
         if (!Objects.equal(role.getCode(), param.getCode())) {
             checkRoleCode(param.getCode());
@@ -72,7 +72,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public synchronized void deleteRole(Long roleId) throws Exception {
+    public void deleteRole(Long roleId) {
         if (null == roleId) {
             return;
         }
@@ -88,7 +88,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public synchronized void updateStatus(Long roleId, Integer status) throws Exception {
+    public void updateStatus(Long roleId, Integer status) {
         if (null == roleId) {
             return;
         }
@@ -103,7 +103,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public synchronized void updateRoleMenu(RoleMenuUpdateParam param) {
+    public void updateRoleMenu(RoleMenuUpdateParam param) {
         Role role = roleMapper.findById(param.getRoleId()).orElseThrow(() -> new WmsException(UserErrorDescEnum.ERR_ROLE_NOT_FOUND));
         checkSuperRole(role);
         roleMenuService.removeByRoleId(param.getRoleId());
@@ -120,6 +120,11 @@ public class RoleServiceImpl implements RoleService {
             }).toList();
 
         roleMenuMapper.saveAll(roleMenus);
+    }
+
+    @Override
+    public Role getRole(Long id) {
+        return roleMapper.findById(id).orElseThrow();
     }
 
     private void checkSuperRole(Role role) {

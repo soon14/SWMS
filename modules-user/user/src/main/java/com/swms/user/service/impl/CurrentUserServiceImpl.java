@@ -31,7 +31,7 @@ public class CurrentUserServiceImpl implements CurrentUserService {
     private UserMapper userMapper;
 
     @Override
-    public synchronized void updateCurrentUserPassword(String currentUsername, String oldPassword, String newPassword) {
+    public void updateCurrentUserPassword(String currentUsername, String oldPassword, String newPassword) {
         if (newPassword.length() < 6) {
             throw new WmsException(UserErrorDescEnum.ERR_CRED_TOO_SHORT);
         }

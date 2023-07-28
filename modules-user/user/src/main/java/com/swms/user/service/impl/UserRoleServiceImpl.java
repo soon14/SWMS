@@ -1,6 +1,10 @@
 package com.swms.user.service.impl;
 
+import com.swms.user.repository.entity.Role;
+import com.swms.user.repository.entity.User;
 import com.swms.user.repository.entity.UserRole;
+import com.swms.user.repository.mapper.RoleMapper;
+import com.swms.user.repository.mapper.UserMapper;
 import com.swms.user.repository.mapper.UserRoleMapper;
 import com.swms.user.service.UserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +28,12 @@ public class UserRoleServiceImpl implements UserRoleService {
 
     @Autowired
     private UserRoleMapper userRoleMapper;
+
+    @Autowired
+    private UserMapper userMapper;
+
+    @Autowired
+    private RoleMapper roleMapper;
 
     @Override
     public void add(Long userId, Set<Long> roleIds) {
@@ -75,5 +85,12 @@ public class UserRoleServiceImpl implements UserRoleService {
         }
 
         return userRoleMapper.findByRoleId(roleId);
+    }
+
+    @Override
+    public List<Role> getByUserName(String currentUser) {
+        User user = userMapper.findByUsername(currentUser);
+        List<UserRole> userRoles = userRoleMapper.findByUserId(user.getId());
+        return roleMapper.findAllById(userRoles.stream().map(UserRole::getRoleId).toList());
     }
 }

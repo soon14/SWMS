@@ -66,4 +66,5 @@ public class UserAddParam {
      */
     @ApiModelProperty(name = "email", value = "邮箱")
     private String email;
+
 }

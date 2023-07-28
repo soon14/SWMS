@@ -5,8 +5,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
-import java.util.Set;
-
 /**
  * 系统配置
  *
@@ -17,8 +15,6 @@ import java.util.Set;
 @Component
 @ConfigurationProperties(prefix = "system")
 public class SystemProp {
-
-    public static final String DEFAULT_JWT_SIGNING_KEY = "defaultSigningKey";
 
     /**
      * 超级角色的编码
@@ -31,23 +27,6 @@ public class SystemProp {
      */
     @Value("${superAdminId: 1}")
     private Long superAdminId;
-
-    /**
-     * jwt 认证的key定义
-     */
-    @Value("${jwtSigningKey:defaultSigningKey}")
-    private String jwtSigningKey = DEFAULT_JWT_SIGNING_KEY;
-
-    /**
-     * 是否启用 swagger
-     */
-    @Value("${swaggerEnable:true}")
-    private Boolean swaggerEnable;
-
-    /**
-     * 不需要认证的路径
-     */
-    private Set<String> noAuthPathPatterns;
 
     /**
      * 文件路径配置

@@ -1,20 +1,25 @@
 package com.swms.user.rest.controller;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.swms.utils.user.UserContext;
+import com.google.common.collect.Sets;
 import com.swms.user.repository.entity.Menu;
+import com.swms.user.repository.entity.Role;
 import com.swms.user.rest.common.BaseResource;
 import com.swms.user.rest.param.user.CurrentUserInfoUpdatedParam;
 import com.swms.user.rest.param.user.UserUpdatePasswordParam;
 import com.swms.user.service.CurrentUserService;
 import com.swms.user.service.MenuService;
+import com.swms.user.service.UserRoleService;
 import com.swms.utils.http.Response;
+import com.swms.utils.user.UserContext;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,9 +27,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 
@@ -42,11 +50,24 @@ public class CurrentUserController extends BaseResource {
     private final CurrentUserService userService;
     private final MenuService menuService;
 
-    @GetMapping("/getMenuTree")
+    private final UserRoleService userRoleService;
+
+    @GetMapping("/getAuth")
     @ApiOperation("查询菜单树")
-    public Object getMenuTree() throws Exception {
+    public Object getAuth() throws Exception {
         List<Menu> menuTrees = menuService.getMenuTreeByUser(UserContext.getCurrentUser());
-        return menuTrees.stream().collect(Collectors.toMap(Menu::getTitle, v -> v));
+        Map<String, Menu> menuMap = menuTrees.stream().collect(Collectors.toMap(Menu::getTitle, v -> v));
+
+        List<Role> roles = userRoleService.getByUserName(UserContext.getCurrentUser());
+        Set<String> warehouseSet = roles.stream()
+            .filter(v -> v.getWarehouseCodes() != null)
+            .flatMap(v -> v.getWarehouseCodes().stream()).collect(Collectors.toSet());
+
+        Map<String, Object> authMap = Maps.newHashMap();
+        authMap.put("menus", menuMap);
+        authMap.put("warehouses", StringUtils.join(warehouseSet, ","));
+
+        return authMap;
     }
 
     @PostMapping("/searchMenuTree")

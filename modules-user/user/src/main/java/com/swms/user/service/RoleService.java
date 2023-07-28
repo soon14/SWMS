@@ -1,5 +1,6 @@
 package com.swms.user.service;
 
+import com.swms.user.repository.entity.Role;
 import com.swms.user.rest.param.role.RoleAddParam;
 import com.swms.user.rest.param.role.RoleMenuUpdateParam;
 import com.swms.user.rest.param.role.RoleUpdateParam;
@@ -69,4 +70,6 @@ public interface RoleService {
      * @throws Exception
      */
     void updateRoleMenu(RoleMenuUpdateParam param) throws Exception;
+
+    Role getRole(Long id);
 }
