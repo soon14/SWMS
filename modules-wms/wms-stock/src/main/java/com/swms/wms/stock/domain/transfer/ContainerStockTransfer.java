@@ -4,8 +4,9 @@ import static org.mapstruct.NullValueCheckStrategy.ALWAYS;
 import static org.mapstruct.NullValueMappingStrategy.RETURN_NULL;
 
 import com.swms.wms.api.stock.dto.ContainerStockDTO;
-import com.swms.wms.stock.domain.entity.ContainerStock;
+import com.swms.wms.api.stock.dto.StockCreateDTO;
 import com.swms.wms.api.stock.dto.StockTransferDTO;
+import com.swms.wms.stock.domain.entity.ContainerStock;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.NullValuePropertyMappingStrategy;
@@ -19,6 +20,14 @@ import java.util.List;
     unmappedTargetPolicy = ReportingPolicy.IGNORE,
     nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface ContainerStockTransfer {
+
+    List<ContainerStock> fromCreateDTOsToDOs(List<StockCreateDTO> stockCreateDTOS);
+
+    @Mapping(source = "transferQty", target = "totalQty")
+    @Mapping(source = "transferQty", target = "availableQty")
+    @Mapping(source = "targetContainerCode", target = "containerCode")
+    @Mapping(source = "targetContainerSlotCode", target = "containerSlotCode")
+    ContainerStock fromCreateDTOtoDO(StockCreateDTO stockCreateDTO);
 
     List<ContainerStock> toDOs(List<StockTransferDTO> stockTransferDTOS);
 

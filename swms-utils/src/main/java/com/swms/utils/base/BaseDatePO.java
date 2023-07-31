@@ -11,9 +11,9 @@ import org.springframework.data.annotation.LastModifiedDate;
 public class BaseDatePO {
     @Column(nullable = false, columnDefinition = "bigint default 0 comment 'Creation time'")
     @CreatedDate
-    public Long createTime;
+    private Long createTime;
 
     @Column(nullable = false, columnDefinition = "bigint default 0 comment 'Update time'")
     @LastModifiedDate
-    public Long updateTime;
+    private Long updateTime;
 }

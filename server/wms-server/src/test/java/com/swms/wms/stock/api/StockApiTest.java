@@ -3,8 +3,10 @@ package com.swms.wms.stock.api;
 import com.swms.wms.BaseTest;
 import com.swms.wms.api.stock.IStockApi;
 import com.swms.wms.api.stock.dto.ContainerStockDTO;
+import com.swms.wms.api.stock.dto.StockCreateDTO;
 import com.swms.wms.api.stock.dto.StockTransferDTO;
 import com.swms.wms.api.task.constants.OperationTaskTypeEnum;
+import com.swms.wms.api.task.event.StockCreateEvent;
 import com.swms.wms.api.task.event.StockTransferEvent;
 import com.swms.wms.stock.application.event.StockEventSubscriber;
 import org.assertj.core.util.Lists;
@@ -24,15 +26,18 @@ class StockApiTest extends BaseTest {
 
     @Test
     void testSaveContainerStock() {
-        StockTransferDTO stockTransferDTO = new StockTransferDTO();
+        StockCreateDTO stockTransferDTO = new StockCreateDTO();
         stockTransferDTO.setTargetContainerCode("containerCode");
         stockTransferDTO.setTargetContainerSlotCode("containerSlotCode");
+        stockTransferDTO.setSourceContainerCode("lpn");
         stockTransferDTO.setTransferQty(10);
         stockTransferDTO.setSkuBatchAttributeId(1L);
-        stockTransferDTO.setTaskId(1L);
         stockTransferDTO.setSkuId(1L);
+        stockTransferDTO.setOrderNo("ABC_ORDER");
         stockTransferDTO.setWarehouseAreaId(1L);
-        stockApi.createStock(Lists.newArrayList(stockTransferDTO));
+        stockTransferDTO.setWarehouseCode("ABC");
+
+        stockEventSubscriber.onEvent(StockCreateEvent.builder().stockCreateDTOS(Lists.newArrayList(stockTransferDTO)).build());
 
         List<ContainerStockDTO> containerStocks = stockApi.getContainerStock("containerCode");
         Assertions.assertEquals(1, containerStocks.size());
@@ -52,9 +57,10 @@ class StockApiTest extends BaseTest {
         stockTransferDTO.setSkuBatchAttributeId(containerStockDTO.getSkuBatchAttributeId());
         stockTransferDTO.setTaskId(1L);
         stockTransferDTO.setSkuId(1L);
-        stockTransferDTO.setSkuBatchStockId(439838141709422592L);
-        stockTransferDTO.setWarehouseAreaId(1L);
+        stockTransferDTO.setSkuBatchStockId(473803572212011008L);
+        stockTransferDTO.setWarehouseAreaId(2L);
         stockTransferDTO.setOrderNo("orderNo");
+        stockTransferDTO.setWarehouseCode("ABC");
         stockEventSubscriber.onEvent(StockTransferEvent.builder().stockTransferDTO(stockTransferDTO).taskType(OperationTaskTypeEnum.ONE_STEP_RELOCATION).build());
         containerStocks = stockApi.getContainerStock("containerCode");
         Assertions.assertEquals(0, (int) containerStocks.get(0).getAvailableQty());

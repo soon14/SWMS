@@ -9,19 +9,22 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = false)
 @Data
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Table(
     name = "w_container_stock",
     indexes = {
-        @Index(unique = true, name = "idx_container_slot_sku_batch_attribute", columnList = "containerCode,warehouseCode,containerSlotCode,skuBatchAttributeId"),
+        @Index(unique = true, name = "idx_container_slot_sku_batch_attribute",
+            columnList = "containerCode,warehouseCode,containerSlotCode,skuBatchAttributeId"),
     }
 )
 public class ContainerStockPO extends BaseUserPO {
@@ -59,6 +62,8 @@ public class ContainerStockPO extends BaseUserPO {
     @Column(nullable = false, columnDefinition = "int(11) default 0 comment '库内锁定数量'")
     private Integer noOutboundLockedQty = 0;
 
+    @Column(nullable = false, columnDefinition = "int(11) default 0 comment '冻结数量'")
+    private Integer frozenQty = 0;
     /**
      * it means the container is or not a physical container
      */

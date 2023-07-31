@@ -15,8 +15,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -33,6 +35,7 @@ import java.util.List;
         @Index(unique = true, name = "idx_container_code_warehouse_code", columnList = "containerCode,warehouseCode")
     }
 )
+@DynamicUpdate
 public class ContainerPO extends BaseUserPO {
 
     @Id

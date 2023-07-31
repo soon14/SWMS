@@ -1,15 +1,16 @@
 package com.swms.wms.stock.domain.service.impl;
 
+import com.swms.wms.api.stock.dto.StockCreateDTO;
 import com.swms.wms.api.stock.dto.StockTransferDTO;
 import com.swms.wms.stock.domain.entity.ContainerStock;
-import com.swms.wms.stock.domain.entity.ContainerStockTransactionRecord;
+import com.swms.wms.stock.domain.entity.ContainerStockTransaction;
 import com.swms.wms.stock.domain.entity.SkuBatchStock;
 import com.swms.wms.stock.domain.repository.ContainerStockRepository;
-import com.swms.wms.stock.domain.repository.ContainerStockTransactionRecordRepository;
+import com.swms.wms.stock.domain.repository.ContainerStockTransactionRepository;
 import com.swms.wms.stock.domain.repository.SkuBatchStockRepository;
-import com.swms.wms.stock.domain.service.StockManagement;
+import com.swms.wms.stock.domain.service.StockService;
 import com.swms.wms.stock.domain.service.StockTransferService;
-import com.swms.wms.stock.domain.transfer.ContainerStockTransactionRecordTransfer;
+import com.swms.wms.stock.domain.transfer.ContainerStockTransactionTransfer;
 import com.swms.wms.stock.domain.transfer.ContainerStockTransfer;
 import com.swms.wms.stock.domain.transfer.SkuBatchStockTransfer;
 import lombok.extern.slf4j.Slf4j;
@@ -32,7 +33,7 @@ public class StockTransferServiceImpl implements StockTransferService {
     private ContainerStockRepository containerStockRepository;
 
     @Autowired
-    private StockManagement stockManagement;
+    private StockService stockManagement;
 
     @Autowired
     private ContainerStockTransfer containerStockTransfer;
@@ -41,27 +42,33 @@ public class StockTransferServiceImpl implements StockTransferService {
     private SkuBatchStockTransfer skuBatchStockTransfer;
 
     @Autowired
-    private ContainerStockTransactionRecordTransfer containerStockTransactionRecordTransfer;
+    private ContainerStockTransactionTransfer containerStockTransactionTransfer;
 
     @Autowired
-    private ContainerStockTransactionRecordRepository containerStockTransactionRecordRepository;
+    private ContainerStockTransactionRepository containerStockTransactionRecordRepository;
 
     /**
      * when stock is moved from outside to warehouse, then stock is created. e.g: receiving
      *
-     * @param stockTransferDTOS
+     * @param stockCreateDTOS
      */
     @Transactional
-    public void createStock(List<StockTransferDTO> stockTransferDTOS) {
-        containerStockRepository.saveAll(containerStockTransfer.toDOs(stockTransferDTOS));
+    public void createStock(List<StockCreateDTO> stockCreateDTOS) {
 
-        List<Long> skuBatchStockIds = stockTransferDTOS.stream().map(StockTransferDTO::getSkuBatchStockId).toList();
+        //1. create container stock transaction
+        containerStockTransactionRecordRepository.saveAll(containerStockTransactionTransfer.toDOS(stockCreateDTOS));
+
+        //2. create container stock
+        containerStockRepository.saveAll(containerStockTransfer.fromCreateDTOsToDOs(stockCreateDTOS));
+
+        //3. create sku batch stock
+        List<Long> skuBatchStockIds = stockCreateDTOS.stream().map(StockCreateDTO::getSkuBatchStockId).toList();
         List<SkuBatchStock> skuBatchStocks = skuBatchStockRepository.findAllByIds(skuBatchStockIds);
 
         if (CollectionUtils.isEmpty(skuBatchStocks)) {
-            skuBatchStocks = skuBatchStockTransfer.toDOs(stockTransferDTOS);
+            skuBatchStocks = skuBatchStockTransfer.fromCreateDTOsToDOs(stockCreateDTOS);
         } else {
-            skuBatchStocks.forEach(skuBatchStock -> stockTransferDTOS.forEach(skuBatchStockLockDTO -> {
+            skuBatchStocks.forEach(skuBatchStock -> stockCreateDTOS.forEach(skuBatchStockLockDTO -> {
                 if (Objects.equals(skuBatchStock.getId(), skuBatchStockLockDTO.getSkuBatchStockId())) {
                     skuBatchStock.addQty(skuBatchStockLockDTO.getTransferQty());
                 }
@@ -75,30 +82,29 @@ public class StockTransferServiceImpl implements StockTransferService {
      * <p>attention: call this function before stock is locked </p>
      *
      * @param stockTransferDTO
+     * @param containerStock
      */
     @Transactional
-    public void transferStock(StockTransferDTO stockTransferDTO) {
-        saveTransactionRecord(stockTransferDTO);
+    public void transferStock(StockTransferDTO stockTransferDTO, ContainerStock containerStock) {
+        saveTransactionRecord(stockTransferDTO, containerStock);
 
-        stockManagement.transferContainerStock(stockTransferDTO, false);
+        stockManagement.transferContainerStock(stockTransferDTO, containerStock, false);
         stockManagement.transferSkuBatchStock(stockTransferDTO, false);
     }
 
     @Transactional
-    public void transferAndUnlockStock(StockTransferDTO stockTransferDTO) {
-        saveTransactionRecord(stockTransferDTO);
+    public void transferAndUnlockStock(StockTransferDTO stockTransferDTO, ContainerStock containerStock) {
+        saveTransactionRecord(stockTransferDTO, containerStock);
 
-        stockManagement.transferContainerStock(stockTransferDTO, true);
+        stockManagement.transferContainerStock(stockTransferDTO, containerStock, true);
         stockManagement.transferSkuBatchStock(stockTransferDTO, true);
     }
 
-    private void saveTransactionRecord(StockTransferDTO stockTransferDTO) {
-        ContainerStockTransactionRecord containerStockTransactionRecord = containerStockTransactionRecordTransfer
-                .toDO(stockTransferDTO);
-        ContainerStock containerStock = containerStockRepository.findById(stockTransferDTO.getContainerStockId());
-        containerStockTransactionRecord.setSourceContainerCode(containerStock.getContainerCode());
-        containerStockTransactionRecord.setSourceContainerSlotCode(containerStock.getContainerSlotCode());
-        containerStockTransactionRecordRepository.save(containerStockTransactionRecord);
+    private void saveTransactionRecord(StockTransferDTO stockTransferDTO, ContainerStock containerStock) {
+        ContainerStockTransaction containerStockTransaction = containerStockTransactionTransfer.toDO(stockTransferDTO);
+        containerStockTransaction.setSourceContainerCode(containerStock.getContainerCode());
+        containerStockTransaction.setSourceContainerSlotCode(containerStock.getContainerSlotCode());
+        containerStockTransactionRecordRepository.save(containerStockTransaction);
     }
 
 

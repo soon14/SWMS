@@ -1,13 +1,14 @@
 package com.swms.wms.stock.domain.entity;
 
 import com.google.common.base.Preconditions;
+import com.swms.utils.base.BaseUserDTO;
 import com.swms.wms.api.stock.constants.StockLockTypeEnum;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-@Getter
-@Builder
-public class ContainerStock {
+@Data
+@EqualsAndHashCode(callSuper = false)
+public class ContainerStock extends BaseUserDTO {
 
     private Long id;
 

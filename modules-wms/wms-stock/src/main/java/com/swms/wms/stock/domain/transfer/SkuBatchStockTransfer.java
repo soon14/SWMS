@@ -3,6 +3,7 @@ package com.swms.wms.stock.domain.transfer;
 import static org.mapstruct.NullValueCheckStrategy.ALWAYS;
 import static org.mapstruct.NullValueMappingStrategy.RETURN_NULL;
 
+import com.swms.wms.api.stock.dto.StockCreateDTO;
 import com.swms.wms.stock.domain.entity.SkuBatchStock;
 import com.swms.wms.api.stock.dto.StockTransferDTO;
 import org.mapstruct.Mapper;
@@ -19,11 +20,15 @@ import java.util.List;
     nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface SkuBatchStockTransfer {
 
-    @Mapping(source = "transferQty", target = "totalQty")
-    @Mapping(source = "transferQty", target = "availableQty")
     List<SkuBatchStock> toDOs(List<StockTransferDTO> stockTransferDTOS);
 
     @Mapping(source = "transferQty", target = "totalQty")
     @Mapping(source = "transferQty", target = "availableQty")
     SkuBatchStock toDO(StockTransferDTO stockTransferDTO);
+
+    List<SkuBatchStock> fromCreateDTOsToDOs(List<StockCreateDTO> stockCreateDTOS);
+
+    @Mapping(source = "transferQty", target = "totalQty")
+    @Mapping(source = "transferQty", target = "availableQty")
+    SkuBatchStock fromCreateDTOtoDO(StockCreateDTO stockCreateDTO);
 }

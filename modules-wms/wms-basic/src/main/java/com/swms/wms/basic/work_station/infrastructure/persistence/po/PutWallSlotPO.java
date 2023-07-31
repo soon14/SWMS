@@ -14,8 +14,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -32,6 +35,7 @@ import java.util.List;
         @Index(name = "idx_work_station_id", columnList = "workStationId")
     }
 )
+@DynamicUpdate
 public class PutWallSlotPO extends BaseUserPO {
 
     @Id

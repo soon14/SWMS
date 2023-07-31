@@ -13,6 +13,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Version;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -29,6 +30,7 @@ import java.util.TreeMap;
         @Index(name = "batchNo", columnList = "batchNo", unique = true)
     }
 )
+@DynamicUpdate
 public class SkuBatchAttributePO extends BaseUserPO {
 
     @Id

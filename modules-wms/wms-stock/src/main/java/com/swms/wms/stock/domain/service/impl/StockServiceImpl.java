@@ -1,18 +1,20 @@
-package com.swms.wms.stock.domain.service;
+package com.swms.wms.stock.domain.service.impl;
 
 import com.swms.wms.api.stock.dto.StockTransferDTO;
 import com.swms.wms.stock.domain.entity.ContainerStock;
 import com.swms.wms.stock.domain.entity.SkuBatchStock;
 import com.swms.wms.stock.domain.repository.ContainerStockRepository;
 import com.swms.wms.stock.domain.repository.SkuBatchStockRepository;
+import com.swms.wms.stock.domain.service.StockService;
 import com.swms.wms.stock.domain.transfer.SkuBatchStockTransfer;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
 
-@Component
-public class StockManagement {
+@Service
+public class StockServiceImpl implements StockService {
 
     @Autowired
     private ContainerStockRepository containerStockRepository;
@@ -23,12 +25,12 @@ public class StockManagement {
     @Autowired
     private SkuBatchStockTransfer skuBatchStockTransfer;
 
-    public void transferContainerStock(StockTransferDTO stockTransferDTO, boolean unlock) {
+    @Transactional(rollbackFor = Exception.class)
+    public void transferContainerStock(StockTransferDTO stockTransferDTO, ContainerStock containerStock, boolean unlock) {
 
-        ContainerStock containerStock = containerStockRepository.findById(stockTransferDTO.getContainerStockId());
+        // the original container receive or put away , just update the warehouseArea
         if (Objects.equals(stockTransferDTO.getWarehouseCode(), containerStock.getWarehouseCode())
             && Objects.equals(containerStock.getContainerCode(), stockTransferDTO.getTargetContainerCode())) {
-            containerStockRepository.save(containerStock);
             return;
         }
 
@@ -46,19 +48,20 @@ public class StockManagement {
         if (targetContainerStock != null) {
             targetContainerStock.addQty(stockTransferDTO.getTransferQty());
         } else {
-            targetContainerStock = ContainerStock.builder()
-                .warehouseCode(stockTransferDTO.getWarehouseCode())
-                .containerCode(stockTransferDTO.getTargetContainerCode())
-                .containerSlotCode(stockTransferDTO.getTargetContainerSlotCode())
-                .availableQty(stockTransferDTO.getTransferQty())
-                .skuBatchAttributeId(stockTransferDTO.getSkuBatchAttributeId())
-                .totalQty(stockTransferDTO.getTransferQty())
-                .boxStock(stockTransferDTO.isBoxStock())
-                .boxNo(stockTransferDTO.getBoxNo()).build();
+            targetContainerStock = new ContainerStock();
+            targetContainerStock.setWarehouseCode(stockTransferDTO.getWarehouseCode());
+            targetContainerStock.setContainerCode(stockTransferDTO.getTargetContainerCode());
+            targetContainerStock.setContainerSlotCode(stockTransferDTO.getTargetContainerSlotCode());
+            targetContainerStock.setAvailableQty(stockTransferDTO.getTransferQty());
+            targetContainerStock.setSkuBatchAttributeId(stockTransferDTO.getSkuBatchAttributeId());
+            targetContainerStock.setTotalQty(stockTransferDTO.getTransferQty());
+            targetContainerStock.setBoxStock(stockTransferDTO.isBoxStock());
+            targetContainerStock.setBoxNo(stockTransferDTO.getBoxNo());
         }
         containerStockRepository.save(targetContainerStock);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public void transferSkuBatchStock(StockTransferDTO stockTransferDTO, boolean unlock) {
 
         SkuBatchStock skuBatchStock = skuBatchStockRepository.findById(stockTransferDTO.getSkuBatchStockId());

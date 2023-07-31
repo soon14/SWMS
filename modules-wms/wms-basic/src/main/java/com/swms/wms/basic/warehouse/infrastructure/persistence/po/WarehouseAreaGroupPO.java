@@ -9,8 +9,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Where;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -25,6 +28,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
         @Index(unique = true, name = "idx_warehouse_area_group_code", columnList = "warehouseAreaGroupCode,warehouseCode,deleteTime")
     }
 )
+@DynamicUpdate
 @Where(clause = "deleted=false")
 public class WarehouseAreaGroupPO extends BaseUserPO {
 
@@ -49,7 +53,7 @@ public class WarehouseAreaGroupPO extends BaseUserPO {
     private boolean enable;
     private boolean deleted;
 
-    @Column(nullable = false, columnDefinition = "bigint default 0 comment '备注'")
+    @Column(nullable = false, columnDefinition = "bigint default 0 comment '删除时间'")
     private Long deleteTime = 0L;
 
     @Version

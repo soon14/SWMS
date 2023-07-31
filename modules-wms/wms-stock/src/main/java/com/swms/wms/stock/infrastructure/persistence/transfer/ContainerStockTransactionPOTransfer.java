@@ -3,10 +3,9 @@ package com.swms.wms.stock.infrastructure.persistence.transfer;
 import static org.mapstruct.NullValueCheckStrategy.ALWAYS;
 import static org.mapstruct.NullValueMappingStrategy.RETURN_NULL;
 
-import com.swms.wms.stock.domain.entity.ContainerStock;
-import com.swms.wms.stock.infrastructure.persistence.po.ContainerStockPO;
+import com.swms.wms.stock.domain.entity.ContainerStockTransaction;
+import com.swms.wms.stock.infrastructure.persistence.po.ContainerStockTransactionPO;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
 
@@ -17,13 +16,11 @@ import java.util.List;
     nullValueMappingStrategy = RETURN_NULL,
     unmappedTargetPolicy = ReportingPolicy.IGNORE,
     nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-public interface ContainerStockPOTransfer {
-    ContainerStockPO toPO(ContainerStock containerStock);
+public interface ContainerStockTransactionPOTransfer {
 
-    @Mapping(source = "createTime", target = "createTime")
-    ContainerStock toDO(ContainerStockPO containerStockPO);
+    ContainerStockTransactionPO toPO(ContainerStockTransaction transactionRecord);
 
-    List<ContainerStock> toDOs(List<ContainerStockPO> containerStockPOs);
+    ContainerStockTransaction toDO(ContainerStockTransactionPO transactionRecordPO);
 
-    List<ContainerStockPO> toPOs(List<ContainerStock> containerStocks);
+    List<ContainerStockTransactionPO> toPOS(List<ContainerStockTransaction> containerStockTransactions);
 }

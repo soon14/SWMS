@@ -5,6 +5,7 @@ import com.swms.wms.api.stock.IStockApi;
 import com.swms.wms.api.stock.dto.ContainerStockDTO;
 import com.swms.wms.api.stock.dto.ContainerStockLockDTO;
 import com.swms.wms.api.stock.dto.SkuBatchStockLockDTO;
+import com.swms.wms.api.stock.dto.StockCreateDTO;
 import com.swms.wms.api.stock.dto.StockTransferDTO;
 import com.swms.wms.stock.domain.entity.ContainerStock;
 import com.swms.wms.stock.domain.entity.SkuBatchAttribute;
@@ -26,9 +27,6 @@ import java.util.TreeMap;
 public class StockApplicationApiImpl implements IStockApi {
 
     @Autowired
-    private StockTransferService stockTransferService;
-
-    @Autowired
     private ContainerStockRepository containerStockRepository;
 
     @Autowired
@@ -46,11 +44,6 @@ public class StockApplicationApiImpl implements IStockApi {
         if (CollectionUtils.isEmpty(skuBatchAttributes) || skuBatchAttributes.stream().noneMatch(v -> v.isSame(skuAttributes))) {
             skuBatchAttributeRepository.save(new SkuBatchAttribute(skuMainDataDTO, skuAttributes));
         }
-    }
-
-    @Override
-    public void createStock(List<StockTransferDTO> stockTransferDTOS) {
-        stockTransferService.createStock(stockTransferDTOS);
     }
 
     @Override

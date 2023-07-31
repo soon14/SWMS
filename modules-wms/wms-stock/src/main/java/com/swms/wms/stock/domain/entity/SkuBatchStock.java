@@ -1,9 +1,10 @@
 package com.swms.wms.stock.domain.entity;
 
 import com.google.common.base.Preconditions;
+import com.swms.utils.base.BaseUserPO;
 import com.swms.wms.api.stock.constants.StockLockTypeEnum;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * stock design rule:
@@ -11,9 +12,9 @@ import lombok.Getter;
  * 2. stock transfer from one area to another area in warehouse;
  * 3. stock subtraction by shipping. if our system don't contain shipping module, then scheduled delete shipping area stock;
  */
-@Getter
-@Builder
-public class SkuBatchStock {
+@Data
+@EqualsAndHashCode(callSuper = false)
+public class SkuBatchStock extends BaseUserPO {
 
     private Long id;
 
