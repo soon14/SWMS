@@ -10,6 +10,7 @@ import com.swms.mdm.config.domain.entity.BarcodeParseRule;
 import com.swms.mdm.config.domain.repository.BarcodeParseRuleRepository;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -23,11 +24,14 @@ class BarcodeParseRuleApiTest extends BaseTest {
     @Autowired
     private BarcodeParseRuleRepository barcodeParseRuleRepository;
 
+    final String barcodeCode = "123";
+
     @Test
+    @Order(1)
     void testSave() {
         BarcodeParseRuleDTO barcodeParseRuleDTO = new BarcodeParseRuleDTO();
         barcodeParseRuleDTO.setBusinessFlow(BusinessFlowEnum.INBOUND);
-        barcodeParseRuleDTO.setCode("1234");
+        barcodeParseRuleDTO.setCode(barcodeCode);
         barcodeParseRuleDTO.setEnable(true);
         barcodeParseRuleDTO.setExecuteTime(ExecuteTimeEnum.SCAN_SKU);
         barcodeParseRuleDTO.setRegularExpression("(.*)");
@@ -37,12 +41,13 @@ class BarcodeParseRuleApiTest extends BaseTest {
     }
 
     @Test
+    @Order(2)
     void testUpdate() {
-        BarcodeParseRule barcodeParseRule = barcodeParseRuleRepository.getBarcodeParseRule("123");
+        BarcodeParseRule barcodeParseRule = barcodeParseRuleRepository.getBarcodeParseRule(barcodeCode);
         BarcodeParseRuleDTO barcodeParseRuleDTO = new BarcodeParseRuleDTO();
-        barcodeParseRuleDTO.setId(438390613814153216L);
+        barcodeParseRuleDTO.setId(barcodeParseRule.getId());
         barcodeParseRuleDTO.setBusinessFlow(BusinessFlowEnum.INBOUND);
-        barcodeParseRuleDTO.setCode("123");
+        barcodeParseRuleDTO.setCode(barcodeCode);
         barcodeParseRuleDTO.setEnable(true);
         barcodeParseRuleDTO.setExecuteTime(ExecuteTimeEnum.SCAN_SKU);
         barcodeParseRuleDTO.setRegularExpression("(.*)");
@@ -53,22 +58,26 @@ class BarcodeParseRuleApiTest extends BaseTest {
     }
 
     @Test
+    @Order(3)
+    void testDisable() {
+        BarcodeParseRule barcodeParseRule = barcodeParseRuleRepository.getBarcodeParseRule(barcodeCode);
+        iBarcodeParseRuleApi.disable(barcodeParseRule.getId());
+        barcodeParseRule = barcodeParseRuleRepository.getBarcodeParseRule(barcodeCode);
+        Assertions.assertFalse(barcodeParseRule.isEnable());
+    }
+
+
+    @Test
+    @Order(4)
     void testEnable() {
-        BarcodeParseRule barcodeParseRule = barcodeParseRuleRepository.getBarcodeParseRule("123");
+        BarcodeParseRule barcodeParseRule = barcodeParseRuleRepository.getBarcodeParseRule(barcodeCode);
         iBarcodeParseRuleApi.enable(barcodeParseRule.getId());
-        barcodeParseRule = barcodeParseRuleRepository.getBarcodeParseRule("123");
+        barcodeParseRule = barcodeParseRuleRepository.getBarcodeParseRule(barcodeCode);
         Assertions.assertTrue(barcodeParseRule.isEnable());
     }
 
     @Test
-    void testDisable() {
-        BarcodeParseRule barcodeParseRule = barcodeParseRuleRepository.getBarcodeParseRule("123");
-        iBarcodeParseRuleApi.disable(barcodeParseRule.getId());
-        barcodeParseRule = barcodeParseRuleRepository.getBarcodeParseRule("123");
-        Assertions.assertFalse(barcodeParseRule.isEnable());
-    }
-
-    @Test
+    @Order(5)
     void testParse() {
         BarcodeParseRequestDTO barcodeParseRequestDTO = new BarcodeParseRequestDTO();
         barcodeParseRequestDTO.setBusinessFlow(BusinessFlowEnum.INBOUND);

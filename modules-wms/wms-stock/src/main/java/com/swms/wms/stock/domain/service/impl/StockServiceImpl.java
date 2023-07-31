@@ -11,8 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Objects;
-
 @Service
 public class StockServiceImpl implements StockService {
 
@@ -27,12 +25,6 @@ public class StockServiceImpl implements StockService {
 
     @Transactional(rollbackFor = Exception.class)
     public void transferContainerStock(StockTransferDTO stockTransferDTO, ContainerStock containerStock, boolean unlock) {
-
-        // the original container receive or put away , just update the warehouseArea
-        if (Objects.equals(stockTransferDTO.getWarehouseCode(), containerStock.getWarehouseCode())
-            && Objects.equals(containerStock.getContainerCode(), stockTransferDTO.getTargetContainerCode())) {
-            return;
-        }
 
         if (unlock) {
             containerStock.subtractAndUnlockQty(stockTransferDTO.getTransferQty(), stockTransferDTO.getLockType());

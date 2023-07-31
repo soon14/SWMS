@@ -32,4 +32,9 @@ public class BatchAttributeConfigRepositoryImpl implements BatchAttributeConfigR
     public BatchAttributeConfig findById(Long id) {
         return batchAttributeConfigPOTransfer.toDO(batchAttributeConfigPORepository.findById(id).orElseThrow());
     }
+
+    @Override
+    public BatchAttributeConfig findByCode(String code) {
+        return batchAttributeConfigPOTransfer.toDO(batchAttributeConfigPORepository.findByCode(code));
+    }
 }

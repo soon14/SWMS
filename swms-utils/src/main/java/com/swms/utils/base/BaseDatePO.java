@@ -9,7 +9,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 @Data
 @MappedSuperclass
 public class BaseDatePO {
-    @Column(nullable = false, columnDefinition = "bigint default 0 comment 'Creation time'")
+    @Column(nullable = false, columnDefinition = "bigint default 0 comment 'Creation time'", updatable = false)
     @CreatedDate
     private Long createTime;
 

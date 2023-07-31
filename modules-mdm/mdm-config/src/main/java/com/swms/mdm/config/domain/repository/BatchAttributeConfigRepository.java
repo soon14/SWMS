@@ -11,4 +11,6 @@ public interface BatchAttributeConfigRepository {
     void save(BatchAttributeConfig toBatchAttributeConfig);
 
     BatchAttributeConfig findById(Long id);
+
+    BatchAttributeConfig findByCode(String code);
 }

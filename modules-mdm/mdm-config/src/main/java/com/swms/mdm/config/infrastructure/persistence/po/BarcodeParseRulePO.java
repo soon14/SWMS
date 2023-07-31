@@ -18,6 +18,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Version;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -34,6 +35,7 @@ import java.util.List;
         @Index(unique = true, name = "idx_barcode_parse_code", columnList = "code")
     }
 )
+@DynamicUpdate
 public class BarcodeParseRulePO extends BaseUserPO {
 
     @Id
