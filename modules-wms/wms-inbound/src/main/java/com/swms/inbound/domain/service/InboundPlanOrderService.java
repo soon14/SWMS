@@ -1,12 +1,9 @@
 package com.swms.inbound.domain.service;
 
-import com.swms.wms.api.inbound.dto.InboundPlanOrderDTO;
-import org.springframework.stereotype.Service;
+import com.swms.inbound.domain.entity.InboundPlanOrder;
 
-@Service
-public class InboundPlanOrderService {
+public interface InboundPlanOrderService {
+    void validateInboundPlanOrder(InboundPlanOrder inboundPlanOrder);
 
-    public void validateCreateInboundPlanOrder(InboundPlanOrderDTO inboundPlanOrderDTO) {
-
-    }
+    void validateRepeatCustomerOrderNo(InboundPlanOrder inboundPlanOrder);
 }

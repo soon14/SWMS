@@ -5,6 +5,7 @@ package com.swms.utils.dictionary;
  * @Date 2020/12/9 18:00
  * @Description: 基础的枚举接口
  */
+@Dictionary
 public interface IEnum {
 
     /**

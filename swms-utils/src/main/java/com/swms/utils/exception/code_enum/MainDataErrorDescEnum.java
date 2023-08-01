@@ -12,9 +12,17 @@ public enum MainDataErrorDescEnum implements IBaseError {
 
     CODE_MUST_NOT_UPDATE("MD001002", "code must not update"),
 
-    BARCODE_PARSER_RESULT_CONFIG_NOT_MATCH("MD001003", "barcode parse result field size & config field size not match"),
+    WAREHOUSE_CODE_NOT_EXIST("MD002001", "warehouse code {0} not exist"),
 
-    BARCODE_PARSE_RULE_REPEAT("MD001004", "barcode parse rule repeated");
+    OWNER_CODE_NOT_EXIST("MD003001", "owner code {0} not exist"),
+
+    SKU_CODE_NOT_EXIST("MD004001", "sku code {0} not exist"),
+
+    SOME_SKU_CODE_NOT_EXIST("MD004002", "some sku codes not exist"),
+
+    BARCODE_PARSER_RESULT_CONFIG_NOT_MATCH("MD005001", "barcode parse result field size & config field size not match"),
+
+    BARCODE_PARSE_RULE_REPEAT("MD005002", "barcode parse rule repeated");
 
     private final String code;
 

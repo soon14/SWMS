@@ -13,10 +13,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum InboundErrorDescEnum implements IBaseError {
 
-    /**
-     * 入库单基本错误
-     */
-    INBOUND_BASE_ERROR("IN001001", "inbound base error"),
+    INBOUND_CST_ORDER_NO_REPEATED("IN001001", "inbound customer order no {0} repeated"),
 
     INBOUND_STATUS_ERROR("IN001002", "operation failed cause inbound status error");
 

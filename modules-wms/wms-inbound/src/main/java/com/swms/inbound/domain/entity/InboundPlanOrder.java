@@ -2,14 +2,19 @@ package com.swms.inbound.domain.entity;
 
 import static com.swms.utils.exception.code_enum.InboundErrorDescEnum.INBOUND_STATUS_ERROR;
 
+import com.google.common.collect.Sets;
 import com.swms.utils.exception.WmsException;
 import com.swms.wms.api.inbound.constants.InboundPlanOrderStatusEnum;
+import com.swms.wms.api.inbound.constants.StorageTypeEnum;
+import com.swms.wms.api.inbound.dto.InboundPlanOrderDetailDTO;
 import lombok.Data;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 @Data
 public class InboundPlanOrder {
@@ -21,29 +26,29 @@ public class InboundPlanOrder {
     private String lpnCode;
 
     private String warehouseCode;
-    private String warehouseName;
-
-    /**
-     * redundancy fields , according to InboundPlanOrderDetail ownerCode and ownerName
-     */
     private String ownerCode;
-    private String ownerName;
 
     private String inboundOrderType;
 
+    private StorageTypeEnum storageType;
     private boolean abnormal;
+
+    private String sender;
+    private String carrier;
+    private String shippingMethod;
+    private String trackingNumber;
+    private Long estimatedArrivalDate;
+    private String remark;
+
+    private Integer skuKindNum;
+    private Integer totalQty;
+    private Integer totalBox;
 
     private InboundPlanOrderStatusEnum inboundPlanOrderStatus = InboundPlanOrderStatusEnum.NEW;
 
-    private Long estimatedArrivalTime;
-
-    private Integer skuKindNum;
-    private Long totalQty;
-    private Integer totalBox;
-
     private Map<String, Object> extendFields;
 
-    private List<InboundPlanOrderDetail> inboundPlanOrderDetails;
+    private List<InboundPlanOrderDetailDTO> inboundPlanOrderDetails;
 
     private Long version;
 
@@ -78,34 +83,14 @@ public class InboundPlanOrder {
         this.inboundPlanOrderStatus = InboundPlanOrderStatusEnum.RECEIVED;
     }
 
-    @Data
-    public static class InboundPlanOrderDetail {
-
-        private Long id;
-
-        private Long inboundPlanOrderId;
-
-        private String containerCode;
-        private String containerSpecCode;
-        private String containerSlotCode;
-
-        private String boxNo;
-
-        private Integer qtyRestocked = 0;
-        private Integer qtyReceived = 0;
-        private Integer qtyAccepted = 0;
-        private Integer qtyAbnormal = 0;
-
-        private String abnormalReason;
-
-        private String skuCode;
-        private String packageCode;
-        private SortedMap<String, Object> batchAttributes = new TreeMap<>();
-        private String skuName;
-        private String ownerCode;
-        private String ownerName;
-
-        private Map<String, Object> extendFields = new TreeMap<>();
+    public void initial() {
+        Set<String> skuSet = Sets.newHashSet();
+        for (InboundPlanOrderDetailDTO v : inboundPlanOrderDetails) {
+            skuSet.add(v.getSkuCode());
+            int box = StringUtils.isNotEmpty(v.getBoxNo()) ? 1 : 0;
+            this.totalBox = this.totalBox == null ? 0 : this.totalBox + box;
+            this.totalQty = this.totalQty == null ? 0 : this.totalQty + v.getQtyRestocked();
+        }
+        this.skuKindNum = skuSet.size();
     }
-
 }
