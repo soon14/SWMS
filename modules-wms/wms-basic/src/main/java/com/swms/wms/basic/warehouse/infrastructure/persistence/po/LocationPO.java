@@ -1,6 +1,6 @@
 package com.swms.wms.basic.warehouse.infrastructure.persistence.po;
 
-import com.swms.utils.base.UpdateUserPO;
+import com.swms.common.utils.base.UpdateUserPO;
 import com.swms.wms.api.basic.constants.LocationStatusEnum;
 import com.swms.wms.api.basic.constants.LocationTypeEnum;
 import jakarta.persistence.Column;
@@ -37,7 +37,7 @@ public class LocationPO extends UpdateUserPO {
 
     @Id
     @GeneratedValue(generator = "databaseIdGenerator")
-    @GenericGenerator(name = "databaseIdGenerator", strategy = "com.swms.utils.id.IdGenerator")
+    @GenericGenerator(name = "databaseIdGenerator", strategy = "com.swms.common.utils.id.IdGenerator")
     private Long id;
 
     @Column(nullable = false, columnDefinition = "varchar(64) comment '库位编码'")

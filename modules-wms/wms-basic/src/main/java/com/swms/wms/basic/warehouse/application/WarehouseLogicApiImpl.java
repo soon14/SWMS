@@ -1,8 +1,8 @@
 package com.swms.wms.basic.warehouse.application;
 
-import static com.swms.utils.exception.code_enum.BasicErrorDescEnum.WAREHOUSE_LOGIC_CONTAINER_LOCATION;
+import static com.swms.common.utils.exception.code_enum.BasicErrorDescEnum.WAREHOUSE_LOGIC_CONTAINER_LOCATION;
 
-import com.swms.utils.exception.WmsException;
+import com.swms.common.utils.exception.WmsException;
 import com.swms.wms.api.basic.IWarehouseLogicApi;
 import com.swms.wms.api.basic.dto.WarehouseLogicDTO;
 import com.swms.wms.basic.warehouse.domain.entity.Location;

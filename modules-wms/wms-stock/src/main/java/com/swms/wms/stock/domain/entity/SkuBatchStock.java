@@ -1,7 +1,7 @@
 package com.swms.wms.stock.domain.entity;
 
 import com.google.common.base.Preconditions;
-import com.swms.utils.base.UpdateUserPO;
+import com.swms.common.utils.base.UpdateUserPO;
 import com.swms.wms.api.stock.constants.StockLockTypeEnum;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

@@ -6,7 +6,7 @@ import com.swms.mdm.main.data.controller.parameter.WarehouseMainDataVO;
 import com.swms.mdm.main.data.domain.entity.WarehouseMainData;
 import com.swms.mdm.main.data.domain.repository.WarehouseMainDataRepository;
 import com.swms.mdm.main.data.domain.transfer.WarehouseMainDataTransfer;
-import com.swms.utils.http.Response;
+import com.swms.common.utils.http.Response;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;

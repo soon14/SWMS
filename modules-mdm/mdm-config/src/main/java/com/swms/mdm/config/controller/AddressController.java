@@ -2,7 +2,7 @@ package com.swms.mdm.config.controller;
 
 import com.swms.mdm.api.main.data.dto.AddressDTO;
 import com.swms.mdm.config.domain.repository.AddressRepository;
-import com.swms.utils.http.Response;
+import com.swms.common.utils.http.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;

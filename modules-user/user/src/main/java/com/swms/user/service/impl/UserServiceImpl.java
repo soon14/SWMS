@@ -4,6 +4,10 @@ import cn.hutool.core.util.StrUtil;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.swms.common.utils.exception.WmsException;
+import com.swms.common.utils.exception.code_enum.UserErrorDescEnum;
+import com.swms.common.utils.user.AuthConstants;
+import com.swms.common.utils.user.UserContext;
 import com.swms.tenant.config.util.TenantContext;
 import com.swms.user.api.dto.constants.UserTypeEnum;
 import com.swms.user.api.dto.constants.YesOrNo;
@@ -24,9 +28,6 @@ import com.swms.user.service.UserRoleService;
 import com.swms.user.service.UserService;
 import com.swms.user.service.model.PermissionGrantedAuthority;
 import com.swms.user.service.model.UserDetailsModel;
-import com.swms.utils.exception.WmsException;
-import com.swms.utils.exception.code_enum.UserErrorDescEnum;
-import com.swms.utils.user.UserContext;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -224,7 +225,7 @@ public class UserServiceImpl implements UserService {
         boolean haveSuperRole = roles.stream().anyMatch(v -> Objects.equals(systemProp.getSuperRoleCode(), v.getCode()));
         if (haveSuperRole) {
             // 如果是超级角色, 则返回 *:* 权限
-            return Sets.newHashSet(new PermissionGrantedAuthority(UserContext.SUPPER_PERMISSION));
+            return Sets.newHashSet(new PermissionGrantedAuthority(AuthConstants.SUPPER_PERMISSION));
         }
 
         Set<PermissionGrantedAuthority> grantedAuthorities = Sets.newHashSet();

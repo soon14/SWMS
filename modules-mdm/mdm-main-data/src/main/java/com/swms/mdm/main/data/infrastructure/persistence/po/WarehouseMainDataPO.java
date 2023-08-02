@@ -5,7 +5,7 @@ import com.swms.mdm.api.main.data.constants.WarehouseBusinessTypeEnum;
 import com.swms.mdm.api.main.data.constants.WarehouseLevelEnum;
 import com.swms.mdm.api.main.data.constants.WarehouseStructureTypeEnum;
 import com.swms.mdm.api.main.data.constants.WarehouseTypeEnum;
-import com.swms.utils.base.UpdateUserPO;
+import com.swms.common.utils.base.UpdateUserPO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -35,7 +35,7 @@ public class WarehouseMainDataPO extends UpdateUserPO {
 
     @Id
     @GeneratedValue(generator = "databaseIdGenerator")
-    @GenericGenerator(name = "databaseIdGenerator", strategy = "com.swms.utils.id.IdGenerator")
+    @GenericGenerator(name = "databaseIdGenerator", strategy = "com.swms.common.utils.id.IdGenerator")
     private Long id;
 
     @Column(nullable = false, columnDefinition = "varchar(64) comment '仓库编码'")

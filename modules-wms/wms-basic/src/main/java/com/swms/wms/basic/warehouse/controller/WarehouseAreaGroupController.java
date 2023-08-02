@@ -1,6 +1,6 @@
 package com.swms.wms.basic.warehouse.controller;
 
-import com.swms.utils.http.Response;
+import com.swms.common.utils.http.Response;
 import com.swms.wms.api.basic.IWarehouseAreaGroupApi;
 import com.swms.wms.api.basic.dto.WarehouseAreaGroupDTO;
 import jakarta.validation.Valid;

@@ -5,7 +5,7 @@ import com.swms.mdm.api.config.constants.BusinessFlowEnum;
 import com.swms.mdm.api.config.constants.ExecuteTimeEnum;
 import com.swms.mdm.api.config.constants.UnionLocationEnum;
 import com.swms.mdm.api.config.dto.BarcodeParseResult;
-import com.swms.utils.base.UpdateUserDTO;
+import com.swms.common.utils.base.UpdateUserDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;

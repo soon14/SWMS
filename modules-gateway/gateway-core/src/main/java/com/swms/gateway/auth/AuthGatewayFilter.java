@@ -5,13 +5,12 @@ import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.google.common.collect.Lists;
+import com.swms.common.utils.user.AuthConstants;
+import com.swms.common.utils.utils.CompressUtils;
 import com.swms.gateway.config.AuthProperties;
 import com.swms.gateway.constant.SystemConstant;
 import com.swms.gateway.util.ResponseUtil;
-import com.swms.user.api.dto.constants.AuthConstants;
 import com.swms.user.api.utils.JwtUtils;
-import com.swms.utils.compress.CompressUtils;
-import com.swms.utils.user.UserContext;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.collections4.CollectionUtils;
@@ -125,7 +124,7 @@ public class AuthGatewayFilter implements GlobalFilter, Ordered {
         //set username in request header
         ServerHttpRequest newRequest = exchange.getRequest().mutate()
             .header(SystemConstant.HEADER_AUTHORIZATION, "")
-            .header(UserContext.USERNAME, jwt.getClaim(UserContext.USERNAME).asString()).build();
+            .header(AuthConstants.USERNAME, jwt.getClaim(AuthConstants.USERNAME).asString()).build();
         return chain.filter(exchange.mutate().request(newRequest).build());
     }
 
@@ -209,7 +208,7 @@ public class AuthGatewayFilter implements GlobalFilter, Ordered {
         if (CollectionUtils.isEmpty(authoritySet)) {
             return false;
         }
-        if (authoritySet.contains(SystemConstant.SUPPER_PERMISSION)) {
+        if (authoritySet.contains(AuthConstants.SUPPER_PERMISSION)) {
             return true;
         }
         String url = httpMethod.name().toLowerCase() + ":" + requestUrl;

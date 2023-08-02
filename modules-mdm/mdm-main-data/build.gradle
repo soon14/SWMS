@@ -11,7 +11,7 @@ repositories {
 
 dependencies {
     implementation project(path: ":modules-mdm:mdm-api", configuration: 'default')
-    implementation project(path: ":swms-utils", configuration: 'default')
+    implementation project(path: ":modules-utils:common-utils", configuration: 'default')
 
     implementation 'org.springframework:spring-tx'
     implementation 'com.google.guava:guava'

@@ -1,6 +1,6 @@
 package com.swms.wms.task.application;
 
-import com.swms.utils.event.DomainEventPublisher;
+import com.swms.domain.event.DomainEventPublisher;
 import com.swms.wms.api.basic.IPutWallApi;
 import com.swms.wms.api.stock.dto.StockTransferDTO;
 import com.swms.wms.api.task.ITaskApi;

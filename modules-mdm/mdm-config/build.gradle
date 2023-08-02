@@ -11,8 +11,8 @@ repositories {
 
 dependencies {
     implementation project(path: ":modules-mdm:mdm-api", configuration: 'default')
-    implementation project(path: ":modules-wms:wms-api", configuration: 'default')
-    implementation project(path: ":swms-utils", configuration: 'default')
+//    implementation project(path: ":modules-wms:wms-api", configuration: 'default')
+    implementation project(path: ":modules-utils:distribute-lock", configuration: 'default')
 
     implementation 'org.springframework:spring-tx'
     implementation 'com.google.guava:guava'
@@ -22,7 +22,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
     implementation 'org.mapstruct:mapstruct'
-    annotationProcessor  group: 'org.mapstruct', name: 'mapstruct-processor'
+    annotationProcessor group: 'org.mapstruct', name: 'mapstruct-processor'
     implementation group: 'org.projectlombok', name: 'lombok-mapstruct-binding'
 
     implementation 'org.springframework.boot:spring-boot-starter-websocket'

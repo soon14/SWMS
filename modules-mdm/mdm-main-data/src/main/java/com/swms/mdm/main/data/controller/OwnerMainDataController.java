@@ -6,7 +6,7 @@ import com.swms.mdm.main.data.controller.parameter.OwnerMainDataVO;
 import com.swms.mdm.main.data.domain.entity.OwnerMainData;
 import com.swms.mdm.main.data.domain.repository.OwnerMainDataRepository;
 import com.swms.mdm.main.data.domain.transfer.OwnerMainDataTransfer;
-import com.swms.utils.http.Response;
+import com.swms.common.utils.http.Response;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;

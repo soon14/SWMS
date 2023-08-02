@@ -1,6 +1,6 @@
 package com.swms.wms.basic.work_station.domain.entity;
 
-import com.swms.utils.exception.WmsException;
+import com.swms.common.utils.exception.WmsException;
 import com.swms.wms.api.basic.constants.WorkStationOperationTypeEnum;
 import com.swms.wms.api.basic.constants.WorkStationStatusEnum;
 import com.swms.wms.api.basic.dto.WorkStationDTO;

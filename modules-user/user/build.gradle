@@ -15,7 +15,7 @@ dependencies {
     }
     implementation project(path: ':modules-user:user-api', configuration: 'default')
     implementation project(path: ":modules-tenant:tenant-config", configuration: 'default')
-    implementation project(path: ':swms-utils', configuration: 'default')
+    implementation project(path: ":modules-utils:common-utils", configuration: 'default')
 
     implementation group: 'com.google.guava', name: 'guava'
     implementation group: 'org.apache.commons', name: 'commons-lang3'

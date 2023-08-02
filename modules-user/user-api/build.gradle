@@ -11,7 +11,7 @@ repositories {
 
 dependencies {
 
-    implementation project(path: ":swms-utils", configuration: 'default')
+    implementation project(path: ":modules-utils:common-utils", configuration: 'default')
 
     implementation 'jakarta.validation:jakarta.validation-api'
     implementation group: 'org.slf4j', name: 'slf4j-api'

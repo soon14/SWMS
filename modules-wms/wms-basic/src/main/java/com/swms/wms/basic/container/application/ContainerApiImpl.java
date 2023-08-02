@@ -1,6 +1,6 @@
 package com.swms.wms.basic.container.application;
 
-import static com.swms.utils.exception.code_enum.BasicErrorDescEnum.CONTAINER_SPECIFIC_NOT_EXIST;
+import static com.swms.common.utils.exception.code_enum.BasicErrorDescEnum.CONTAINER_SPECIFIC_NOT_EXIST;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;

@@ -1,9 +1,10 @@
 package com.swms.inbound.domain.entity;
 
-import static com.swms.utils.exception.code_enum.InboundErrorDescEnum.INBOUND_STATUS_ERROR;
+
+import static com.swms.common.utils.exception.code_enum.InboundErrorDescEnum.INBOUND_STATUS_ERROR;
 
 import com.google.common.collect.Sets;
-import com.swms.utils.exception.WmsException;
+import com.swms.common.utils.exception.WmsException;
 import com.swms.wms.api.inbound.constants.InboundPlanOrderStatusEnum;
 import com.swms.wms.api.inbound.constants.StorageTypeEnum;
 import com.swms.wms.api.inbound.dto.InboundPlanOrderDetailDTO;
@@ -13,8 +14,6 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
 
 @Data
 public class InboundPlanOrder {

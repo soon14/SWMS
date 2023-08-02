@@ -1,6 +1,6 @@
 package com.swms.inbound.infrastructure.persistence.po;
 
-import com.swms.utils.base.UpdateUserPO;
+import com.swms.common.utils.base.UpdateUserPO;
 import com.swms.utils.jpa.converter.MapConverter;
 import com.swms.wms.api.inbound.constants.InboundPlanOrderStatusEnum;
 import com.swms.wms.api.inbound.constants.StorageTypeEnum;
@@ -37,7 +37,7 @@ public class InboundPlanOrderPO extends UpdateUserPO {
 
     @Id
     @GeneratedValue(generator = "databaseIdGenerator")
-    @GenericGenerator(name = "databaseIdGenerator", strategy = "com.swms.utils.id.IdGenerator")
+    @GenericGenerator(name = "databaseIdGenerator", strategy = "com.swms.common.utils.id.IdGenerator")
     private Long id;
 
     @Column(nullable = false, columnDefinition = "varchar(64) comment '订单编号'")

@@ -11,10 +11,6 @@ public class SystemConstant {
      */
     public static final String APPLICATION_JSON_UTF8 = "application/json;charset=UTF-8";
     /**
-     * SUPPER_PERMISSION
-     */
-    public static final String SUPPER_PERMISSION = "*:*";
-    /**
      * HEADER_AUTHORIZATION
      */
     public static final String HEADER_AUTHORIZATION = "Authorization";

@@ -1,6 +1,6 @@
 package com.swms.user.repository.entity;
 
-import com.swms.utils.base.UpdateUserPO;
+import com.swms.common.utils.base.UpdateUserPO;
 import io.swagger.annotations.ApiModelProperty;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -51,7 +51,7 @@ public class Menu extends UpdateUserPO implements Serializable {
      */
     @Id
     @GeneratedValue(generator = "databaseIdGenerator")
-    @GenericGenerator(name = "databaseIdGenerator", strategy = "com.swms.utils.id.IdGenerator")
+    @GenericGenerator(name = "databaseIdGenerator", strategy = "com.swms.common.utils.id.IdGenerator")
     private Long id;
 
     /**

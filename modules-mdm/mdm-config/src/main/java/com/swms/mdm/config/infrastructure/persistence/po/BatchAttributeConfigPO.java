@@ -2,7 +2,7 @@ package com.swms.mdm.config.infrastructure.persistence.po;
 
 import com.swms.mdm.api.config.dto.BatchAttributeConfigDTO;
 import com.swms.mdm.config.infrastructure.persistence.converter.ListBatchAttributeFieldConfigConverter;
-import com.swms.utils.base.UpdateUserPO;
+import com.swms.common.utils.base.UpdateUserPO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
@@ -33,7 +33,7 @@ public class BatchAttributeConfigPO extends UpdateUserPO {
 
     @Id
     @GeneratedValue(generator = "databaseIdGenerator")
-    @GenericGenerator(name = "databaseIdGenerator", strategy = "com.swms.utils.id.IdGenerator")
+    @GenericGenerator(name = "databaseIdGenerator", strategy = "com.swms.common.utils.id.IdGenerator")
     private Long id;
 
     @Column(nullable = false, columnDefinition = "varchar(64) comment '编码'")

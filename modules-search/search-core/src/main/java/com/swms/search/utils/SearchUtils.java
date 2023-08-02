@@ -5,7 +5,7 @@ import cn.zhxu.bs.bean.SearchBean;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.swms.search.parameter.SearchParam;
-import com.swms.utils.exception.WmsException;
+import com.swms.common.utils.exception.WmsException;
 import javassist.CannotCompileException;
 import javassist.ClassPool;
 import javassist.CtClass;

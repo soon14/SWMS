@@ -1,7 +1,7 @@
 package com.swms.mdm.config.domain.entity;
 
-import com.swms.utils.base.UpdateUserPO;
-import com.swms.utils.language.MultiLanguage;
+import com.swms.common.utils.base.UpdateUserPO;
+import com.swms.common.utils.language.MultiLanguage;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

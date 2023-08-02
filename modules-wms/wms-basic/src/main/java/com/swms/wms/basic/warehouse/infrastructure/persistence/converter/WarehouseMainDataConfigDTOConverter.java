@@ -1,7 +1,7 @@
 package com.swms.wms.basic.warehouse.infrastructure.persistence.converter;
 
 import com.swms.mdm.api.config.dto.WarehouseMainDataConfigDTO;
-import com.swms.utils.utils.JsonUtils;
+import com.swms.common.utils.utils.JsonUtils;
 import jakarta.persistence.AttributeConverter;
 
 public class WarehouseMainDataConfigDTOConverter implements AttributeConverter<WarehouseMainDataConfigDTO, String> {

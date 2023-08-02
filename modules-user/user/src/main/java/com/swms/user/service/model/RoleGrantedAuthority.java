@@ -1,7 +1,8 @@
 package com.swms.user.service.model;
 
+import com.swms.common.utils.user.AuthConstants;
 import com.swms.user.repository.entity.Role;
-import com.swms.utils.user.UserContext;
+import com.swms.common.utils.user.UserContext;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -18,7 +19,7 @@ public class RoleGrantedAuthority implements GrantedAuthority {
     private final String authority;
 
     public RoleGrantedAuthority(Role role) {
-        this.authority = UserContext.ROLE_GRANTED_AUTHORITY_PREFIX + role.getCode();
+        this.authority = AuthConstants.ROLE_GRANTED_AUTHORITY_PREFIX + role.getCode();
     }
 
     @Override

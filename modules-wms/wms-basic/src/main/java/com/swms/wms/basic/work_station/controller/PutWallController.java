@@ -1,6 +1,6 @@
 package com.swms.wms.basic.work_station.controller;
 
-import com.swms.utils.http.Response;
+import com.swms.common.utils.http.Response;
 import com.swms.wms.api.basic.IPutWallApi;
 import com.swms.wms.api.basic.dto.CreatePutWallDTO;
 import jakarta.validation.Valid;

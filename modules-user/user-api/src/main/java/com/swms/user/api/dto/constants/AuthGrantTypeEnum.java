@@ -1,6 +1,6 @@
 package com.swms.user.api.dto.constants;
 
-import com.swms.utils.dictionary.IEnum;
+import com.swms.common.utils.dictionary.IEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

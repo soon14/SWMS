@@ -14,7 +14,7 @@ import com.swms.user.rest.param.role.RoleUpdateParam;
 import com.swms.user.rest.param.role.RoleVO;
 import com.swms.user.service.MenuService;
 import com.swms.user.service.RoleService;
-import com.swms.utils.http.Response;
+import com.swms.common.utils.http.Response;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import jakarta.validation.Valid;

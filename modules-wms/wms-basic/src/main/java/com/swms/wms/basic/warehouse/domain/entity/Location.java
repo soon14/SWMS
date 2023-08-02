@@ -1,8 +1,8 @@
 package com.swms.wms.basic.warehouse.domain.entity;
 
-import com.swms.utils.base.UpdateUserDTO;
-import com.swms.utils.exception.WmsException;
-import com.swms.utils.exception.code_enum.BasicErrorDescEnum;
+import com.swms.common.utils.base.UpdateUserDTO;
+import com.swms.common.utils.exception.WmsException;
+import com.swms.common.utils.exception.code_enum.BasicErrorDescEnum;
 import com.swms.wms.api.basic.constants.LocationStatusEnum;
 import com.swms.wms.api.basic.constants.LocationTypeEnum;
 import lombok.Data;

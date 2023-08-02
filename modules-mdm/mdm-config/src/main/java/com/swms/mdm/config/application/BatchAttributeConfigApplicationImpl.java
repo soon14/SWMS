@@ -1,16 +1,16 @@
 package com.swms.mdm.config.application;
 
-import static com.swms.utils.constants.RedisConstants.BATCH_ATTRIBUTE_CONFIG_ADD_LOCK;
-import static com.swms.utils.exception.code_enum.CommonErrorDescEnum.REPEAT_REQUEST;
-import static com.swms.utils.exception.code_enum.MainDataErrorDescEnum.BARCODE_PARSE_RULE_REPEAT;
+import static com.swms.common.utils.constants.RedisConstants.BATCH_ATTRIBUTE_CONFIG_ADD_LOCK;
+import static com.swms.common.utils.exception.code_enum.CommonErrorDescEnum.REPEAT_REQUEST;
+import static com.swms.common.utils.exception.code_enum.MainDataErrorDescEnum.BARCODE_PARSE_RULE_REPEAT;
 
+import com.swms.distribute.lock.DistributeLock;
 import com.swms.mdm.api.config.IBatchAttributeConfigApi;
 import com.swms.mdm.api.config.dto.BatchAttributeConfigDTO;
 import com.swms.mdm.config.domain.entity.BatchAttributeConfig;
 import com.swms.mdm.config.domain.repository.BatchAttributeConfigRepository;
 import com.swms.mdm.config.domain.transfer.BatchAttributeConfigTransfer;
-import com.swms.utils.exception.WmsException;
-import com.swms.utils.lock.DistributeLock;
+import com.swms.common.utils.exception.WmsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;

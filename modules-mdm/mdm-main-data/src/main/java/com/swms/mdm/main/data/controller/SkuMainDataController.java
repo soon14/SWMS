@@ -6,7 +6,7 @@ import com.swms.mdm.main.data.controller.parameter.SkuMainDataVO;
 import com.swms.mdm.main.data.controller.transfer.SkuMainDataDTOTransfer;
 import com.swms.mdm.main.data.domain.entity.SkuMainData;
 import com.swms.mdm.main.data.domain.repository.SkuMainDataRepository;
-import com.swms.utils.http.Response;
+import com.swms.common.utils.http.Response;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;

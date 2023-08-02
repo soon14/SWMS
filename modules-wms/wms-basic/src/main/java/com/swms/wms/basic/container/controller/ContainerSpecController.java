@@ -1,6 +1,6 @@
 package com.swms.wms.basic.container.controller;
 
-import com.swms.utils.http.Response;
+import com.swms.common.utils.http.Response;
 import com.swms.wms.api.basic.IContainerSpecApi;
 import com.swms.wms.api.basic.dto.ContainerSpecDTO;
 import com.swms.wms.basic.container.domain.repository.ContainerSpecRepository;

@@ -29,6 +29,11 @@ include 'modules-gateway:gateway-extend'
 
 include 'modules-search:search-core'
 
+include 'modules-utils:common-utils'
+include 'modules-utils:domain-event'
+include 'modules-utils:distribute-lock'
+include 'modules-utils:mq'
+
 include 'server:search-server'
 include 'server:wms-server'
 include 'server:station-server'
@@ -36,8 +41,5 @@ include 'server:mdm-server'
 include 'server:user-server'
 include 'server:tenant-server'
 include 'server:gateway-server'
-
-include 'swms-utils'
-
 
 

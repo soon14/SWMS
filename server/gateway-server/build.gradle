@@ -17,8 +17,6 @@ dependencies {
     }
     implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
 
-    implementation 'org.redisson:redisson-spring-boot-starter'
-
     implementation group: 'org.apache.skywalking', name: 'apm-toolkit-logback-1.x'
     implementation 'org.springframework.cloud:spring-cloud-starter-loadbalancer'
 

@@ -1,6 +1,6 @@
 package com.swms.wms.basic.container.application;
 
-import com.swms.utils.validate.ValidationSequence;
+import com.swms.common.utils.validate.ValidationSequence;
 import com.swms.wms.api.basic.IContainerSpecApi;
 import com.swms.wms.api.basic.dto.ContainerSpecDTO;
 import com.swms.wms.basic.container.domain.repository.ContainerSpecRepository;

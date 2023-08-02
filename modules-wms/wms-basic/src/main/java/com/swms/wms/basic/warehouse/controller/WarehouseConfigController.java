@@ -1,6 +1,6 @@
 package com.swms.wms.basic.warehouse.controller;
 
-import com.swms.utils.http.Response;
+import com.swms.common.utils.http.Response;
 import com.swms.wms.api.basic.IWarehouseConfigApi;
 import com.swms.wms.api.basic.dto.WarehouseConfigDTO;
 import com.swms.wms.basic.warehouse.domain.entity.WarehouseConfig;

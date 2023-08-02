@@ -5,7 +5,7 @@ import com.swms.user.rest.param.menu.MenuAddParam;
 import com.swms.user.rest.param.menu.MenuUpdateStatusParam;
 import com.swms.user.rest.param.menu.MenuUpdatedParam;
 import com.swms.user.service.MenuService;
-import com.swms.utils.http.Response;
+import com.swms.common.utils.http.Response;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import jakarta.validation.Valid;

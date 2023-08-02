@@ -1,6 +1,6 @@
 package com.swms.wms.task.infrastructure.persistence.po;
 
-import com.swms.utils.base.CreateUserPO;
+import com.swms.common.utils.base.CreateUserPO;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -22,7 +22,7 @@ public class TransferContainerTaskRelationPO extends CreateUserPO {
 
     @Id
     @GeneratedValue(generator = "databaseIdGenerator")
-    @GenericGenerator(name = "databaseIdGenerator", strategy = "com.swms.utils.id.IdGenerator")
+    @GenericGenerator(name = "databaseIdGenerator", strategy = "com.swms.common.utils.id.IdGenerator")
     private Long id;
 
     @Column(nullable = false, columnDefinition = "bigint comment '周转箱id'")

@@ -1,8 +1,8 @@
 package com.swms.wms.basic.container.domain.entity;
 
-import static com.swms.utils.exception.code_enum.BasicErrorDescEnum.CONTAINER_SPECIFIC_CANNOT_CHANGE;
+import static com.swms.common.utils.exception.code_enum.BasicErrorDescEnum.CONTAINER_SPECIFIC_CANNOT_CHANGE;
 
-import com.swms.utils.exception.WmsException;
+import com.swms.common.utils.exception.WmsException;
 import com.swms.wms.api.basic.constants.ContainerStatusEnum;
 import com.swms.wms.api.basic.dto.ContainerDTO;
 import jakarta.validation.constraints.NotNull;

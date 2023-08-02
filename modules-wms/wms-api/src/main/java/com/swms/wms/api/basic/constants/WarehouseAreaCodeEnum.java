@@ -1,6 +1,6 @@
 package com.swms.wms.api.basic.constants;
 
-import com.swms.utils.dictionary.Dictionary;
+import com.swms.common.utils.dictionary.Dictionary;
 
 @Dictionary
 public enum WarehouseAreaCodeEnum {

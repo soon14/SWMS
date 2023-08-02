@@ -7,7 +7,7 @@ import com.google.common.collect.Maps;
 import com.swms.search.parameter.SearchPageResult;
 import com.swms.search.parameter.SearchParam;
 import com.swms.search.utils.SearchUtils;
-import com.swms.utils.http.Response;
+import com.swms.common.utils.http.Response;
 import jakarta.servlet.http.HttpServletRequest;
 import javassist.CannotCompileException;
 import org.springframework.beans.factory.annotation.Autowired;

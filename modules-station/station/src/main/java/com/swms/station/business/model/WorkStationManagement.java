@@ -1,7 +1,7 @@
 package com.swms.station.business.model;
 
 import com.google.common.collect.Maps;
-import com.swms.utils.utils.JsonUtils;
+import com.swms.common.utils.utils.JsonUtils;
 import com.swms.station.remote.WorkStationService;
 import com.swms.wms.api.basic.dto.WorkStationDTO;
 import org.springframework.beans.factory.annotation.Autowired;

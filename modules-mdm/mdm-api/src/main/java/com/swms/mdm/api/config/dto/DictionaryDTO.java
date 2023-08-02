@@ -1,6 +1,6 @@
 package com.swms.mdm.api.config.dto;
 
-import com.swms.utils.base.UpdateUserDTO;
+import com.swms.common.utils.base.UpdateUserDTO;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

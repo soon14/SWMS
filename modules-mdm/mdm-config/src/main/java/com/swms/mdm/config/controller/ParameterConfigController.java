@@ -5,7 +5,7 @@ import com.swms.mdm.api.config.dto.ParameterConfigDTO;
 import com.swms.mdm.config.domain.entity.ParameterConfig;
 import com.swms.mdm.config.domain.repository.ParameterConfigRepository;
 import com.swms.mdm.config.domain.transfer.ParameterConfigTransfer;
-import com.swms.utils.http.Response;
+import com.swms.common.utils.http.Response;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;

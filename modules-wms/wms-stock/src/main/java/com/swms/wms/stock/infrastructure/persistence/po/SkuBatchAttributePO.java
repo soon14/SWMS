@@ -1,6 +1,6 @@
 package com.swms.wms.stock.infrastructure.persistence.po;
 
-import com.swms.utils.base.UpdateUserPO;
+import com.swms.common.utils.base.UpdateUserPO;
 import com.swms.utils.jpa.converter.MapConverter;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
@@ -35,7 +35,7 @@ public class SkuBatchAttributePO extends UpdateUserPO {
 
     @Id
     @GeneratedValue(generator = "databaseIdGenerator")
-    @GenericGenerator(name = "databaseIdGenerator", strategy = "com.swms.utils.id.IdGenerator")
+    @GenericGenerator(name = "databaseIdGenerator", strategy = "com.swms.common.utils.id.IdGenerator")
     private Long id;
 
     @Column(nullable = false, columnDefinition = "bigint default 0 comment 'skuId'")

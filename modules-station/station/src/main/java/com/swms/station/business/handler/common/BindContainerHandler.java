@@ -1,12 +1,13 @@
 package com.swms.station.business.handler.common;
 
 import com.google.common.base.Preconditions;
+import com.swms.common.utils.utils.JsonUtils;
 import com.swms.station.api.ApiCodeEnum;
 import com.swms.station.business.handler.IBusinessHandler;
 import com.swms.station.business.model.WorkStation;
 import com.swms.station.business.model.WorkStationManagement;
 import com.swms.station.remote.TaskService;
-import com.swms.utils.utils.JsonUtils;
+import com.swms.common.utils.utils.JsonUtils;
 import com.swms.wms.api.basic.constants.WorkStationStatusEnum;
 import com.swms.wms.api.task.dto.BindContainerDTO;
 import org.springframework.beans.factory.annotation.Autowired;

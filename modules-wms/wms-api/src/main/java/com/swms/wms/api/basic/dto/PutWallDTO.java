@@ -1,8 +1,8 @@
 package com.swms.wms.api.basic.dto;
 
 import com.google.common.collect.Lists;
-import com.swms.utils.exception.WmsException;
-import com.swms.utils.validate.IValidate;
+import com.swms.common.utils.exception.WmsException;
+import com.swms.common.utils.validate.IValidate;
 import com.swms.wms.api.basic.constants.PutWallSlotStatusEnum;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;

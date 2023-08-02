@@ -1,9 +1,9 @@
 package com.swms.mdm.api.config;
 
+import com.swms.common.utils.language.core.LanguageContext;
+import com.swms.common.utils.utils.ObjectUtils;
 import com.swms.mdm.api.BaseTest;
 import com.swms.mdm.api.config.dto.DictionaryDTO;
-import com.swms.utils.language.core.LanguageContext;
-import com.swms.utils.utils.ObjectUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

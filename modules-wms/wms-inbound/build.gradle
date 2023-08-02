@@ -10,7 +10,7 @@ repositories {
 }
 
 dependencies {
-    implementation project(path: ":swms-utils", configuration: 'default')
+    implementation project(path: ":modules-utils:distribute-lock", configuration: 'default')
     implementation project(path: ":modules-wms:wms-api", configuration: 'default')
 
     implementation 'org.springframework:spring-tx'

@@ -1,11 +1,11 @@
 package com.swms.tennat.controller;
 
-import static com.swms.utils.http.Response.SUCCESS_CODE;
+import static com.swms.common.utils.http.Response.SUCCESS_CODE;
 
 import com.swms.tenant.api.dto.TenantDTO;
 import com.swms.tennat.model.entity.Tenant;
 import com.swms.tennat.model.repository.TenantRepository;
-import com.swms.utils.http.Response;
+import com.swms.common.utils.http.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;

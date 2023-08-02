@@ -1,12 +1,14 @@
 package com.swms.mdm.config.application;
 
-import static com.swms.utils.constants.RedisConstants.BARCODE_PARSE_RULE_ADD_LOCK;
-import static com.swms.utils.exception.code_enum.CommonErrorDescEnum.REPEAT_REQUEST;
-import static com.swms.utils.exception.code_enum.MainDataErrorDescEnum.BARCODE_PARSE_RULE_REPEAT;
-import static com.swms.utils.exception.code_enum.MainDataErrorDescEnum.CODE_MUST_NOT_UPDATE;
+import static com.swms.common.utils.constants.RedisConstants.BARCODE_PARSE_RULE_ADD_LOCK;
+import static com.swms.common.utils.exception.code_enum.CommonErrorDescEnum.REPEAT_REQUEST;
+import static com.swms.common.utils.exception.code_enum.MainDataErrorDescEnum.BARCODE_PARSE_RULE_REPEAT;
+import static com.swms.common.utils.exception.code_enum.MainDataErrorDescEnum.CODE_MUST_NOT_UPDATE;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
+import com.swms.common.utils.exception.WmsException;
+import com.swms.distribute.lock.DistributeLock;
 import com.swms.mdm.api.config.IBarcodeParseRuleApi;
 import com.swms.mdm.api.config.dto.BarcodeParseRequestDTO;
 import com.swms.mdm.api.config.dto.BarcodeParseResult;
@@ -16,8 +18,6 @@ import com.swms.mdm.api.main.data.dto.SkuMainDataDTO;
 import com.swms.mdm.config.domain.entity.BarcodeParseRule;
 import com.swms.mdm.config.domain.repository.BarcodeParseRuleRepository;
 import com.swms.mdm.config.domain.transfer.BarcodeParseRuleTransfer;
-import com.swms.utils.exception.WmsException;
-import com.swms.utils.lock.DistributeLock;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

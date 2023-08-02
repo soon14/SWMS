@@ -1,14 +1,14 @@
 package com.swms.user.service.impl;
 
 import cn.hutool.core.util.StrUtil;
+import com.swms.common.utils.exception.code_enum.UserErrorDescEnum;
 import com.swms.user.repository.entity.User;
 import com.swms.user.repository.mapper.UserMapper;
 import com.swms.user.rest.param.user.CurrentUserInfoUpdatedParam;
 import com.swms.user.service.CurrentUserService;
 import com.swms.user.service.LoginLogService;
 import com.swms.user.utils.TimeUtil;
-import com.swms.utils.exception.WmsException;
-import com.swms.utils.exception.code_enum.UserErrorDescEnum;
+import com.swms.common.utils.exception.WmsException;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;

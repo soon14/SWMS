@@ -2,6 +2,7 @@ package com.swms.user.service.impl;
 
 import cn.hutool.core.util.StrUtil;
 import com.google.common.base.Objects;
+import com.swms.common.utils.exception.code_enum.UserErrorDescEnum;
 import com.swms.user.config.prop.SystemProp;
 import com.swms.user.repository.entity.Role;
 import com.swms.user.repository.entity.RoleMenu;
@@ -14,8 +15,7 @@ import com.swms.user.rest.param.role.RoleUpdateParam;
 import com.swms.user.service.RoleMenuService;
 import com.swms.user.service.RoleService;
 import com.swms.user.service.UserRoleService;
-import com.swms.utils.exception.WmsException;
-import com.swms.utils.exception.code_enum.UserErrorDescEnum;
+import com.swms.common.utils.exception.WmsException;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;

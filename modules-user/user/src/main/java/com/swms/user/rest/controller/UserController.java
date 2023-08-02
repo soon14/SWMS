@@ -10,7 +10,7 @@ import com.swms.user.rest.param.user.UserUpdateParam;
 import com.swms.user.rest.param.user.UserUpdateStatusParam;
 import com.swms.user.service.UserRoleService;
 import com.swms.user.service.UserService;
-import com.swms.utils.http.Response;
+import com.swms.common.utils.http.Response;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import jakarta.validation.Valid;

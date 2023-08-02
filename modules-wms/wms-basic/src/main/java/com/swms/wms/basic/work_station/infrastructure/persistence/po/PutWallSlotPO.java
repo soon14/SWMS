@@ -1,6 +1,6 @@
 package com.swms.wms.basic.work_station.infrastructure.persistence.po;
 
-import com.swms.utils.base.UpdateUserPO;
+import com.swms.common.utils.base.UpdateUserPO;
 import com.swms.utils.jpa.converter.ListLongConverter;
 import com.swms.wms.api.basic.constants.PutWallSlotStatusEnum;
 import jakarta.persistence.Column;
@@ -38,7 +38,7 @@ public class PutWallSlotPO extends UpdateUserPO {
 
     @Id
     @GeneratedValue(generator = "databaseIdGenerator")
-    @GenericGenerator(name = "databaseIdGenerator", strategy = "com.swms.utils.id.IdGenerator")
+    @GenericGenerator(name = "databaseIdGenerator", strategy = "com.swms.common.utils.id.IdGenerator")
     private Long id;
 
     private String face;

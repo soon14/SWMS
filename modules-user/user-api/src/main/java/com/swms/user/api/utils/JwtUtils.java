@@ -1,16 +1,16 @@
 package com.swms.user.api.utils;
 
-import static com.swms.user.api.dto.constants.AuthConstants.AUTH_MENUS;
-import static com.swms.user.api.dto.constants.AuthConstants.AUTH_TENANT;
-import static com.swms.user.api.dto.constants.AuthConstants.AUTH_WAREHOUSE;
+import static com.swms.common.utils.user.AuthConstants.AUTH_MENUS;
+import static com.swms.common.utils.user.AuthConstants.AUTH_TENANT;
+import static com.swms.common.utils.user.AuthConstants.AUTH_WAREHOUSE;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.google.common.collect.Lists;
-import com.swms.utils.compress.CompressUtils;
-import com.swms.utils.user.UserContext;
+import com.swms.common.utils.user.AuthConstants;
+import com.swms.common.utils.utils.CompressUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,7 +38,7 @@ public class JwtUtils {
         Algorithm algorithm = Algorithm.HMAC256(jwtSecret);
         return JWT.create()
             .withClaim(AUTH_TENANT, tenantName)
-            .withClaim(UserContext.USERNAME, userName)
+            .withClaim(AuthConstants.USERNAME, userName)
             .withClaim(AUTH_MENUS, authorityList)
             .withClaim(AUTH_WAREHOUSE, Lists.newArrayList(authWarehouseCodes))
             .withExpiresAt(new Date(System.currentTimeMillis() + jwtExpirationMs)) // 1 hour

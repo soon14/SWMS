@@ -1,6 +1,6 @@
 package com.swms.search.parameter;
 
-import com.swms.utils.utils.JsonUtils;
+import com.swms.common.utils.utils.JsonUtils;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,6 +1,6 @@
 package com.swms.wms.basic.container.infrastructure.persistence.converter;
 
-import com.swms.utils.utils.JsonUtils;
+import com.swms.common.utils.utils.JsonUtils;
 import com.swms.wms.api.basic.dto.ContainerDTO;
 import jakarta.persistence.AttributeConverter;
 

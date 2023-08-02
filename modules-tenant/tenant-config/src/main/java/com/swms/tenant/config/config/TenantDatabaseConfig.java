@@ -94,11 +94,11 @@ public class TenantDatabaseConfig {
         hibernateProps.put(AvailableSettings.PHYSICAL_NAMING_STRATEGY, CustomTableNamingStrategy.class.getName());
         hibernateProps.put("hibernate.hbm2ddl.auto", "update");
         hibernateProps.put("hibernate.dialect", "org.hibernate.dialect.MySQL8Dialect");
-        LocalContainerEntityManagerFactoryBean result = new LocalContainerEntityManagerFactoryBean();
-        result.setPackagesToScan("com.swms");
-        result.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
-        result.setJpaPropertyMap(hibernateProps);
+        LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
+        em.setPackagesToScan("com.swms");
+        em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
+        em.setJpaPropertyMap(hibernateProps);
 
-        return result;
+        return em;
     }
 }

@@ -1,6 +1,6 @@
 package com.swms.wms.api.task.event;
 
-import com.swms.utils.event.DomainEvent;
+import com.swms.domain.event.DomainEvent;
 import com.swms.wms.api.stock.dto.StockTransferDTO;
 import com.swms.wms.api.task.constants.OperationTaskTypeEnum;
 import jakarta.validation.constraints.NotNull;

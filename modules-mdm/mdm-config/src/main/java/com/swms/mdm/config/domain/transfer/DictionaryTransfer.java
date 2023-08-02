@@ -5,8 +5,8 @@ import static org.mapstruct.NullValueMappingStrategy.RETURN_NULL;
 
 import com.swms.mdm.api.config.dto.DictionaryDTO;
 import com.swms.mdm.config.domain.entity.Dictionary;
-import com.swms.utils.language.MultiLanguage;
-import com.swms.utils.language.core.LanguageContext;
+import com.swms.common.utils.language.MultiLanguage;
+import com.swms.common.utils.language.core.LanguageContext;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;

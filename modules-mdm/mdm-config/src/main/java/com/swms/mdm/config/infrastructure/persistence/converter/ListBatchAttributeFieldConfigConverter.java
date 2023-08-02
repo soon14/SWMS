@@ -1,7 +1,7 @@
 package com.swms.mdm.config.infrastructure.persistence.converter;
 
+import com.swms.common.utils.utils.JsonUtils;
 import com.swms.mdm.api.config.dto.BatchAttributeConfigDTO;
-import com.swms.utils.utils.JsonUtils;
 import jakarta.persistence.AttributeConverter;
 
 import java.util.List;

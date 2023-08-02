@@ -96,8 +96,4 @@ public class DataSourceBasedMultiTenantConnectionProviderImpl
         return dataSourcesMtApp.get(tenantIdentifier);
     }
 
-    public Map<String, DataSource> getAllDataSource() {
-        return dataSourcesMtApp;
-    }
-
 }

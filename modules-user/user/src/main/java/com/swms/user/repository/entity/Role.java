@@ -1,6 +1,6 @@
 package com.swms.user.repository.entity;
 
-import com.swms.utils.base.UpdateUserPO;
+import com.swms.common.utils.base.UpdateUserPO;
 import com.swms.utils.jpa.converter.ListStringConverter;
 import io.swagger.annotations.ApiModelProperty;
 import jakarta.persistence.Column;
@@ -47,7 +47,7 @@ public class Role extends UpdateUserPO {
      */
     @Id
     @GeneratedValue(generator = "databaseIdGenerator")
-    @GenericGenerator(name = "databaseIdGenerator", strategy = "com.swms.utils.id.IdGenerator")
+    @GenericGenerator(name = "databaseIdGenerator", strategy = "com.swms.common.utils.id.IdGenerator")
     private Long id;
 
     /**

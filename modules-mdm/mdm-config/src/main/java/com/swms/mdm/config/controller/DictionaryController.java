@@ -5,8 +5,7 @@ import com.swms.mdm.api.config.dto.DictionaryDTO;
 import com.swms.mdm.config.domain.entity.Dictionary;
 import com.swms.mdm.config.domain.repository.DictionaryRepository;
 import com.swms.mdm.config.domain.transfer.DictionaryTransfer;
-import com.swms.utils.http.Response;
-import io.reactivex.rxjava3.core.Completable;
+import com.swms.common.utils.http.Response;
 import jakarta.validation.Valid;
 import org.reflections.Reflections;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,7 +83,7 @@ public class DictionaryController {
     @GetMapping("refresh")
     public Object refresh() {
         Reflections reflections = new Reflections("com.swms");
-        Set<Class<?>> dictionaryEnums = reflections.getTypesAnnotatedWith(com.swms.utils.dictionary.Dictionary.class);
+        Set<Class<?>> dictionaryEnums = reflections.getTypesAnnotatedWith(com.swms.common.utils.dictionary.Dictionary.class);
 
         List<DictionaryDTO> dictionaryDTOS = (List<DictionaryDTO>) dictionaryEnums.stream().filter(v -> v.getSimpleName().endsWith("Enum"))
             .map(cClass -> {

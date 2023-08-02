@@ -1,10 +1,10 @@
 package com.swms.wms.basic.warehouse.controller;
 
-import static com.swms.utils.exception.code_enum.BasicErrorDescEnum.FORBIDDEN_OPERATE_MULTIPLE_AISLE;
+import static com.swms.common.utils.exception.code_enum.BasicErrorDescEnum.FORBIDDEN_OPERATE_MULTIPLE_AISLE;
 
 import com.google.common.collect.Lists;
-import com.swms.utils.exception.WmsException;
-import com.swms.utils.http.Response;
+import com.swms.common.utils.exception.WmsException;
+import com.swms.common.utils.http.Response;
 import com.swms.wms.api.basic.IContainerSpecApi;
 import com.swms.wms.api.basic.ILocationApi;
 import com.swms.wms.api.basic.IWarehouseAreaApi;

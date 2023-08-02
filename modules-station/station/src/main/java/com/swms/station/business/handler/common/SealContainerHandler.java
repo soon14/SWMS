@@ -6,7 +6,7 @@ import com.swms.station.business.handler.IBusinessHandler;
 import com.swms.station.business.model.WorkStation;
 import com.swms.station.business.model.WorkStationManagement;
 import com.swms.station.remote.TaskService;
-import com.swms.utils.utils.JsonUtils;
+import com.swms.common.utils.utils.JsonUtils;
 import com.swms.wms.api.task.dto.SealContainerDTO;
 import com.swms.wms.api.basic.constants.WorkStationStatusEnum;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -11,7 +11,7 @@ repositories {
 
 dependencies {
 
-    implementation project(path: ":swms-utils", configuration: 'default')
+    implementation project(path: ":modules-utils:common-utils", configuration: 'default')
     implementation project(path: ":modules-user:user-api", configuration: 'default')
 
     implementation 'org.springframework.cloud:spring-cloud-starter-gateway'

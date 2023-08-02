@@ -1,6 +1,6 @@
 package com.swms.wms.basic.container.controller;
 
-import com.swms.utils.http.Response;
+import com.swms.common.utils.http.Response;
 import com.swms.wms.api.basic.IContainerApi;
 import com.swms.wms.api.basic.dto.CreateContainerDTO;
 import org.springframework.beans.factory.annotation.Autowired;

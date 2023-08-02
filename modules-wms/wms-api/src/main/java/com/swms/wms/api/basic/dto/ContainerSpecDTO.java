@@ -1,11 +1,12 @@
 package com.swms.wms.api.basic.dto;
 
-import static com.swms.utils.exception.code_enum.BasicErrorDescEnum.CONTAINER_SPECIFIC_SLOT_CODE_REPEAT;
-import static com.swms.utils.exception.code_enum.BasicErrorDescEnum.CONTAINER_SPECIFIC_SLOT_LEVEL_BAY_REPEAT;
+
+import static com.swms.common.utils.exception.code_enum.BasicErrorDescEnum.CONTAINER_SPECIFIC_SLOT_CODE_REPEAT;
+import static com.swms.common.utils.exception.code_enum.BasicErrorDescEnum.CONTAINER_SPECIFIC_SLOT_LEVEL_BAY_REPEAT;
 
 import com.google.common.collect.Lists;
-import com.swms.utils.exception.WmsException;
-import com.swms.utils.validate.IValidate;
+import com.swms.common.utils.exception.WmsException;
+import com.swms.common.utils.validate.IValidate;
 import com.swms.wms.api.basic.constants.ContainerTypeEnum;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;

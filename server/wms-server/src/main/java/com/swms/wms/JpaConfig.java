@@ -1,6 +1,6 @@
 package com.swms.wms;
 
-import com.swms.utils.user.AuditorAwareImpl;
+import com.swms.common.utils.user.AuditorAwareImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;

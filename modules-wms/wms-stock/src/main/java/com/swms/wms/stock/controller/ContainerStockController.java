@@ -1,6 +1,6 @@
 package com.swms.wms.stock.controller;
 
-import com.swms.utils.http.Response;
+import com.swms.common.utils.http.Response;
 import com.swms.wms.api.stock.IStockApi;
 import com.swms.wms.stock.controller.parameter.FreezeStockVO;
 import jakarta.validation.Valid;

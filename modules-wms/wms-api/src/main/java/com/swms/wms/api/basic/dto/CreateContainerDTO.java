@@ -1,6 +1,6 @@
 package com.swms.wms.api.basic.dto;
 
-import com.swms.utils.validate.IValidate;
+import com.swms.common.utils.validate.IValidate;
 import com.swms.wms.api.basic.constants.ContainerTypeEnum;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;

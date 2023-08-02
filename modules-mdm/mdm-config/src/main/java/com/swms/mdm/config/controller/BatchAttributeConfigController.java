@@ -5,7 +5,7 @@ import com.swms.mdm.api.config.dto.BatchAttributeConfigDTO;
 import com.swms.mdm.config.domain.entity.BatchAttributeConfig;
 import com.swms.mdm.config.domain.repository.BatchAttributeConfigRepository;
 import com.swms.mdm.config.domain.transfer.BatchAttributeConfigTransfer;
-import com.swms.utils.http.Response;
+import com.swms.common.utils.http.Response;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;

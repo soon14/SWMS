@@ -10,7 +10,7 @@ import com.swms.station.business.model.WorkStationManagement;
 import com.swms.station.remote.ContainerService;
 import com.swms.station.remote.EquipmentService;
 import com.swms.station.remote.TaskService;
-import com.swms.utils.utils.JsonUtils;
+import com.swms.common.utils.utils.JsonUtils;
 import com.swms.wms.api.basic.dto.ContainerSpecDTO;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;

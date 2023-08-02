@@ -1,7 +1,7 @@
 package com.swms.wms.basic.warehouse.infrastructure.persistence.po;
 
 import com.swms.mdm.api.config.dto.WarehouseMainDataConfigDTO;
-import com.swms.utils.base.UpdateUserPO;
+import com.swms.common.utils.base.UpdateUserPO;
 import com.swms.wms.basic.warehouse.infrastructure.persistence.converter.WarehouseMainDataConfigDTOConverter;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
@@ -33,7 +33,7 @@ public class WarehouseConfigPO extends UpdateUserPO {
 
     @Id
     @GeneratedValue(generator = "databaseIdGenerator")
-    @GenericGenerator(name = "databaseIdGenerator", strategy = "com.swms.utils.id.IdGenerator")
+    @GenericGenerator(name = "databaseIdGenerator", strategy = "com.swms.common.utils.id.IdGenerator")
     private Long id;
 
     private String warehouseCode;

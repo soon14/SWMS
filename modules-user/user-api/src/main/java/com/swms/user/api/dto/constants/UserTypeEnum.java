@@ -1,7 +1,7 @@
 package com.swms.user.api.dto.constants;
 
-import com.swms.utils.dictionary.Dictionary;
-import com.swms.utils.dictionary.IEnum;
+import com.swms.common.utils.dictionary.Dictionary;
+import com.swms.common.utils.dictionary.IEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;

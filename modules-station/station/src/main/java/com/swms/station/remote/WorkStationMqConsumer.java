@@ -1,7 +1,7 @@
 package com.swms.station.remote;
 
-import com.swms.utils.constants.RedisConstants;
-import com.swms.utils.mq.redis.RedisListener;
+import com.swms.common.utils.constants.RedisConstants;
+import com.swms.mq.redis.RedisListener;
 import com.swms.station.business.model.WorkStation;
 import com.swms.station.business.model.WorkStationManagement;
 import com.swms.station.websocket.utils.StationWebSocketUtils;
