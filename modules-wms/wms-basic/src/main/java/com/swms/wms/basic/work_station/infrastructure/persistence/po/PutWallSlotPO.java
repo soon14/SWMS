@@ -1,7 +1,7 @@
 package com.swms.wms.basic.work_station.infrastructure.persistence.po;
 
 import com.swms.common.utils.base.UpdateUserPO;
-import com.swms.utils.jpa.converter.ListLongConverter;
+import com.swms.common.utils.jpa.converter.ListLongConverter;
 import com.swms.wms.api.basic.constants.PutWallSlotStatusEnum;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
