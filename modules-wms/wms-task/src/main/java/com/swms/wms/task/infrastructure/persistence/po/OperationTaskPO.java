@@ -1,6 +1,6 @@
 package com.swms.wms.task.infrastructure.persistence.po;
 
-import com.swms.utils.base.BaseUserPO;
+import com.swms.utils.base.UpdateUserPO;
 import com.swms.wms.api.task.constants.OperationTaskStatusEnum;
 import com.swms.wms.api.task.constants.OperationTaskTypeEnum;
 import jakarta.persistence.*;
@@ -20,7 +20,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
         @Index(name = "idx_source_container_code", columnList = "sourceContainerCode")
     }
 )
-public class OperationTaskPO extends BaseUserPO {
+public class OperationTaskPO extends UpdateUserPO {
 
     @Id
     @GeneratedValue(generator = "databaseIdGenerator")

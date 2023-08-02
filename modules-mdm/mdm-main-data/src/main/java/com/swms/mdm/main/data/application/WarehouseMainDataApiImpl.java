@@ -1,16 +1,18 @@
 package com.swms.mdm.main.data.application;
 
-import com.swms.mdm.api.main.data.IWarehouseApi;
+import com.swms.mdm.api.main.data.IWarehouseMainDataApi;
 import com.swms.mdm.api.main.data.dto.WarehouseMainDataDTO;
 import com.swms.mdm.main.data.domain.repository.WarehouseMainDataRepository;
 import com.swms.mdm.main.data.domain.transfer.WarehouseMainDataTransfer;
+import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 @Validated
 @Service
-public class WarehouseApplicationImpl implements IWarehouseApi {
+@DubboService
+public class WarehouseMainDataApiImpl implements IWarehouseMainDataApi {
 
     @Autowired
     private WarehouseMainDataRepository warehouseRepository;

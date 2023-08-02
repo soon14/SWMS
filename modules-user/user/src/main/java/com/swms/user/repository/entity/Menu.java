@@ -1,6 +1,6 @@
 package com.swms.user.repository.entity;
 
-import com.swms.utils.base.BaseUserPO;
+import com.swms.utils.base.UpdateUserPO;
 import io.swagger.annotations.ApiModelProperty;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -41,7 +41,7 @@ import java.util.List;
 )
 @DynamicUpdate
 @Accessors(chain = true)
-public class Menu extends BaseUserPO implements Serializable {
+public class Menu extends UpdateUserPO implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;

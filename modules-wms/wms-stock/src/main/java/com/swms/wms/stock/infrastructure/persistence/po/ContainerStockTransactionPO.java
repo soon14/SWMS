@@ -1,6 +1,6 @@
 package com.swms.wms.stock.infrastructure.persistence.po;
 
-import com.swms.utils.base.BaseUserPO;
+import com.swms.utils.base.UpdateUserPO;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -20,7 +20,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
     }
 )
 @DynamicUpdate
-public class ContainerStockTransactionPO extends BaseUserPO {
+public class ContainerStockTransactionPO extends UpdateUserPO {
     @Id
     @GeneratedValue(generator = "databaseIdGenerator")
     @GenericGenerator(name = "databaseIdGenerator", strategy = "com.swms.utils.id.IdGenerator")

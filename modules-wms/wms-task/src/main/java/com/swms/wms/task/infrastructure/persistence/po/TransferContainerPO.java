@@ -1,6 +1,6 @@
 package com.swms.wms.task.infrastructure.persistence.po;
 
-import com.swms.utils.base.BaseUserPO;
+import com.swms.utils.base.UpdateUserPO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -23,7 +23,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
         @Index(name = "idx_transfer_container_code", columnList = "transferContainerCode")
     }
 )
-public class TransferContainerPO extends BaseUserPO {
+public class TransferContainerPO extends UpdateUserPO {
 
     @Id
     @GeneratedValue(generator = "databaseIdGenerator")

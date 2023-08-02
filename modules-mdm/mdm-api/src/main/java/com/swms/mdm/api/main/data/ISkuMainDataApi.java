@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotEmpty;
 import java.util.Collection;
 import java.util.List;
 
-public interface ISkuApi {
+public interface ISkuMainDataApi {
 
     void create(@Valid SkuMainDataDTO skuMainDataDTO);
 

@@ -1,6 +1,6 @@
 package com.swms.wms.basic.work_station.infrastructure.persistence.po;
 
-import com.swms.utils.base.BaseUserPO;
+import com.swms.utils.base.UpdateUserPO;
 import com.swms.wms.api.basic.constants.WorkStationOperationTypeEnum;
 import com.swms.wms.api.basic.constants.WorkStationStatusEnum;
 import com.swms.wms.api.basic.dto.WorkStationDTO;
@@ -17,10 +17,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
-import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -38,7 +36,7 @@ import java.util.List;
     }
 )
 @DynamicUpdate
-public class WorkStationPO extends BaseUserPO {
+public class WorkStationPO extends UpdateUserPO {
 
     @Id
     @GeneratedValue(generator = "databaseIdGenerator")

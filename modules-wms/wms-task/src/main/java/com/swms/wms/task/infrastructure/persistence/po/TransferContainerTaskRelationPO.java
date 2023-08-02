@@ -1,6 +1,6 @@
 package com.swms.wms.task.infrastructure.persistence.po;
 
-import com.swms.utils.base.BaseDatePO;
+import com.swms.utils.base.CreateUserPO;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -18,7 +18,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
         @Index(name = "idx_transfer_container_id", columnList = "transferContainerId")
     }
 )
-public class TransferContainerTaskRelationPO extends BaseDatePO {
+public class TransferContainerTaskRelationPO extends CreateUserPO {
 
     @Id
     @GeneratedValue(generator = "databaseIdGenerator")

@@ -1,6 +1,6 @@
 package com.swms.mdm.main.data.controller;
 
-import com.swms.mdm.api.main.data.IOwnerApi;
+import com.swms.mdm.api.main.data.IOwnerMainDataApi;
 import com.swms.mdm.api.main.data.dto.OwnerMainDataDTO;
 import com.swms.mdm.main.data.controller.parameter.OwnerMainDataVO;
 import com.swms.mdm.main.data.domain.entity.OwnerMainData;
@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class OwnerMainDataController {
 
     @Autowired
-    private IOwnerApi iOwnerApi;
+    private IOwnerMainDataApi iOwnerApi;
 
     @Autowired
     private OwnerMainDataRepository ownerDataRepository;

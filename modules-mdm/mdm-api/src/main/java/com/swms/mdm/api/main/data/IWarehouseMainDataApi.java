@@ -5,7 +5,7 @@ import com.swms.mdm.api.main.data.dto.WarehouseMainDataDTO;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 
-public interface IWarehouseApi {
+public interface IWarehouseMainDataApi {
 
     void createWarehouse(@Valid WarehouseMainDataDTO warehouseDTO);
 

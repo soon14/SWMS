@@ -1,6 +1,6 @@
 package com.swms.wms.basic.warehouse.domain.entity;
 
-import com.swms.utils.base.BaseUserDTO;
+import com.swms.utils.base.UpdateUserDTO;
 import com.swms.utils.exception.WmsException;
 import com.swms.utils.exception.code_enum.BasicErrorDescEnum;
 import com.swms.wms.api.basic.constants.LocationStatusEnum;
@@ -10,7 +10,7 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class Location extends BaseUserDTO {
+public class Location extends UpdateUserDTO {
 
     private Long id;
 

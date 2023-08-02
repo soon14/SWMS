@@ -1,6 +1,6 @@
 package com.swms.wms.basic.warehouse.infrastructure.persistence.po;
 
-import com.swms.utils.base.BaseUserPO;
+import com.swms.utils.base.UpdateUserPO;
 import com.swms.wms.api.basic.constants.WarehouseAreaTypeEnum;
 import com.swms.wms.api.basic.constants.WarehouseAreaUseEnum;
 import jakarta.persistence.Column;
@@ -13,10 +13,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
-import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Where;
@@ -34,7 +32,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 )
 @DynamicUpdate
 @Where(clause = "deleted=false")
-public class WarehouseAreaPO extends BaseUserPO {
+public class WarehouseAreaPO extends UpdateUserPO {
 
 
     @Id

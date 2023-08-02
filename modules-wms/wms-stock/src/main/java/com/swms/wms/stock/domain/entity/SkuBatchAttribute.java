@@ -1,11 +1,9 @@
 package com.swms.wms.stock.domain.entity;
 
 import com.swms.mdm.api.main.data.dto.SkuMainDataDTO;
-import com.swms.utils.base.BaseUserDTO;
+import com.swms.utils.base.UpdateUserDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.redis.core.script.DigestUtils;
@@ -15,7 +13,7 @@ import java.util.SortedMap;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class SkuBatchAttribute extends BaseUserDTO {
+public class SkuBatchAttribute extends UpdateUserDTO {
 
     private Long id;
     private SkuMainDataDTO skuMainData;

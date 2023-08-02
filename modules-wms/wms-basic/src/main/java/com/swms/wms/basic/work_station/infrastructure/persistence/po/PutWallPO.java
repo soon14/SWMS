@@ -1,6 +1,6 @@
 package com.swms.wms.basic.work_station.infrastructure.persistence.po;
 
-import com.swms.utils.base.BaseUserPO;
+import com.swms.utils.base.UpdateUserPO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -11,7 +11,6 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Version;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -28,7 +27,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
     }
 )
 @DynamicUpdate
-public class PutWallPO extends BaseUserPO {
+public class PutWallPO extends UpdateUserPO {
 
     @Id
     @GeneratedValue(generator = "databaseIdGenerator")

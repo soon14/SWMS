@@ -1,6 +1,6 @@
 package com.swms.wms.stock.infrastructure.persistence.po;
 
-import com.swms.utils.base.BaseUserPO;
+import com.swms.utils.base.UpdateUserPO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -25,7 +25,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
             columnList = "containerCode,warehouseCode,containerSlotCode,skuBatchAttributeId"),
     }
 )
-public class ContainerStockPO extends BaseUserPO {
+public class ContainerStockPO extends UpdateUserPO {
 
     @Id
     @GeneratedValue(generator = "databaseIdGenerator")

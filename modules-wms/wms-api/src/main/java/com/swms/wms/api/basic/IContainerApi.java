@@ -2,6 +2,7 @@ package com.swms.wms.api.basic;
 
 import com.swms.wms.api.basic.dto.ContainerSpecDTO;
 import com.swms.wms.api.basic.dto.CreateContainerDTO;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
 public interface IContainerApi {
@@ -12,5 +13,5 @@ public interface IContainerApi {
 
     void changeContainerSpec(@NotNull String containerCode, @NotNull String containerSpecCode);
 
-    void createContainer(CreateContainerDTO createContainerDTO);
+    void createContainer(@Valid CreateContainerDTO createContainerDTO);
 }

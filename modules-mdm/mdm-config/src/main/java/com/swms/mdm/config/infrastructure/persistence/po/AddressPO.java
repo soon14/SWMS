@@ -1,6 +1,6 @@
 package com.swms.mdm.config.infrastructure.persistence.po;
 
-import com.swms.utils.base.BaseUserPO;
+import com.swms.utils.base.UpdateUserPO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -23,7 +23,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
         @Index(unique = true, name = "idx_c_p_c_d", columnList = "country,province,city,district")
     }
 )
-public class AddressPO extends BaseUserPO {
+public class AddressPO extends UpdateUserPO {
 
     @Id
     @GeneratedValue(generator = "databaseIdGenerator")

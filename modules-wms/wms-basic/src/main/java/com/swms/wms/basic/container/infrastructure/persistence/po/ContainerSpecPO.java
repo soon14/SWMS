@@ -1,6 +1,6 @@
 package com.swms.wms.basic.container.infrastructure.persistence.po;
 
-import com.swms.utils.base.BaseUserPO;
+import com.swms.utils.base.UpdateUserPO;
 import com.swms.wms.api.basic.constants.ContainerTypeEnum;
 import com.swms.wms.api.basic.dto.ContainerSpecDTO;
 import com.swms.wms.basic.container.infrastructure.persistence.converter.ListContainerSlotSpecConverter;
@@ -15,7 +15,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
-import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.DynamicUpdate;
@@ -35,7 +34,7 @@ import java.util.List;
     }
 )
 @DynamicUpdate
-public class ContainerSpecPO extends BaseUserPO {
+public class ContainerSpecPO extends UpdateUserPO {
 
     @Id
     @GeneratedValue(generator = "databaseIdGenerator")

@@ -1,6 +1,6 @@
 package com.swms.user.repository.entity;
 
-import com.swms.utils.base.BaseUserPO;
+import com.swms.utils.base.UpdateUserPO;
 import com.swms.utils.jpa.converter.ListStringConverter;
 import io.swagger.annotations.ApiModelProperty;
 import jakarta.persistence.Column;
@@ -40,7 +40,7 @@ import java.util.List;
 )
 @DynamicUpdate
 @Accessors(chain = true)
-public class Role extends BaseUserPO {
+public class Role extends UpdateUserPO {
 
     /**
      * 角色id

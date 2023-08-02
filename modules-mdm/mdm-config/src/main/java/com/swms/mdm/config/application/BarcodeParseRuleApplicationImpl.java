@@ -11,7 +11,7 @@ import com.swms.mdm.api.config.IBarcodeParseRuleApi;
 import com.swms.mdm.api.config.dto.BarcodeParseRequestDTO;
 import com.swms.mdm.api.config.dto.BarcodeParseResult;
 import com.swms.mdm.api.config.dto.BarcodeParseRuleDTO;
-import com.swms.mdm.api.main.data.ISkuApi;
+import com.swms.mdm.api.main.data.ISkuMainDataApi;
 import com.swms.mdm.api.main.data.dto.SkuMainDataDTO;
 import com.swms.mdm.config.domain.entity.BarcodeParseRule;
 import com.swms.mdm.config.domain.repository.BarcodeParseRuleRepository;
@@ -39,7 +39,7 @@ public class BarcodeParseRuleApplicationImpl implements IBarcodeParseRuleApi {
     private BarcodeParseRuleTransfer barcodeParseRuleTransfer;
 
     @Autowired
-    private ISkuApi iSkuApi;
+    private ISkuMainDataApi iSkuApi;
 
     @Autowired
     private DistributeLock distributeLock;

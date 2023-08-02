@@ -3,7 +3,7 @@ package com.swms.utils.base;
 import lombok.Data;
 
 @Data
-public class BaseDateDTO {
+public class CreateUserDTO {
     private Long createTime;
-    private Long updateTime;
+    private String createUser;
 }

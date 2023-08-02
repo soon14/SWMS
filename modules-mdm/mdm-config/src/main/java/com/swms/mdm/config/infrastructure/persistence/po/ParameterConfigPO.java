@@ -3,7 +3,7 @@ package com.swms.mdm.config.infrastructure.persistence.po;
 import com.swms.mdm.api.config.constants.ConfigApplyModuleEnum;
 import com.swms.mdm.api.config.constants.ConfigApplyObjectEnum;
 import com.swms.mdm.api.config.constants.ConfigTypeEnum;
-import com.swms.utils.base.BaseUserPO;
+import com.swms.utils.base.UpdateUserPO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -29,7 +29,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
         @Index(unique = true, name = "idx_parameter_config_code", columnList = "code")
     }
 )
-public class ParameterConfigPO extends BaseUserPO {
+public class ParameterConfigPO extends UpdateUserPO {
 
     @Id
     @GeneratedValue(generator = "databaseIdGenerator")

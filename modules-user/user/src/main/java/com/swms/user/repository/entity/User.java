@@ -1,6 +1,6 @@
 package com.swms.user.repository.entity;
 
-import com.swms.utils.base.BaseUserPO;
+import com.swms.utils.base.UpdateUserPO;
 import io.swagger.annotations.ApiModelProperty;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -37,7 +37,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 )
 @DynamicUpdate
 @Accessors(chain = true)
-public class User extends BaseUserPO {
+public class User extends UpdateUserPO {
 
     /**
      * 用户id

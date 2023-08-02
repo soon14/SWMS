@@ -2,7 +2,7 @@ package com.swms.mdm.config.infrastructure.persistence.po;
 
 import com.swms.mdm.config.domain.entity.Dictionary;
 import com.swms.mdm.config.infrastructure.persistence.converter.ListDictionaryItemConverter;
-import com.swms.utils.base.BaseUserPO;
+import com.swms.utils.base.UpdateUserPO;
 import com.swms.utils.language.MultiLanguage;
 import com.swms.utils.language.converter.MultiLanguageConverter;
 import jakarta.persistence.Column;
@@ -31,7 +31,7 @@ import java.util.List;
         @Index(unique = true, name = "idx_dictionary_code", columnList = "code")
     }
 )
-public class DictionaryPO extends BaseUserPO {
+public class DictionaryPO extends UpdateUserPO {
 
     @Id
     @GeneratedValue(generator = "databaseIdGenerator")

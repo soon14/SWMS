@@ -1,9 +1,8 @@
-package com.swms.inbound.domain.entity;
+package com.swms.wms.api.inbound.dto;
 
 import com.swms.wms.api.inbound.constants.ReceiveOrderCreateTypeEnum;
 import com.swms.wms.api.inbound.constants.ReceiveOrderStatusEnum;
 import com.swms.wms.api.inbound.constants.StorageTypeEnum;
-import com.swms.wms.api.inbound.dto.ReceiveOrderDetailDTO;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
@@ -11,7 +10,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class ReceiveOrder {
+public class ReceiveOrderDTO {
 
     private Long id;
 

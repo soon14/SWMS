@@ -3,7 +3,7 @@ package com.swms.mdm.config.infrastructure.persistence.po;
 import com.swms.mdm.api.config.constants.BusinessFlowEnum;
 import com.swms.mdm.api.config.constants.ExecuteTimeEnum;
 import com.swms.mdm.api.config.constants.UnionLocationEnum;
-import com.swms.utils.base.BaseUserPO;
+import com.swms.utils.base.UpdateUserPO;
 import com.swms.utils.jpa.converter.ListStringConverter;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
@@ -36,7 +36,7 @@ import java.util.List;
     }
 )
 @DynamicUpdate
-public class BarcodeParseRulePO extends BaseUserPO {
+public class BarcodeParseRulePO extends UpdateUserPO {
 
     @Id
     @GeneratedValue(generator = "databaseIdGenerator")

@@ -1,6 +1,6 @@
 package com.swms.wms.basic.warehouse.infrastructure.persistence.po;
 
-import com.swms.utils.base.BaseUserPO;
+import com.swms.utils.base.UpdateUserPO;
 import com.swms.wms.api.basic.constants.LocationStatusEnum;
 import com.swms.wms.api.basic.constants.LocationTypeEnum;
 import jakarta.persistence.Column;
@@ -13,10 +13,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
-import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -35,7 +33,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
     }
 )
 @DynamicUpdate
-public class LocationPO extends BaseUserPO {
+public class LocationPO extends UpdateUserPO {
 
     @Id
     @GeneratedValue(generator = "databaseIdGenerator")

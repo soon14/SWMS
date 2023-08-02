@@ -1,7 +1,7 @@
 package com.swms.wms.basic.warehouse.infrastructure.persistence.po;
 
 import com.swms.mdm.api.config.dto.WarehouseMainDataConfigDTO;
-import com.swms.utils.base.BaseUserPO;
+import com.swms.utils.base.UpdateUserPO;
 import com.swms.wms.basic.warehouse.infrastructure.persistence.converter.WarehouseMainDataConfigDTOConverter;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
@@ -13,7 +13,6 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Version;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -29,7 +28,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
     }
 )
 @DynamicUpdate
-public class WarehouseConfigPO extends BaseUserPO {
+public class WarehouseConfigPO extends UpdateUserPO {
 
 
     @Id

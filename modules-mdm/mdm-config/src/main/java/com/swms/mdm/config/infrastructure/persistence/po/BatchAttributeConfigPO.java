@@ -2,7 +2,7 @@ package com.swms.mdm.config.infrastructure.persistence.po;
 
 import com.swms.mdm.api.config.dto.BatchAttributeConfigDTO;
 import com.swms.mdm.config.infrastructure.persistence.converter.ListBatchAttributeFieldConfigConverter;
-import com.swms.utils.base.BaseUserPO;
+import com.swms.utils.base.UpdateUserPO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
@@ -29,7 +29,7 @@ import java.util.List;
         @Index(unique = true, name = "idx_batch_attribute_config_code", columnList = "code")
     }
 )
-public class BatchAttributeConfigPO extends BaseUserPO {
+public class BatchAttributeConfigPO extends UpdateUserPO {
 
     @Id
     @GeneratedValue(generator = "databaseIdGenerator")

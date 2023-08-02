@@ -20,6 +20,8 @@ dependencies {
 
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
+    implementation 'org.apache.dubbo:dubbo-spring-boot-starter'
+
     implementation 'org.mapstruct:mapstruct'
     annotationProcessor group: 'org.mapstruct', name: 'mapstruct-processor'
     implementation group: 'org.projectlombok', name: 'lombok-mapstruct-binding'

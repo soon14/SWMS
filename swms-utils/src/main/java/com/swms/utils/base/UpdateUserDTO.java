@@ -5,7 +5,7 @@ import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class BaseUserDTO extends BaseDateDTO {
-    private String createUser;
+public class UpdateUserDTO extends CreateUserDTO {
     private String updateUser;
+    private Long updateTime;
 }

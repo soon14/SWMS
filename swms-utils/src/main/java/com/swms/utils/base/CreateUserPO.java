@@ -3,19 +3,17 @@ package com.swms.utils.base;
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.CreatedDate;
 
-@EqualsAndHashCode(callSuper = true)
 @Data
 @MappedSuperclass
-public class BaseUserPO extends BaseDatePO {
+public class CreateUserPO {
+    @Column(nullable = false, columnDefinition = "bigint default 0 comment 'Creation time'", updatable = false)
+    @CreatedDate
+    private Long createTime;
 
     @CreatedBy
     @Column(nullable = false, columnDefinition = "varchar(60) default '' comment 'Create user'", updatable = false)
     private String createUser;
-    @LastModifiedBy
-    @Column(nullable = false, columnDefinition = "varchar(60) default '' comment 'Update user'")
-    private String updateUser;
 }

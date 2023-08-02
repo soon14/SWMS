@@ -1,6 +1,6 @@
 package com.swms.inbound.infrastructure.persistence.po;
 
-import com.swms.utils.base.BaseUserPO;
+import com.swms.utils.base.UpdateUserPO;
 import com.swms.utils.jpa.converter.MapConverter;
 import com.swms.wms.api.inbound.constants.InboundPlanOrderStatusEnum;
 import com.swms.wms.api.inbound.constants.StorageTypeEnum;
@@ -33,7 +33,7 @@ import java.util.Map;
     }
 )
 @DynamicUpdate
-public class InboundPlanOrderPO extends BaseUserPO {
+public class InboundPlanOrderPO extends UpdateUserPO {
 
     @Id
     @GeneratedValue(generator = "databaseIdGenerator")

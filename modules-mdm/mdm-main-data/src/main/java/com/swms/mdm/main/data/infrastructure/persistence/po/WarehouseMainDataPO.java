@@ -5,7 +5,7 @@ import com.swms.mdm.api.main.data.constants.WarehouseBusinessTypeEnum;
 import com.swms.mdm.api.main.data.constants.WarehouseLevelEnum;
 import com.swms.mdm.api.main.data.constants.WarehouseStructureTypeEnum;
 import com.swms.mdm.api.main.data.constants.WarehouseTypeEnum;
-import com.swms.utils.base.BaseUserPO;
+import com.swms.utils.base.UpdateUserPO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -31,7 +31,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
         @Index(unique = true, name = "idx_warehouse_code", columnList = "warehouseCode")
     }
 )
-public class WarehouseMainDataPO extends BaseUserPO {
+public class WarehouseMainDataPO extends UpdateUserPO {
 
     @Id
     @GeneratedValue(generator = "databaseIdGenerator")

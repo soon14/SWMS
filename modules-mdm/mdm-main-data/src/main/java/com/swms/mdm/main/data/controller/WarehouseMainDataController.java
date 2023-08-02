@@ -1,6 +1,6 @@
 package com.swms.mdm.main.data.controller;
 
-import com.swms.mdm.api.main.data.IWarehouseApi;
+import com.swms.mdm.api.main.data.IWarehouseMainDataApi;
 import com.swms.mdm.api.main.data.dto.WarehouseMainDataDTO;
 import com.swms.mdm.main.data.controller.parameter.WarehouseMainDataVO;
 import com.swms.mdm.main.data.domain.entity.WarehouseMainData;
@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class WarehouseMainDataController {
 
     @Autowired
-    private IWarehouseApi iWarehouseApi;
+    private IWarehouseMainDataApi iWarehouseApi;
 
     @Autowired
     private WarehouseMainDataRepository warehouseMainDataRepository;

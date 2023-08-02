@@ -1,6 +1,6 @@
 package com.swms.wms.stock.infrastructure.persistence.po;
 
-import com.swms.utils.base.BaseUserPO;
+import com.swms.utils.base.UpdateUserPO;
 import com.swms.utils.jpa.converter.MapConverter;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
@@ -31,7 +31,7 @@ import java.util.TreeMap;
     }
 )
 @DynamicUpdate
-public class SkuBatchAttributePO extends BaseUserPO {
+public class SkuBatchAttributePO extends UpdateUserPO {
 
     @Id
     @GeneratedValue(generator = "databaseIdGenerator")

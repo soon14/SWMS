@@ -5,7 +5,7 @@ import com.swms.mdm.api.config.constants.BusinessFlowEnum;
 import com.swms.mdm.api.config.constants.ExecuteTimeEnum;
 import com.swms.mdm.api.config.constants.UnionLocationEnum;
 import com.swms.mdm.api.config.dto.BarcodeParseResult;
-import com.swms.utils.base.BaseUserDTO;
+import com.swms.utils.base.UpdateUserDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +20,7 @@ import java.util.regex.Pattern;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Slf4j
-public class BarcodeParseRule extends BaseUserDTO {
+public class BarcodeParseRule extends UpdateUserDTO {
 
     private Long id;
 

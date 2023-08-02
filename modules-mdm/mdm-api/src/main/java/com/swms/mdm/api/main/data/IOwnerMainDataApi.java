@@ -4,7 +4,7 @@ import com.swms.mdm.api.main.data.dto.OwnerMainDataDTO;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 
-public interface IOwnerApi {
+public interface IOwnerMainDataApi {
 
     void createOwner(@Valid OwnerMainDataDTO ownerMainDataDTO);
 

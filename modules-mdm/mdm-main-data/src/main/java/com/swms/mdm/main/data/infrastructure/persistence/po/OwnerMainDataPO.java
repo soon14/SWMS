@@ -1,7 +1,7 @@
 package com.swms.mdm.main.data.infrastructure.persistence.po;
 
 import com.swms.mdm.api.main.data.constants.OwnerTypeEnum;
-import com.swms.utils.base.BaseUserPO;
+import com.swms.utils.base.UpdateUserPO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -27,7 +27,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
         @Index(unique = true, name = "idx_owner_code", columnList = "ownerCode")
     }
 )
-public class OwnerMainDataPO extends BaseUserPO {
+public class OwnerMainDataPO extends UpdateUserPO {
 
     @Id
     @GeneratedValue(generator = "databaseIdGenerator")

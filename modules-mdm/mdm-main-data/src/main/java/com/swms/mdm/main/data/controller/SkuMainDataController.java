@@ -1,6 +1,6 @@
 package com.swms.mdm.main.data.controller;
 
-import com.swms.mdm.api.main.data.ISkuApi;
+import com.swms.mdm.api.main.data.ISkuMainDataApi;
 import com.swms.mdm.api.main.data.dto.SkuMainDataDTO;
 import com.swms.mdm.main.data.controller.parameter.SkuMainDataVO;
 import com.swms.mdm.main.data.controller.transfer.SkuMainDataDTOTransfer;
@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class SkuMainDataController {
 
     @Autowired
-    private ISkuApi iSkuApi;
+    private ISkuMainDataApi iSkuApi;
 
     @Autowired
     private SkuMainDataRepository skuMainDataRepository;
