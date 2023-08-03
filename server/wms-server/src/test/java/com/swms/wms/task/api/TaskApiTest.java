@@ -30,6 +30,7 @@ class TaskApiTest extends BaseTest {
     private IStockApi stockApi;
 
     @Test
+    @Transactional
     void testFullFlow() {
 
         createContainerStock();
