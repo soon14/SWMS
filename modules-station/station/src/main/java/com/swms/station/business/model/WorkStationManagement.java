@@ -1,14 +1,13 @@
 package com.swms.station.business.model;
 
 import com.google.common.collect.Maps;
-import com.swms.common.utils.utils.JsonUtils;
 import com.swms.station.remote.WorkStationService;
 import com.swms.wms.api.basic.dto.WorkStationDTO;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
-import java.util.Set;
 
 @Component
 public class WorkStationManagement {
@@ -20,8 +19,9 @@ public class WorkStationManagement {
 
     public synchronized WorkStation initWorkStation(Long workStationId) {
 
-        WorkStationDTO workStationObj = workStationService.queryWorkStation(workStationId);
-        WorkStation workStation = JsonUtils.string2Object(JsonUtils.obj2String(workStationObj), WorkStation.class);
+        WorkStationDTO workStationDTO = workStationService.queryWorkStation(workStationId);
+        WorkStation workStation = new WorkStation();
+        BeanUtils.copyProperties(workStationDTO, workStation);
         workStationMap.put(workStationId, workStation);
 
         return workStation;
@@ -35,7 +35,4 @@ public class WorkStationManagement {
         workStationMap.remove(workStationId);
     }
 
-    public Set<Long> getOperatingWorkStations() {
-        return workStationMap.keySet();
-    }
 }
