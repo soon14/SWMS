@@ -12,8 +12,6 @@ public class StockCreateDTO {
     private String warehouseCode;
 
     @NotNull
-    private Long skuBatchStockId;
-    @NotNull
     private Long skuBatchAttributeId;
     @NotNull
     private Long skuId;

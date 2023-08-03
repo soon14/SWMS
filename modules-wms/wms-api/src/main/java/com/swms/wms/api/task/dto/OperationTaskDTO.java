@@ -2,6 +2,9 @@ package com.swms.wms.api.task.dto;
 
 import com.swms.wms.api.task.constants.OperationTaskStatusEnum;
 import com.swms.wms.api.task.constants.OperationTaskTypeEnum;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,17 +21,25 @@ public class OperationTaskDTO {
 
     private Long id;
 
+    @NotEmpty
+    private String warehouseCode;
+
+    @NotEmpty
     private String taskNo;
+    @NotNull
     private OperationTaskTypeEnum taskType;
 
-    private String stationCode;
+    @NotNull
+    private Long workStationId;
 
+    @NotEmpty
     private String skuCode;
     private String skuName;
     private String skuUrl;
 
-    private Long skuBatchAttributeId;
+    @NotNull
     private Long skuBatchStockId;
+    @NotNull
     private Long containerStockId;
 
     private Map<String, Object> batchAttributeJson;
@@ -40,6 +51,8 @@ public class OperationTaskDTO {
 
     private boolean processed;
 
+    @NotNull
+    @Min(1)
     private Integer requiredQty;
     private Integer operatedQty;
     private Integer toBeOperatedQty;

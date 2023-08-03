@@ -6,7 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface ContainerStockPORepository extends JpaRepository<ContainerStockPO, Long> {
-    ContainerStockPO findBySkuBatchAttributeIdAndContainerCodeAndContainerSlotCode(Long skuBatchAttributeId, String containerCode, String containerSlotCode);
+    ContainerStockPO findByWarehouseCodeAndSkuBatchStockIdAndContainerCodeAndContainerSlotCode(
+        String warehouseCode, Long skuBatchAttributeId, String containerCode, String containerSlotCode);
 
     List<ContainerStockPO> findAllByContainerCode(String containerCode);
 }

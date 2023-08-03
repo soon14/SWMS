@@ -3,6 +3,7 @@ package com.swms.wms.stock.domain.service;
 import com.swms.wms.api.stock.dto.StockCreateDTO;
 import com.swms.wms.api.stock.dto.StockTransferDTO;
 import com.swms.wms.stock.domain.entity.ContainerStock;
+import jakarta.validation.Valid;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ public interface StockTransferService {
      *
      * @param stockTransferDTOS
      */
-    void createStock(List<StockCreateDTO> stockTransferDTOS);
+    void createStock(@Valid StockCreateDTO stockTransferDTO);
 
     /**
      * when stock is move from on area to another area in warehouse, then stock is transferred. e.g: picking, putAway

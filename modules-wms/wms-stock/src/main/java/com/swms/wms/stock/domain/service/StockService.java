@@ -5,8 +5,8 @@ import com.swms.wms.stock.domain.entity.ContainerStock;
 
 public interface StockService {
 
-    void transferContainerStock(StockTransferDTO stockTransferDTO, ContainerStock containerStock, boolean unlock);
+    void transferContainerStock(StockTransferDTO stockTransferDTO, ContainerStock containerStock, Long targetSkuBatchId, boolean unlock);
 
-    void transferSkuBatchStock(StockTransferDTO stockTransferDTO, boolean unlock);
+    Long transferSkuBatchStock(StockTransferDTO stockTransferDTO, boolean unlock);
 
 }

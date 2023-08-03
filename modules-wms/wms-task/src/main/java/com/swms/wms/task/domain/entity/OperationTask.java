@@ -13,13 +13,13 @@ public class OperationTask {
 
     private Long id;
 
+    private String warehouseCode;
     private String taskNo;
     private OperationTaskTypeEnum taskType;
 
-    private String stationCode;
+    private Long workStationId;
 
     private String skuCode;
-    private Long skuBatchAttributeId;
     private Long skuBatchStockId;
     private Long containerStockId;
 

@@ -20,8 +20,7 @@ public class StockTransferDTO {
 
     @NotNull
     private Long skuBatchStockId;
-    @NotNull
-    private Long skuBatchAttributeId;
+
     @NotNull
     private Long skuId;
     private Long containerStockId;
@@ -43,7 +42,4 @@ public class StockTransferDTO {
     // if stock move from one warehouse area to another area in warehouse, this field is required
     @NotNull
     private Long warehouseAreaId;
-
-    @NotNull
-    private Long containerStockTransactionRecordId;
 }

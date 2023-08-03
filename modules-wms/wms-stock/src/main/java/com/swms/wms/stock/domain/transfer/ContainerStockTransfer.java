@@ -21,21 +21,20 @@ import java.util.List;
     nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface ContainerStockTransfer {
 
-    List<ContainerStock> fromCreateDTOsToDOs(List<StockCreateDTO> stockCreateDTOS);
-
-    @Mapping(source = "transferQty", target = "totalQty")
-    @Mapping(source = "transferQty", target = "availableQty")
-    @Mapping(source = "targetContainerCode", target = "containerCode")
-    @Mapping(source = "targetContainerSlotCode", target = "containerSlotCode")
-    ContainerStock fromCreateDTOtoDO(StockCreateDTO stockCreateDTO);
+    @Mapping(source = "stockCreateDTO.transferQty", target = "totalQty")
+    @Mapping(source = "stockCreateDTO.transferQty", target = "availableQty")
+    @Mapping(source = "stockCreateDTO.targetContainerCode", target = "containerCode")
+    @Mapping(source = "stockCreateDTO.targetContainerSlotCode", target = "containerSlotCode")
+    ContainerStock fromCreateDTOtoDO(StockCreateDTO stockCreateDTO, Long skuBatchStockId);
 
     List<ContainerStock> toDOs(List<StockTransferDTO> stockTransferDTOS);
 
-    @Mapping(source = "transferQty", target = "totalQty")
-    @Mapping(source = "transferQty", target = "availableQty")
-    @Mapping(source = "targetContainerCode", target = "containerCode")
-    @Mapping(source = "targetContainerSlotCode", target = "containerSlotCode")
-    ContainerStock toDO(StockTransferDTO stockTransferDTO);
+    @Mapping(source = "stockTransferDTO.transferQty", target = "totalQty")
+    @Mapping(source = "stockTransferDTO.transferQty", target = "availableQty")
+    @Mapping(source = "stockTransferDTO.targetContainerCode", target = "containerCode")
+    @Mapping(source = "stockTransferDTO.targetContainerSlotCode", target = "containerSlotCode")
+    ContainerStock toDO(StockTransferDTO stockTransferDTO, Long skuBatchStockId);
 
     List<ContainerStockDTO> toDTOs(List<ContainerStock> containerStocks);
+
 }

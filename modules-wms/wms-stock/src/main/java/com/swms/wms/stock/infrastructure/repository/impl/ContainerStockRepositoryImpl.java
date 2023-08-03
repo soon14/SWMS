@@ -42,9 +42,11 @@ public class ContainerStockRepositoryImpl implements ContainerStockRepository {
     }
 
     @Override
-    public ContainerStock findByContainerAndSlotAndBatchAttribute(String targetContainerCode, String targetContainerSlotCode, Long skuBatchAttributeId) {
+    public ContainerStock findByContainerAndSlotAndSkuBatch(String containerCode, String containerSlotCode,
+                                                            String warehouseCode, Long skuBatchAttributeId) {
         ContainerStockPO containerStockPO = containerStockPORepository
-            .findBySkuBatchAttributeIdAndContainerCodeAndContainerSlotCode(skuBatchAttributeId, targetContainerCode, targetContainerSlotCode);
+            .findByWarehouseCodeAndSkuBatchStockIdAndContainerCodeAndContainerSlotCode(warehouseCode, skuBatchAttributeId,
+                containerCode, containerSlotCode);
         return containerStockPOTransfer.toDO(containerStockPO);
     }
 

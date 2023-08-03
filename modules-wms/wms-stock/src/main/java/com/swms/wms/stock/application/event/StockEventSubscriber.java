@@ -1,6 +1,7 @@
 package com.swms.wms.stock.application.event;
 
 import com.google.common.eventbus.Subscribe;
+import com.swms.domain.event.annotation.DomainTransaction;
 import com.swms.wms.api.task.constants.OperationTaskTypeEnum;
 import com.swms.wms.api.task.event.StockCreateEvent;
 import com.swms.wms.api.task.event.StockTransferEvent;
@@ -31,6 +32,7 @@ public class StockEventSubscriber {
      * @param event
      */
     @Subscribe
+    @DomainTransaction
     public void onEvent(@Valid StockTransferEvent event) {
 
         log.info("stock module receive event: " + event.toString());
@@ -51,10 +53,11 @@ public class StockEventSubscriber {
      * @param event
      */
     @Subscribe
+    @DomainTransaction
     public void onEvent(@Valid StockCreateEvent event) {
 
         log.info("stock module receive event: " + event.toString());
-        stockTransferService.createStock(event.getStockCreateDTOS());
 
+        stockTransferService.createStock(event.getStockCreateDTO());
     }
 }

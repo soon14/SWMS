@@ -1,5 +1,6 @@
 package com.swms.common.utils.user;
 
+import com.alibaba.ttl.TransmittableThreadLocal;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -8,7 +9,7 @@ public class UserContext {
     private UserContext() {
     }
 
-    public static final ThreadLocal<String> USER = new ThreadLocal<>();
+    public static final ThreadLocal<String> USER = new TransmittableThreadLocal<>();
 
     /**
      * 获取当前用户名

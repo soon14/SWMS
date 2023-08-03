@@ -1,10 +1,10 @@
 package com.swms.mdm.config.infrastructure.persistence.po;
 
+import com.swms.common.utils.base.UpdateUserPO;
+import com.swms.common.utils.jpa.converter.ListStringConverter;
 import com.swms.mdm.api.config.constants.BusinessFlowEnum;
 import com.swms.mdm.api.config.constants.ExecuteTimeEnum;
 import com.swms.mdm.api.config.constants.UnionLocationEnum;
-import com.swms.common.utils.base.UpdateUserPO;
-import com.swms.utils.jpa.converter.ListStringConverter;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;

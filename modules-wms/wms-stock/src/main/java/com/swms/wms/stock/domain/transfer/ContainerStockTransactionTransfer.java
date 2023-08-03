@@ -22,4 +22,6 @@ public interface ContainerStockTransactionTransfer {
     ContainerStockTransaction toDO(StockTransferDTO stockTransferDTO);
 
     List<ContainerStockTransaction> toDOS(List<StockCreateDTO> stockCreateDTOS);
+
+    ContainerStockTransaction fromCreateDTOtoDO(StockCreateDTO stockCreateDTO, Long skuBatchStockId);
 }

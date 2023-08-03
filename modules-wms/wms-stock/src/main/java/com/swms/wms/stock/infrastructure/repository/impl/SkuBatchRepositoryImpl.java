@@ -20,8 +20,8 @@ public class SkuBatchRepositoryImpl implements SkuBatchStockRepository {
     private SkuBatchStockPOTransfer skuBatchStockPOTransfer;
 
     @Override
-    public void save(SkuBatchStock skuBatchStock) {
-        skuBatchStockPORepository.save(skuBatchStockPOTransfer.toSkuBatchStockPO(skuBatchStock));
+    public SkuBatchStock save(SkuBatchStock skuBatchStock) {
+        return skuBatchStockPOTransfer.toDO(skuBatchStockPORepository.save(skuBatchStockPOTransfer.toPO(skuBatchStock)));
     }
 
     @Override
@@ -32,25 +32,25 @@ public class SkuBatchRepositoryImpl implements SkuBatchStockRepository {
     @Override
     public SkuBatchStock findById(Long skuBatchStockId) {
         SkuBatchStockPO skuBatchStockPO = skuBatchStockPORepository.findById(skuBatchStockId).orElseThrow();
-        return skuBatchStockPOTransfer.toSkuBatchStock(skuBatchStockPO);
+        return skuBatchStockPOTransfer.toDO(skuBatchStockPO);
     }
 
     @Override
     public List<SkuBatchStock> findAllByIds(List<Long> skuBatchIds) {
         List<SkuBatchStockPO> skuBatchStockPOS = skuBatchStockPORepository.findAllById(skuBatchIds);
-        return skuBatchStockPOTransfer.toSkuBatchStocks(skuBatchStockPOS);
+        return skuBatchStockPOTransfer.toDOS(skuBatchStockPOS);
     }
 
     @Override
     public List<SkuBatchStock> findAllBySkuBatchAttributeId(Long skuBatchAttributeId) {
         List<SkuBatchStockPO> skuBatchStocks = skuBatchStockPORepository.findAllBySkuBatchAttributeId(skuBatchAttributeId);
-        return skuBatchStockPOTransfer.toSkuBatchStocks(skuBatchStocks);
+        return skuBatchStockPOTransfer.toDOS(skuBatchStocks);
     }
 
     @Override
-    public SkuBatchStock findBySkuBatchAttributeIdAndWarehouseAreaCode(Long skuBatchAttributeId, Long warehouseAreaId) {
+    public SkuBatchStock findBySkuBatchAttributeIdAndWarehouseAreaId(Long skuBatchAttributeId, Long warehouseAreaId) {
         SkuBatchStockPO skuBatchStockPO = skuBatchStockPORepository
             .findBySkuBatchAttributeIdAndWarehouseAreaId(skuBatchAttributeId, warehouseAreaId);
-        return skuBatchStockPOTransfer.toSkuBatchStock(skuBatchStockPO);
+        return skuBatchStockPOTransfer.toDO(skuBatchStockPO);
     }
 }

@@ -9,7 +9,9 @@ public class ContainerStockTransaction {
 
     private Long id;
     private Long containerStockId;
-    private Long skuBatchAttributeId;
+    private Long skuBatchStockId;
+
+    private String warehouseCode;
 
     private String sourceContainerCode;
     private String sourceContainerSlotCode;

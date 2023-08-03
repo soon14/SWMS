@@ -1,7 +1,7 @@
 package com.swms.inbound.infrastructure.persistence.po;
 
 import com.swms.common.utils.base.UpdateUserPO;
-import com.swms.utils.jpa.converter.MapConverter;
+import com.swms.common.utils.jpa.converter.MapConverter;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;

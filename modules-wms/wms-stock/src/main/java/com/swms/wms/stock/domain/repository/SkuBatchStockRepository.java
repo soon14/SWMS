@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface SkuBatchStockRepository {
 
-    void save(SkuBatchStock skuBatchStock);
+    SkuBatchStock save(SkuBatchStock skuBatchStock);
 
     void saveAll(List<SkuBatchStock> toSkuBatchStocks);
 
@@ -16,6 +16,6 @@ public interface SkuBatchStockRepository {
 
     List<SkuBatchStock> findAllBySkuBatchAttributeId(Long skuBatchAttributeId);
 
-    SkuBatchStock findBySkuBatchAttributeIdAndWarehouseAreaCode(Long skuBatchAttributeId, Long warehouseAreaId);
+    SkuBatchStock findBySkuBatchAttributeIdAndWarehouseAreaId(Long skuBatchAttributeId, Long warehouseAreaId);
 
 }

@@ -1,7 +1,7 @@
 package com.swms.user.repository.entity;
 
 import com.swms.common.utils.base.UpdateUserPO;
-import com.swms.utils.jpa.converter.ListStringConverter;
+import com.swms.common.utils.jpa.converter.ListStringConverter;
 import io.swagger.annotations.ApiModelProperty;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;

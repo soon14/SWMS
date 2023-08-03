@@ -1,10 +1,10 @@
 package com.swms.mdm.api.config;
 
+import com.swms.common.utils.utils.ObjectUtils;
 import com.swms.mdm.api.BaseTest;
 import com.swms.mdm.api.config.dto.BatchAttributeConfigDTO;
 import com.swms.mdm.config.domain.entity.BatchAttributeConfig;
 import com.swms.mdm.config.domain.repository.BatchAttributeConfigRepository;
-import com.swms.utils.utils.ObjectUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;

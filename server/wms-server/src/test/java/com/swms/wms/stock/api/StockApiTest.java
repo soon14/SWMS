@@ -9,12 +9,12 @@ import com.swms.wms.api.task.constants.OperationTaskTypeEnum;
 import com.swms.wms.api.task.event.StockCreateEvent;
 import com.swms.wms.api.task.event.StockTransferEvent;
 import com.swms.wms.stock.application.event.StockEventSubscriber;
-import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.UUID;
 
 class StockApiTest extends BaseTest {
 
@@ -26,8 +26,9 @@ class StockApiTest extends BaseTest {
 
     @Test
     void testSaveContainerStock() {
+        String containerCode = UUID.randomUUID().toString();
         StockCreateDTO stockTransferDTO = new StockCreateDTO();
-        stockTransferDTO.setTargetContainerCode("containerCode");
+        stockTransferDTO.setTargetContainerCode(containerCode);
         stockTransferDTO.setTargetContainerSlotCode("containerSlotCode");
         stockTransferDTO.setSourceContainerCode("lpn");
         stockTransferDTO.setTransferQty(10);
@@ -37,9 +38,9 @@ class StockApiTest extends BaseTest {
         stockTransferDTO.setWarehouseAreaId(1L);
         stockTransferDTO.setWarehouseCode("ABC");
 
-        stockEventSubscriber.onEvent(StockCreateEvent.builder().stockCreateDTOS(Lists.newArrayList(stockTransferDTO)).build());
+        stockEventSubscriber.onEvent(StockCreateEvent.builder().stockCreateDTO(stockTransferDTO).build());
 
-        List<ContainerStockDTO> containerStocks = stockApi.getContainerStock("containerCode");
+        List<ContainerStockDTO> containerStocks = stockApi.getContainerStock(containerCode);
         Assertions.assertEquals(1, containerStocks.size());
     }
 
@@ -54,7 +55,6 @@ class StockApiTest extends BaseTest {
         stockTransferDTO.setTargetContainerCode("targetContainerCode");
         stockTransferDTO.setTargetContainerSlotCode("A");
         stockTransferDTO.setTransferQty(10);
-        stockTransferDTO.setSkuBatchAttributeId(containerStockDTO.getSkuBatchAttributeId());
         stockTransferDTO.setTaskId(1L);
         stockTransferDTO.setSkuId(1L);
         stockTransferDTO.setSkuBatchStockId(473803572212011008L);

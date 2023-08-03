@@ -7,7 +7,7 @@ public class ContainerStockDTO {
 
     private Long id;
 
-    private Long skuBatchAttributeId;
+    private Long skuBatchStockId;
 
     /**
      * container is not must be a physical container. e.g.

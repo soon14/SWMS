@@ -17,11 +17,11 @@ import java.util.List;
     unmappedTargetPolicy = ReportingPolicy.IGNORE,
     nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface SkuBatchStockPOTransfer {
-    SkuBatchStockPO toSkuBatchStockPO(SkuBatchStock skuBatchStock);
-
-    SkuBatchStock toSkuBatchStock(SkuBatchStockPO skuBatchStockPO);
-
-    List<SkuBatchStock> toSkuBatchStocks(List<SkuBatchStockPO> skuBatchStockPOS);
+    SkuBatchStockPO toPO(SkuBatchStock skuBatchStock);
 
     List<SkuBatchStockPO> toPOs(List<SkuBatchStock> skuBatchStocks);
+
+    SkuBatchStock toDO(SkuBatchStockPO skuBatchStockPO);
+
+    List<SkuBatchStock> toDOS(List<SkuBatchStockPO> skuBatchStockPOS);
 }

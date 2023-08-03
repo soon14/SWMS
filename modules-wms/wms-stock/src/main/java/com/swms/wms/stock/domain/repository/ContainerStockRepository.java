@@ -14,7 +14,8 @@ public interface ContainerStockRepository {
 
     List<ContainerStock> findAllByIds(List<Long> containerStockIds);
 
-    ContainerStock findByContainerAndSlotAndBatchAttribute(String targetContainerCode, String targetContainerSlotCode, Long skuBatchAttributeId);
+    ContainerStock findByContainerAndSlotAndSkuBatch(String targetContainerCode, String targetContainerSlotCode,
+                                                     String warehouseCode, Long skuBatchStockId);
 
     List<ContainerStock> findAllByContainerCode(String containerCode);
 }

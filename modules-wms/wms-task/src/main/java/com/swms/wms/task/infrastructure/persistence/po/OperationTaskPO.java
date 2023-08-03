@@ -17,7 +17,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
     name = "w_operation_task",
     indexes = {
         @Index(unique = true, name = "idx_task_no", columnList = "taskNo"),
-        @Index(name = "idx_source_container_code", columnList = "sourceContainerCode")
+        @Index(name = "idx_source_container_code", columnList = "sourceContainerCode"),
+        @Index(name = "idx_work_station_id", columnList = "workStationId")
     }
 )
 public class OperationTaskPO extends UpdateUserPO {
@@ -36,8 +37,6 @@ public class OperationTaskPO extends UpdateUserPO {
 
     @Column(nullable = false, columnDefinition = "varchar(64) comment 'SKU编号'")
     private String skuCode;
-    @Column(nullable = false, columnDefinition = "bigint default 0 comment '批次id'")
-    private Long skuBatchAttributeId;
     @Column(nullable = false, columnDefinition = "bigint default 0 comment '批次库存id'")
     private Long skuBatchStockId;
     @Column(nullable = false, columnDefinition = "bigint default 0 comment '容器库存id'")
@@ -51,8 +50,11 @@ public class OperationTaskPO extends UpdateUserPO {
     @Column(nullable = false, columnDefinition = "varchar(64) default '' comment '目标容器编码'")
     private String boxNo = "";
 
-    @Column(nullable = false, columnDefinition = "varchar(64) comment '工作站编号'")
-    private String stationCode;
+    @Column(nullable = false, columnDefinition = "bigint comment '工作站ID'")
+    private Long workStationId = 0L;
+
+    @Column(nullable = false, columnDefinition = "varchar(64) comment '仓库编号'")
+    private String warehouseCode;
 
     @Column(nullable = false, columnDefinition = "int(11) comment '需求数量'")
     private Integer requiredQty = 0;

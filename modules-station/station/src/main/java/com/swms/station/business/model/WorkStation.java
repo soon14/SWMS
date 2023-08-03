@@ -27,6 +27,8 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class WorkStation {
 
+    private Long id;
+
     private String stationCode;
 
     private WorkStationStatusEnum workStationStatus;
@@ -60,7 +62,7 @@ public class WorkStation {
                     break;
                 }
                 // query tasks by container code
-                List<OperationTaskDTO> containerOperateTasks = taskService.queryTasks(stationCode, undoContainers.stream().map(ArrivedContainer::getContainerCode).toList(), getOperationTaskType());
+                List<OperationTaskDTO> containerOperateTasks = taskService.queryTasks(id, undoContainers.stream().map(ArrivedContainer::getContainerCode).toList(), getOperationTaskType());
 
                 if (containerOperateTasks != null) {
                     if (CollectionUtils.isEmpty(this.getOperateTasks())) {

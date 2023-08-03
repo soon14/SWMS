@@ -5,6 +5,7 @@ import com.google.common.eventbus.AsyncEventBus;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.SubscriberExceptionContext;
 import com.google.common.eventbus.SubscriberExceptionHandler;
+import com.swms.common.utils.utils.JsonUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -45,8 +46,8 @@ public class DomainEventConfiguration {
     public static class CustomSubscriberExceptionHandler implements SubscriberExceptionHandler {
         @Override
         public void handleException(Throwable exception, SubscriberExceptionContext context) {
-            log.info("exception occurred while handling event: {} with method: {}.",
-                context.getEvent(), context.getSubscriberMethod().getName(), exception);
+            log.error("exception occurred while handling event: {} with method: {}.",
+                JsonUtils.obj2String(context.getEvent()), context.getSubscriberMethod().getName(), exception);
         }
     }
 }

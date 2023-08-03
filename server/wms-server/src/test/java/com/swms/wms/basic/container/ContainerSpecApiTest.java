@@ -1,6 +1,6 @@
 package com.swms.wms.basic.container;
 
-import com.swms.utils.utils.ObjectUtils;
+import com.swms.common.utils.utils.ObjectUtils;
 import com.swms.wms.BaseTest;
 import com.swms.wms.api.basic.IContainerSpecApi;
 import com.swms.wms.api.basic.dto.ContainerSpecDTO;

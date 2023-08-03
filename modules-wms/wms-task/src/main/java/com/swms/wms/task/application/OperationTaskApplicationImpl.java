@@ -61,8 +61,8 @@ public class OperationTaskApplicationImpl implements ITaskApi {
     }
 
     @Override
-    public List<OperationTaskDTO> queryTasks(String stationCode, List<String> containerCodes, OperationTaskTypeEnum taskType) {
-        List<OperationTask> operationTasks = operationTaskRepository.queryContainerTasksByTaskType(stationCode, containerCodes, taskType);
+    public List<OperationTaskDTO> queryTasks(Long workStationId, List<String> containerCodes, OperationTaskTypeEnum taskType) {
+        List<OperationTask> operationTasks = operationTaskRepository.queryContainerTasksByTaskType(workStationId, containerCodes, taskType);
 
         List<OperationTaskDTO> operationTaskDTOS = operationTaskTransfer.toOperationTaskDTOS(operationTasks);
 
@@ -82,16 +82,18 @@ public class OperationTaskApplicationImpl implements ITaskApi {
         List<OperationTask> operationTasks = operationTaskService.queryOperationTasksByIds(taskIds);
         operationTasks.forEach(v -> {
             StockTransferDTO stockTransferDTO = StockTransferDTO.builder()
+                .warehouseCode(v.getWarehouseCode())
                 .lockType(v.transferToLockType())
                 .containerStockId(v.getContainerStockId())
                 .skuBatchStockId(v.getSkuBatchStockId())
-                .skuBatchAttributeId(v.getSkuBatchAttributeId())
                 .taskId(v.getId())
                 .targetContainerCode(v.getTargetContainerCode())
                 .targetContainerSlotCode(v.getTargetContainerSlotCode())
                 .transferQty(v.getOperatedQty())
                 .warehouseAreaId(v.transferToWarehouseAreaCode())
-                    .build();
+                //TODO need query order no
+                .orderNo("TODO")
+                .build();
             domainEventPublisher.sendAsyncEvent(StockTransferEvent.builder().stockTransferDTO(stockTransferDTO).taskType(v.getTaskType()).build());
         });
 
@@ -115,8 +117,8 @@ public class OperationTaskApplicationImpl implements ITaskApi {
 
         List<OperationTask> operationTasks = operationTaskService.queryContainerTasksByPutWallSlotCode(sealContainerDTO.getPutWallSlotCode());
         List<TransferContainer.TransferContainerTaskRelation> transferContainerTaskRelations = operationTasks.stream()
-                .map(operationTask -> TransferContainer.TransferContainerTaskRelation.builder().transferContainerId(transferContainer.getId())
-                        .operationTaskId(operationTask.getId()).build()).toList();
+            .map(operationTask -> TransferContainer.TransferContainerTaskRelation.builder().transferContainerId(transferContainer.getId())
+                .operationTaskId(operationTask.getId()).build()).toList();
         transferContainer.setTransferContainerTasks(transferContainerTaskRelations);
         transferContainerRepository.save(transferContainer);
 

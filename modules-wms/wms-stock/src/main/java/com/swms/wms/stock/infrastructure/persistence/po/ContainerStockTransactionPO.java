@@ -26,10 +26,13 @@ public class ContainerStockTransactionPO extends UpdateUserPO {
     @GenericGenerator(name = "databaseIdGenerator", strategy = "com.swms.common.utils.id.IdGenerator")
     private Long id;
 
-    @Column(nullable = false, columnDefinition = "bigint default 0 comment '批次id'")
+    @Column(nullable = false, columnDefinition = "varchar(64) comment '仓库编码'")
+    private String warehouseCode;
+
+    @Column(nullable = false, columnDefinition = "bigint default 0 comment '明细库存id'")
     private Long containerStockId = 0L;
-    @Column(nullable = false, columnDefinition = "bigint default 0 comment '批次id'")
-    private Long skuBatchAttributeId;
+    @Column(nullable = false, columnDefinition = "bigint default 0 comment '批次库存id'")
+    private Long skuBatchStockId;
 
     @Column(nullable = false, columnDefinition = "varchar(64) comment '原容器编码'")
     private String sourceContainerCode;

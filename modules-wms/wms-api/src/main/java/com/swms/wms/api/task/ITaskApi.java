@@ -13,9 +13,9 @@ import java.util.List;
 
 public interface ITaskApi {
 
-    void createOperationTasks(@NotEmpty List<OperationTaskDTO> operationTaskDTOS);
+    void createOperationTasks(@Valid List<OperationTaskDTO> operationTaskDTOS);
 
-    List<OperationTaskDTO> queryTasks(@NotEmpty String stationCode, @NotEmpty List<String> containerCodes,
+    List<OperationTaskDTO> queryTasks(@NotNull Long workStationId, @NotEmpty List<String> containerCodes,
                                       @NotNull OperationTaskTypeEnum taskType);
 
     void handleTasks(@Valid HandleTaskDTO handleTaskDTO);

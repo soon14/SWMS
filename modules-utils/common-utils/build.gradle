@@ -13,6 +13,8 @@ dependencies {
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind'
     implementation group: 'org.apache.commons', name: 'commons-lang3'
     implementation 'com.google.guava:guava'
+    implementation 'com.alibaba:transmittable-thread-local'
+
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation group: 'org.apache.commons', name: 'commons-lang3'
     implementation group: 'org.apache.commons', name: 'commons-collections4'

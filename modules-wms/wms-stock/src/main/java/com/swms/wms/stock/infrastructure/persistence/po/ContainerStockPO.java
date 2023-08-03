@@ -21,8 +21,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Table(
     name = "w_container_stock",
     indexes = {
-        @Index(unique = true, name = "idx_container_slot_sku_batch_attribute",
-            columnList = "containerCode,warehouseCode,containerSlotCode,skuBatchAttributeId"),
+        @Index(unique = true, name = "idx_container_slot_sku_batch",
+            columnList = "containerCode,warehouseCode,containerSlotCode,skuBatchStockId")
     }
 )
 public class ContainerStockPO extends UpdateUserPO {
@@ -32,8 +32,8 @@ public class ContainerStockPO extends UpdateUserPO {
     @GenericGenerator(name = "databaseIdGenerator", strategy = "com.swms.common.utils.id.IdGenerator")
     private Long id;
 
-    @Column(nullable = false, columnDefinition = "bigint default 0 comment '批次id'")
-    private Long skuBatchAttributeId;
+    @Column(nullable = false, columnDefinition = "bigint default 0 comment '批次库存id'")
+    private Long skuBatchStockId;
 
     @Column(nullable = false, columnDefinition = "varchar(64) comment '仓库编码'")
     private String warehouseCode;

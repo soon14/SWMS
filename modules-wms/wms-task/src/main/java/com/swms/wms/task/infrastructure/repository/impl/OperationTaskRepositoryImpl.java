@@ -26,9 +26,9 @@ public class OperationTaskRepositoryImpl implements OperationTaskRepository {
     }
 
     @Override
-    public List<OperationTask> queryContainerTasksByTaskType(String stationCode, List<String> containerCodes, OperationTaskTypeEnum taskType) {
+    public List<OperationTask> queryContainerTasksByTaskType(Long workStationId, List<String> containerCodes, OperationTaskTypeEnum taskType) {
         List<OperationTaskPO> operationTaskPOS = operationTaskPORepository
-            .findByTaskTypeAndStationCodeAndSourceContainerCodeIn(taskType, stationCode, containerCodes);
+            .findByTaskTypeAndWorkStationIdAndSourceContainerCodeIn(taskType, workStationId, containerCodes);
         return operationTaskPOTransfer.toOperationTasks(operationTaskPOS);
     }
 

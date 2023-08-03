@@ -5,6 +5,7 @@ import com.swms.wms.api.basic.constants.WorkLocationTypeEnum;
 import com.swms.wms.api.basic.constants.WorkStationOperationTypeEnum;
 import com.swms.wms.api.basic.constants.WorkStationStatusEnum;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,7 +21,7 @@ public class WorkStationDTO {
 
     private Long id;
 
-    @NotEmpty
+    @NotNull
     private String stationCode;
     @NotEmpty
     private String stationName;

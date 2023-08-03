@@ -9,7 +9,7 @@ public interface OperationTaskRepository {
 
     void saveAll(List<OperationTask> operationTasks);
 
-    List<OperationTask> queryContainerTasksByTaskType(String stationCode, List<String> containerCodes, OperationTaskTypeEnum taskType);
+    List<OperationTask> queryContainerTasksByTaskType(Long workStationId, List<String> containerCodes, OperationTaskTypeEnum taskType);
 
     List<OperationTask> findAllByIds(List<Long> taskIds);
 

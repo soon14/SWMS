@@ -25,6 +25,5 @@ public class DomainEventPO extends CreateUserDTO {
     @Column(nullable = false, columnDefinition = "text comment '事件'")
     private String event;
 
-    //0 - success , 1 - failure
-    private int status = 0;
+    private boolean succeed = true;
 }

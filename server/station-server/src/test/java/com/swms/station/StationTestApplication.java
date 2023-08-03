@@ -63,7 +63,7 @@ public class StationTestApplication {
         List<OperationTaskDTO> operationTaskDTOS = JsonUtils.string2List(s, OperationTaskDTO.class);
 
         ITaskApi iTaskApi = PowerMockito.mock(ITaskApi.class);
-        PowerMockito.when(iTaskApi.queryTasks("1", List.of("1"), OperationTaskTypeEnum.PICKING))
+        PowerMockito.when(iTaskApi.queryTasks(1L, List.of("1"), OperationTaskTypeEnum.PICKING))
             .thenAnswer(t -> operationTaskDTOS);
         return iTaskApi;
     }

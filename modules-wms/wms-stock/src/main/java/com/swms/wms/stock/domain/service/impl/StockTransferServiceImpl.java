@@ -14,16 +14,14 @@ import com.swms.wms.stock.domain.transfer.ContainerStockTransactionTransfer;
 import com.swms.wms.stock.domain.transfer.ContainerStockTransfer;
 import com.swms.wms.stock.domain.transfer.SkuBatchStockTransfer;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.Objects;
+import org.springframework.validation.annotation.Validated;
 
 @Service
 @Slf4j
+@Validated
 public class StockTransferServiceImpl implements StockTransferService {
 
     @Autowired
@@ -33,7 +31,7 @@ public class StockTransferServiceImpl implements StockTransferService {
     private ContainerStockRepository containerStockRepository;
 
     @Autowired
-    private StockService stockManagement;
+    private StockService stockService;
 
     @Autowired
     private ContainerStockTransfer containerStockTransfer;
@@ -53,28 +51,24 @@ public class StockTransferServiceImpl implements StockTransferService {
      * @param stockCreateDTOS
      */
     @Transactional
-    public void createStock(List<StockCreateDTO> stockCreateDTOS) {
+    public void createStock(StockCreateDTO stockCreateDTO) {
 
-        //1. create container stock transaction
-        containerStockTransactionRecordRepository.saveAll(containerStockTransactionTransfer.toDOS(stockCreateDTOS));
-
-        //2. create container stock
-        containerStockRepository.saveAll(containerStockTransfer.fromCreateDTOsToDOs(stockCreateDTOS));
-
-        //3. create sku batch stock
-        List<Long> skuBatchStockIds = stockCreateDTOS.stream().map(StockCreateDTO::getSkuBatchStockId).toList();
-        List<SkuBatchStock> skuBatchStocks = skuBatchStockRepository.findAllByIds(skuBatchStockIds);
-
-        if (CollectionUtils.isEmpty(skuBatchStocks)) {
-            skuBatchStocks = skuBatchStockTransfer.fromCreateDTOsToDOs(stockCreateDTOS);
+        //1. create sku batch stock
+        SkuBatchStock skuBatchStock = skuBatchStockRepository
+            .findBySkuBatchAttributeIdAndWarehouseAreaId(stockCreateDTO.getSkuBatchAttributeId(), stockCreateDTO.getWarehouseAreaId());
+        if (skuBatchStock == null) {
+            skuBatchStock = skuBatchStockTransfer.fromCreateDTOtoDO(stockCreateDTO);
         } else {
-            skuBatchStocks.forEach(skuBatchStock -> stockCreateDTOS.forEach(skuBatchStockLockDTO -> {
-                if (Objects.equals(skuBatchStock.getId(), skuBatchStockLockDTO.getSkuBatchStockId())) {
-                    skuBatchStock.addQty(skuBatchStockLockDTO.getTransferQty());
-                }
-            }));
+            skuBatchStock.addQty(stockCreateDTO.getTransferQty());
         }
-        skuBatchStockRepository.saveAll(skuBatchStocks);
+        SkuBatchStock savedSkuBatchStock = skuBatchStockRepository.save(skuBatchStock);
+
+        //2. create container stock transaction
+        containerStockTransactionRecordRepository.save(containerStockTransactionTransfer.fromCreateDTOtoDO(stockCreateDTO, savedSkuBatchStock.getId()));
+
+        //3. create container stock
+        ContainerStock containerStock = containerStockTransfer.fromCreateDTOtoDO(stockCreateDTO, savedSkuBatchStock.getId());
+        containerStockRepository.save(containerStock);
     }
 
     /**
@@ -88,16 +82,16 @@ public class StockTransferServiceImpl implements StockTransferService {
     public void transferStock(StockTransferDTO stockTransferDTO, ContainerStock containerStock) {
         saveTransactionRecord(stockTransferDTO, containerStock);
 
-        stockManagement.transferContainerStock(stockTransferDTO, containerStock, false);
-        stockManagement.transferSkuBatchStock(stockTransferDTO, false);
+        Long targetSkuBatchId = stockService.transferSkuBatchStock(stockTransferDTO, false);
+        stockService.transferContainerStock(stockTransferDTO, containerStock, targetSkuBatchId, false);
     }
 
     @Transactional
     public void transferAndUnlockStock(StockTransferDTO stockTransferDTO, ContainerStock containerStock) {
         saveTransactionRecord(stockTransferDTO, containerStock);
 
-        stockManagement.transferContainerStock(stockTransferDTO, containerStock, true);
-        stockManagement.transferSkuBatchStock(stockTransferDTO, true);
+        Long targetSkuBatchId = stockService.transferSkuBatchStock(stockTransferDTO, true);
+        stockService.transferContainerStock(stockTransferDTO, containerStock, targetSkuBatchId, true);
     }
 
     private void saveTransactionRecord(StockTransferDTO stockTransferDTO, ContainerStock containerStock) {
@@ -106,6 +100,4 @@ public class StockTransferServiceImpl implements StockTransferService {
         containerStockTransaction.setSourceContainerSlotCode(containerStock.getContainerSlotCode());
         containerStockTransactionRecordRepository.save(containerStockTransaction);
     }
-
-
 }

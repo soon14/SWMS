@@ -17,8 +17,8 @@ public class TaskService {
     @DubboReference
     private ITaskApi taskApi;
 
-    public List<OperationTaskDTO> queryTasks(String stationCode, List<String> containerCodes, OperationTaskTypeEnum operationType) {
-        return taskApi.queryTasks(stationCode, containerCodes, operationType);
+    public List<OperationTaskDTO> queryTasks(Long workStationId, List<String> containerCodes, OperationTaskTypeEnum operationType) {
+        return taskApi.queryTasks(workStationId, containerCodes, operationType);
     }
 
     public void setTaskApi(ITaskApi iTaskApi) {
