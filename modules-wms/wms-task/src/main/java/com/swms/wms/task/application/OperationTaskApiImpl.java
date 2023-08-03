@@ -1,7 +1,11 @@
 package com.swms.wms.task.application;
 
 import com.swms.domain.event.DomainEventPublisher;
+import com.swms.mdm.api.main.data.ISkuMainDataApi;
+import com.swms.mdm.api.main.data.dto.SkuMainDataDTO;
 import com.swms.wms.api.basic.IPutWallApi;
+import com.swms.wms.api.stock.ISkuBatchAttributeApi;
+import com.swms.wms.api.stock.dto.SkuBatchAttributeDTO;
 import com.swms.wms.api.stock.dto.StockTransferDTO;
 import com.swms.wms.api.task.ITaskApi;
 import com.swms.wms.api.task.constants.OperationTaskTypeEnum;
@@ -18,16 +22,20 @@ import com.swms.wms.task.domain.service.OperationTaskService;
 import com.swms.wms.task.domain.service.TransferContainerService;
 import com.swms.wms.task.domain.transfer.OperationTaskTransfer;
 import com.swms.wms.task.domain.transfer.TransferContainerTransfer;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @Validated
-public class OperationTaskApplicationImpl implements ITaskApi {
+public class OperationTaskApiImpl implements ITaskApi {
 
     @Autowired
     private OperationTaskService operationTaskService;
@@ -53,6 +61,12 @@ public class OperationTaskApplicationImpl implements ITaskApi {
     @Autowired
     private DomainEventPublisher domainEventPublisher;
 
+    @Autowired
+    private ISkuBatchAttributeApi skuBatchAttributeApi;
+
+    @DubboReference
+    private ISkuMainDataApi skuMainDataApi;
+
     @Override
     @EventListener
     public void createOperationTasks(List<OperationTaskDTO> operationTaskDTOS) {
@@ -66,8 +80,24 @@ public class OperationTaskApplicationImpl implements ITaskApi {
 
         List<OperationTaskDTO> operationTaskDTOS = operationTaskTransfer.toOperationTaskDTOS(operationTasks);
 
-        //TODO
-        // 1. query sku &  sku batch
+        Set<Long> skuMainDataIds = operationTaskDTOS.stream()
+            .map(OperationTaskDTO::getSkuMainDataId).collect(Collectors.toSet());
+        Map<Long, SkuMainDataDTO> skuMainDataDTOMap = skuMainDataApi.getByIds(skuMainDataIds)
+            .stream().collect(Collectors.toMap(SkuMainDataDTO::getId, v -> v));
+
+        Set<Long> skuBatchStockIds = operationTaskDTOS.stream().map(OperationTaskDTO::getSkuBatchStockId).collect(Collectors.toSet());
+        List<SkuBatchAttributeDTO> skuBatchAttributeDTOS = skuBatchAttributeApi.getBySkuBatchStockIds(skuBatchStockIds);
+
+        operationTaskDTOS.forEach(v -> {
+            v.setSkuMainDataDTO(skuMainDataDTOMap.get(v.getSkuMainDataId()));
+
+            SkuBatchAttributeDTO batchAttributeDTO = skuBatchAttributeDTOS.stream()
+                .filter(skuBatchAttributeDTO ->
+                    skuBatchAttributeDTO.getSkuBatchStockIds().contains(v.getSkuBatchStockId()))
+                .findFirst().orElse(null);
+            v.setSkuBatchAttributeDTO(batchAttributeDTO);
+        });
+
         return operationTaskDTOS;
     }
 
@@ -90,7 +120,7 @@ public class OperationTaskApplicationImpl implements ITaskApi {
                 .targetContainerCode(v.getTargetContainerCode())
                 .targetContainerSlotCode(v.getTargetContainerSlotCode())
                 .transferQty(v.getOperatedQty())
-                .warehouseAreaId(v.transferToWarehouseAreaCode())
+                .warehouseAreaId(v.transferToWarehouseAreaId())
                 //TODO need query order no
                 .orderNo("TODO")
                 .build();
@@ -115,16 +145,15 @@ public class OperationTaskApplicationImpl implements ITaskApi {
         transferContainerService.setIndexAndTotal(transferContainer);
         transferContainerService.setDestination(transferContainer);
 
-        List<OperationTask> operationTasks = operationTaskService.queryContainerTasksByPutWallSlotCode(sealContainerDTO.getPutWallSlotCode());
+        List<OperationTask> operationTasks = operationTaskService
+            .getByPutWallSlotAndStation(sealContainerDTO.getPutWallSlotCode(), sealContainerDTO.getWorkStationId());
         List<TransferContainer.TransferContainerTaskRelation> transferContainerTaskRelations = operationTasks.stream()
             .map(operationTask -> TransferContainer.TransferContainerTaskRelation.builder().transferContainerId(transferContainer.getId())
                 .operationTaskId(operationTask.getId()).build()).toList();
         transferContainer.setTransferContainerTasks(transferContainerTaskRelations);
         transferContainerRepository.save(transferContainer);
 
-        //2. notice order module to process status change notification
-
-        //3. callback upstream
+        //2. callback upstream
     }
 
 }

@@ -1,5 +1,7 @@
 package com.swms.wms.api.task.dto;
 
+import com.swms.mdm.api.main.data.dto.SkuMainDataDTO;
+import com.swms.wms.api.stock.dto.SkuBatchAttributeDTO;
 import com.swms.wms.api.task.constants.OperationTaskStatusEnum;
 import com.swms.wms.api.task.constants.OperationTaskTypeEnum;
 import jakarta.validation.constraints.Min;
@@ -32,10 +34,8 @@ public class OperationTaskDTO {
     @NotNull
     private Long workStationId;
 
-    @NotEmpty
-    private String skuCode;
-    private String skuName;
-    private String skuUrl;
+    @NotNull
+    private Long skuMainDataId;
 
     @NotNull
     private Long skuBatchStockId;
@@ -65,4 +65,8 @@ public class OperationTaskDTO {
     private Long originalOrderDetailId;
 
     private OperationTaskStatusEnum taskStatus;
+
+    private SkuMainDataDTO skuMainDataDTO;
+
+    private SkuBatchAttributeDTO skuBatchAttributeDTO;
 }

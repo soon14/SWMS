@@ -4,7 +4,6 @@ import com.swms.mdm.api.main.data.dto.SkuMainDataDTO;
 import com.swms.wms.api.stock.dto.ContainerStockDTO;
 import com.swms.wms.api.stock.dto.ContainerStockLockDTO;
 import com.swms.wms.api.stock.dto.SkuBatchStockLockDTO;
-import com.swms.wms.api.stock.dto.StockCreateDTO;
 
 import java.util.List;
 import java.util.TreeMap;

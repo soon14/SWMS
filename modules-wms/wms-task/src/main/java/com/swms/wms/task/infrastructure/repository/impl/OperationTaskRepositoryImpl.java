@@ -37,9 +37,11 @@ public class OperationTaskRepositoryImpl implements OperationTaskRepository {
         return operationTaskPOTransfer.toOperationTasks(operationTaskPORepository.findAllById(taskIds));
     }
 
+
     @Override
-    public List<OperationTask> findAllByPutWallSlotCode(String putWallSlotCode) {
-        List<OperationTaskPO> operationTaskPOS = operationTaskPORepository.findAllByTargetLocationCode(putWallSlotCode);
+    public List<OperationTask> findAllByPutWallSlotCodeAndWorkStationId(String putWallSlotCode, Long workStationId) {
+        List<OperationTaskPO> operationTaskPOS = operationTaskPORepository
+            .findAllByTargetLocationCodeAndWorkStationId(putWallSlotCode, workStationId);
         return operationTaskPOTransfer.toOperationTasks(operationTaskPOS);
     }
 }

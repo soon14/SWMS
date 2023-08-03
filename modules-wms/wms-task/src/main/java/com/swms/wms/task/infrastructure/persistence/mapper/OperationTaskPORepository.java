@@ -11,5 +11,5 @@ public interface OperationTaskPORepository extends JpaRepository<OperationTaskPO
     List<OperationTaskPO> findByTaskTypeAndWorkStationIdAndSourceContainerCodeIn(OperationTaskTypeEnum taskType,
                                                                                  Long workStationId, List<String> containerCodes);
 
-    List<OperationTaskPO> findAllByTargetLocationCode(String putWallSlotCode);
+    List<OperationTaskPO> findAllByTargetLocationCodeAndWorkStationId(String putWallSlotCode, Long workStationId);
 }

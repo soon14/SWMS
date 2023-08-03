@@ -18,7 +18,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
     indexes = {
         @Index(unique = true, name = "idx_task_no", columnList = "taskNo"),
         @Index(name = "idx_source_container_code", columnList = "sourceContainerCode"),
-        @Index(name = "idx_work_station_id", columnList = "workStationId")
+        @Index(name = "idx_work_station_target_location", columnList = "workStationId,targetLocationCode")
     }
 )
 public class OperationTaskPO extends UpdateUserPO {
@@ -35,11 +35,11 @@ public class OperationTaskPO extends UpdateUserPO {
     @Enumerated(EnumType.STRING)
     private OperationTaskTypeEnum taskType;
 
-    @Column(nullable = false, columnDefinition = "varchar(64) comment 'SKU编号'")
-    private String skuCode;
-    @Column(nullable = false, columnDefinition = "bigint default 0 comment '批次库存id'")
+    @Column(nullable = false, columnDefinition = "bigint default 0 comment 'SKU ID'")
+    private Long skuMainDataId;
+    @Column(nullable = false, columnDefinition = "bigint default 0 comment '批次库存ID'")
     private Long skuBatchStockId;
-    @Column(nullable = false, columnDefinition = "bigint default 0 comment '容器库存id'")
+    @Column(nullable = false, columnDefinition = "bigint default 0 comment '容器库存ID'")
     private Long containerStockId;
 
     @Column(nullable = false, columnDefinition = "varchar(64) comment '原容器编码'")
@@ -63,9 +63,9 @@ public class OperationTaskPO extends UpdateUserPO {
     @Column(nullable = false, columnDefinition = "int(11) comment '异常数量'")
     private Integer abnormalQty = 0;
 
-    @Column(nullable = false, columnDefinition = "varchar(64) comment '目标容器编码'")
+    @Column(nullable = false, columnDefinition = "varchar(64) comment '目标库位'")
     private String targetLocationCode = "";
-    @Column(nullable = false, columnDefinition = "varchar(64) comment '目标容器格口编码'")
+    @Column(nullable = false, columnDefinition = "varchar(64) comment '目标容器编码'")
     private String targetContainerCode = "";
     @Column(nullable = false, columnDefinition = "varchar(64) comment '目标容器格口编码'")
     private String targetContainerSlotCode = "";

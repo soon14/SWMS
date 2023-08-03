@@ -1,13 +1,14 @@
 package com.swms.wms.api.task.dto;
 
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
 public class SealContainerDTO {
 
-    @NotEmpty
-    private String stationCode;
+    @NotNull
+    private Long workStationId;
     @NotEmpty
     private String putWallSlotCode;
     @NotEmpty

@@ -7,6 +7,7 @@ import com.swms.wms.stock.infrastructure.persistence.transfer.SkuBatchAttributeP
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -26,5 +27,10 @@ public class SkuBatchAttributeRepositoryImpl implements SkuBatchAttributeReposit
     @Override
     public List<SkuBatchAttribute> findAllBySkuId(Long skuId) {
         return skuBatchAttributePOTransfer.toDOs(skuBatchAttributePORepository.findAllBySkuId(skuId));
+    }
+
+    @Override
+    public List<SkuBatchAttribute> findAllByIds(Collection<Long> skuBatchAttributeIds) {
+        return skuBatchAttributePOTransfer.toDOs(skuBatchAttributePORepository.findAllById(skuBatchAttributeIds));
     }
 }

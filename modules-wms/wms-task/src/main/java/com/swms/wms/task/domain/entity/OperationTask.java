@@ -19,7 +19,7 @@ public class OperationTask {
 
     private Long workStationId;
 
-    private String skuCode;
+    private Long skuMainDataId;
     private Long skuBatchStockId;
     private Long containerStockId;
 
@@ -43,7 +43,7 @@ public class OperationTask {
 
 
     public void validateQty() {
-        Preconditions.checkState(this.requiredQty >= 0, "operated qty must be greater 0");
+        Preconditions.checkState(this.requiredQty > 0, "operated qty must be greater 0");
         Preconditions.checkState(this.operatedQty >= 0, "operated qty must be greater and equal to 0");
         Preconditions.checkState(this.abnormalQty >= 0, "abnormal qty must be greater and equal to 0");
         Preconditions.checkState(this.requiredQty >= this.operatedQty + this.abnormalQty, "abnormal qty must be greater and equal to 0");
@@ -69,7 +69,7 @@ public class OperationTask {
     }
 
     //TODO implement
-    public Long transferToWarehouseAreaCode() {
+    public Long transferToWarehouseAreaId() {
 //        if (taskType == OperationTaskTypeEnum.PICKING
 //            || taskType == OperationTaskTypeEnum.RELOCATION) {
 //            return WarehouseAreaCodeEnum.OFF_SHELF_TEMPORARY_STORAGE_AREA.name();

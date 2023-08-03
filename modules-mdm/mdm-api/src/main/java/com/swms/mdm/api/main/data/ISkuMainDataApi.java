@@ -16,4 +16,6 @@ public interface ISkuMainDataApi {
     SkuMainDataDTO getSkuMainData(@NotEmpty String skuCode, @NotEmpty String ownerCode);
 
     List<SkuMainDataDTO> getSkuMainData(@NotEmpty Collection<String> skuCodes);
+
+    List<SkuMainDataDTO> getByIds(@NotEmpty Collection<Long> skuMainDataIds);
 }

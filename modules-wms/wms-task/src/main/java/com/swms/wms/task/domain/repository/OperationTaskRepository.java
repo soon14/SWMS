@@ -13,5 +13,5 @@ public interface OperationTaskRepository {
 
     List<OperationTask> findAllByIds(List<Long> taskIds);
 
-    List<OperationTask> findAllByPutWallSlotCode(String putWallSlotCode);
+    List<OperationTask> findAllByPutWallSlotCodeAndWorkStationId(String putWallSlotCode, Long workStationId);
 }

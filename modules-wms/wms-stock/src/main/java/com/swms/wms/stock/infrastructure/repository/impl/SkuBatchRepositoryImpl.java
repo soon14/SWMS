@@ -8,6 +8,7 @@ import com.swms.wms.stock.infrastructure.persistence.transfer.SkuBatchStockPOTra
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -36,7 +37,7 @@ public class SkuBatchRepositoryImpl implements SkuBatchStockRepository {
     }
 
     @Override
-    public List<SkuBatchStock> findAllByIds(List<Long> skuBatchIds) {
+    public List<SkuBatchStock> findAllByIds(Collection<Long> skuBatchIds) {
         List<SkuBatchStockPO> skuBatchStockPOS = skuBatchStockPORepository.findAllById(skuBatchIds);
         return skuBatchStockPOTransfer.toDOS(skuBatchStockPOS);
     }
