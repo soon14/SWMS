@@ -45,4 +45,9 @@ public class SkuMainDataApiImpl implements ISkuMainDataApi {
         List<SkuMainData> skuMainDataList = skuMainDataRepository.getSkuMainData(skuCodes);
         return skuMainDataTransfer.toSkuMainDataDTOS(skuMainDataList);
     }
+
+    @Override
+    public List<SkuMainDataDTO> getByIds(Collection<Long> skuMainDataIds) {
+        return skuMainDataTransfer.toSkuMainDataDTOS(skuMainDataRepository.findAllByIds(skuMainDataIds));
+    }
 }

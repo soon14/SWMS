@@ -43,4 +43,9 @@ public class SkuMainDataRepositoryImpl implements SkuMainDataRepository {
     public SkuMainData findById(Long id) {
         return skuMainDataPOTransfer.toDO(skuMainDataPORepository.findById(id).orElseThrow());
     }
+
+    @Override
+    public List<SkuMainData> findAllByIds(Collection<Long> skuMainDataIds) {
+        return skuMainDataPOTransfer.toDOS(skuMainDataPORepository.findAllById(skuMainDataIds));
+    }
 }

@@ -16,4 +16,6 @@ public interface SkuMainDataRepository {
     List<SkuMainData> getSkuMainData(Collection<String> skuCodes);
 
     SkuMainData findById(Long id);
+
+    List<SkuMainData> findAllByIds(Collection<Long> skuMainDataIds);
 }
