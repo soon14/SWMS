@@ -32,7 +32,7 @@ class TaskApiTest extends BaseTest {
     @Test
     void testFullFlow() {
 
-//        createContainerStock();
+        createContainerStock();
         List<ContainerStockDTO> containerStocks = stockApi.getContainerStock(containerCode);
 
         Assertions.assertTrue(CollectionUtils.isNotEmpty(containerStocks));
@@ -56,7 +56,7 @@ class TaskApiTest extends BaseTest {
         ContainerStockLockDTO containerStockLockDTO = ContainerStockLockDTO.builder()
             .containerStockId(containerStockDTO.getId()).lockQty(10).lockType(StockLockTypeEnum.OUTBOUND)
             .taskId(operationTaskDTOS.get(0).getId()).build();
-//        stockApi.lockContainerStock(Lists.newArrayList(containerStockLockDTO));
+        stockApi.lockContainerStock(Lists.newArrayList(containerStockLockDTO));
 
         HandleTaskDTO.HandleTask handleTask = HandleTaskDTO.HandleTask.builder().taskId(operationTaskDTOS.get(0).getId())
             .handleTaskType(HandleTaskDTO.HandleTaskTypeEnum.COMPLETE)
