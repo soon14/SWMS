@@ -29,7 +29,7 @@ public class StationTestApplication {
 
     public final static String WAREHOUSE_CODE = "123";
 
-    private final Long workStationId = 1L;
+    private final static Long workStationId = 1L;
 
     @Bean("mockIworkStationApi")
     public IWorkStationApi iWorkStationApi() throws Exception {
@@ -41,8 +41,8 @@ public class StationTestApplication {
         IWorkStationApi iWorkStationApi = PowerMockito.mock(IWorkStationApi.class);
         PowerMockito.when(iWorkStationApi.queryWorkStation(workStationId))
             .thenAnswer(t -> workStationModelDTO);
-        PowerMockito.doNothing().when(iWorkStationApi, "online", "1", WorkStationOperationTypeEnum.PICKING);
-        PowerMockito.doNothing().when(iWorkStationApi, "offline", "1");
+        PowerMockito.doNothing().when(iWorkStationApi, "online", workStationId, WorkStationOperationTypeEnum.PICKING);
+        PowerMockito.doNothing().when(iWorkStationApi, "offline", workStationId);
 
         return iWorkStationApi;
     }

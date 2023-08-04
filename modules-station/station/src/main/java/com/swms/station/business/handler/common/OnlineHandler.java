@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class OnlineHandler implements IBusinessHandler {
+public class OnlineHandler implements IBusinessHandler<String> {
 
     @Autowired
     private WorkStationService workStationService;
@@ -21,7 +21,7 @@ public class OnlineHandler implements IBusinessHandler {
     private WorkStationManagement workStationManagement;
 
     @Override
-    public void execute(String body, Long workStationId) {
+    public void execute(String operationType, Long workStationId) {
 
         WorkStation workStation = workStationManagement.getWorkStation(workStationId);
         if (workStation == null) {
@@ -30,14 +30,19 @@ public class OnlineHandler implements IBusinessHandler {
 
         Preconditions.checkState(workStation.getWorkStationStatus() == WorkStationStatusEnum.OFFLINE);
 
-        workStationService.online(workStationId, WorkStationOperationTypeEnum.valueOf(body));
+        workStationService.online(workStationId, WorkStationOperationTypeEnum.valueOf(operationType));
 
         workStation.setWorkStationStatus(WorkStationStatusEnum.ONLINE);
-        workStation.setOperationType(WorkStationOperationTypeEnum.valueOf(body));
+        workStation.setOperationType(WorkStationOperationTypeEnum.valueOf(operationType));
     }
 
     @Override
     public ApiCodeEnum getApiCode() {
         return ApiCodeEnum.ONLINE;
+    }
+
+    @Override
+    public Class<String> getParameterClass() {
+        return String.class;
     }
 }

@@ -2,19 +2,21 @@ package com.swms.station.business.handler;
 
 import com.swms.station.api.ApiCodeEnum;
 
-public interface IBusinessHandler {
+public interface IBusinessHandler<T> {
 
 
     /**
      * 执行业务
      *
-     * @param s
-     * @param body
+     * @param body          parameters
+     * @param workStationId work station ID
      *
      * @return
      */
-    void execute(String body, Long workStationId);
+    void execute(T body, Long workStationId);
 
     ApiCodeEnum getApiCode();
+
+    Class<T> getParameterClass();
 
 }

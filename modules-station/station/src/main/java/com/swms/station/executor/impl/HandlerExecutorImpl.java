@@ -1,5 +1,7 @@
 package com.swms.station.executor.impl;
 
+import com.swms.common.utils.utils.JsonUtils;
+import com.swms.common.utils.utils.ValidatorUtils;
 import com.swms.station.api.ApiCodeEnum;
 import com.swms.station.business.handler.BusinessHandlerFactory;
 import com.swms.station.business.handler.IBusinessHandler;
@@ -16,10 +18,22 @@ public class HandlerExecutorImpl implements HandlerExecutor {
     private ViewHelper viewHelper;
 
     @Override
+    @SuppressWarnings("unchecked")
     public void execute(ApiCodeEnum apiCode, String body, Long workStationId) {
 
         IBusinessHandler businessHandler = BusinessHandlerFactory.getHandler(apiCode);
-        businessHandler.execute(body, workStationId);
+
+        Object parameter;
+
+        Class<?> parameterClass = businessHandler.getParameterClass();
+        if (parameterClass.isAssignableFrom(String.class)) {
+            parameter = body;
+        } else {
+            parameter = JsonUtils.string2Object(body, parameterClass);
+            ValidatorUtils.validate(parameter);
+        }
+
+        businessHandler.execute(parameter, workStationId);
 
         viewHelper.buildView(apiCode, workStationId);
 

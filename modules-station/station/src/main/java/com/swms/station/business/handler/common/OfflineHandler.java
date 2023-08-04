@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class OfflineHandler implements IBusinessHandler {
+public class OfflineHandler implements IBusinessHandler<String> {
 
     @Autowired
     private WorkStationService workStationService;
@@ -35,5 +35,10 @@ public class OfflineHandler implements IBusinessHandler {
     @Override
     public ApiCodeEnum getApiCode() {
         return ApiCodeEnum.OFFLINE;
+    }
+
+    @Override
+    public Class<String> getParameterClass() {
+        return String.class;
     }
 }

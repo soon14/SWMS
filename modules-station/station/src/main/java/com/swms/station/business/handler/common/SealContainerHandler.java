@@ -6,14 +6,13 @@ import com.swms.station.business.handler.IBusinessHandler;
 import com.swms.station.business.model.WorkStation;
 import com.swms.station.business.model.WorkStationManagement;
 import com.swms.station.remote.TaskService;
-import com.swms.common.utils.utils.JsonUtils;
-import com.swms.wms.api.task.dto.SealContainerDTO;
 import com.swms.wms.api.basic.constants.WorkStationStatusEnum;
+import com.swms.wms.api.task.dto.SealContainerDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class SealContainerHandler implements IBusinessHandler {
+public class SealContainerHandler implements IBusinessHandler<SealContainerDTO> {
 
     @Autowired
     private WorkStationManagement workStationManagement;
@@ -22,13 +21,11 @@ public class SealContainerHandler implements IBusinessHandler {
     private TaskService taskService;
 
     @Override
-    public void execute(String body, Long workStationId) {
+    public void execute(SealContainerDTO sealContainerDTO, Long workStationId) {
         WorkStation workStation = workStationManagement.getWorkStation(workStationId);
         Preconditions.checkState(workStation != null);
-        Preconditions.checkState(body != null);
+        Preconditions.checkState(sealContainerDTO != null);
         Preconditions.checkState(workStation.getWorkStationStatus() == WorkStationStatusEnum.ONLINE);
-
-        SealContainerDTO sealContainerDTO = JsonUtils.string2Object(body, SealContainerDTO.class);
 
         taskService.sealContainer(sealContainerDTO);
     }
@@ -36,5 +33,10 @@ public class SealContainerHandler implements IBusinessHandler {
     @Override
     public ApiCodeEnum getApiCode() {
         return ApiCodeEnum.SEAL_CONTAINER;
+    }
+
+    @Override
+    public Class<SealContainerDTO> getParameterClass() {
+        return SealContainerDTO.class;
     }
 }

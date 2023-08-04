@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CallRobotHandler implements IBusinessHandler {
+public class CallRobotHandler implements IBusinessHandler<String> {
 
     @Autowired
     private WorkStationManagement workStationManagement;
@@ -31,5 +31,10 @@ public class CallRobotHandler implements IBusinessHandler {
     @Override
     public ApiCodeEnum getApiCode() {
         return ApiCodeEnum.CALL_ROBOT;
+    }
+
+    @Override
+    public Class<String> getParameterClass() {
+        return String.class;
     }
 }

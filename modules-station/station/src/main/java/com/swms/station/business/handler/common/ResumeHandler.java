@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ResumeHandler implements IBusinessHandler {
+public class ResumeHandler implements IBusinessHandler<String> {
 
     @Autowired
     private WorkStationService workStationService;
@@ -33,5 +33,10 @@ public class ResumeHandler implements IBusinessHandler {
     @Override
     public ApiCodeEnum getApiCode() {
         return ApiCodeEnum.RESUME;
+    }
+
+    @Override
+    public Class<String> getParameterClass() {
+        return String.class;
     }
 }

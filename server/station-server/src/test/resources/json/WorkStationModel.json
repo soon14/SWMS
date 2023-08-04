@@ -1,10 +1,11 @@
 {
+  "id": 1,
   "stationCode": "1",
   "workStationStatus": "OFFLINE",
   "warehouseCode": "warehouse",
   "warehouseAreaCode": "warehouseAreaCode",
   "warehouseLogicCode": "warehouseLogicCode",
-  "operationType": "INBOUND",
+  "operationType": "ACCEPT",
   "workLocations": [
     {
       "stationCode": "1",

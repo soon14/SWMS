@@ -1,11 +1,13 @@
 package com.swms.station.business.handler.event;
 
 import com.swms.wms.api.basic.constants.WorkLocationTypeEnum;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.Map;
 
 @Data
@@ -13,24 +15,40 @@ import java.util.Map;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ContainerArrivedEvent {
-    private String containerCode;
 
-    // container arrived with which face
-    private String face;
-    private String stationCode;
-    private String robotCode;
-    private String robotType;
-    private Integer level;
-    private Integer bay;
-    private String locationCode;
+    @NotEmpty
+    private List<ContainerDetail> containerDetails;
 
-    // container forward face
-    private String forwardFace;
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ContainerDetail {
 
-    private String workLocationCode;
-    private WorkLocationTypeEnum workLocationType;
+        @NotEmpty
+        private String containerCode;
 
-    private String groupCode;
+        // container arrived with which face
+        private String face;
+        private String stationCode;
+        private String robotCode;
+        private String robotType;
+        private Integer level;
+        private Integer bay;
 
-    private Map<String, Object> containerAttributes;
+        @NotEmpty
+        private String locationCode;
+
+        // container forward face
+        private String forwardFace;
+
+        @NotEmpty
+        private String workLocationCode;
+        private WorkLocationTypeEnum workLocationType;
+
+        @NotEmpty
+        private String groupCode;
+
+        private Map<String, Object> containerAttributes;
+    }
 }

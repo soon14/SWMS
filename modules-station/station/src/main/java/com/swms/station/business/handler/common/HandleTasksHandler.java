@@ -8,10 +8,9 @@ import com.swms.station.business.model.WorkStation;
 import com.swms.station.business.model.WorkStationManagement;
 import com.swms.station.remote.EquipmentService;
 import com.swms.station.remote.TaskService;
-import com.swms.common.utils.utils.JsonUtils;
+import com.swms.wms.api.basic.constants.WorkStationStatusEnum;
 import com.swms.wms.api.task.dto.HandleTaskDTO;
 import com.swms.wms.api.task.dto.OperationTaskDTO;
-import com.swms.wms.api.basic.constants.WorkStationStatusEnum;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +21,7 @@ import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
-public class HandleTasksHandler implements IBusinessHandler {
+public class HandleTasksHandler implements IBusinessHandler<HandleTasksEvent> {
 
     @Autowired
     private WorkStationManagement workStationManagement;
@@ -34,15 +33,12 @@ public class HandleTasksHandler implements IBusinessHandler {
     private EquipmentService equipmentService;
 
     @Override
-    public void execute(String body, Long workStationId) {
+    public void execute(HandleTasksEvent handleTasksEvent, Long workStationId) {
         WorkStation workStation = workStationManagement.getWorkStation(workStationId);
         Preconditions.checkState(workStation != null);
-        Preconditions.checkState(body != null);
+        Preconditions.checkState(handleTasksEvent != null);
         Preconditions.checkState(workStation.getWorkStationStatus() != WorkStationStatusEnum.OFFLINE);
         Preconditions.checkState(CollectionUtils.isNotEmpty(workStation.getOperateTasks()));
-
-        HandleTasksEvent handleTasksEvent = JsonUtils.string2Object(body, HandleTasksEvent.class);
-        Preconditions.checkState(handleTasksEvent != null);
 
         List<OperationTaskDTO> operateTasks = workStation.getOperateTasks().stream()
             .filter(operationTaskDTO -> handleTasksEvent.getTaskIds().contains(operationTaskDTO.getId()))
@@ -79,5 +75,10 @@ public class HandleTasksHandler implements IBusinessHandler {
     @Override
     public ApiCodeEnum getApiCode() {
         return ApiCodeEnum.HANDLE_TASKS;
+    }
+
+    @Override
+    public Class<HandleTasksEvent> getParameterClass() {
+        return HandleTasksEvent.class;
     }
 }
