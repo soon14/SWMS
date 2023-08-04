@@ -1,5 +1,6 @@
 package com.swms.station.domain.service.impl;
 
+import com.google.common.base.Preconditions;
 import com.swms.station.domain.persistence.entity.WorkStation;
 import com.swms.station.domain.persistence.repository.WorkStationRepository;
 import com.swms.station.domain.service.WorkStationService;
@@ -18,7 +19,8 @@ public class WorkStationServiceImpl implements WorkStationService {
     @Autowired
     private RemoteWorkStationService remoteWorkStationService;
 
-    public synchronized WorkStation initWorkStation(Long workStationId) {
+    @Override
+    public WorkStation initWorkStation(Long workStationId) {
 
         WorkStationDTO workStationDTO = remoteWorkStationService.queryWorkStation(workStationId);
         WorkStation workStation = new WorkStation();
@@ -30,14 +32,24 @@ public class WorkStationServiceImpl implements WorkStationService {
         return workStation;
     }
 
+    @Override
     public WorkStation getWorkStation(Long workStationId) {
         return workStationRepository.findById(workStationId).orElse(null);
     }
 
+    @Override
+    public WorkStation getOrThrow(Long workStationId) {
+        WorkStation workStation = getWorkStation(workStationId);
+        Preconditions.checkState(workStation != null);
+        return workStation;
+    }
+
+    @Override
     public void save(WorkStation workStation) {
         workStationRepository.save(workStation);
     }
 
+    @Override
     public void delete(WorkStation workStation) {
         workStationRepository.delete(workStation);
     }

@@ -1,6 +1,5 @@
 package com.swms.station.business.handler.common;
 
-import com.google.common.base.Preconditions;
 import com.swms.station.api.ApiCodeEnum;
 import com.swms.station.business.handler.IBusinessHandler;
 import com.swms.station.domain.persistence.entity.WorkStation;
@@ -20,8 +19,7 @@ public class OfflineHandler implements IBusinessHandler<String> {
 
     @Override
     public void execute(String body, Long workStationId) {
-        WorkStation workStation = workStationService.getWorkStation(workStationId);
-        Preconditions.checkState(workStation != null);
+        WorkStation workStation = workStationService.getOrThrow(workStationId);
 
         workStation.offline();
         remoteWorkStationService.offline(workStationId);

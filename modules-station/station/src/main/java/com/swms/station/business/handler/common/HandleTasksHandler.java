@@ -34,8 +34,7 @@ public class HandleTasksHandler implements IBusinessHandler<HandleTasksEvent> {
 
     @Override
     public void execute(HandleTasksEvent handleTasksEvent, Long workStationId) {
-        WorkStation workStation = workStationService.getWorkStation(workStationId);
-        Preconditions.checkState(workStation != null);
+        WorkStation workStation = workStationService.getOrThrow(workStationId);
         Preconditions.checkState(workStation.getWorkStationStatus() != WorkStationStatusEnum.OFFLINE);
         Preconditions.checkState(CollectionUtils.isNotEmpty(workStation.getOperateTasks()));
 

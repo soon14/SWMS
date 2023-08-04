@@ -8,6 +8,8 @@ public interface WorkStationService {
 
     WorkStation getWorkStation(Long workStationId);
 
+    WorkStation getOrThrow(Long workStationId);
+
     void save(WorkStation workStation);
 
     void delete(WorkStation workStation);

@@ -21,8 +21,7 @@ public class CallRobotHandler implements IBusinessHandler<String> {
 
     @Override
     public void execute(String body, Long workStationId) {
-        WorkStation workStation = workStationService.getWorkStation(workStationId);
-        Preconditions.checkState(workStation != null);
+        WorkStation workStation = workStationService.getOrThrow(workStationId);
         Preconditions.checkState(workStation.getWorkStationStatus() == WorkStationStatusEnum.ONLINE);
 
         equipmentService.callRobot(workStationId);

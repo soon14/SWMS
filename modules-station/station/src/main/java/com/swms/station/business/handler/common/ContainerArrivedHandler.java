@@ -1,6 +1,5 @@
 package com.swms.station.business.handler.common;
 
-import com.google.common.base.Preconditions;
 import com.swms.station.api.ApiCodeEnum;
 import com.swms.station.business.handler.IBusinessHandler;
 import com.swms.station.business.handler.event.ContainerArrivedEvent;
@@ -34,8 +33,7 @@ public class ContainerArrivedHandler implements IBusinessHandler<ContainerArrive
 
     @Override
     public void execute(ContainerArrivedEvent containerArrivedEvent, Long workStationId) {
-        WorkStation workStation = workStationService.getWorkStation(workStationId);
-        Preconditions.checkState(workStation != null);
+        WorkStation workStation = workStationService.getOrThrow(workStationId);
 
         List<ArrivedContainer> arrivedContainers = containerArrivedEvent.getContainerDetails()
             .stream().map(containerDetail -> {
