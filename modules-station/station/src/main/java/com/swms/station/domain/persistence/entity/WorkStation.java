@@ -4,6 +4,7 @@ import static com.swms.common.utils.exception.code_enum.StationErrorDescEnum.PUT
 import static com.swms.common.utils.exception.code_enum.StationErrorDescEnum.PUT_WALL_SLOT_STATUS_ABNORMAL;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Sets;
 import com.swms.common.utils.exception.WmsException;
 import com.swms.station.business.model.ArrivedContainer;
 import com.swms.station.business.model.WorkLocationExtend;
@@ -29,6 +30,7 @@ import org.springframework.data.redis.core.RedisHash;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -69,46 +71,54 @@ public class WorkStation {
             return;
         }
 
-        while (true) {
-            List<ArrivedContainer> undoContainers = getUndoContainers(arrivedContainers);
-            if (CollectionUtils.isEmpty(undoContainers)) {
-                break;
-            }
-            // query tasks by container code
-            List<OperationTaskDTO> containerOperateTasks = taskService.queryTasks(id, undoContainers.stream().map(ArrivedContainer::getContainerCode).toList(), getOperationTaskType());
-
-            if (containerOperateTasks != null) {
-                if (CollectionUtils.isEmpty(this.getOperateTasks())) {
-                    this.operateTasks = containerOperateTasks;
-                } else {
-                    this.getOperateTasks().addAll(containerOperateTasks);
-                }
-                arrivedContainers.forEach(arrivedContainer -> {
-                    if (undoContainers.stream().anyMatch(undoContainer -> StringUtils.equals(undoContainer.getContainerCode(), arrivedContainer.getContainerCode()))) {
-                        arrivedContainer.setProcessStatus(1);
-                    }
-                });
-
-                break;
-            } else {
-                arrivedContainers.forEach(arrivedContainer -> {
-                    if (undoContainers.stream().anyMatch(undoContainer -> StringUtils.equals(undoContainer.getContainerCode(), arrivedContainer.getContainerCode()))) {
-                        arrivedContainer.setProcessStatus(2);
-                    }
-                });
-            }
-        }
+        updateFinishContainerStatus(taskService);
 
         // group arrived containers by group code
-        arrivedContainers.stream().collect(Collectors.groupingBy(ArrivedContainer::getGroupCode)).forEach((groupCode, containers) -> {
-            if (containers.stream().allMatch(v -> v.getProcessStatus() == 2)) {
-                // all containers are done, let them leave
-                equipmentService.containerLeave(containers.get(0), ContainerLeaveTypeEnum.LEAVE);
+        Set<String> groupCodes = Sets.newHashSet();
+        arrivedContainers.stream().collect(Collectors.groupingBy(ArrivedContainer::getGroupCode))
+            .forEach((groupCode, containers) -> {
+                if (containers.stream().allMatch(v -> v.getProcessStatus() == 2)) {
+                    // all containers are done, let them leave
+                    equipmentService.containerLeave(containers.get(0), ContainerLeaveTypeEnum.LEAVE);
 
-                //TODO
-                // remove arrived containers
+                    groupCodes.add(groupCode);
+                }
+            });
+
+        arrivedContainers.removeIf(v -> groupCodes.contains(v.getGroupCode()));
+    }
+
+    private void updateFinishContainerStatus(TaskService taskService) {
+        List<ArrivedContainer> undoContainers = getUndoContainers(arrivedContainers);
+        if (CollectionUtils.isEmpty(undoContainers)) {
+            return;
+        }
+        // query tasks by container code
+        List<OperationTaskDTO> containerOperateTasks = taskService.queryTasks(id, undoContainers.stream()
+            .map(ArrivedContainer::getContainerCode).toList(), getOperationTaskType());
+
+        if (containerOperateTasks != null) {
+            if (CollectionUtils.isEmpty(this.getOperateTasks())) {
+                this.operateTasks = containerOperateTasks;
+            } else {
+                this.getOperateTasks().addAll(containerOperateTasks);
+            }
+            arrivedContainers.forEach(arrivedContainer -> {
+                if (undoContainers.stream().anyMatch(undoContainer ->
+                    StringUtils.equals(undoContainer.getContainerCode(), arrivedContainer.getContainerCode()))) {
+                    arrivedContainer.setProcessStatus(1);
+                }
+            });
+            return;
+        }
+        arrivedContainers.forEach(arrivedContainer -> {
+            if (undoContainers.stream().anyMatch(undoContainer ->
+                StringUtils.equals(undoContainer.getContainerCode(), arrivedContainer.getContainerCode()))) {
+                arrivedContainer.setProcessStatus(2);
             }
         });
+
+        updateFinishContainerStatus(taskService);
     }
 
     public OperationTaskTypeEnum getOperationTaskType() {
