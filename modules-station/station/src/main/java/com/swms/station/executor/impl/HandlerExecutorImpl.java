@@ -1,5 +1,6 @@
 package com.swms.station.executor.impl;
 
+import com.google.common.base.Preconditions;
 import com.swms.common.utils.constants.RedisConstants;
 import com.swms.common.utils.utils.JsonUtils;
 import com.swms.common.utils.utils.ValidatorUtils;
@@ -10,6 +11,7 @@ import com.swms.station.business.handler.IBusinessHandler;
 import com.swms.station.executor.HandlerExecutor;
 import com.swms.station.view.ViewHelper;
 import com.swms.station.websocket.utils.StationWebSocketUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +38,7 @@ public class HandlerExecutorImpl implements HandlerExecutor {
             if (parameterClass.isAssignableFrom(String.class)) {
                 parameter = body;
             } else {
+                Preconditions.checkState(StringUtils.isNotEmpty(body));
                 parameter = JsonUtils.string2Object(body, parameterClass);
                 ValidatorUtils.validate(parameter);
             }

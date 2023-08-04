@@ -24,7 +24,6 @@ public class BindContainerHandler implements IBusinessHandler<BindContainerDTO> 
     public void execute(BindContainerDTO bindContainerDTO, Long workStationId) {
         WorkStation workStation = workStationService.getWorkStation(workStationId);
         Preconditions.checkState(workStation != null);
-        Preconditions.checkState(bindContainerDTO != null);
 
         workStation.bindContainer(bindContainerDTO);
         taskService.bindContainer(bindContainerDTO);

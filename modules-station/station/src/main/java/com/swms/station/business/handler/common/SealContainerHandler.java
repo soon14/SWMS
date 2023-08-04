@@ -24,7 +24,6 @@ public class SealContainerHandler implements IBusinessHandler<SealContainerDTO> 
     public void execute(SealContainerDTO sealContainerDTO, Long workStationId) {
         WorkStation workStation = workStationService.getWorkStation(workStationId);
         Preconditions.checkState(workStation != null);
-        Preconditions.checkState(sealContainerDTO != null);
 
         workStation.sealContainer(sealContainerDTO);
         taskService.sealContainer(sealContainerDTO);
