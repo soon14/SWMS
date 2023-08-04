@@ -65,52 +65,50 @@ public class WorkStation {
 
     public void handleUndoContainers(TaskService taskService, EquipmentService equipmentService) {
 
-        synchronized (this) {
-            if (CollectionUtils.isEmpty(arrivedContainers)) {
-                return;
-            }
-
-            while (true) {
-                List<ArrivedContainer> undoContainers = getUndoContainers(arrivedContainers);
-                if (CollectionUtils.isEmpty(undoContainers)) {
-                    break;
-                }
-                // query tasks by container code
-                List<OperationTaskDTO> containerOperateTasks = taskService.queryTasks(id, undoContainers.stream().map(ArrivedContainer::getContainerCode).toList(), getOperationTaskType());
-
-                if (containerOperateTasks != null) {
-                    if (CollectionUtils.isEmpty(this.getOperateTasks())) {
-                        this.operateTasks = containerOperateTasks;
-                    } else {
-                        this.getOperateTasks().addAll(containerOperateTasks);
-                    }
-                    arrivedContainers.forEach(arrivedContainer -> {
-                        if (undoContainers.stream().anyMatch(undoContainer -> StringUtils.equals(undoContainer.getContainerCode(), arrivedContainer.getContainerCode()))) {
-                            arrivedContainer.setProcessStatus(1);
-                        }
-                    });
-
-                    break;
-                } else {
-                    arrivedContainers.forEach(arrivedContainer -> {
-                        if (undoContainers.stream().anyMatch(undoContainer -> StringUtils.equals(undoContainer.getContainerCode(), arrivedContainer.getContainerCode()))) {
-                            arrivedContainer.setProcessStatus(2);
-                        }
-                    });
-                }
-            }
-
-            // group arrived containers by group code
-            arrivedContainers.stream().collect(Collectors.groupingBy(ArrivedContainer::getGroupCode)).forEach((groupCode, containers) -> {
-                if (containers.stream().allMatch(v -> v.getProcessStatus() == 2)) {
-                    // all containers are done, let them leave
-                    equipmentService.containerLeave(containers.get(0), ContainerLeaveTypeEnum.LEAVE);
-
-                    //TODO
-                    // remove arrived containers
-                }
-            });
+        if (CollectionUtils.isEmpty(arrivedContainers)) {
+            return;
         }
+
+        while (true) {
+            List<ArrivedContainer> undoContainers = getUndoContainers(arrivedContainers);
+            if (CollectionUtils.isEmpty(undoContainers)) {
+                break;
+            }
+            // query tasks by container code
+            List<OperationTaskDTO> containerOperateTasks = taskService.queryTasks(id, undoContainers.stream().map(ArrivedContainer::getContainerCode).toList(), getOperationTaskType());
+
+            if (containerOperateTasks != null) {
+                if (CollectionUtils.isEmpty(this.getOperateTasks())) {
+                    this.operateTasks = containerOperateTasks;
+                } else {
+                    this.getOperateTasks().addAll(containerOperateTasks);
+                }
+                arrivedContainers.forEach(arrivedContainer -> {
+                    if (undoContainers.stream().anyMatch(undoContainer -> StringUtils.equals(undoContainer.getContainerCode(), arrivedContainer.getContainerCode()))) {
+                        arrivedContainer.setProcessStatus(1);
+                    }
+                });
+
+                break;
+            } else {
+                arrivedContainers.forEach(arrivedContainer -> {
+                    if (undoContainers.stream().anyMatch(undoContainer -> StringUtils.equals(undoContainer.getContainerCode(), arrivedContainer.getContainerCode()))) {
+                        arrivedContainer.setProcessStatus(2);
+                    }
+                });
+            }
+        }
+
+        // group arrived containers by group code
+        arrivedContainers.stream().collect(Collectors.groupingBy(ArrivedContainer::getGroupCode)).forEach((groupCode, containers) -> {
+            if (containers.stream().allMatch(v -> v.getProcessStatus() == 2)) {
+                // all containers are done, let them leave
+                equipmentService.containerLeave(containers.get(0), ContainerLeaveTypeEnum.LEAVE);
+
+                //TODO
+                // remove arrived containers
+            }
+        });
     }
 
     public OperationTaskTypeEnum getOperationTaskType() {
