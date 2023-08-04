@@ -15,6 +15,8 @@ public enum StationErrorDescEnum implements IBaseError {
 
     //put wall error SAT03
     PUT_WALL_SLOT_ORDERS_EXIST("SAT030001", "put wall slot orders exist"),
+    PUT_WALL_SLOT_NOT_EXIST("SAT030002", "put wall slot {0} not exist"),
+    PUT_WALL_SLOT_STATUS_ABNORMAL("SAT030004", "put wall slot {0} status {1} abnormal"),
 
 
     //work station config error SAT04

@@ -2,8 +2,8 @@ package com.swms.station.remote;
 
 import com.swms.common.utils.constants.RedisConstants;
 import com.swms.mq.redis.RedisListener;
-import com.swms.station.business.model.WorkStation;
-import com.swms.station.business.model.WorkStationManagement;
+import com.swms.station.domain.persistence.entity.WorkStation;
+import com.swms.station.domain.service.WorkStationService;
 import com.swms.station.websocket.utils.StationWebSocketUtils;
 import com.swms.wms.api.basic.dto.PutWallDTO;
 import com.swms.wms.api.basic.dto.WorkStationConfigDTO;
@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 public class WorkStationMqConsumer {
 
     @Autowired
-    private WorkStationManagement workStationManagement;
+    private WorkStationService workStationService;
 
     @RedisListener(topic = RedisConstants.STATION_LISTEN_WORK_STATION_CONFIG_UPDATE, type = WorkStationConfigDTO.class)
     public void listenWorkStationConfigUpdated(String topic, WorkStationConfigDTO workStationConfigDTO) {
@@ -28,12 +28,14 @@ public class WorkStationMqConsumer {
             return;
         }
 
-        WorkStation workStation = workStationManagement.getWorkStation(workStationConfigDTO.getId());
+        WorkStation workStation = workStationService.getWorkStation(workStationConfigDTO.getId());
         if (workStation == null) {
             return;
         }
 
-        workStation.setWorkStationConfig(workStationConfigDTO);
+        workStation.updateWorkStationConfig(workStationConfigDTO);
+
+        workStationService.save(workStation);
     }
 
     @RedisListener(topic = RedisConstants.STATION_LISTEN_ORDER_ASSIGNED, type = List.class)
@@ -46,7 +48,7 @@ public class WorkStationMqConsumer {
         Map<Long, List<PutWallDTO.PutWallSlot>> stationCodeMap = putWallSlotDTOS.stream().collect(Collectors.groupingBy(PutWallDTO.PutWallSlot::getWorkStationId));
 
         stationCodeMap.forEach((workStationId, values) -> {
-            WorkStation workStation = workStationManagement.getWorkStation(workStationId);
+            WorkStation workStation = workStationService.getWorkStation(workStationId);
             if (workStation == null) {
                 return;
             }
@@ -59,6 +61,9 @@ public class WorkStationMqConsumer {
                             cachePutWallSlot.setPutWallSlotStatus(putWallSlotDTO.getPutWallSlotStatus());
                         }
                     })));
+
+            workStationService.save(workStation);
+
             StationWebSocketUtils.noticeWebStationStatusChanged(workStationId);
         });
     }

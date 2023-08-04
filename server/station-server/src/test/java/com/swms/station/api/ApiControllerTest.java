@@ -5,12 +5,12 @@ import com.swms.station.StationTestApplication;
 import com.swms.station.business.handler.event.ContainerArrivedEvent;
 import com.swms.station.business.handler.event.HandleTasksEvent;
 import com.swms.station.business.model.ArrivedContainer;
-import com.swms.station.business.model.WorkStation;
-import com.swms.station.business.model.WorkStationManagement;
+import com.swms.station.domain.persistence.entity.WorkStation;
+import com.swms.station.domain.service.WorkStationService;
 import com.swms.station.remote.ContainerService;
+import com.swms.station.remote.RemoteWorkStationService;
 import com.swms.station.remote.TaskService;
 import com.swms.station.remote.WorkStationMqConsumer;
-import com.swms.station.remote.WorkStationService;
 import com.swms.station.view.ViewHelper;
 import com.swms.station.view.model.WorkStationVO;
 import com.swms.station.websocket.utils.HttpContext;
@@ -48,13 +48,13 @@ class ApiControllerTest {
     private WorkStationMqConsumer workStationMqConsumer;
 
     @Autowired
-    private WorkStationManagement workStationManagement;
+    private WorkStationService workStationManagement;
 
     private static final Long WORK_STATION_ID = 1L;
 
     @BeforeEach
     public void initBean() {
-        WorkStationService workStationService = applicationContext.getBean(WorkStationService.class);
+        RemoteWorkStationService workStationService = applicationContext.getBean(RemoteWorkStationService.class);
         IWorkStationApi iWorkStationApi = applicationContext.getBean("mockIworkStationApi", IWorkStationApi.class);
         workStationService.setWorkStationApi(iWorkStationApi);
 
@@ -65,12 +65,12 @@ class ApiControllerTest {
         TaskService taskService = applicationContext.getBean(TaskService.class);
         ITaskApi iTaskApi = applicationContext.getBean("mockITaskApi", ITaskApi.class);
         taskService.setTaskApi(iTaskApi);
+        HttpContext.setWorkStationId(1L);
     }
 
     @Test
     @Order(1)
     void testOnline() {
-        HttpContext.setWorkStationId(1L);
         apiController.execute(ApiCodeEnum.ONLINE, WorkStationOperationTypeEnum.PICKING.name());
 
         WorkStationVO workStationVO = viewHelper.getWorkStationVO(WORK_STATION_ID);

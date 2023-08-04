@@ -2,8 +2,8 @@ package com.swms.station.view;
 
 import com.google.common.collect.Maps;
 import com.swms.station.api.ApiCodeEnum;
-import com.swms.station.business.model.WorkStation;
-import com.swms.station.business.model.WorkStationManagement;
+import com.swms.station.domain.persistence.entity.WorkStation;
+import com.swms.station.domain.service.WorkStationService;
 import com.swms.station.view.handler.IViewHandler;
 import com.swms.station.view.model.WorkStationVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ public class ViewHelper {
     private List<IViewHandler> iViewHandlers;
 
     @Autowired
-    private WorkStationManagement workStationManagement;
+    private WorkStationService workStationManagement;
 
     public void buildView(ApiCodeEnum apiCode, Long workStationId) {
         WorkStation workStation = workStationManagement.getWorkStation(workStationId);

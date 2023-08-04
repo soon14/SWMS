@@ -1,6 +1,6 @@
 package com.swms.station.view.handler;
 
-import com.swms.station.business.model.WorkStation;
+import com.swms.station.domain.persistence.entity.WorkStation;
 import com.swms.station.view.model.WorkStationVO;
 import org.springframework.stereotype.Service;
 

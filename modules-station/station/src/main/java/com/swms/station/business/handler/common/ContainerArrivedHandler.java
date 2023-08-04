@@ -5,12 +5,11 @@ import com.swms.station.api.ApiCodeEnum;
 import com.swms.station.business.handler.IBusinessHandler;
 import com.swms.station.business.handler.event.ContainerArrivedEvent;
 import com.swms.station.business.model.ArrivedContainer;
-import com.swms.station.business.model.WorkStation;
-import com.swms.station.business.model.WorkStationManagement;
+import com.swms.station.domain.persistence.entity.WorkStation;
+import com.swms.station.domain.service.WorkStationService;
 import com.swms.station.remote.ContainerService;
 import com.swms.station.remote.EquipmentService;
 import com.swms.station.remote.TaskService;
-import com.swms.common.utils.utils.JsonUtils;
 import com.swms.wms.api.basic.dto.ContainerSpecDTO;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +24,7 @@ public class ContainerArrivedHandler implements IBusinessHandler<ContainerArrive
     private ContainerService containerService;
 
     @Autowired
-    private WorkStationManagement workStationManagement;
+    private WorkStationService workStationService;
 
     @Autowired
     private TaskService taskService;
@@ -35,7 +34,7 @@ public class ContainerArrivedHandler implements IBusinessHandler<ContainerArrive
 
     @Override
     public void execute(ContainerArrivedEvent containerArrivedEvent, Long workStationId) {
-        WorkStation workStation = workStationManagement.getWorkStation(workStationId);
+        WorkStation workStation = workStationService.getWorkStation(workStationId);
         Preconditions.checkState(workStation != null);
 
         List<ArrivedContainer> arrivedContainers = containerArrivedEvent.getContainerDetails()

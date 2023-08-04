@@ -3,8 +3,8 @@ package com.swms.station.business.handler.common;
 import com.google.common.base.Preconditions;
 import com.swms.station.api.ApiCodeEnum;
 import com.swms.station.business.handler.IBusinessHandler;
-import com.swms.station.business.model.WorkStation;
-import com.swms.station.business.model.WorkStationManagement;
+import com.swms.station.domain.persistence.entity.WorkStation;
+import com.swms.station.domain.service.WorkStationService;
 import com.swms.station.remote.TaskService;
 import com.swms.wms.api.basic.constants.WorkStationStatusEnum;
 import com.swms.wms.api.task.dto.SealContainerDTO;
@@ -15,18 +15,18 @@ import org.springframework.stereotype.Service;
 public class SealContainerHandler implements IBusinessHandler<SealContainerDTO> {
 
     @Autowired
-    private WorkStationManagement workStationManagement;
+    private WorkStationService workStationService;
 
     @Autowired
     private TaskService taskService;
 
     @Override
     public void execute(SealContainerDTO sealContainerDTO, Long workStationId) {
-        WorkStation workStation = workStationManagement.getWorkStation(workStationId);
+        WorkStation workStation = workStationService.getWorkStation(workStationId);
         Preconditions.checkState(workStation != null);
         Preconditions.checkState(sealContainerDTO != null);
-        Preconditions.checkState(workStation.getWorkStationStatus() == WorkStationStatusEnum.ONLINE);
 
+        workStation.sealContainer(sealContainerDTO);
         taskService.sealContainer(sealContainerDTO);
     }
 

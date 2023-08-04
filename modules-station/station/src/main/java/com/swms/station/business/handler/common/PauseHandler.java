@@ -1,12 +1,11 @@
 package com.swms.station.business.handler.common;
 
 import com.google.common.base.Preconditions;
-import com.swms.wms.api.basic.constants.WorkStationStatusEnum;
 import com.swms.station.api.ApiCodeEnum;
 import com.swms.station.business.handler.IBusinessHandler;
-import com.swms.station.business.model.WorkStation;
-import com.swms.station.business.model.WorkStationManagement;
-import com.swms.station.remote.WorkStationService;
+import com.swms.station.domain.persistence.entity.WorkStation;
+import com.swms.station.domain.service.WorkStationService;
+import com.swms.station.remote.RemoteWorkStationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,20 +13,20 @@ import org.springframework.stereotype.Service;
 public class PauseHandler implements IBusinessHandler<String> {
 
     @Autowired
-    private WorkStationService workStationService;
+    private RemoteWorkStationService remoteWorkStationService;
 
     @Autowired
-    private WorkStationManagement workStationManagement;
+    private WorkStationService workStationService;
 
     @Override
     public void execute(String body, Long workStationId) {
-        WorkStation workStation = workStationManagement.getWorkStation(workStationId);
+        WorkStation workStation = workStationService.getWorkStation(workStationId);
         Preconditions.checkState(workStation != null);
-        Preconditions.checkState(workStation.getWorkStationStatus() == WorkStationStatusEnum.ONLINE);
 
-        workStationService.pause(workStationId);
+        workStation.pause();
+        remoteWorkStationService.pause(workStationId);
 
-        workStation.setWorkStationStatus(WorkStationStatusEnum.PAUSED);
+        workStationService.save(workStation);
     }
 
     @Override

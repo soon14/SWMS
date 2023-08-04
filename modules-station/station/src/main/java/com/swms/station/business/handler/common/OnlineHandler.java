@@ -1,13 +1,11 @@
 package com.swms.station.business.handler.common;
 
-import com.google.common.base.Preconditions;
-import com.swms.wms.api.basic.constants.WorkStationOperationTypeEnum;
-import com.swms.wms.api.basic.constants.WorkStationStatusEnum;
 import com.swms.station.api.ApiCodeEnum;
 import com.swms.station.business.handler.IBusinessHandler;
-import com.swms.station.business.model.WorkStation;
-import com.swms.station.business.model.WorkStationManagement;
-import com.swms.station.remote.WorkStationService;
+import com.swms.station.domain.persistence.entity.WorkStation;
+import com.swms.station.domain.service.WorkStationService;
+import com.swms.station.remote.RemoteWorkStationService;
+import com.swms.wms.api.basic.constants.WorkStationOperationTypeEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,25 +13,23 @@ import org.springframework.stereotype.Service;
 public class OnlineHandler implements IBusinessHandler<String> {
 
     @Autowired
-    private WorkStationService workStationService;
+    private RemoteWorkStationService remoteWorkStationService;
 
     @Autowired
-    private WorkStationManagement workStationManagement;
+    private WorkStationService workStationService;
 
     @Override
     public void execute(String operationType, Long workStationId) {
 
-        WorkStation workStation = workStationManagement.getWorkStation(workStationId);
+        WorkStation workStation = workStationService.getWorkStation(workStationId);
         if (workStation == null) {
-            workStation = workStationManagement.initWorkStation(workStationId);
+            workStation = workStationService.initWorkStation(workStationId);
         }
 
-        Preconditions.checkState(workStation.getWorkStationStatus() == WorkStationStatusEnum.OFFLINE);
+        workStation.online(WorkStationOperationTypeEnum.valueOf(operationType));
+        remoteWorkStationService.online(workStationId, WorkStationOperationTypeEnum.valueOf(operationType));
 
-        workStationService.online(workStationId, WorkStationOperationTypeEnum.valueOf(operationType));
-
-        workStation.setWorkStationStatus(WorkStationStatusEnum.ONLINE);
-        workStation.setOperationType(WorkStationOperationTypeEnum.valueOf(operationType));
+        workStationService.save(workStation);
     }
 
     @Override

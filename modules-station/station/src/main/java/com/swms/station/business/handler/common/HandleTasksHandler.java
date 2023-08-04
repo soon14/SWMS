@@ -4,8 +4,8 @@ import com.google.common.base.Preconditions;
 import com.swms.station.api.ApiCodeEnum;
 import com.swms.station.business.handler.IBusinessHandler;
 import com.swms.station.business.handler.event.HandleTasksEvent;
-import com.swms.station.business.model.WorkStation;
-import com.swms.station.business.model.WorkStationManagement;
+import com.swms.station.domain.persistence.entity.WorkStation;
+import com.swms.station.domain.service.WorkStationService;
 import com.swms.station.remote.EquipmentService;
 import com.swms.station.remote.TaskService;
 import com.swms.wms.api.basic.constants.WorkStationStatusEnum;
@@ -24,7 +24,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class HandleTasksHandler implements IBusinessHandler<HandleTasksEvent> {
 
     @Autowired
-    private WorkStationManagement workStationManagement;
+    private WorkStationService workStationService;
 
     @Autowired
     private TaskService taskService;
@@ -34,7 +34,7 @@ public class HandleTasksHandler implements IBusinessHandler<HandleTasksEvent> {
 
     @Override
     public void execute(HandleTasksEvent handleTasksEvent, Long workStationId) {
-        WorkStation workStation = workStationManagement.getWorkStation(workStationId);
+        WorkStation workStation = workStationService.getWorkStation(workStationId);
         Preconditions.checkState(workStation != null);
         Preconditions.checkState(handleTasksEvent != null);
         Preconditions.checkState(workStation.getWorkStationStatus() != WorkStationStatusEnum.OFFLINE);
@@ -70,6 +70,8 @@ public class HandleTasksHandler implements IBusinessHandler<HandleTasksEvent> {
         taskService.handleTasks(HandleTaskDTO.builder().handleTaskType(handleTasksEvent.getHandleTaskType()).handleTasks(handleTasks).build());
         workStation.removeOperateTasks(handleTasks.stream().map(HandleTaskDTO.HandleTask::getTaskId).toList());
         workStation.handleUndoContainers(taskService, equipmentService);
+
+        workStationService.save(workStation);
     }
 
     @Override

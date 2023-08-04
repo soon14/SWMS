@@ -19,5 +19,7 @@ public class RedisConstants {
 
     public static final String INBOUND_PLAN_ORDER_ADD_LOCK = "wms:inbound:plan:order:add:lock";
 
+    public static final String WORK_STATION_OPERATE_SYNC_LOCK = "station:work:station:operate:sync:lock";
+
 
 }

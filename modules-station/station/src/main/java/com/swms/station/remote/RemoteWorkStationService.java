@@ -7,7 +7,7 @@ import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.stereotype.Service;
 
 @Service
-public class WorkStationService {
+public class RemoteWorkStationService {
 
     @DubboReference
     private IWorkStationApi workStationApi;

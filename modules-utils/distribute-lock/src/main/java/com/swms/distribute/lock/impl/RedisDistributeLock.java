@@ -1,5 +1,7 @@
 package com.swms.distribute.lock.impl;
 
+import com.swms.common.utils.exception.WmsException;
+import com.swms.common.utils.exception.code_enum.CommonErrorDescEnum;
 import com.swms.common.utils.utils.RedisUtils;
 import com.swms.distribute.lock.DistributeLock;
 import org.redisson.api.RLock;
@@ -29,5 +31,13 @@ public class RedisDistributeLock implements DistributeLock {
     public void releaseLock(String lockKey) {
         RLock lock = redisUtils.getLock(lockKey);
         lock.unlock();
+    }
+
+    @Override
+    public void acquireLockIfThrows(String lockKey, long leaseTimeInMillis) {
+        boolean acquireLock = acquireLock(lockKey, leaseTimeInMillis);
+        if (!acquireLock) {
+            throw WmsException.throwWmsException(CommonErrorDescEnum.REPEAT_REQUEST);
+        }
     }
 }

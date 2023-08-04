@@ -1,19 +1,31 @@
-package com.swms.station.business.model;
+package com.swms.station.domain.persistence.entity;
 
+import static com.swms.common.utils.exception.code_enum.StationErrorDescEnum.PUT_WALL_SLOT_NOT_EXIST;
+import static com.swms.common.utils.exception.code_enum.StationErrorDescEnum.PUT_WALL_SLOT_STATUS_ABNORMAL;
+
+import com.google.common.base.Preconditions;
+import com.swms.common.utils.exception.WmsException;
+import com.swms.station.business.model.ArrivedContainer;
+import com.swms.station.business.model.WorkLocationExtend;
 import com.swms.station.remote.EquipmentService;
 import com.swms.station.remote.TaskService;
 import com.swms.wms.api.basic.constants.ContainerLeaveTypeEnum;
+import com.swms.wms.api.basic.constants.PutWallSlotStatusEnum;
 import com.swms.wms.api.basic.constants.WorkStationOperationTypeEnum;
 import com.swms.wms.api.basic.constants.WorkStationStatusEnum;
 import com.swms.wms.api.basic.dto.PutWallDTO;
 import com.swms.wms.api.basic.dto.WorkStationConfigDTO;
 import com.swms.wms.api.task.constants.OperationTaskTypeEnum;
+import com.swms.wms.api.task.dto.BindContainerDTO;
 import com.swms.wms.api.task.dto.OperationTaskDTO;
+import com.swms.wms.api.task.dto.SealContainerDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.redis.core.RedisHash;
 
 import java.util.Collections;
 import java.util.List;
@@ -25,8 +37,10 @@ import java.util.stream.Collectors;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@RedisHash("WorkStation")
 public class WorkStation {
 
+    @Id
     private Long id;
 
     private String stationCode;
@@ -66,7 +80,7 @@ public class WorkStation {
 
                 if (containerOperateTasks != null) {
                     if (CollectionUtils.isEmpty(this.getOperateTasks())) {
-                        this.setOperateTasks(containerOperateTasks);
+                        this.operateTasks = containerOperateTasks;
                     } else {
                         this.getOperateTasks().addAll(containerOperateTasks);
                     }
@@ -165,7 +179,7 @@ public class WorkStation {
             if (CollectionUtils.isNotEmpty(workLocations)) {
                 workLocations.add(workLocationExtend);
             } else {
-                this.setWorkLocations(List.of(workLocationExtend));
+                this.workLocations = List.of(workLocationExtend);
             }
         }
     }
@@ -176,9 +190,67 @@ public class WorkStation {
 
     public void addArrivedContainers(List<ArrivedContainer> newArrivedContainers) {
         if (CollectionUtils.isEmpty(this.arrivedContainers)) {
-            this.setArrivedContainers(newArrivedContainers);
+            this.arrivedContainers = newArrivedContainers;
         } else {
             this.arrivedContainers.addAll(newArrivedContainers);
         }
+    }
+
+    public void online(WorkStationOperationTypeEnum operationType) {
+        Preconditions.checkState(this.workStationStatus == WorkStationStatusEnum.OFFLINE);
+        this.workStationStatus = WorkStationStatusEnum.ONLINE;
+        this.operationType = operationType;
+    }
+
+    public void pause() {
+        Preconditions.checkState(this.workStationStatus == WorkStationStatusEnum.ONLINE);
+        this.workStationStatus = WorkStationStatusEnum.PAUSED;
+    }
+
+    public void resume() {
+        Preconditions.checkState(this.workStationStatus == WorkStationStatusEnum.PAUSED);
+        this.workStationStatus = WorkStationStatusEnum.ONLINE;
+    }
+
+    public void offline() {
+        Preconditions.checkState(CollectionUtils.isEmpty(this.operateTasks));
+        this.workStationStatus = WorkStationStatusEnum.OFFLINE;
+    }
+
+    public void bindContainer(BindContainerDTO bindContainerDTO) {
+        Preconditions.checkState(this.workStationStatus == WorkStationStatusEnum.ONLINE);
+
+        PutWallDTO.PutWallSlot putWallSlot = findPutWallSlot(bindContainerDTO.getPutWallSlotCode());
+
+        if (putWallSlot.getPutWallSlotStatus() != PutWallSlotStatusEnum.WAITING_BINDING) {
+            throw WmsException.throwWmsException(PUT_WALL_SLOT_STATUS_ABNORMAL,
+                bindContainerDTO.getPutWallSlotCode(), putWallSlot.getPutWallSlotStatus());
+        }
+
+        putWallSlot.setPutWallSlotStatus(PutWallSlotStatusEnum.BOUND);
+    }
+
+    public void sealContainer(SealContainerDTO sealContainerDTO) {
+        Preconditions.checkState(this.workStationStatus == WorkStationStatusEnum.ONLINE);
+
+        PutWallDTO.PutWallSlot putWallSlot = findPutWallSlot(sealContainerDTO.getPutWallSlotCode());
+
+        if (putWallSlot.getPutWallSlotStatus() != PutWallSlotStatusEnum.WAITING_SEAL) {
+            throw WmsException.throwWmsException(PUT_WALL_SLOT_STATUS_ABNORMAL,
+                sealContainerDTO.getPutWallSlotCode(), putWallSlot.getPutWallSlotStatus());
+        }
+
+        putWallSlot.setPutWallSlotStatus(PutWallSlotStatusEnum.IDLE);
+    }
+
+    private PutWallDTO.PutWallSlot findPutWallSlot(String putWallSlotCode) {
+        return this.putWalls.stream()
+            .flatMap(putWallDTO -> putWallDTO.getPutWallSlots().stream())
+            .filter(putWallSlot -> StringUtils.equals(putWallSlot.getPutWallSlotCode(), putWallSlotCode))
+            .findFirst().orElseThrow(() -> WmsException.throwWmsException(PUT_WALL_SLOT_NOT_EXIST, putWallSlotCode));
+    }
+
+    public void updateWorkStationConfig(WorkStationConfigDTO workStationConfigDTO) {
+        this.workStationConfig = workStationConfigDTO;
     }
 }
