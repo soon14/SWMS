@@ -53,9 +53,9 @@ public class InboundPlanOrderServiceImpl implements InboundPlanOrderService {
 
         Set<String> skuCodes = inboundPlanOrder.getInboundPlanOrderDetails().stream()
             .map(InboundPlanOrderDetailDTO::getSkuCode).collect(Collectors.toSet());
-        Set<SkuMainDataDTO> existCodes = iSkuApi.getSkuMainData(skuCodes).stream()
+        Set<SkuMainDataDTO> skuMainDataDTOS = iSkuApi.getSkuMainData(skuCodes).stream()
             .filter(v -> StringUtils.equals(v.getOwnerCode(), inboundPlanOrder.getOwnerCode())).collect(Collectors.toSet());
-        if (skuCodes.size() != existCodes.size()) {
+        if (skuCodes.size() != skuMainDataDTOS.size()) {
             throw WmsException.throwWmsException(MainDataErrorDescEnum.SOME_SKU_CODE_NOT_EXIST);
         }
     }

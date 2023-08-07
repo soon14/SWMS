@@ -1,6 +1,6 @@
 package com.swms.inbound.infrastructure.persistence.po;
 
-import com.swms.common.utils.base.UpdateUserPO;
+import com.swms.common.utils.base.AuditUserPO;
 import com.swms.common.utils.jpa.converter.MapConverter;
 import com.swms.wms.api.inbound.constants.InboundPlanOrderStatusEnum;
 import com.swms.wms.api.inbound.constants.StorageTypeEnum;
@@ -29,11 +29,13 @@ import java.util.Map;
 @Table(
     name = "w_inbound_plan_order",
     indexes = {
-        @Index(unique = true, name = "idx_container_code_warehouse_code", columnList = "containerCode,warehouseCode")
+        @Index(name = "idx_customer_order_no", columnList = "customerOrderNo"),
+        @Index(name = "idx_lpn", columnList = "lpnCode"),
+        @Index(unique = true, name = "idx_order_no", columnList = "orderNo")
     }
 )
 @DynamicUpdate
-public class InboundPlanOrderPO extends UpdateUserPO {
+public class InboundPlanOrderPO extends AuditUserPO {
 
     @Id
     @GeneratedValue(generator = "databaseIdGenerator")

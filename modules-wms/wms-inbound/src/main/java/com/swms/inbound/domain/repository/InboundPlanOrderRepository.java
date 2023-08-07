@@ -12,4 +12,6 @@ public interface InboundPlanOrderRepository {
     InboundPlanOrder findById(Long inboundPlanOrderId);
 
     List<InboundPlanOrder> findByCustomerOrderNo(String customerOrderNo);
+
+    InboundPlanOrder findByBoxNo(String boxNo, String warehouseCode);
 }

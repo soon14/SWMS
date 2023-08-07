@@ -1,6 +1,5 @@
 package com.swms.inbound.infrastructure.persistence.po;
 
-import com.swms.common.utils.base.UpdateUserPO;
 import com.swms.common.utils.jpa.converter.MapConverter;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
@@ -11,65 +10,58 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-@EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Table(
-    name = "w_inbound_plan_order",
+    name = "w_accept_order_detail",
     indexes = {
-        @Index(unique = true, name = "idx_container_code_warehouse_code", columnList = "containerCode,warehouseCode")
+        @Index(name = "idx_inbound_plan_order_id", columnList = "inboundPlanOrderId"),
+        @Index(unique = true, name = "idx_order_no", columnList = "orderNo")
     }
 )
 @DynamicUpdate
-public class InboundPlanOrderDetailPO extends UpdateUserPO {
+public class AcceptOrderDetailPO {
 
     @Id
     @GeneratedValue(generator = "databaseIdGenerator")
     @GenericGenerator(name = "databaseIdGenerator", strategy = "com.swms.common.utils.id.IdGenerator")
     private Long id;
 
-    @Column(nullable = false, columnDefinition = "bigint comment '入库通知单ID'")
-    private Long inboundPlanOrderId;
+    @Column(nullable = false, columnDefinition = "bigint comment '验收单ID'")
+    private Long acceptOrderId;
 
-    @Column(nullable = false, columnDefinition = "varchar(64) comment '容器号'")
-    private String containerCode = "";
-    @Column(nullable = false, columnDefinition = "varchar(64) comment '容器规格号'")
-    private String containerSpecCode = "";
-    @Column(nullable = false, columnDefinition = "varchar(64) comment '容器格口号'")
-    private String containerSlotCode = "";
+    @Column(nullable = false, columnDefinition = "bigint comment '入库通知单明细ID'")
+    private Long inboundPlanOrderDetailId;
 
     @Column(nullable = false, columnDefinition = "varchar(64) comment '箱号'")
     private String boxNo = "";
 
-    @Column(nullable = false, columnDefinition = "int(11) comment '计划数量'")
-    private Integer qtyRestocked = 0;
+    // if sku is loose , then they will be packed into a box
+    @Column(nullable = false, columnDefinition = "varchar(64) comment '箱号'")
+    private String packBoxNo = "";
+
+    @Column(nullable = false, columnDefinition = "varchar(64) comment '目标容器编码'")
+    private String targetContainerCode;
+    @Column(nullable = false, columnDefinition = "varchar(64) comment '目标容器规格编码'")
+    private String targetContainerSpecCode;
+    @Column(nullable = false, columnDefinition = "varchar(64) comment '目标容器格口编码'")
+    private String targetContainerSlotCode;
+
     @Column(nullable = false, columnDefinition = "int(11) comment '验收数量'")
     private Integer qtyAccepted = 0;
-    @Column(nullable = false, columnDefinition = "int(11) comment '未收货数量'")
-    private Integer qtyUnreceived = 0;
-
-    @Column(nullable = false, columnDefinition = "int(11) comment '异常数量'")
-    private Integer qtyAbnormal = 0;
-    @Column(nullable = false, columnDefinition = "varchar(128) comment '异常原因'")
-    private String abnormalReason;
-    @Column(nullable = false, columnDefinition = "varchar(128) comment '异常原因责任方'")
-    private String responsibleParty;
 
     @Column(nullable = false, columnDefinition = "varchar(64) comment 'sku编码'")
     private String skuCode;
     @Column(nullable = false, columnDefinition = "varchar(128) comment 'sku名称'")
     private String skuName = "";
-
     @Column(columnDefinition = "varchar(64) comment '款式'")
     private String style;
     @Column(columnDefinition = "varchar(64) comment '颜色'")
@@ -83,7 +75,6 @@ public class InboundPlanOrderDetailPO extends UpdateUserPO {
     @Convert(converter = MapConverter.class)
     private SortedMap<String, Object> batchAttributes = new TreeMap<>();
 
-    @Column(columnDefinition = "json comment '扩展字段'")
-    @Convert(converter = MapConverter.class)
-    private Map<String, Object> extendFields;
+    @Column(nullable = false, columnDefinition = "bigint comment '工作站ID'")
+    private Long stationId;
 }

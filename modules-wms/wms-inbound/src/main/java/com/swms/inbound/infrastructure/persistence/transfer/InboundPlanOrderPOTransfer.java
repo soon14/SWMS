@@ -8,6 +8,7 @@ import com.swms.inbound.infrastructure.persistence.po.InboundPlanOrderDetailPO;
 import com.swms.inbound.infrastructure.persistence.po.InboundPlanOrderPO;
 import com.swms.wms.api.inbound.dto.InboundPlanOrderDetailDTO;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
 
@@ -23,4 +24,9 @@ public interface InboundPlanOrderPOTransfer {
     InboundPlanOrderPO toOrderPO(InboundPlanOrder inboundPlanOrder);
 
     List<InboundPlanOrderDetailPO> toDetailPOs(List<InboundPlanOrderDetailDTO> inboundPlanOrderDetails);
+
+    @Mapping(target = "inboundPlanOrderDetails", source = "inboundPlanOrderDetails")
+    InboundPlanOrder toDO(InboundPlanOrderPO inboundPlanOrderPO, List<InboundPlanOrderDetailPO> inboundPlanOrderDetails);
+
+    List<InboundPlanOrder> toDOs(List<InboundPlanOrderPO> inboundPlanOrderPOS);
 }

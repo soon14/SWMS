@@ -1,27 +1,35 @@
-package com.swms.inbound.domain.entity;
+package com.swms.wms.api.inbound.dto;
 
 import com.swms.wms.api.inbound.constants.AcceptMethodEnum;
 import com.swms.wms.api.inbound.constants.AcceptOrderStatusEnum;
 import com.swms.wms.api.inbound.constants.AcceptTypeEnum;
-import com.swms.wms.api.inbound.dto.AcceptOrderDetailDTO;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 
 @Data
-public class AcceptOrder {
+public class AcceptOrderDTO {
 
     private Long id;
 
+    @Size(max = 64)
     private String orderNo;
 
     private Long inboundPlanOrderId;
 
+    @NotEmpty
+    @Size(max = 64)
     private String warehouseCode;
+    @NotEmpty
+    @Size(max = 64)
     private String ownerCode;
 
+    @NotNull
     private AcceptMethodEnum acceptMethod;
+    @NotNull
     private AcceptTypeEnum acceptType;
 
     private boolean putAway;
@@ -33,15 +41,7 @@ public class AcceptOrder {
 
     private AcceptOrderStatusEnum acceptOrderStatus;
 
+    @NotEmpty
     private List<AcceptOrderDetailDTO> acceptOrderDetails;
 
-    private Long version;
-
-    public void initial() {
-        for (AcceptOrderDetailDTO v : acceptOrderDetails) {
-            int box = StringUtils.isNotEmpty(v.getBoxNo()) ? 1 : 0;
-            this.totalBox = this.totalBox == null ? 0 : this.totalBox + box;
-            this.totalQty = this.totalQty == null ? 0 : this.totalQty + v.getQtyAccepted();
-        }
-    }
 }

@@ -92,4 +92,5 @@ public class InboundPlanOrder {
         }
         this.skuKindNum = skuSet.size();
     }
+
 }

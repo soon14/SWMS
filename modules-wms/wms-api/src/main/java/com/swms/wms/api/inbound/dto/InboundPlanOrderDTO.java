@@ -1,5 +1,7 @@
 package com.swms.wms.api.inbound.dto;
 
+import com.swms.common.utils.validate.IValidate;
+import com.swms.common.utils.validate.ValidObject;
 import com.swms.wms.api.inbound.constants.InboundPlanOrderStatusEnum;
 import com.swms.wms.api.inbound.constants.StorageTypeEnum;
 import jakarta.validation.constraints.NotEmpty;
@@ -8,9 +10,11 @@ import lombok.Data;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Data
-public class InboundPlanOrderDTO {
+@ValidObject()
+public class InboundPlanOrderDTO implements IValidate {
 
     private Long id;
 
@@ -55,5 +59,20 @@ public class InboundPlanOrderDTO {
 
     private Long version;
 
+    @NotEmpty
     private List<InboundPlanOrderDetailDTO> inboundPlanOrderDetails;
+
+    @Override
+    public boolean validate() {
+
+        Map<String, List<InboundPlanOrderDetailDTO>> uniqueDetailMap = inboundPlanOrderDetails.stream()
+            .collect(Collectors.groupingBy(this::uniqueDetail));
+
+        return uniqueDetailMap.entrySet().stream().allMatch(entry -> entry.getValue().size() == 1);
+    }
+
+    private String uniqueDetail(InboundPlanOrderDetailDTO detail) {
+        return (detail.getBoxNo() == null ? "" : detail.getBoxNo()) + "$$" + detail.getSkuCode()
+            + "$$" + (detail.getBatchAttributes() == null ? "" : detail.getBatchAttributes().toString());
+    }
 }

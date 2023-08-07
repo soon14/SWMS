@@ -1,16 +1,32 @@
-package com.swms.wms.api.inbound.dto;
+package com.swms.inbound.infrastructure.persistence.po;
 
+import com.swms.common.utils.base.AuditUserPO;
 import com.swms.wms.api.inbound.constants.ReceiveOrderCreateTypeEnum;
 import com.swms.wms.api.inbound.constants.ReceiveOrderStatusEnum;
 import com.swms.wms.api.inbound.constants.StorageTypeEnum;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.Index;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.util.List;
-
+@EqualsAndHashCode(callSuper = true)
 @Data
-public class ReceiveOrderDTO {
+@Entity
+@EntityListeners(AuditingEntityListener.class)
+@Table(
+    name = "w_receive_order",
+    indexes = {
+        @Index(unique = true, name = "idx_order_no", columnList = "orderNo")
+    }
+)
+@DynamicUpdate
+public class ReceiveOrderPO extends AuditUserPO {
 
     private Long id;
 
@@ -25,18 +41,10 @@ public class ReceiveOrderDTO {
     private String ownerCode;
 
     @Size(max = 64)
-    @NotEmpty
     private String receiveOrderType;
-
-    @NotEmpty
     private StorageTypeEnum storageType;
-    @NotEmpty
     private ReceiveOrderCreateTypeEnum createType;
 
     private ReceiveOrderStatusEnum receiveOrderStatus;
 
-    @NotEmpty
-    private List<ReceiveOrderDetailDTO> receiveOrderDetails;
-
-    private Long version;
 }
