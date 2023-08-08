@@ -1,0 +1,59 @@
+{
+  "id": 73,
+  "skuCode": "SKU_CODE",
+  "ownerCode": "OWNER_CODE",
+  "skuName": "FT4vQl5JnP9o4",
+  "style": "WEx1KfBJiwl3h",
+  "color": "RsOUkygEoDcOx",
+  "size": "MFHDGxmJWiJUG",
+  "brand": "RRDE1Q91DcTcf",
+  "weight": {
+    "grossWeight": 39,
+    "netWeight": 82
+  },
+  "volumeDTO": {
+    "volume": 40,
+    "height": 62,
+    "width": 72,
+    "length": 51
+  },
+  "skuAttribute": {
+    "imageUrl": "l7tm6Oe3b642z",
+    "unit": "TubBv6mCQ7LS8",
+    "skuFirstCategory": "gj7SuMQmBCTeS",
+    "skuSecondCategory": "doAXzSIrob9Ll",
+    "skuThirdCategory": "KsZwzQyZEeNGb",
+    "skuAttributeCategory": "M3rpqh0BLySwa",
+    "skuAttributeSubCategory": "RfZBslEWsLnIZ"
+  },
+  "skuConfig": {
+    "enableSn": true,
+    "enableEffective": false,
+    "shelfLife": 68,
+    "effectiveDays": 10,
+    "barcodeRuleCode": "sXPNiaiCNpEXM",
+    "heat": "ljwbtOwiMrFt7",
+    "calculateHeat": true,
+    "noBarcode": true
+  },
+  "skuPackage": {
+    "skuPackageDetails": [
+      {
+        "level": 20,
+        "packageCode": "D9ShnmGUe5Ii0",
+        "unit": "Mct0PMldr8Oj5",
+        "enableSplit": false,
+        "height": 32,
+        "width": 84,
+        "length": 20,
+        "weight": 45
+      }
+    ]
+  },
+  "skuBarcode": {
+    "barcodes": [
+      "Orp1Ga5mZg3SZ"
+    ]
+  },
+  "version": 43
+}

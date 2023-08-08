@@ -18,6 +18,12 @@ dependencies {
     testImplementation 'org.powermock:powermock-module-junit4-rule'
     testImplementation 'org.powermock:powermock-classloading-xstream'
 
+    implementation project(path: ":modules-wms:wms-basic", configuration: 'default')
+    implementation project(path: ":modules-wms:wms-stock", configuration: 'default')
+    implementation project(path: ":modules-wms:wms-task", configuration: 'default')
+    implementation project(path: ":modules-wms:wms-inbound", configuration: 'default')
+    implementation project(path: ":modules-tenant:tenant-config", configuration: 'default')
+
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
@@ -25,11 +31,6 @@ dependencies {
 
     implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config'
     implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery'
-
-    implementation project(path: ":modules-wms:wms-basic", configuration: 'default')
-    implementation project(path: ":modules-wms:wms-stock", configuration: 'default')
-    implementation project(path: ":modules-wms:wms-task", configuration: 'default')
-    implementation project(path: ":modules-tenant:tenant-config", configuration: 'default')
 
     implementation group: 'org.apache.skywalking', name: 'apm-toolkit-logback-1.x'
 

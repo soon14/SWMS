@@ -1,4 +1,4 @@
-package com.swms.wms.stock.api;
+package com.swms.wms.stock;
 
 import com.swms.wms.BaseTest;
 import com.swms.wms.api.stock.IStockApi;

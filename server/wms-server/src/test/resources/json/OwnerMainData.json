@@ -1,0 +1,20 @@
+{
+  "id": 71,
+  "ownerCode": "OWNER_CODE",
+  "ownerName": "jbJp2oNhBkRk1",
+  "ownerType": "SELF",
+  "contactorDTO": {
+    "name": "th5tVZ0RxxLLz",
+    "tel": "23zPuyMRJPfBG",
+    "mail": "4Mscz3q2ZZ6ES",
+    "fax": "kQQCUF4NdLF8b"
+  },
+  "addressDTO": {
+    "country": "7ZSOaAWhmwxCF",
+    "province": "YCBzY6xUpd0or",
+    "city": "6r6LEHffELDfw",
+    "district": "kZDcyj9d0fL5h",
+    "address": "WplcBRyuzO65e"
+  },
+  "version": 90
+}

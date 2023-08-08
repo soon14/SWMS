@@ -1,0 +1,28 @@
+{
+  "id": 81,
+  "warehouseCode": "WAREHOUSE_CODE",
+  "warehouseName": "YGQ6tq6kAIjoI",
+  "warehouseType": "CENTER_WAREHOUSE",
+  "warehouseAttrType": "NORMAL",
+  "warehouseLevel": "A",
+  "warehouseLabel": "zf3EF7z49nCCQ",
+  "businessType": "TOB",
+  "structureType": "STEEL",
+  "area": 80,
+  "height": 16,
+  "virtualWarehouse": false,
+  "contactorDTO": {
+    "name": "P2gRx4HSqnyUe",
+    "tel": "gF3oM0AVpSy0o",
+    "mail": "3Hk6krEe4Accd",
+    "fax": "rXicyPvlVmvb1"
+  },
+  "addressDTO": {
+    "country": "OcHbB9Z6iEjSc",
+    "province": "F7cGKLkUYnify",
+    "city": "ThK8iGkfoF5Xx",
+    "district": "kArFxRxxcZehS",
+    "address": "5MGyCZfCK4kZ8"
+  },
+  "version": 70
+}

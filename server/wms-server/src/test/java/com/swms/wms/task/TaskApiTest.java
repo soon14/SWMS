@@ -1,4 +1,4 @@
-package com.swms.wms.task.api;
+package com.swms.wms.task;
 
 import com.google.common.collect.Lists;
 import com.swms.common.utils.utils.ObjectUtils;
