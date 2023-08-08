@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
@@ -71,4 +72,14 @@ public class InboundPlanOrderRepositoryImpl implements InboundPlanOrderRepositor
         return inboundPlanOrderPOTransfer.toDO(inboundPlanOrderPO, inboundPlanOrderDetailPOS.stream()
             .filter(v -> Objects.equals(v.getInboundPlanOrderId(), inboundPlanOrderPO.getId())).toList());
     }
+
+    @Override
+    public boolean existByBoxNos(Collection<String> boxNos, String warehouseCode) {
+        List<InboundPlanOrderDetailPO> inboundPlanOrderDetailPOS = inboundPlanOrderDetailPORepository.findByBoxNoIn(boxNos);
+
+        List<InboundPlanOrderPO> inboundPlanOrderPOS = inboundPlanOrderPORepository.findAllById(inboundPlanOrderDetailPOS
+            .stream().map(InboundPlanOrderDetailPO::getInboundPlanOrderId).toList());
+        return inboundPlanOrderPOS.stream().anyMatch(v -> StringUtils.equals(warehouseCode, v.getWarehouseCode()));
+    }
+
 }

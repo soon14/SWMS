@@ -67,8 +67,15 @@ public class StockTransferServiceImpl implements StockTransferService {
         containerStockTransactionRecordRepository.save(containerStockTransactionTransfer.fromCreateDTOtoDO(stockCreateDTO, savedSkuBatchStock.getId()));
 
         //3. create container stock
-        ContainerStock containerStock = containerStockTransfer.fromCreateDTOtoDO(stockCreateDTO, savedSkuBatchStock.getId());
-        containerStockRepository.save(containerStock);
+        ContainerStock targetContainerStock = containerStockRepository.findByContainerAndSlotAndSkuBatch(
+            stockCreateDTO.getTargetContainerCode(), stockCreateDTO.getTargetContainerSlotCode(),
+            stockCreateDTO.getWarehouseCode(), savedSkuBatchStock.getId());
+        if (targetContainerStock != null) {
+            targetContainerStock.addQty(stockCreateDTO.getTransferQty());
+        } else {
+            targetContainerStock = containerStockTransfer.fromCreateDTOtoDO(stockCreateDTO, savedSkuBatchStock.getId());
+        }
+        containerStockRepository.save(targetContainerStock);
     }
 
     /**

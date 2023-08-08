@@ -1,6 +1,5 @@
 package com.swms.wms.stock.domain.entity;
 
-import com.swms.mdm.api.main.data.dto.SkuMainDataDTO;
 import com.swms.common.utils.base.UpdateUserDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -10,22 +9,22 @@ import org.springframework.util.DigestUtils;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
-import java.util.SortedMap;
+import java.util.TreeMap;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class SkuBatchAttribute extends UpdateUserDTO {
 
     private Long id;
-    private SkuMainDataDTO skuMainData;
-    private SortedMap<String, Object> skuAttributes;
+    private Long skuId;
+    private Map<String, Object> skuAttributes;
     private String batchNo;
 
     private Long version;
 
-    public SkuBatchAttribute(SkuMainDataDTO skuMainData, SortedMap<String, Object> skuAttributes) {
+    public SkuBatchAttribute(Long skuId, Map<String, Object> skuAttributes) {
+        this.skuId = skuId;
         this.skuAttributes = skuAttributes;
-        this.skuMainData = skuMainData;
     }
 
     public boolean isSame(Map<String, Object> skuAttributes) {
@@ -64,7 +63,7 @@ public class SkuBatchAttribute extends UpdateUserDTO {
     }
 
     public String getBatchNo() {
-        if (StringUtils.isEmpty(this.batchNo)) {
+        if (StringUtils.isNotEmpty(this.batchNo)) {
             return this.batchNo;
         }
 
@@ -72,7 +71,7 @@ public class SkuBatchAttribute extends UpdateUserDTO {
             return "";
         }
 
-        return DigestUtils.md5DigestAsHex(this.skuAttributes.toString().getBytes(StandardCharsets.UTF_8));
+        return DigestUtils.md5DigestAsHex(new TreeMap<>(this.skuAttributes).toString().getBytes(StandardCharsets.UTF_8));
     }
 
 }

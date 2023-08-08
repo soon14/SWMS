@@ -8,4 +8,6 @@ import java.util.List;
 public interface SkuBatchAttributePORepository extends JpaRepository<SkuBatchAttributePO, Long> {
 
     List<SkuBatchAttributePO> findAllBySkuId(Long skuId);
+
+    SkuBatchAttributePO findBySkuIdAndBatchNo(Long skuId, String batchNo);
 }

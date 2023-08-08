@@ -12,9 +12,8 @@ import org.springframework.data.annotation.LastModifiedDate;
 public class AuditUserPO extends UpdateUserPO {
 
     @Column(nullable = false, columnDefinition = "varchar(60) default '' comment 'audit user'")
-    private String auditUser;
+    private String auditUser = "";
 
     @Column(nullable = false, columnDefinition = "bigint default 0 comment 'audit time'")
-    @LastModifiedDate
-    private Long auditTime;
+    private Long auditTime = 0L;
 }

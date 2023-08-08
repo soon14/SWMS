@@ -1,5 +1,6 @@
 package com.swms.inbound.domain.service.impl;
 
+import static com.swms.common.utils.exception.code_enum.InboundErrorDescEnum.INBOUND_BOX_NO_EXIST;
 import static com.swms.common.utils.exception.code_enum.InboundErrorDescEnum.INBOUND_CST_ORDER_NO_REPEATED;
 
 import com.swms.common.utils.exception.WmsException;
@@ -14,6 +15,7 @@ import com.swms.mdm.api.main.data.dto.OwnerMainDataDTO;
 import com.swms.mdm.api.main.data.dto.SkuMainDataDTO;
 import com.swms.mdm.api.main.data.dto.WarehouseMainDataDTO;
 import com.swms.wms.api.inbound.dto.InboundPlanOrderDetailDTO;
+import lombok.Setter;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.DubboReference;
@@ -25,6 +27,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
+@Setter
 public class InboundPlanOrderServiceImpl implements InboundPlanOrderService {
 
     @DubboReference
@@ -40,7 +43,7 @@ public class InboundPlanOrderServiceImpl implements InboundPlanOrderService {
     private InboundPlanOrderRepository inboundPlanOrderRepository;
 
     @Override
-    public void validateInboundPlanOrder(InboundPlanOrder inboundPlanOrder) {
+    public Set<SkuMainDataDTO> validateInboundPlanOrder(InboundPlanOrder inboundPlanOrder) {
         WarehouseMainDataDTO warehouse = iWarehouseApi.getWarehouse(inboundPlanOrder.getWarehouseCode());
         if (warehouse == null) {
             throw WmsException.throwWmsException(MainDataErrorDescEnum.WAREHOUSE_CODE_NOT_EXIST, inboundPlanOrder.getWarehouseCode());
@@ -58,6 +61,8 @@ public class InboundPlanOrderServiceImpl implements InboundPlanOrderService {
         if (skuCodes.size() != skuMainDataDTOS.size()) {
             throw WmsException.throwWmsException(MainDataErrorDescEnum.SOME_SKU_CODE_NOT_EXIST);
         }
+
+        return skuMainDataDTOS;
     }
 
     @Override
@@ -65,6 +70,20 @@ public class InboundPlanOrderServiceImpl implements InboundPlanOrderService {
         List<InboundPlanOrder> inboundPlanOrders = inboundPlanOrderRepository.findByCustomerOrderNo(inboundPlanOrder.getCustomerOrderNo());
         if (CollectionUtils.isNotEmpty(inboundPlanOrders)) {
             throw WmsException.throwWmsException(INBOUND_CST_ORDER_NO_REPEATED, inboundPlanOrder.getCustomerOrderNo());
+        }
+    }
+
+    @Override
+    public void validateRepeatBoxNo(InboundPlanOrder inboundPlanOrder) {
+
+        Set<String> boxNos = inboundPlanOrder.getInboundPlanOrderDetails().stream()
+            .map(InboundPlanOrderDetailDTO::getBoxNo)
+            .filter(StringUtils::isNotEmpty).collect(Collectors.toSet());
+
+        boolean boxExists = inboundPlanOrderRepository.existByBoxNos(boxNos, inboundPlanOrder.getWarehouseCode());
+
+        if (boxExists) {
+            throw WmsException.throwWmsException(INBOUND_BOX_NO_EXIST);
         }
     }
 }

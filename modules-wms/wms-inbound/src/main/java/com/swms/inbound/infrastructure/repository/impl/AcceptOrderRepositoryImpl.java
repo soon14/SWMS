@@ -4,6 +4,7 @@ import com.swms.inbound.domain.entity.AcceptOrder;
 import com.swms.inbound.domain.repository.AcceptOrderRepository;
 import com.swms.inbound.infrastructure.persistence.mapper.AcceptOrderDetailPORepository;
 import com.swms.inbound.infrastructure.persistence.mapper.AcceptOrderPORepository;
+import com.swms.inbound.infrastructure.persistence.po.AcceptOrderDetailPO;
 import com.swms.inbound.infrastructure.persistence.po.AcceptOrderPO;
 import com.swms.inbound.infrastructure.persistence.transfer.AcceptOrderPOTransfer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ public class AcceptOrderRepositoryImpl implements AcceptOrderRepository {
 
     @Autowired
     private AcceptOrderPORepository acceptOrderPORepository;
+
     @Autowired
     private AcceptOrderDetailPORepository acceptOrderDetailPORepository;
 
@@ -33,6 +35,24 @@ public class AcceptOrderRepositoryImpl implements AcceptOrderRepository {
 
     @Override
     public List<AcceptOrder> findByInboundPlanOrderId(Long inboundPlanOrderId) {
-        return null;
+        List<AcceptOrderPO> acceptOrderPOS = acceptOrderPORepository.findByInboundPlanOrderId(inboundPlanOrderId);
+
+        return acceptOrderPOS.stream().map(v ->
+            acceptOrderPOTransfer.toDO(v, acceptOrderDetailPORepository.findByAcceptOrderId(v.getId()))
+        ).toList();
+    }
+
+    @Override
+    public AcceptOrder findById(Long acceptOrderId) {
+
+        AcceptOrderPO acceptOrder = acceptOrderPORepository.findById(acceptOrderId).orElseThrow();
+        List<AcceptOrderDetailPO> acceptOrderDetails = acceptOrderDetailPORepository.findByAcceptOrderId(acceptOrder.getId());
+
+        return acceptOrderPOTransfer.toDO(acceptOrder, acceptOrderDetails);
+    }
+
+    @Override
+    public void saveOrder(AcceptOrder acceptOrder) {
+        acceptOrderPORepository.save(acceptOrderPOTransfer.toPO(acceptOrder));
     }
 }

@@ -4,6 +4,7 @@ import com.swms.wms.api.inbound.constants.ReceiveOrderCreateTypeEnum;
 import com.swms.wms.api.inbound.constants.ReceiveOrderStatusEnum;
 import com.swms.wms.api.inbound.constants.StorageTypeEnum;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
@@ -28,9 +29,9 @@ public class ReceiveOrderDTO {
     @NotEmpty
     private String receiveOrderType;
 
-    @NotEmpty
+    @NotNull
     private StorageTypeEnum storageType;
-    @NotEmpty
+    @NotNull
     private ReceiveOrderCreateTypeEnum createType;
 
     private ReceiveOrderStatusEnum receiveOrderStatus;

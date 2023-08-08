@@ -22,4 +22,9 @@ public interface AcceptOrderPOTransfer {
     AcceptOrderPO toPO(AcceptOrder acceptOrder);
 
     List<AcceptOrderDetailPO> toDetailPOs(List<AcceptOrderDetailDTO> acceptOrderDetails);
+
+    List<AcceptOrder> toDOs(List<AcceptOrderPO> acceptOrderPOS);
+
+    AcceptOrder toDO(AcceptOrderPO acceptOrderPO, List<AcceptOrderDetailPO> acceptOrderDetails);
+
 }

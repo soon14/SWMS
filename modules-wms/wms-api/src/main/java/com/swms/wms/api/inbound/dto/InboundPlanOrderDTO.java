@@ -5,6 +5,7 @@ import com.swms.common.utils.validate.ValidObject;
 import com.swms.wms.api.inbound.constants.InboundPlanOrderStatusEnum;
 import com.swms.wms.api.inbound.constants.StorageTypeEnum;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
@@ -37,7 +38,7 @@ public class InboundPlanOrderDTO implements IValidate {
     @Size(max = 64)
     private String inboundOrderType;
 
-    @NotEmpty
+    @NotNull
     private StorageTypeEnum storageType;
     private boolean abnormal;
 

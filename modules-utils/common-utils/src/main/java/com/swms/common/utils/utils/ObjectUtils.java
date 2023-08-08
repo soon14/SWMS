@@ -73,7 +73,7 @@ public class ObjectUtils {
                 Arrays.stream(ignoreFields).forEach(ignoreField -> fieldList.removeIf(v -> v.getName().equals(ignoreField)));
             }
 
-            fieldList.forEach(v -> setFieldValue(v, t));
+            fieldList.forEach(v -> setFieldValue(v, t, ignoreFields));
 
             return t;
 
@@ -84,7 +84,7 @@ public class ObjectUtils {
 
     private static final String STRING_TYPE = "java.lang.String";
 
-    private static Object getFieldValue(Class<?> tClass, Field field, Class fieldTypeClass) {
+    private static Object getFieldValue(Class<?> tClass, Field field, Class fieldTypeClass, String[] ignoreFields) {
 
         Object value = null;
 
@@ -136,14 +136,14 @@ public class ObjectUtils {
                     || (fieldClass2.getSuperclass() != null && StringUtils.equals(fieldClass2.getName(), STRING_TYPE))) {
                     Set<Object> objects = Sets.newHashSet();
                     for (int i = 0; i < LIST_OBJECT_NUMBER; i++) {
-                        Object fieldObject = getFieldValue(null, null, fieldClass2);
+                        Object fieldObject = getFieldValue(null, null, fieldClass2, ignoreFields);
                         objects.add(fieldObject);
                     }
                     value = objects;
                 } else {
                     Set<Object> objects = Sets.newHashSet();
                     for (int i = 0; i < LIST_OBJECT_NUMBER; i++) {
-                        Object fieldObject = getRandomObjectIgnoreFields(fieldClass2);
+                        Object fieldObject = getRandomObjectIgnoreFields(fieldClass2, ignoreFields);
                         objects.add(fieldObject);
                     }
                     value = objects;
@@ -159,36 +159,38 @@ public class ObjectUtils {
                     || (fieldClass.getSuperclass() != null && StringUtils.equals(fieldClass.getName(), STRING_TYPE))) {
                     ArrayList<Object> objects = Lists.newArrayList();
                     for (int i = 0; i < LIST_OBJECT_NUMBER; i++) {
-                        Object fieldObject = getFieldValue(null, null, fieldClass);
+                        Object fieldObject = getFieldValue(null, null, fieldClass, ignoreFields);
                         objects.add(fieldObject);
                     }
                     value = objects;
                 } else {
                     ArrayList<Object> objects = Lists.newArrayList();
                     for (int i = 0; i < LIST_OBJECT_NUMBER; i++) {
-                        Object fieldObject = getRandomObjectIgnoreFields(fieldClass);
+                        Object fieldObject = getRandomObjectIgnoreFields(fieldClass, ignoreFields);
                         objects.add(fieldObject);
                     }
                     value = objects;
                 }
                 break;
             default:
-                value = getRandomObjectIgnoreFields(fieldTypeClass);
+                value = getRandomObjectIgnoreFields(fieldTypeClass, ignoreFields);
                 break;
         }
 
         return value;
     }
 
-    private static <T> void setFieldValue(Field field, T t) {
+    private static <T> void setFieldValue(Field field, T t, String[] ignoreFields) {
 
         try {
             if (field.getName().equalsIgnoreCase("$jacocoData")) {
                 return;
             }
             field.setAccessible(true);
-            Object fieldValue = getFieldValue(t.getClass(), field, field.getType());
+            Object fieldValue = getFieldValue(t.getClass(), field, field.getType(), ignoreFields);
             field.set(t, fieldValue);
+
+            field.setAccessible(false);
 
         } catch (IllegalAccessException e) {
             log.error("ObjectUtils#setFieldValue error", e);

@@ -20,8 +20,8 @@ public class SkuBatchAttributeRepositoryImpl implements SkuBatchAttributeReposit
     private SkuBatchAttributePOTransfer skuBatchAttributePOTransfer;
 
     @Override
-    public void save(SkuBatchAttribute skuBatchAttribute) {
-        skuBatchAttributePORepository.save(skuBatchAttributePOTransfer.toPO(skuBatchAttribute));
+    public SkuBatchAttribute save(SkuBatchAttribute skuBatchAttribute) {
+        return skuBatchAttributePOTransfer.toDO(skuBatchAttributePORepository.save(skuBatchAttributePOTransfer.toPO(skuBatchAttribute)));
     }
 
     @Override
@@ -32,5 +32,10 @@ public class SkuBatchAttributeRepositoryImpl implements SkuBatchAttributeReposit
     @Override
     public List<SkuBatchAttribute> findAllByIds(Collection<Long> skuBatchAttributeIds) {
         return skuBatchAttributePOTransfer.toDOs(skuBatchAttributePORepository.findAllById(skuBatchAttributeIds));
+    }
+
+    @Override
+    public SkuBatchAttribute findBySkuIdAndBatchNo(Long skuId, String batchNo) {
+        return skuBatchAttributePOTransfer.toDO(skuBatchAttributePORepository.findBySkuIdAndBatchNo(skuId, batchNo));
     }
 }

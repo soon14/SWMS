@@ -14,6 +14,7 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -23,8 +24,8 @@ import java.util.TreeMap;
 @Table(
     name = "w_accept_order_detail",
     indexes = {
-        @Index(name = "idx_inbound_plan_order_id", columnList = "inboundPlanOrderId"),
-        @Index(unique = true, name = "idx_order_no", columnList = "orderNo")
+        @Index(name = "idx_inbound_plan_order_detail_id", columnList = "inboundPlanOrderDetailId"),
+        @Index(name = "idx_accept_order_id", columnList = "acceptOrderId")
     }
 )
 @DynamicUpdate
@@ -73,7 +74,7 @@ public class AcceptOrderDetailPO {
 
     @Column(columnDefinition = "json comment '批次属性'")
     @Convert(converter = MapConverter.class)
-    private SortedMap<String, Object> batchAttributes = new TreeMap<>();
+    private Map<String, Object> batchAttributes = new TreeMap<>();
 
     @Column(nullable = false, columnDefinition = "bigint comment '工作站ID'")
     private Long stationId;

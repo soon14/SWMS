@@ -62,7 +62,7 @@ public class AcceptOrderServiceImpl implements AcceptOrderService {
             .filter(v -> Objects.equals(v.getInboundPlanOrderDetailId(), inboundPlanOrderDetailDTO.getId()))
             .map(AcceptOrderDetailDTO::getQtyAccepted).reduce(Integer::sum).orElse(0);
 
-        if (acceptRecord.getAcceptQty() + acceptedQty > inboundPlanOrderDetailDTO.getQtyRestocked()) {
+        if (acceptRecord.getQtyAccepted() + acceptedQty > inboundPlanOrderDetailDTO.getQtyRestocked()) {
             throw WmsException.throwWmsException(INBOUND_OVER_ACCEPT_ERROR, acceptRecord.getSkuCode());
         }
     }

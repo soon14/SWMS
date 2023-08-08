@@ -9,4 +9,8 @@ public interface AcceptOrderRepository {
     void saveOrderAndDetail(AcceptOrder acceptOrder);
 
     List<AcceptOrder> findByInboundPlanOrderId(Long inboundPlanOrderId);
+
+    AcceptOrder findById(Long acceptOrderId);
+
+    void saveOrder(AcceptOrder acceptOrder);
 }

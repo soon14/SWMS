@@ -17,7 +17,7 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.util.TreeMap;
+import java.util.Map;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -26,8 +26,7 @@ import java.util.TreeMap;
 @Table(
     name = "w_sku_batch_attribute",
     indexes = {
-        @Index(name = "id_sku_id", columnList = "skuId"),
-        @Index(name = "batchNo", columnList = "batchNo", unique = true)
+        @Index(name = "idx_sku_batch_no", columnList = "skuId,batchNo", unique = true)
     }
 )
 @DynamicUpdate
@@ -43,7 +42,7 @@ public class SkuBatchAttributePO extends UpdateUserPO {
 
     @Column(columnDefinition = "json comment '批次属性'")
     @Convert(converter = MapConverter.class)
-    private TreeMap<String, Object> skuAttributes;
+    private Map<String, Object> skuAttributes;
 
     @Column(nullable = false, columnDefinition = "varchar(128) comment '批次号'")
     private String batchNo;

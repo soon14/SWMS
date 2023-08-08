@@ -17,7 +17,6 @@ import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.Map;
-import java.util.SortedMap;
 import java.util.TreeMap;
 
 @EqualsAndHashCode(callSuper = true)
@@ -25,9 +24,10 @@ import java.util.TreeMap;
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Table(
-    name = "w_inbound_plan_order",
+    name = "w_inbound_plan_order_detail",
     indexes = {
-        @Index(unique = true, name = "idx_container_code_warehouse_code", columnList = "containerCode,warehouseCode")
+        @Index(name = "idx_inbound_plan_order_id", columnList = "inboundPlanOrderId"),
+        @Index(name = "idx_box_no", columnList = "boxNo")
     }
 )
 @DynamicUpdate
@@ -60,11 +60,13 @@ public class InboundPlanOrderDetailPO extends UpdateUserPO {
 
     @Column(nullable = false, columnDefinition = "int(11) comment '异常数量'")
     private Integer qtyAbnormal = 0;
-    @Column(nullable = false, columnDefinition = "varchar(128) comment '异常原因'")
+    @Column(columnDefinition = "varchar(128) comment '异常原因'")
     private String abnormalReason;
     @Column(nullable = false, columnDefinition = "varchar(128) comment '异常原因责任方'")
     private String responsibleParty;
 
+    @Column(nullable = false, columnDefinition = "bigint comment 'skuID'")
+    private Long skuId;
     @Column(nullable = false, columnDefinition = "varchar(64) comment 'sku编码'")
     private String skuCode;
     @Column(nullable = false, columnDefinition = "varchar(128) comment 'sku名称'")
@@ -81,9 +83,9 @@ public class InboundPlanOrderDetailPO extends UpdateUserPO {
 
     @Column(columnDefinition = "json comment '批次属性'")
     @Convert(converter = MapConverter.class)
-    private SortedMap<String, Object> batchAttributes = new TreeMap<>();
+    private Map<String, Object> batchAttributes = new TreeMap<>();
 
     @Column(columnDefinition = "json comment '扩展字段'")
     @Convert(converter = MapConverter.class)
-    private Map<String, Object> extendFields;
+    private Map<String, Object> extendFields = new TreeMap<>();
 }

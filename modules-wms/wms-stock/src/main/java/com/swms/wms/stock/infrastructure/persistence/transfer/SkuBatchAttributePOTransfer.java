@@ -20,4 +20,6 @@ public interface SkuBatchAttributePOTransfer {
     SkuBatchAttributePO toPO(SkuBatchAttribute skuBatchAttribute);
 
     List<SkuBatchAttribute> toDOs(List<SkuBatchAttributePO> skuBatchAttributePOS);
+
+    SkuBatchAttribute toDO(SkuBatchAttributePO skuBatchAttributePO);
 }

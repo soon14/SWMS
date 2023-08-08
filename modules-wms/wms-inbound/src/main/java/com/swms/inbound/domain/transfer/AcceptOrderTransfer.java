@@ -22,19 +22,17 @@ import java.util.List;
     nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface AcceptOrderTransfer {
 
-    AcceptOrder toAcceptOrder(InboundPlanOrder inboundPlanOrder);
+    @Mapping(source = "inboundPlanOrderDetailDTO.id", target = "inboundPlanOrderDetailId")
+    @Mapping(source = "inboundPlanOrderDetailDTO.boxNo", target = "boxNo")
+    @Mapping(source = "inboundPlanOrderDetailDTO.skuCode", target = "skuCode")
+    @Mapping(source = "acceptRecordDTO.batchAttributes", target = "batchAttributes")
+    @Mapping(source = "acceptRecordDTO.qtyAccepted", target = "qtyAccepted")
+    AcceptOrderDetailDTO toDetailDO(InboundPlanOrderDetailDTO inboundPlanOrderDetailDTO, AcceptRecordDTO acceptRecordDTO);
 
-
-    @Mapping(source = "id", target = "inboundPlanOrderDetailId")
-    @Mapping(ignore = true, source = "id", target = "id")
-    AcceptOrderDetailDTO toDetailDO(InboundPlanOrderDetailDTO inboundPlanOrderDetailDTO);
-
-    @Mapping(source = "inboundPlanOrderDetailDTOS", target = "acceptOrderDetails")
-    @Mapping(ignore = true, source = "inboundPlanOrder.id", target = "id")
+    @Mapping(source = "inboundPlanOrder.warehouseCode", target = "warehouseCode")
+    @Mapping(source = "inboundPlanOrder.id", target = "inboundPlanOrderId")
     @Mapping(ignore = true, source = "inboundPlanOrder.version", target = "version")
-    AcceptOrder toDO(InboundPlanOrder inboundPlanOrder, List<InboundPlanOrderDetailDTO> inboundPlanOrderDetails,
-                     List<AcceptRecordDTO> acceptRecordDTOS);
-
-
-    AcceptOrderDetailDTO fromAcceptRecordToDTO(AcceptRecordDTO acceptRecordDTO);
+    AcceptOrder toDO(InboundPlanOrder inboundPlanOrder, AcceptRecordDTO acceptRecordDTO,
+                     List<AcceptOrderDetailDTO> acceptOrderDetails
+    );
 }

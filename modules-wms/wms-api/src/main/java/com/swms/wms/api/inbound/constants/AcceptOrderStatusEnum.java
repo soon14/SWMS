@@ -7,11 +7,5 @@ public enum AcceptOrderStatusEnum {
 
     NEW,
 
-    ACCEPTING,
-
-    ACCEPTED,
-
-    PUTTING_AWAY,
-
-    PUT_AWAY;
+    AUDITED;
 }

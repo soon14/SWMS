@@ -2,6 +2,7 @@ package com.swms.inbound.domain.repository;
 
 import com.swms.inbound.domain.entity.InboundPlanOrder;
 
+import java.util.Collection;
 import java.util.List;
 
 
@@ -14,4 +15,6 @@ public interface InboundPlanOrderRepository {
     List<InboundPlanOrder> findByCustomerOrderNo(String customerOrderNo);
 
     InboundPlanOrder findByBoxNo(String boxNo, String warehouseCode);
+
+    boolean existByBoxNos(Collection<String> boxNos, String warehouseCode);
 }

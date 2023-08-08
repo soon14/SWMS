@@ -14,6 +14,7 @@ import org.springframework.validation.annotation.Validated;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 @Service
@@ -43,5 +44,19 @@ public class SkuAttributeApiImpl implements ISkuBatchAttributeApi {
             v.setSkuBatchStockIds(groupMap.get(v.getId()).stream().map(SkuBatchStock::getId).toList()));
 
         return skuBatchAttributeTransfer.toDTOS(skuBatchAttributes);
+    }
+
+    @Override
+    public SkuBatchAttributeDTO getOrCreateSkuBatchAttribute(Long skuId, Map<String, Object> batchAttributes) {
+
+        SkuBatchAttribute newSkuBatchAttribute = new SkuBatchAttribute(skuId, batchAttributes);
+        String batchNo = newSkuBatchAttribute.getBatchNo();
+
+        SkuBatchAttribute skuBatchAttribute = skuBatchAttributeRepository.findBySkuIdAndBatchNo(skuId, batchNo);
+
+        if (skuBatchAttribute != null) {
+            return skuBatchAttributeTransfer.toDTO(skuBatchAttribute);
+        }
+        return skuBatchAttributeTransfer.toDTO(skuBatchAttributeRepository.save(newSkuBatchAttribute));
     }
 }

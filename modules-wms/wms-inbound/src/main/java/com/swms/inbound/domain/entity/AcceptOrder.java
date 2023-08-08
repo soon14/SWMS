@@ -1,11 +1,13 @@
 package com.swms.inbound.domain.entity;
 
+import static com.swms.common.utils.exception.code_enum.InboundErrorDescEnum.ACCEPT_ORDER_HAD_AUDIT;
+
+import com.swms.common.utils.exception.WmsException;
 import com.swms.wms.api.inbound.constants.AcceptMethodEnum;
 import com.swms.wms.api.inbound.constants.AcceptOrderStatusEnum;
 import com.swms.wms.api.inbound.constants.AcceptTypeEnum;
 import com.swms.wms.api.inbound.dto.AcceptOrderDetailDTO;
 import lombok.Data;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 
@@ -26,8 +28,7 @@ public class AcceptOrder {
 
     private boolean putAway;
 
-    private Long totalQty;
-    private Integer totalBox;
+    private Integer totalQty;
 
     private String remark;
 
@@ -38,10 +39,17 @@ public class AcceptOrder {
     private Long version;
 
     public void initial() {
-        for (AcceptOrderDetailDTO v : acceptOrderDetails) {
-            int box = StringUtils.isNotEmpty(v.getBoxNo()) ? 1 : 0;
-            this.totalBox = this.totalBox == null ? 0 : this.totalBox + box;
-            this.totalQty = this.totalQty == null ? 0 : this.totalQty + v.getQtyAccepted();
+        this.totalQty = acceptOrderDetails.stream().map(AcceptOrderDetailDTO::getQtyAccepted).reduce(Integer::sum).orElse(0);
+    }
+
+    public void addAcceptQty(Integer acceptQty) {
+        this.totalQty += acceptQty;
+    }
+
+    public void audit() {
+        if (acceptOrderStatus != AcceptOrderStatusEnum.NEW) {
+            throw WmsException.throwWmsException(ACCEPT_ORDER_HAD_AUDIT, this.orderNo);
         }
+        this.acceptOrderStatus = AcceptOrderStatusEnum.AUDITED;
     }
 }

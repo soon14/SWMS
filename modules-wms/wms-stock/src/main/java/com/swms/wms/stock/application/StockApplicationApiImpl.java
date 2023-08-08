@@ -42,7 +42,7 @@ public class StockApplicationApiImpl implements IStockApi {
     public void createSkuBatchAttribute(SkuMainDataDTO skuMainDataDTO, TreeMap<String, Object> skuAttributes) {
         List<SkuBatchAttribute> skuBatchAttributes = skuBatchAttributeRepository.findAllBySkuId(skuMainDataDTO.getId());
         if (CollectionUtils.isEmpty(skuBatchAttributes) || skuBatchAttributes.stream().noneMatch(v -> v.isSame(skuAttributes))) {
-            skuBatchAttributeRepository.save(new SkuBatchAttribute(skuMainDataDTO, skuAttributes));
+            skuBatchAttributeRepository.save(new SkuBatchAttribute(skuMainDataDTO.getId(), skuAttributes));
         }
     }
 

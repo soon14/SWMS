@@ -1,6 +1,8 @@
 package com.swms.wms.api.inbound.dto;
 
 import com.swms.common.utils.validate.IValidate;
+import com.swms.wms.api.inbound.constants.AcceptMethodEnum;
+import com.swms.wms.api.inbound.constants.AcceptTypeEnum;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -26,9 +28,9 @@ public class AcceptRecordDTO implements IValidate {
     private String skuCode;
     private SortedMap<String, Object> batchAttributes;
 
-    @NotEmpty
+    @NotNull
     @Min(1)
-    private Integer acceptQty;
+    private Integer qtyAccepted;
 
     @Size(max = 64)
     private String packBoxNo;
@@ -45,6 +47,11 @@ public class AcceptRecordDTO implements IValidate {
 
     @NotNull
     private Long stationId;
+
+    @NotNull
+    private AcceptMethodEnum acceptMethod;
+    @NotNull
+    private AcceptTypeEnum acceptType;
 
     @Override
     public boolean validate() {

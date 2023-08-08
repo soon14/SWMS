@@ -41,6 +41,7 @@ public class InboundPlanOrderDetailDTO {
     @NotEmpty
     @Size(max = 64)
     private String skuCode;
+    private Long skuId;
     @Size(max = 128)
     private String skuName;
     private String style;
