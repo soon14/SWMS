@@ -1,0 +1,24 @@
+{
+  "id": 19,
+  "code": "INBOUND_OVER_ACCEPT",
+  "name": "l3CSpoDLfGY4a",
+  "configApplyModule": "OUTBOUND",
+  "configType": "BOOLEAN",
+  "defaultValue": {},
+  "enable": true,
+  "description": "6ATv2KrOBM8hr",
+  "remark": "OeyfMh4SdGbxl",
+  "version": 12,
+  "parameterConfigConditions": [
+    {
+      "conditionObjects": [
+        {
+          "condition": "ekTgGslaSCWnQ",
+          "conditionValue": {}
+        }
+      ],
+      "value": {},
+      "remark": "P9bKLnVTgBYRX"
+    }
+  ]
+}

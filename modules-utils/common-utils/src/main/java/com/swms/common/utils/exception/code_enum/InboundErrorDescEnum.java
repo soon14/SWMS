@@ -24,15 +24,17 @@ public enum InboundErrorDescEnum implements IBaseError {
 
     INBOUND_BOX_NO_EXIST("IN001005", "inbound box no existing"),
 
+    INBOUND_NOT_ALLOWED_MULTI_ARRIVALS("IN001006", "inbound order {} does not allow multiple arrivals"),
+
+
     // receive order
 
 
     // accept order
     ACCEPT_ORDER_HAD_AUDIT("IN003001", "accept order {0} had audit"),
 
-
+    ACCEPT_BOX_ALREADY("IN003002", "accept box no {0} already"),
     ;
-
 
     private final String code;
 

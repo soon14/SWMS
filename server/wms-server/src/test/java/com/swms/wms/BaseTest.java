@@ -1,8 +1,12 @@
 package com.swms.wms;
 
 import com.swms.common.utils.user.UserContext;
+import com.swms.common.utils.utils.JsonUtils;
 import com.swms.common.utils.utils.ObjectUtils;
+import com.swms.inbound.domain.service.impl.AcceptOrderServiceImpl;
 import com.swms.inbound.domain.service.impl.InboundPlanOrderServiceImpl;
+import com.swms.mdm.api.config.IParameterConfigApi;
+import com.swms.mdm.api.config.dto.ParameterConfigDTO;
 import com.swms.mdm.api.main.data.IOwnerMainDataApi;
 import com.swms.mdm.api.main.data.ISkuMainDataApi;
 import com.swms.mdm.api.main.data.IWarehouseMainDataApi;
@@ -34,6 +38,7 @@ public class BaseTest {
 
     public static final String WAREHOUSE_CODE = "WAREHOUSE_CODE";
     public static final String OWNER_CODE = "OWNER_CODE";
+    public static final String INBOUND_ORDER_TYPE = "INBOUND_ORDER_TYPE";
     protected final String containerCode = "A00000001";
     protected final String containerSlotCode = "A";
     protected static final String CUSTOMER_ORDER_NO = "CUSTOMER_ORDER_NO";
@@ -43,11 +48,14 @@ public class BaseTest {
 
     @BeforeEach
     public void initApiBean() {
+        AcceptOrderServiceImpl acceptOrderService = applicationContext.getBean(AcceptOrderServiceImpl.class);
         InboundPlanOrderServiceImpl inboundPlanOrderService = applicationContext.getBean(InboundPlanOrderServiceImpl.class);
         ISkuMainDataApi iSkuMainDataApi = applicationContext.getBean("mockISkuMainDataApi", ISkuMainDataApi.class);
         IWarehouseMainDataApi iWarehouseMainDataApi = applicationContext.getBean("mockIWarehouseMainDataApi", IWarehouseMainDataApi.class);
         IOwnerMainDataApi iOwnerMainDataApi = applicationContext.getBean("mockIOwnerMainDataApi", IOwnerMainDataApi.class);
+        IParameterConfigApi iParameterConfigApi = applicationContext.getBean("mockIParameterConfigApi", IParameterConfigApi.class);
 
+        acceptOrderService.setParameterConfigApi(iParameterConfigApi);
         inboundPlanOrderService.setIOwnerApi(iOwnerMainDataApi);
         inboundPlanOrderService.setISkuApi(iSkuMainDataApi);
         inboundPlanOrderService.setIWarehouseApi(iWarehouseMainDataApi);
@@ -98,4 +106,5 @@ public class BaseTest {
     void test() {
         Assertions.assertTrue(true);
     }
+
 }

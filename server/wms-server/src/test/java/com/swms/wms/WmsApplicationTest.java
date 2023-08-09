@@ -3,6 +3,9 @@ package com.swms.wms;
 import com.alibaba.cloud.commons.io.FileUtils;
 import com.google.common.collect.Lists;
 import com.swms.common.utils.utils.JsonUtils;
+import com.swms.mdm.api.config.IParameterConfigApi;
+import com.swms.mdm.api.config.constants.ParameterCodeEnum;
+import com.swms.mdm.api.config.dto.ParameterConfigDTO;
 import com.swms.mdm.api.main.data.IOwnerMainDataApi;
 import com.swms.mdm.api.main.data.ISkuMainDataApi;
 import com.swms.mdm.api.main.data.IWarehouseMainDataApi;
@@ -70,6 +73,23 @@ public class WmsApplicationTest {
         PowerMockito.when(iOwnerMainDataApi.getOwner(BaseTest.OWNER_CODE)).thenAnswer(t -> ownerMainDataDTO);
 
         return iOwnerMainDataApi;
+    }
+
+    @Bean("mockIParameterConfigApi")
+    public IParameterConfigApi iParameterConfigApi() throws IOException {
+        File file = ResourceUtils.getFile("classpath:json/ParameterConfig.json");
+        String s = FileUtils.readFileToString(file, "UTF-8");
+        ParameterConfigDTO parameterConfigDTO = JsonUtils.string2Object(s, ParameterConfigDTO.class);
+
+        IParameterConfigApi iParameterConfigApi = PowerMockito.mock(IParameterConfigApi.class);
+        PowerMockito.when(iParameterConfigApi
+                .getBooleanParameter(ParameterCodeEnum.INBOUND_OVER_ACCEPT, BaseTest.OWNER_CODE, BaseTest.INBOUND_ORDER_TYPE))
+            .thenAnswer(t -> parameterConfigDTO);
+        PowerMockito.when(iParameterConfigApi
+                .getBooleanParameter(ParameterCodeEnum.INBOUND_ALLOW_MULTIPLE_ARRIVALS, BaseTest.OWNER_CODE, BaseTest.INBOUND_ORDER_TYPE))
+            .thenAnswer(t -> parameterConfigDTO);
+
+        return iParameterConfigApi;
     }
 
     @Test

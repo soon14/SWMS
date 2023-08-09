@@ -1,11 +1,10 @@
 package com.swms.mdm.api.config;
 
-import com.swms.mdm.api.config.constants.ConfigApplyObjectEnum;
+import com.swms.mdm.api.config.constants.ParameterCodeEnum;
 import com.swms.mdm.api.config.dto.ParameterConfigDTO;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-
-import java.util.List;
 
 public interface IParameterConfigApi {
 
@@ -13,5 +12,9 @@ public interface IParameterConfigApi {
 
     void update(@Valid ParameterConfigDTO parameterConfigDTO);
 
-    List<ParameterConfigDTO> getParameterConfig(@NotNull ConfigApplyObjectEnum configApplyObject);
+    boolean getBooleanParameter(@NotNull ParameterCodeEnum parameterCode, @NotEmpty Object... conditionValues);
+
+    String getStringParameter(@NotNull ParameterCodeEnum parameterCode, @NotEmpty Object... conditionValues);
+
+    Integer getIntegerParameter(@NotNull ParameterCodeEnum parameterCode, @NotEmpty Object... conditionValues);
 }

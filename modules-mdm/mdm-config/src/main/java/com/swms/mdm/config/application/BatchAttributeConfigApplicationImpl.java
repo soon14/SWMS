@@ -32,13 +32,10 @@ public class BatchAttributeConfigApplicationImpl implements IBatchAttributeConfi
 
     @Override
     public void save(BatchAttributeConfigDTO batchAttributeConfigDTO) {
-        boolean lock = distributeLock.acquireLock(BATCH_ATTRIBUTE_CONFIG_ADD_LOCK, 1000);
-        if (!lock) {
-            throw new WmsException(REPEAT_REQUEST);
-        }
-        List<BatchAttributeConfig> batchAttributeConfigs = batchAttributeConfigRepository
-            .findAll().stream().filter(BatchAttributeConfig::isEnable).toList();
+        distributeLock.acquireLockIfThrows(BATCH_ATTRIBUTE_CONFIG_ADD_LOCK, 1000);
         try {
+            List<BatchAttributeConfig> batchAttributeConfigs = batchAttributeConfigRepository
+                .findAll().stream().filter(BatchAttributeConfig::isEnable).toList();
             if (batchAttributeConfigs.stream().anyMatch(batchAttributeConfig ->
                 batchAttributeConfig.match(batchAttributeConfigDTO.getOwnerCode(), batchAttributeConfigDTO.getSkuFirstCategory()))) {
                 throw new WmsException(BARCODE_PARSE_RULE_REPEAT);

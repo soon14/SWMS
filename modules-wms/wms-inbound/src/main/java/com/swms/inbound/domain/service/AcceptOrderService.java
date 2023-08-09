@@ -11,5 +11,8 @@ public interface AcceptOrderService {
 
     InboundPlanOrder findAcceptInboundPlanOrder(AcceptRecordDTO acceptRecord);
 
-    void validateOverAccept(AcceptRecordDTO acceptRecord, List<AcceptOrder> acceptOrders, InboundPlanOrderDetailDTO inboundPlanOrderDetailDTO);
+    void validateOverAccept(AcceptRecordDTO acceptRecord, List<AcceptOrder> acceptOrders,
+                            InboundPlanOrderDetailDTO inboundPlanOrderDetailDTO, InboundPlanOrder inboundPlanOrder);
+
+    void validateMultipleArrivals(List<AcceptOrder> acceptOrders, InboundPlanOrder inboundPlanOrder);
 }

@@ -1,5 +1,6 @@
 package com.swms.mdm.api;
 
+import com.swms.common.utils.user.UserContext;
 import com.swms.tenant.config.util.TenantContext;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,6 +17,9 @@ public class BaseTest {
     public void initBean() {
         //set default tenant
         TenantContext.setCurrentTenant("test");
+
+        //set default user
+        UserContext.setUserName("linsan");
     }
 
     @Test

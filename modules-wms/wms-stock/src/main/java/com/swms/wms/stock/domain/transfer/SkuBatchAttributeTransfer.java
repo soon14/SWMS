@@ -3,7 +3,6 @@ package com.swms.wms.stock.domain.transfer;
 import static org.mapstruct.NullValueCheckStrategy.ALWAYS;
 import static org.mapstruct.NullValueMappingStrategy.RETURN_NULL;
 
-import com.swms.mdm.api.main.data.dto.SkuAttributeDTO;
 import com.swms.wms.api.stock.dto.SkuBatchAttributeDTO;
 import com.swms.wms.stock.domain.entity.SkuBatchAttribute;
 import org.mapstruct.Mapper;

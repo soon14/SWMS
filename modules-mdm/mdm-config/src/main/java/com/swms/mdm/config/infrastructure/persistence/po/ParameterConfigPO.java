@@ -1,10 +1,13 @@
 package com.swms.mdm.config.infrastructure.persistence.po;
 
-import com.swms.mdm.api.config.constants.ConfigApplyModuleEnum;
-import com.swms.mdm.api.config.constants.ConfigApplyObjectEnum;
-import com.swms.mdm.api.config.constants.ConfigTypeEnum;
 import com.swms.common.utils.base.UpdateUserPO;
+import com.swms.mdm.api.config.constants.ConfigApplyModuleEnum;
+import com.swms.mdm.api.config.constants.ConfigTypeEnum;
+import com.swms.mdm.api.config.constants.ParameterCodeEnum;
+import com.swms.mdm.api.config.dto.ParameterConfigDTO;
+import com.swms.mdm.config.infrastructure.persistence.converter.ListParameterConfigConditionConverter;
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.EnumType;
@@ -18,6 +21,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -36,15 +41,13 @@ public class ParameterConfigPO extends UpdateUserPO {
     @GenericGenerator(name = "databaseIdGenerator", strategy = "com.swms.common.utils.id.IdGenerator")
     private Long id;
 
-    @Column(nullable = false, columnDefinition = "varchar(64) comment '编码'")
-    private String code;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, columnDefinition = "varchar(64) comment '参数编码'")
+    private ParameterCodeEnum code;
 
     @Column(nullable = false, columnDefinition = "varchar(128) comment '名称'")
     private String name;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false, columnDefinition = "varchar(20) comment '应用对象'")
-    private ConfigApplyObjectEnum configApplyObject;
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, columnDefinition = "varchar(20) comment '应用模块'")
     private ConfigApplyModuleEnum configApplyModule;
@@ -52,16 +55,20 @@ public class ParameterConfigPO extends UpdateUserPO {
     @Column(nullable = false, columnDefinition = "varchar(20) comment '参数类型'")
     private ConfigTypeEnum configType;
 
-    private boolean enable;
-
     @Column(nullable = false, columnDefinition = "varchar(64) comment '默认值'")
     private String defaultValue;
+
+    private boolean enable;
 
     @Column(nullable = false, columnDefinition = "varchar(255) comment '描述'")
     private String description;
 
     @Column(columnDefinition = "varchar(500) comment '备注'")
     private String remark;
+
+    @Column(columnDefinition = "json comment '参数条件'")
+    @Convert(converter = ListParameterConfigConditionConverter.class)
+    private List<ParameterConfigDTO.ParameterConfigCondition> parameterConfigConditions;
 
     @Version
     private Long version;

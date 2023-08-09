@@ -3,7 +3,6 @@ package com.swms.inbound.application;
 import com.google.common.collect.Lists;
 import com.swms.common.utils.constants.RedisConstants;
 import com.swms.distribute.lock.DistributeLock;
-import com.swms.domain.event.DomainEvent;
 import com.swms.domain.event.DomainEventPublisher;
 import com.swms.inbound.domain.entity.AcceptOrder;
 import com.swms.inbound.domain.entity.InboundPlanOrder;
@@ -55,21 +54,22 @@ public class AcceptOrderApiImpl implements IAcceptOrderApi {
         InboundPlanOrder inboundPlanOrder = acceptOrderService.findAcceptInboundPlanOrder(acceptRecord);
         InboundPlanOrderDetailDTO inboundPlanOrderDetailDTO = inboundPlanOrder.getInboundPlanOrderDetails().iterator().next();
 
-
         AcceptOrderDetailDTO acceptOrderDetailDTO = acceptOrderTransfer.toDetailDO(inboundPlanOrderDetailDTO, acceptRecord);
         AcceptOrder acceptOrder = acceptOrderTransfer.toDO(inboundPlanOrder, acceptRecord, Lists.newArrayList(acceptOrderDetailDTO));
-
         acceptOrder.initial();
 
         distributeLock.acquireLockIfThrows(RedisConstants.INBOUND_ACCEPT_OPERATE_LOCK + inboundPlanOrder.getId(), 3000L);
 
         try {
             List<AcceptOrder> acceptOrders = acceptOrderRepository.findByInboundPlanOrderId(inboundPlanOrder.getId());
+
+            // validate
+            acceptOrderService.validateOverAccept(acceptRecord, acceptOrders, inboundPlanOrderDetailDTO, inboundPlanOrder);
+            acceptOrderService.validateMultipleArrivals(acceptOrders, inboundPlanOrder);
+
+            // save accept order
             AcceptOrder existsAcceptOrder = acceptOrders.stream()
                 .filter(v -> v.getAcceptOrderStatus() == AcceptOrderStatusEnum.NEW).findFirst().orElse(null);
-
-            acceptOrderService.validateOverAccept(acceptRecord, acceptOrders, inboundPlanOrderDetailDTO);
-
             if (existsAcceptOrder != null) {
                 existsAcceptOrder.setAcceptOrderDetails(acceptOrder.getAcceptOrderDetails());
                 existsAcceptOrder.addAcceptQty(acceptRecord.getQtyAccepted());

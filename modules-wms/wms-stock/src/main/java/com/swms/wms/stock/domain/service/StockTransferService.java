@@ -5,8 +5,6 @@ import com.swms.wms.api.stock.dto.StockTransferDTO;
 import com.swms.wms.stock.domain.entity.ContainerStock;
 import jakarta.validation.Valid;
 
-import java.util.List;
-
 /**
  * a combination service of container stock transfer and sku batch stock transfer
  */
