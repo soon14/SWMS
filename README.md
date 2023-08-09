@@ -1,6 +1,6 @@
 # SWMS
 
-super warehouse management system
+A Saas system about warehouse management
 
 ## Require environment
 
@@ -15,5 +15,8 @@ super warehouse management system
 1. Install middlewares: nacos, redis, mysql
 2. execute the script in the /script folder into mysql
 3. update the ip,port in the nacos and swms_tenant database
-4. start servers in the /server  
+4. start servers in the /server
 
+## Architecture
+
+![Architecture](./doc/image/architecture.png)
