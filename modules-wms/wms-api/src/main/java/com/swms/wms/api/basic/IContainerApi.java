@@ -11,7 +11,7 @@ public interface IContainerApi {
 
     ContainerSpecDTO queryContainerLayout(@NotNull String containerCode, @NotNull String warehouseCode, String face);
 
-    void changeContainerSpec(@NotNull String containerCode, @NotNull String containerSpecCode);
+    void changeContainerSpec(@NotNull String warehouseCode, @NotNull String containerCode, @NotNull String containerSpecCode);
 
     void createContainer(@Valid CreateContainerDTO createContainerDTO);
 }

@@ -71,8 +71,8 @@ public class ContainerApiImpl implements IContainerApi {
     }
 
     @Override
-    public void changeContainerSpec(String containerCode, String containerSpecCode) {
-        Container container = containerRepository.findByContainerCode(containerCode, containerCode);
+    public void changeContainerSpec(String warehouseCode, String containerCode, String containerSpecCode) {
+        Container container = containerRepository.findByContainerCode(containerCode, warehouseCode);
         if (StringUtils.equals(container.getContainerSpecCode(), containerSpecCode)) {
             return;
         }

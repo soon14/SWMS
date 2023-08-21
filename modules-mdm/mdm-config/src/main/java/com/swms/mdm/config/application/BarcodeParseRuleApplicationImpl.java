@@ -46,13 +46,10 @@ public class BarcodeParseRuleApplicationImpl implements IBarcodeParseRuleApi {
 
     @Override
     public void save(BarcodeParseRuleDTO barcodeParseRuleDTO) {
-        boolean lock = distributeLock.acquireLock(BARCODE_PARSE_RULE_ADD_LOCK, 1000);
-        if (!lock) {
-            throw new WmsException(REPEAT_REQUEST);
-        }
-        List<BarcodeParseRule> barcodeParseRules = barcodeRuleRepository
-            .findByBusinessFlowAndExecuteTime(barcodeParseRuleDTO.getBusinessFlow(), barcodeParseRuleDTO.getExecuteTime());
+        distributeLock.acquireLockIfThrows(BARCODE_PARSE_RULE_ADD_LOCK, 1000);
         try {
+            List<BarcodeParseRule> barcodeParseRules = barcodeRuleRepository
+                .findByBusinessFlowAndExecuteTime(barcodeParseRuleDTO.getBusinessFlow(), barcodeParseRuleDTO.getExecuteTime());
             if (barcodeParseRules.stream().anyMatch(barcodeParseRule ->
                 barcodeParseRule.match(barcodeParseRuleDTO.getOwnerCode(), barcodeParseRuleDTO.getBrand()))) {
                 throw new WmsException(BARCODE_PARSE_RULE_REPEAT);

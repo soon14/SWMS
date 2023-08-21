@@ -28,6 +28,8 @@ dependencies {
 
     implementation group: 'mysql', name: 'mysql-connector-java'
 
+    implementation 'dev.langchain4j:langchain4j'
+
 }
 
 test {

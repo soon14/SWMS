@@ -46,11 +46,9 @@ public class AcceptOrderServiceImpl implements AcceptOrderService {
 
             inboundPlanOrderDetailDTO = inboundPlanOrder.getInboundPlanOrderDetails()
                 .stream()
-                .filter(v -> Objects.equals(v.getInboundPlanOrderId(), acceptRecord.getInboundPlanOrderDetailId()))
+                .filter(v -> Objects.equals(v.getId(), acceptRecord.getInboundPlanOrderDetailId()))
                 .findFirst().orElseThrow();
-        }
-
-        if (StringUtils.isNotEmpty(acceptRecord.getBoxNo())) {
+        } else if (StringUtils.isNotEmpty(acceptRecord.getBoxNo())) {
             inboundPlanOrder = inboundPlanOrderRepository.findByBoxNo(acceptRecord.getBoxNo(), acceptRecord.getWarehouseCode());
 
             inboundPlanOrderDetailDTO = inboundPlanOrder.getInboundPlanOrderDetails()
@@ -74,9 +72,9 @@ public class AcceptOrderServiceImpl implements AcceptOrderService {
             .flatMap(v -> v.getAcceptOrderDetails().stream())
             .filter(v -> Objects.equals(v.getInboundPlanOrderDetailId(), inboundPlanOrderDetailDTO.getId()))
             .toList();
-        if (StringUtils.isNotEmpty(acceptRecord.getBoxNo()) && CollectionUtils.isNotEmpty(acceptOrderDetailDTOS)) {
-            throw WmsException.throwWmsException(ACCEPT_BOX_ALREADY, acceptRecord.getBoxNo());
-        }
+//        if (StringUtils.isNotEmpty(acceptRecord.getBoxNo()) && CollectionUtils.isNotEmpty(acceptOrderDetailDTOS)) {
+//            throw WmsException.throwWmsException(ACCEPT_BOX_ALREADY, acceptRecord.getBoxNo());
+//        }
 
         boolean allowOverAccept = parameterConfigApi.getBooleanParameter(ParameterCodeEnum.INBOUND_OVER_ACCEPT,
             inboundPlanOrder.getOwnerCode(), inboundPlanOrder.getInboundOrderType());

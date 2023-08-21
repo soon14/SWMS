@@ -95,7 +95,8 @@ public class InboundPlanOrder {
             }
         }));
 
-        boolean result = this.inboundPlanOrderDetails.stream().allMatch(v -> Objects.equals(v.getQtyRestocked(), v.getQtyAccepted()));
+        boolean result = this.inboundPlanOrderDetails.stream()
+            .allMatch(v -> Objects.equals(v.getQtyRestocked(), v.getQtyAccepted()));
         if (result) {
             this.inboundPlanOrderStatus = InboundPlanOrderStatusEnum.ACCEPTED;
         } else {
@@ -104,7 +105,8 @@ public class InboundPlanOrder {
     }
 
     public void initSkuId(Set<SkuMainDataDTO> skuMainDataDTOS) {
-        Map<String, SkuMainDataDTO> skuMap = skuMainDataDTOS.stream().collect(Collectors.toMap(SkuMainDataDTO::getSkuCode, v -> v));
+        Map<String, SkuMainDataDTO> skuMap = skuMainDataDTOS.stream()
+            .collect(Collectors.toMap(SkuMainDataDTO::getSkuCode, v -> v));
         this.inboundPlanOrderDetails.forEach(v -> v.setSkuId(skuMap.get(v.getSkuCode()).getId()));
     }
 }

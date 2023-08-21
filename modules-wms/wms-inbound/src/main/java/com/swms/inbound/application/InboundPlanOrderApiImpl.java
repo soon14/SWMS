@@ -41,10 +41,7 @@ public class InboundPlanOrderApiImpl implements IInboundPlanOrderApi {
         Set<SkuMainDataDTO> skuMainDataDTOS = inboundPlanOrderService.validateInboundPlanOrder(inboundPlanOrder);
         inboundPlanOrder.initSkuId(skuMainDataDTOS);
 
-        boolean lock = distributeLock.acquireLock(RedisConstants.INBOUND_PLAN_ORDER_ADD_LOCK + inboundPlanOrder.getCustomerOrderNo(), 3000L);
-        if (!lock) {
-            throw WmsException.throwWmsException(CommonErrorDescEnum.REPEAT_REQUEST);
-        }
+        distributeLock.acquireLockIfThrows(RedisConstants.INBOUND_PLAN_ORDER_ADD_LOCK + inboundPlanOrder.getCustomerOrderNo(), 3000L);
 
         try {
             inboundPlanOrderService.validateRepeatCustomerOrderNo(inboundPlanOrder);
