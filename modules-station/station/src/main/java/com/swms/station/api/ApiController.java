@@ -1,9 +1,10 @@
 package com.swms.station.api;
 
+import com.swms.common.utils.http.Response;
+import com.swms.common.utils.user.UserContext;
 import com.swms.station.executor.HandlerExecutor;
 import com.swms.station.view.ViewHelper;
 import com.swms.station.websocket.utils.HttpContext;
-import com.swms.common.utils.http.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,6 +31,9 @@ public class ApiController {
     @PutMapping
     public Response<Object> execute(@RequestParam ApiCodeEnum apiCode, @RequestBody(required = false) String body) {
         Long workStationId = HttpContext.getWorkStationId();
+        if (workStationId == null) {
+            workStationId = (long) UserContext.getCurrentUser().hashCode();
+        }
         handlerExecutor.execute(apiCode, body, workStationId);
         return Response.success();
     }

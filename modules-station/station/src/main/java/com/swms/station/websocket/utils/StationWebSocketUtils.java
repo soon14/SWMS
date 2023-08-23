@@ -11,8 +11,8 @@ public class StationWebSocketUtils {
     /**
      * 自定义发送
      *
-     * @param stationCode 操作台Code
-     * @param message     消息
+     * @param workStationId 操作台Code
+     * @param message       消息
      */
     public static void sendInfo(Long workStationId, String message) {
 
@@ -33,7 +33,7 @@ public class StationWebSocketUtils {
     /**
      * notice web that status is changed.
      *
-     * @param stationCode
+     * @param workStationId
      */
     public static void noticeWebStationStatusChanged(Long workStationId) {
         sendInfo(workStationId, "changed");

@@ -77,4 +77,7 @@ public class DataSourceBasedMultiTenantConnectionProviderImpl
         return dataSourcesMtApp.get(tenantIdentifier);
     }
 
+    public void addDataSource(String identifier, DataSource dataSource) {
+        dataSourcesMtApp.put(identifier, dataSource);
+    }
 }
