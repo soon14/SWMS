@@ -22,6 +22,7 @@ dependencies {
     compileOnly 'org.hibernate.orm:hibernate-core'
     compileOnly 'org.springframework.boot:spring-boot-starter-websocket'
     compileOnly 'org.redisson:redisson-spring-boot-starter'
+    compileOnly 'org.apache.dubbo:dubbo-spring-boot-starter'
 
 }
 
