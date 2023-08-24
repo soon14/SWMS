@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
+import java.util.Collection;
+import java.util.stream.Collectors;
+
 @Validated
 @Service
 @DubboService
@@ -33,5 +36,13 @@ public class WarehouseMainDataApiImpl implements IWarehouseMainDataApi {
     @Override
     public WarehouseMainDataDTO getWarehouse(String warehouseCode) {
         return warehouseTransfer.toDTO(warehouseRepository.getWarehouse(warehouseCode));
+    }
+
+    @Override
+    public Collection<WarehouseMainDataDTO> getWarehouses(Collection<String> warehouseCodes) {
+        return warehouseRepository.getWarehouses(warehouseCodes)
+            .stream()
+            .map(warehouseTransfer::toDTO)
+            .collect(Collectors.toSet());
     }
 }

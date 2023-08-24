@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
+import java.util.Collection;
+import java.util.stream.Collectors;
+
 @Validated
 @Service
 @DubboService
@@ -34,5 +37,13 @@ public class OwnerMainDataApiImpl implements IOwnerMainDataApi {
     @Override
     public OwnerMainDataDTO getOwner(String ownerCode) {
         return ownerMainDataTransfer.toOwnerMainDataDTO(ownerMainDataRepository.getOwnerMainData(ownerCode));
+    }
+
+    @Override
+    public Collection<OwnerMainDataDTO> getOwners(Collection<String> ownerCodes) {
+        return ownerMainDataRepository.getOwnersMainData(ownerCodes)
+            .stream()
+            .map(ownerMainDataTransfer::toOwnerMainDataDTO)
+            .collect(Collectors.toSet());
     }
 }

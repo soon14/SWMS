@@ -5,15 +5,15 @@ import com.swms.common.utils.constants.RedisConstants;
 import com.swms.distribute.lock.DistributeLock;
 import com.swms.domain.event.DomainEventPublisher;
 import com.swms.inbound.domain.entity.AcceptOrder;
+import com.swms.inbound.domain.entity.AcceptOrderDetail;
 import com.swms.inbound.domain.entity.InboundPlanOrder;
+import com.swms.inbound.domain.entity.InboundPlanOrderDetail;
 import com.swms.inbound.domain.repository.AcceptOrderRepository;
 import com.swms.inbound.domain.service.AcceptOrderService;
 import com.swms.inbound.domain.transfer.AcceptOrderTransfer;
 import com.swms.wms.api.inbound.IAcceptOrderApi;
 import com.swms.wms.api.inbound.constants.AcceptOrderStatusEnum;
-import com.swms.wms.api.inbound.dto.AcceptOrderDetailDTO;
 import com.swms.wms.api.inbound.dto.AcceptRecordDTO;
-import com.swms.wms.api.inbound.dto.InboundPlanOrderDetailDTO;
 import com.swms.wms.api.inbound.event.AcceptEvent;
 import com.swms.wms.api.stock.ISkuBatchAttributeApi;
 import com.swms.wms.api.stock.dto.SkuBatchAttributeDTO;
@@ -52,9 +52,9 @@ public class AcceptOrderApiImpl implements IAcceptOrderApi {
     public void accept(AcceptRecordDTO acceptRecord) {
 
         InboundPlanOrder inboundPlanOrder = acceptOrderService.findAcceptInboundPlanOrder(acceptRecord);
-        InboundPlanOrderDetailDTO inboundPlanOrderDetailDTO = inboundPlanOrder.getInboundPlanOrderDetails().iterator().next();
+        InboundPlanOrderDetail inboundPlanOrderDetail = inboundPlanOrder.getDetails().iterator().next();
 
-        AcceptOrderDetailDTO acceptOrderDetailDTO = acceptOrderTransfer.toDetailDO(inboundPlanOrderDetailDTO, acceptRecord);
+        AcceptOrderDetail acceptOrderDetailDTO = acceptOrderTransfer.toDetailDO(inboundPlanOrderDetail, acceptRecord);
         AcceptOrder acceptOrder = acceptOrderTransfer.toDO(inboundPlanOrder, acceptRecord, Lists.newArrayList(acceptOrderDetailDTO));
         acceptOrder.initial();
 
@@ -64,14 +64,14 @@ public class AcceptOrderApiImpl implements IAcceptOrderApi {
             List<AcceptOrder> acceptOrders = acceptOrderRepository.findByInboundPlanOrderId(inboundPlanOrder.getId());
 
             // validate
-            acceptOrderService.validateOverAccept(acceptRecord, acceptOrders, inboundPlanOrderDetailDTO, inboundPlanOrder);
+            acceptOrderService.validateOverAccept(acceptRecord, acceptOrders, inboundPlanOrderDetail, inboundPlanOrder);
             acceptOrderService.validateMultipleArrivals(acceptOrders, inboundPlanOrder);
 
             // save accept order
             AcceptOrder existsAcceptOrder = acceptOrders.stream()
                 .filter(v -> v.getAcceptOrderStatus() == AcceptOrderStatusEnum.NEW).findFirst().orElse(null);
             if (existsAcceptOrder != null) {
-                existsAcceptOrder.setAcceptOrderDetails(acceptOrder.getAcceptOrderDetails());
+                existsAcceptOrder.setDetails(acceptOrder.getDetails());
                 existsAcceptOrder.addAcceptQty(acceptRecord.getQtyAccepted());
                 acceptOrderRepository.saveOrderAndDetail(existsAcceptOrder);
             } else {
@@ -80,15 +80,15 @@ public class AcceptOrderApiImpl implements IAcceptOrderApi {
 
             // get or create batch attributes
             SkuBatchAttributeDTO skuBatchAttribute = skuBatchAttributeApi
-                .getOrCreateSkuBatchAttribute(inboundPlanOrderDetailDTO.getSkuId(), acceptRecord.getBatchAttributes());
+                .getOrCreateSkuBatchAttribute(inboundPlanOrderDetail.getSkuId(), acceptRecord.getBatchAttributes());
 
             // notify create stock
             StockCreateDTO stockCreateDTO = StockCreateDTO.builder()
-                .boxStock(StringUtils.isNotEmpty(inboundPlanOrderDetailDTO.getBoxNo()))
+                .boxStock(StringUtils.isNotEmpty(inboundPlanOrderDetail.getBoxNo()))
                 .orderNo(inboundPlanOrder.getOrderNo())
                 .skuBatchAttributeId(skuBatchAttribute.getId())
                 .skuId(skuBatchAttribute.getSkuId())
-                .boxNo(inboundPlanOrderDetailDTO.getBoxNo())
+                .boxNo(inboundPlanOrderDetail.getBoxNo())
                 .sourceContainerCode(inboundPlanOrder.getLpnCode())
                 .sourceContainerSlotCode("A")
                 .targetContainerCode(acceptRecord.getTargetContainerCode())
@@ -113,12 +113,18 @@ public class AcceptOrderApiImpl implements IAcceptOrderApi {
         acceptOrderRepository.saveOrder(acceptOrder);
 
         //send domain event to notify inbound plan order change accept qty
-        List<AcceptEvent.AcceptDetail> acceptDetails = acceptOrder.getAcceptOrderDetails().stream().map(v ->
-            AcceptEvent.AcceptDetail.builder().inboundPlanOrderDetailId(v.getInboundPlanOrderDetailId())
-                .qtyAccepted(v.getQtyAccepted())
-                .build()).toList();
+        List<AcceptEvent.AcceptDetail> acceptDetails = acceptOrder.getDetails()
+            .stream()
+            .map(this::getAcceptDetail)
+            .toList();
         domainEventPublisher.sendAsyncEvent(AcceptEvent.builder()
             .inboundPlanOrderId(acceptOrder.getInboundPlanOrderId())
             .acceptDetails(acceptDetails).build());
+    }
+
+    private AcceptEvent.AcceptDetail getAcceptDetail(AcceptOrderDetail v) {
+        return AcceptEvent.AcceptDetail.builder().inboundPlanOrderDetailId(v.getInboundPlanOrderDetailId())
+            .qtyAccepted(v.getQtyAccepted())
+            .build();
     }
 }

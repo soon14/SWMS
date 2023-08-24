@@ -60,17 +60,16 @@ class AcceptOrderApiTest extends BaseTest {
         InboundPlanOrder inboundPlanOrder = inboundPlanOrderRepository.findByCustomerOrderNo(CUSTOMER_ORDER_NO)
             .get(0);
         Integer oldQtyAccepted = inboundPlanOrderRepository.findById(inboundPlanOrder.getId())
-            .getInboundPlanOrderDetails().get(0).getQtyAccepted();
+            .getDetails().get(0).getQtyAccepted();
 
         List<AcceptOrder> acceptOrders = acceptOrderRepository.findByInboundPlanOrderId(inboundPlanOrder.getId());
         AcceptOrder acceptOrder = acceptOrders.get(0);
         acceptOrderApi.audit(acceptOrder.getId());
 
-        Integer qtyAccepted = acceptOrder.getAcceptOrderDetails().get(0).getQtyAccepted();
+        Integer qtyAccepted = acceptOrder.getDetails().get(0).getQtyAccepted();
 
-        Thread.sleep(1000L);
         Integer newQtyAccepted = inboundPlanOrderRepository.findById(inboundPlanOrder.getId())
-            .getInboundPlanOrderDetails().get(0).getQtyAccepted();
+            .getDetails().get(0).getQtyAccepted();
 
         Assertions.assertEquals(qtyAccepted + oldQtyAccepted, (int) newQtyAccepted);
     }

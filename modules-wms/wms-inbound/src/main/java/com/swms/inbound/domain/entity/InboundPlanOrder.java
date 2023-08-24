@@ -5,10 +5,11 @@ import static com.swms.common.utils.exception.code_enum.InboundErrorDescEnum.INB
 
 import com.google.common.collect.Sets;
 import com.swms.common.utils.exception.WmsException;
+import com.swms.inbound.application.check.IInboundOrder;
 import com.swms.mdm.api.main.data.dto.SkuMainDataDTO;
+import com.swms.wms.api.inbound.constants.InboundOrderTypeEnum;
 import com.swms.wms.api.inbound.constants.InboundPlanOrderStatusEnum;
 import com.swms.wms.api.inbound.constants.StorageTypeEnum;
-import com.swms.wms.api.inbound.dto.InboundPlanOrderDetailDTO;
 import com.swms.wms.api.inbound.event.AcceptEvent;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
@@ -20,7 +21,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Data
-public class InboundPlanOrder {
+public class InboundPlanOrder implements IInboundOrder<InboundPlanOrderDetail> {
 
     private Long id;
 
@@ -31,7 +32,7 @@ public class InboundPlanOrder {
     private String warehouseCode;
     private String ownerCode;
 
-    private String inboundOrderType;
+    private InboundOrderTypeEnum inboundOrderType;
 
     private StorageTypeEnum storageType;
     private boolean abnormal;
@@ -51,9 +52,11 @@ public class InboundPlanOrder {
 
     private Map<String, Object> extendFields;
 
-    private List<InboundPlanOrderDetailDTO> inboundPlanOrderDetails;
+    private List<InboundPlanOrderDetail> details;
 
     private Long version;
+
+
 
     public void cancel() {
         if (inboundPlanOrderStatus != InboundPlanOrderStatusEnum.NEW) {
@@ -79,7 +82,7 @@ public class InboundPlanOrder {
 
     public void initial() {
         Set<String> skuSet = Sets.newHashSet();
-        for (InboundPlanOrderDetailDTO v : inboundPlanOrderDetails) {
+        for (InboundPlanOrderDetail v : details) {
             skuSet.add(v.getSkuCode());
             int box = StringUtils.isNotEmpty(v.getBoxNo()) ? 1 : 0;
             this.totalBox = (this.totalBox == null ? 0 : this.totalBox) + box;
@@ -89,13 +92,13 @@ public class InboundPlanOrder {
     }
 
     public void accept(AcceptEvent event) {
-        this.inboundPlanOrderDetails.forEach(v -> event.getAcceptDetails().forEach(acceptDetail -> {
+        this.details.forEach(v -> event.getAcceptDetails().forEach(acceptDetail -> {
             if (Objects.equals(v.getId(), acceptDetail.getInboundPlanOrderDetailId())) {
                 v.setQtyAccepted(v.getQtyAccepted() + acceptDetail.getQtyAccepted());
             }
         }));
 
-        boolean result = this.inboundPlanOrderDetails.stream()
+        boolean result = this.details.stream()
             .allMatch(v -> Objects.equals(v.getQtyRestocked(), v.getQtyAccepted()));
         if (result) {
             this.inboundPlanOrderStatus = InboundPlanOrderStatusEnum.ACCEPTED;
@@ -107,6 +110,6 @@ public class InboundPlanOrder {
     public void initSkuId(Set<SkuMainDataDTO> skuMainDataDTOS) {
         Map<String, SkuMainDataDTO> skuMap = skuMainDataDTOS.stream()
             .collect(Collectors.toMap(SkuMainDataDTO::getSkuCode, v -> v));
-        this.inboundPlanOrderDetails.forEach(v -> v.setSkuId(skuMap.get(v.getSkuCode()).getId()));
+        this.details.forEach(v -> v.setSkuId(skuMap.get(v.getSkuCode()).getId()));
     }
 }

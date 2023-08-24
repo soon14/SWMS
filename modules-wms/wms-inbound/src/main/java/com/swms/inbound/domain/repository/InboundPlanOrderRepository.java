@@ -14,6 +14,8 @@ public interface InboundPlanOrderRepository {
 
     List<InboundPlanOrder> findByCustomerOrderNo(String customerOrderNo);
 
+    List<InboundPlanOrder> findInboundPlanOrderByCustomerOrderNos(Collection<String> customerOrderNo);
+
     InboundPlanOrder findByBoxNo(String boxNo, String warehouseCode);
 
     boolean existByBoxNos(Collection<String> boxNos, String warehouseCode);
