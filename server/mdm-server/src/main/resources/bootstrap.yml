@@ -13,7 +13,30 @@ spring:
         group: swms
         username: nacos
         password: nacos
+        extension-configs:
+          - data-id: fastdfs.yml
+            group: swms
+            refresh: true
 
 server:
   port: 9020
 
+
+plugin:
+  runMode: dev
+  mainPackage: com.swms
+  # 如果配置是 windows 下路径, mac、linux 自行修改
+  pluginPath:
+    - ~\example-plugins-basic
+    - ~\example-plugins-db
+    #- ~\example-plugins-cloud
+  sortInitPluginIds:
+    - example-basic-2
+    - example-basic-1
+  decrypt:
+    enable: true
+    className: com.gitee.starblues.common.cipher.AesPluginCipher
+    plugins:
+      - pluginId: example-basic-1
+        props:
+          secretKey: mmfvXes1XckCi8F/y9i0uQ==

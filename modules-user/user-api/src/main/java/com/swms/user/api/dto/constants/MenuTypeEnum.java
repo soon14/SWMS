@@ -7,12 +7,9 @@ import lombok.Getter;
 
 /**
  * @author sws
- * @Date 2021/3/23 9:10
- * @Description:
  */
 @Getter
 @AllArgsConstructor
-@Dictionary
 public enum MenuTypeEnum implements IEnum {
     MENU("1", "系统"),
     PAGE("2", "菜单"),

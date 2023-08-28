@@ -17,4 +17,6 @@ public class AuthConstants {
 
     public static final String ANONYMOUS_USER = "unknownUser";
     public static final String USERNAME = "username";
+
+    public static final String TENANT_ID_HEADER = "X-TenantID";
 }

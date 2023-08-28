@@ -40,6 +40,12 @@ spring:
             - Path=/search/**
           filters:
             - RewritePath=/search/(?<segment>.*) , /$\{segment}
+        - id: plugin
+          uri: lb://plugin
+          predicates:
+            - Path=/plugin/**
+          filters:
+            - RewritePath=/plugin/(?<segment>.*) , /$\{segment}
   main:
     web-application-type: reactive
 server:

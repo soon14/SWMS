@@ -24,6 +24,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
@@ -85,10 +86,13 @@ public class DictionaryController {
         Reflections reflections = new Reflections("com.swms");
         Set<Class<?>> dictionaryEnums = reflections.getTypesAnnotatedWith(com.swms.common.utils.dictionary.Dictionary.class);
 
-        List<DictionaryDTO> dictionaryDTOS = (List<DictionaryDTO>) dictionaryEnums.stream().filter(v -> v.getSimpleName().endsWith("Enum"))
+        List<DictionaryDTO> dictionaryDTOS = dictionaryEnums.stream()
+            .filter(v -> v.getSimpleName().endsWith("Enum"))
             .map(cClass -> {
                 Object[] enumConstants = cClass.getEnumConstants();
-
+                if (enumConstants == null) {
+                    return null;
+                }
                 AtomicInteger index = new AtomicInteger(0);
                 List<DictionaryDTO.DictionaryItem> items = Arrays.stream(enumConstants).map(enumConstant -> {
                     DictionaryDTO.DictionaryItem item = new DictionaryDTO.DictionaryItem();
@@ -122,7 +126,7 @@ public class DictionaryController {
                 dictionaryDTO.setItems(items);
 
                 return dictionaryDTO;
-            }).toList();
+            }).filter(Objects::nonNull).toList();
         dictionaryRepository.saveAll(dictionaryTransfer.toDOS(dictionaryDTOS));
         return Response.success();
     }

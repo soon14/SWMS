@@ -23,7 +23,7 @@ import java.util.function.Supplier;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public final class WmsException extends RuntimeException {
+public class WmsException extends RuntimeException {
     @Serial
     private static final long serialVersionUID = -8192643659977363045L;
 

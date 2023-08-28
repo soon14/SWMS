@@ -1,7 +1,6 @@
 package com.swms.mdm.config.application;
 
 import static com.swms.common.utils.constants.RedisConstants.BARCODE_PARSE_RULE_ADD_LOCK;
-import static com.swms.common.utils.exception.code_enum.CommonErrorDescEnum.REPEAT_REQUEST;
 import static com.swms.common.utils.exception.code_enum.MainDataErrorDescEnum.BARCODE_PARSE_RULE_REPEAT;
 import static com.swms.common.utils.exception.code_enum.MainDataErrorDescEnum.CODE_MUST_NOT_UPDATE;
 
@@ -18,6 +17,8 @@ import com.swms.mdm.api.main.data.dto.SkuMainDataDTO;
 import com.swms.mdm.config.domain.entity.BarcodeParseRule;
 import com.swms.mdm.config.domain.repository.BarcodeParseRuleRepository;
 import com.swms.mdm.config.domain.transfer.BarcodeParseRuleTransfer;
+import com.swms.mdm.extend.IBarcodeParseRulePlugin;
+import com.swms.plugin.sdk.utils.PluginUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +45,9 @@ public class BarcodeParseRuleApplicationImpl implements IBarcodeParseRuleApi {
     @Autowired
     private DistributeLock distributeLock;
 
+    @Autowired
+    private PluginUtils pluginUtils;
+
     @Override
     public void save(BarcodeParseRuleDTO barcodeParseRuleDTO) {
         distributeLock.acquireLockIfThrows(BARCODE_PARSE_RULE_ADD_LOCK, 1000);
@@ -58,6 +62,11 @@ public class BarcodeParseRuleApplicationImpl implements IBarcodeParseRuleApi {
             barcodeRuleRepository.save(barcodeParseRuleTransfer.toBarcodeParseRule(barcodeParseRuleDTO));
         } finally {
             distributeLock.releaseLock(BARCODE_PARSE_RULE_ADD_LOCK);
+        }
+
+        IBarcodeParseRulePlugin iBarcodeParseRulePlugin = pluginUtils.getExtractObject(IBarcodeParseRulePlugin.class);
+        if (iBarcodeParseRulePlugin != null) {
+            iBarcodeParseRulePlugin.doAfterCreateBarcode(barcodeParseRuleDTO);
         }
 
     }

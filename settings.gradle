@@ -16,6 +16,7 @@ include 'modules-station:station-extend'
 include 'modules-mdm:mdm-config'
 include 'modules-mdm:mdm-main-data'
 include 'modules-mdm:mdm-api'
+include 'modules-mdm:mdm-extend'
 
 include 'modules-user:user'
 include 'modules-user:user-api'
@@ -33,6 +34,11 @@ include 'modules-utils:common-utils'
 include 'modules-utils:domain-event'
 include 'modules-utils:distribute-lock'
 include 'modules-utils:mq'
+include 'modules-utils:distribute-file'
+
+include 'modules-plugin:plugin-core'
+include 'modules-plugin:plugin-sdk'
+include 'modules-plugin:plugin-api'
 
 include 'server:search-server'
 include 'server:wms-server'
@@ -41,5 +47,4 @@ include 'server:mdm-server'
 include 'server:user-server'
 include 'server:tenant-server'
 include 'server:gateway-server'
-
-
+include 'server:plugin-server'

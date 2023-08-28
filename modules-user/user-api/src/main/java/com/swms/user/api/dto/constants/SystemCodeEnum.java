@@ -7,16 +7,14 @@ import lombok.Getter;
 
 /**
  * @author sws
- * @Date 2021/3/23 9:10
- * @Description:
  */
 @Getter
 @AllArgsConstructor
-@Dictionary
 public enum SystemCodeEnum implements IEnum {
     WMS("wms", "wms"),
     MDM("mdm", "mdm"),
-    USER("user", "user");
+    USER("user", "user"),
+    PLUGIN("plugin", "plugin");
 
     private String code;
     private String desc;

@@ -1,4 +1,4 @@
-package com.swms.plugin.core.utils;
+package com.swms.plugin.sdk.utils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -6,6 +6,11 @@ import java.security.MessageDigest;
 
 @Slf4j
 public class SignatureUtil {
+
+    private static final String SIGNATRUE = "HP2023!@#";
+
+    private static final String UTF8 = "UTF-8";
+
     private static final char[] HEX_CHAR_ARR = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
 
     public static String byteArrToHex(byte[] btArr) {
@@ -42,4 +47,7 @@ public class SignatureUtil {
         return sign;
     }
 
+    public static String doSign(String content) {
+        return doSign(content, UTF8, SIGNATRUE, "MD5");
+    }
 }

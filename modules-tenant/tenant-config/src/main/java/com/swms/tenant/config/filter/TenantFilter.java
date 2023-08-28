@@ -1,5 +1,6 @@
 package com.swms.tenant.config.filter;
 
+import com.swms.common.utils.user.AuthConstants;
 import com.swms.tenant.config.util.TenantContext;
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
@@ -21,7 +22,7 @@ class TenantFilter implements Filter {
                          FilterChain chain) throws IOException, ServletException {
 
         HttpServletRequest req = (HttpServletRequest) request;
-        String tenantName = req.getHeader("X-TenantID");
+        String tenantName = req.getHeader(AuthConstants.TENANT_ID_HEADER);
         TenantContext.setCurrentTenant(tenantName);
         try {
             chain.doFilter(request, response);

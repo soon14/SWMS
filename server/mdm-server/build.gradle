@@ -17,8 +17,9 @@ dependencies {
     implementation project(path: ":modules-mdm:mdm-config", configuration: 'default')
     implementation project(path: ":modules-mdm:mdm-main-data", configuration: 'default')
     implementation project(path: ":modules-tenant:tenant-config", configuration: 'default')
+    implementation project(path: ":modules-plugin:plugin-sdk", configuration: 'default')
 
-    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
     implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
 
@@ -32,6 +33,7 @@ dependencies {
     implementation group: 'mysql', name: 'mysql-connector-java'
 
     implementation 'org.liquibase:liquibase-core'
+
 }
 
 test {

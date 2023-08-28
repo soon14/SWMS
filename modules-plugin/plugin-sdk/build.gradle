@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'maven-publish'
 }
 
 group 'com.swms'
@@ -10,10 +11,57 @@ repositories {
 }
 
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+    implementation project(path: ":modules-utils:common-utils", configuration: 'default')
+    implementation project(path: ":modules-utils:mq", configuration: 'default')
+    implementation project(path: ":modules-plugin:plugin-api", configuration: 'default')
+    implementation project(path: ":modules-utils:distribute-file", configuration: 'default')
+    implementation project(path: ":modules-tenant:tenant-config", configuration: 'default')
+
+    implementation 'org.springframework.boot:spring-boot-starter'
+
+    implementation 'com.gitee.starblues:spring-brick'
+    implementation 'com.gitee.starblues:spring-brick-bootstrap'
 }
 
-test {
-    useJUnitPlatform()
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}
+
+task sourcesJar(type: Jar) {
+    from sourceSets.main.allJava
+    archiveClassifier.set('sources')
+}
+
+task javadocJar(type: Jar) {
+    from javadoc
+    archiveClassifier.set('javadoc')
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            artifact sourcesJar
+
+        }
+    }
+    repositories {
+        maven {
+            name 'nexus'
+            if (project.version.endsWith("-SNAPSHOT")) {
+                url project.repo_snapshot
+            } else {
+                url project.repo_release
+            }
+            credentials {
+                username project.repoUser
+                password project.repoPassword
+            }
+            allowInsecureProtocol = true
+        }
+    }
 }

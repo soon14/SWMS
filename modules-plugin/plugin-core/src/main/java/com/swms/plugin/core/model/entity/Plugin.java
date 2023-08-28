@@ -8,23 +8,13 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Index;
 import jakarta.persistence.Table;
+import jakarta.persistence.Version;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.io.Serial;
-import java.io.Serializable;
-
-/**
- * <p>
- * 插件
- * </p>
- *
- * @author guizhigang
- * @since 2021-02-07
- */
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
@@ -36,10 +26,7 @@ import java.io.Serializable;
     }
 )
 @DynamicUpdate
-public class Plugin extends UpdateUserPO implements Serializable {
-
-    @Serial
-    private static final long serialVersionUID = 1L;
+public class Plugin extends UpdateUserPO {
 
     @Id
     @GeneratedValue(generator = "databaseIdGenerator")
@@ -59,19 +46,19 @@ public class Plugin extends UpdateUserPO implements Serializable {
      * 版本 （主版本.次版本.bugfix版本）
      */
     @Column(nullable = false, columnDefinition = "varchar(64) comment '插件版本'")
-    private String version;
+    private String pluginVersion;
 
     /**
      * 所属模块（wms/station/user）
      */
     @Column(nullable = false, columnDefinition = "varchar(32) comment '所属于系统'")
-    private String system;
+    private String applySystem;
 
     /**
      * 所属模块（outbound/inbound）
      */
     @Column(nullable = false, columnDefinition = "varchar(32) comment '所属于模块'")
-    private String module;
+    private String applyModule;
 
     /**
      * 依赖关系（JSON存储）如：[{"pluginId":"plugin1","startVersion":"2.0.1","endVersion":"2.0.6"}]
@@ -96,4 +83,7 @@ public class Plugin extends UpdateUserPO implements Serializable {
 
     @Column(nullable = false, columnDefinition = "varchar(256) comment '系统要求'")
     private String configFilePath = "";
+
+    @Version
+    private Long version;
 }

@@ -10,9 +10,10 @@ repositories {
 }
 
 dependencies {
-    implementation project(path: ":modules-mdm:mdm-api", configuration: 'default')
-//    implementation project(path: ":modules-wms:wms-api", configuration: 'default')
     implementation project(path: ":modules-utils:distribute-lock", configuration: 'default')
+    implementation project(path: ":modules-mdm:mdm-api", configuration: 'default')
+    implementation project(path: ":modules-mdm:mdm-extend", configuration: 'default')
+    implementation project(path: ":modules-plugin:plugin-sdk", configuration: 'default')
 
     implementation 'org.springframework:spring-tx'
     implementation 'com.google.guava:guava'

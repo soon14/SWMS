@@ -13,7 +13,10 @@ spring:
         group: swms
         username: nacos
         password: nacos
-
+        extension-configs:
+          - data-id: fastdfs.yml
+            group: swms
+            refresh: true
 server:
   port: 9070
 

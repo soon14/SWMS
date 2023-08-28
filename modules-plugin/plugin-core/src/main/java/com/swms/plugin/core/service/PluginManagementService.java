@@ -5,7 +5,7 @@ import com.swms.plugin.core.model.entity.Plugin;
 
 import java.util.List;
 
-public interface PluginService {
+public interface PluginManagementService {
 
     /**
      * 添加
@@ -14,7 +14,7 @@ public interface PluginService {
      *
      * @throws Exception 添加异常
      */
-    void add(PluginDTO param);
+    void addPlugin(PluginDTO param);
 
     /**
      * 通过Code获取插件

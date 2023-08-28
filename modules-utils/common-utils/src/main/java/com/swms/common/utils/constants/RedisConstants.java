@@ -3,11 +3,13 @@ package com.swms.common.utils.constants;
 public class RedisConstants {
 
     /**
-     * cache
+     * topic
      */
     public static final String STATION_LISTEN_WORK_STATION_CONFIG_UPDATE = "station:listen:work:station:config:update";
 
     public static final String STATION_LISTEN_ORDER_ASSIGNED = "station:listen:order:assigned";
+
+    public static final String PLUGIN_LISTEN_PLUGIN_MANAGEMENT = "plugin:listen:plugin:management";
 
 
     /**

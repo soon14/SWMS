@@ -3,11 +3,16 @@ package com.swms.plugin.core.service.impl;
 import com.google.common.base.Preconditions;
 import com.swms.common.utils.exception.WmsException;
 import com.swms.common.utils.user.UserContext;
+import com.swms.plugin.api.IPluginApi;
 import com.swms.plugin.core.model.dto.PluginDTO;
 import com.swms.plugin.core.model.entity.Plugin;
+import com.swms.plugin.core.model.entity.TenantInstallPlugin;
 import com.swms.plugin.core.model.repository.PluginRepository;
-import com.swms.plugin.core.service.PluginService;
+import com.swms.plugin.core.model.repository.TenantInstallPluginRepository;
+import com.swms.plugin.core.service.PluginManagementService;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,19 +22,23 @@ import java.util.List;
 import java.util.Objects;
 
 @Service
-public class PluginServiceImpl implements PluginService {
+@DubboService
+public class PluginManagementServiceImpl implements PluginManagementService, IPluginApi {
 
     @Autowired
     private PluginRepository pluginRepository;
 
+    @Autowired
+    private TenantInstallPluginRepository tenantInstallPluginRepository;
+
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void add(PluginDTO pluginDTO) {
+    public void addPlugin(PluginDTO pluginDTO) {
 
         List<Plugin> list = getByCode(pluginDTO.getCode());
-        if (!CollectionUtils.isEmpty(list)
-            && list.stream().anyMatch(u -> u.getVersion().equals(pluginDTO.getVersion()))) {
-            throw new WmsException("plugin code: " + pluginDTO.getCode() + ", and version: " + pluginDTO.getVersion() + "exist.");
+        if (CollectionUtils.isNotEmpty(list)
+            && list.stream().anyMatch(u -> StringUtils.equals(u.getPluginVersion(), pluginDTO.getPluginVersion()))) {
+            throw new WmsException("plugin code: " + pluginDTO.getCode() + ", and version: " + pluginDTO.getPluginVersion() + "exist.");
         }
 
         if (CollectionUtils.isNotEmpty(list)) {
@@ -61,4 +70,9 @@ public class PluginServiceImpl implements PluginService {
         pluginRepository.deleteById(pluginId);
     }
 
+    @Override
+    public List<String> getTenantPluginIds(String tenantName) {
+        List<TenantInstallPlugin> tenantPlugins = tenantInstallPluginRepository.findByTenantName(tenantName);
+        return tenantPlugins.stream().map(TenantInstallPlugin::getPluginCode).toList();
+    }
 }

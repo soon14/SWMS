@@ -8,11 +8,9 @@ import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author sws
- * @date 2021/7/22 9:31
  */
 @Getter
 @AllArgsConstructor
-@Dictionary
 public enum UserTypeEnum implements IEnum {
     NORMAL("NORMAL", "普通账号"),
     ANTA("ANTA", "安踏外部账号"),
