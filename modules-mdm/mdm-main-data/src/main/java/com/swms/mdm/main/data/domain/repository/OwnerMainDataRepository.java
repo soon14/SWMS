@@ -3,7 +3,6 @@ package com.swms.mdm.main.data.domain.repository;
 import com.swms.mdm.main.data.domain.entity.OwnerMainData;
 
 import java.util.Collection;
-import java.util.List;
 
 public interface OwnerMainDataRepository {
 
@@ -13,7 +12,7 @@ public interface OwnerMainDataRepository {
 
     OwnerMainData getOwnerMainData(String ownerCode);
 
-    List<OwnerMainData> getOwnerMainData(Collection<String> ownCodes);
+    Collection<OwnerMainData> getOwnersMainData(Collection<String> ownCodes);
 
     OwnerMainData findById(Long id);
 }

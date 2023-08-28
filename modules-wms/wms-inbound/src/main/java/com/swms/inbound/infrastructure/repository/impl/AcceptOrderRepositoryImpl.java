@@ -29,8 +29,8 @@ public class AcceptOrderRepositoryImpl implements AcceptOrderRepository {
     @Transactional
     public void saveOrderAndDetail(AcceptOrder acceptOrder) {
         AcceptOrderPO acceptOrderPO = acceptOrderPORepository.save(acceptOrderPOTransfer.toPO(acceptOrder));
-        acceptOrder.getAcceptOrderDetails().forEach(v -> v.setAcceptOrderId(acceptOrderPO.getId()));
-        acceptOrderDetailPORepository.saveAll(acceptOrderPOTransfer.toDetailPOs(acceptOrder.getAcceptOrderDetails()));
+        acceptOrder.getDetails().forEach(v -> v.setAcceptOrderId(acceptOrderPO.getId()));
+        acceptOrderDetailPORepository.saveAll(acceptOrderPOTransfer.toDetailPOs(acceptOrder.getDetails()));
     }
 
     @Override

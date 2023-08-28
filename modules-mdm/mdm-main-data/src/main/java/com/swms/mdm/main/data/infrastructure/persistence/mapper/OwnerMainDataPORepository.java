@@ -4,10 +4,11 @@ import com.swms.mdm.main.data.infrastructure.persistence.po.OwnerMainDataPO;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Collection;
-import java.util.List;
+import java.util.Optional;
 
 public interface OwnerMainDataPORepository extends JpaRepository<OwnerMainDataPO, Long> {
-    OwnerMainDataPO findByOwnerCode(String ownerCode);
+    Optional<OwnerMainDataPO> findByOwnerCode(String ownerCode);
 
-    List<OwnerMainDataPO> findAllByOwnerCodeIn(Collection<String> ownerCodes);
+    Optional<Collection<OwnerMainDataPO>> findAllByOwnerCodeIn(Collection<String> ownerCodes);
+
 }

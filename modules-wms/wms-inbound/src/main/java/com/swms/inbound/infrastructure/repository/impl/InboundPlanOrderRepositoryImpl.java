@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -37,7 +38,7 @@ public class InboundPlanOrderRepositoryImpl implements InboundPlanOrderRepositor
     public void saveOrderAndDetail(InboundPlanOrder inboundPlanOrder) {
         InboundPlanOrderPO inboundPlanOrderPO = inboundPlanOrderPORepository.save(inboundPlanOrderPOTransfer.toOrderPO(inboundPlanOrder));
 
-        List<InboundPlanOrderDetailPO> inboundPlanOrderDetailPOS = inboundPlanOrderPOTransfer.toDetailPOs(inboundPlanOrder.getInboundPlanOrderDetails());
+        List<InboundPlanOrderDetailPO> inboundPlanOrderDetailPOS = inboundPlanOrderPOTransfer.toDetailPOs(inboundPlanOrder.getDetails());
         inboundPlanOrderDetailPOS.forEach(v -> v.setInboundPlanOrderId(inboundPlanOrderPO.getId()));
         inboundPlanOrderDetailPORepository.saveAll(inboundPlanOrderDetailPOS);
     }
@@ -54,6 +55,13 @@ public class InboundPlanOrderRepositoryImpl implements InboundPlanOrderRepositor
     @Override
     public List<InboundPlanOrder> findByCustomerOrderNo(String customerOrderNo) {
         return inboundPlanOrderPOTransfer.toDOs(inboundPlanOrderPORepository.findByCustomerOrderNo(customerOrderNo));
+    }
+
+    @Override
+    public List<InboundPlanOrder> findInboundPlanOrderByCustomerOrderNos(Collection<String> customerOrderNo) {
+        return inboundPlanOrderPORepository.findByCustomerOrderNoIn(customerOrderNo)
+            .map(inboundPlanOrderPOTransfer::toDOs)
+            .orElseGet(ArrayList::new);
     }
 
     @Override

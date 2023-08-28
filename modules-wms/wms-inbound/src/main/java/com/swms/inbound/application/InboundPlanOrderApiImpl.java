@@ -1,8 +1,6 @@
 package com.swms.inbound.application;
 
 import com.swms.common.utils.constants.RedisConstants;
-import com.swms.common.utils.exception.WmsException;
-import com.swms.common.utils.exception.code_enum.CommonErrorDescEnum;
 import com.swms.distribute.lock.DistributeLock;
 import com.swms.inbound.domain.entity.InboundPlanOrder;
 import com.swms.inbound.domain.repository.InboundPlanOrderRepository;
@@ -15,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -33,23 +32,31 @@ public class InboundPlanOrderApiImpl implements IInboundPlanOrderApi {
     @Autowired
     private DistributeLock distributeLock;
 
+
+
+
     @Override
-    public void createInboundPlanOrder(InboundPlanOrderDTO inboundPlanOrderDTO) {
-        InboundPlanOrder inboundPlanOrder = inboundPlanOrderTransfer.toInboundPlanOrder(inboundPlanOrderDTO);
-        inboundPlanOrder.initial();
+    public void createInboundPlanOrder(List<InboundPlanOrderDTO> inboundPlanOrderDTOs) {
+        final List<InboundPlanOrder> inboundPlanOrders = inboundPlanOrderDTOs.stream()
+            .map(inboundPlanOrderTransfer::toInboundPlanOrder)
+            .peek(InboundPlanOrder::initial)
+            .toList();
 
-        Set<SkuMainDataDTO> skuMainDataDTOS = inboundPlanOrderService.validateInboundPlanOrder(inboundPlanOrder);
-        inboundPlanOrder.initSkuId(skuMainDataDTOS);
+        Set<SkuMainDataDTO> skuMainDataDTOS = inboundPlanOrderService.validateInboundPlanOrder(inboundPlanOrders);
 
-        distributeLock.acquireLockIfThrows(RedisConstants.INBOUND_PLAN_ORDER_ADD_LOCK + inboundPlanOrder.getCustomerOrderNo(), 3000L);
+        inboundPlanOrders.forEach(inboundPlanOrder -> {
 
-        try {
-            inboundPlanOrderService.validateRepeatCustomerOrderNo(inboundPlanOrder);
-            inboundPlanOrderService.validateRepeatBoxNo(inboundPlanOrder);
-            inboundPlanOrderRepository.saveOrderAndDetail(inboundPlanOrder);
-        } finally {
-            distributeLock.releaseLock(RedisConstants.INBOUND_PLAN_ORDER_ADD_LOCK + inboundPlanOrder.getCustomerOrderNo());
-        }
+            inboundPlanOrder.initSkuId(skuMainDataDTOS);
+
+            distributeLock.acquireLockIfThrows(RedisConstants.INBOUND_PLAN_ORDER_ADD_LOCK + inboundPlanOrder.getCustomerOrderNo(), 3000L);
+
+            try {
+                inboundPlanOrderRepository.saveOrderAndDetail(inboundPlanOrder);
+            } finally {
+                distributeLock.releaseLock(RedisConstants.INBOUND_PLAN_ORDER_ADD_LOCK + inboundPlanOrder.getCustomerOrderNo());
+            }
+        });
 
     }
+
 }

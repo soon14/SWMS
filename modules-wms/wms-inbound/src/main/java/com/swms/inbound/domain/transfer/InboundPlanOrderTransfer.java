@@ -17,4 +17,5 @@ import org.mapstruct.ReportingPolicy;
 public interface InboundPlanOrderTransfer {
 
     InboundPlanOrder toInboundPlanOrder(InboundPlanOrderDTO inboundPlanOrderDTO);
+
 }

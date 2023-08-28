@@ -1,12 +1,10 @@
 package com.swms.wms;
 
 import com.swms.common.utils.user.UserContext;
-import com.swms.common.utils.utils.JsonUtils;
 import com.swms.common.utils.utils.ObjectUtils;
 import com.swms.inbound.domain.service.impl.AcceptOrderServiceImpl;
 import com.swms.inbound.domain.service.impl.InboundPlanOrderServiceImpl;
 import com.swms.mdm.api.config.IParameterConfigApi;
-import com.swms.mdm.api.config.dto.ParameterConfigDTO;
 import com.swms.mdm.api.main.data.IOwnerMainDataApi;
 import com.swms.mdm.api.main.data.ISkuMainDataApi;
 import com.swms.mdm.api.main.data.IWarehouseMainDataApi;
@@ -23,6 +21,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
+
+import java.util.Collections;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = WmsApplicationTest.class)
 public class BaseTest {
@@ -99,7 +99,7 @@ public class BaseTest {
             v.setSkuCode(SKU_CODE);
         });
 
-        inboundPlanOrderApi.createInboundPlanOrder(inboundPlanOrderDTO);
+        inboundPlanOrderApi.createInboundPlanOrder(Collections.singletonList(inboundPlanOrderDTO));
     }
 
     @Test
