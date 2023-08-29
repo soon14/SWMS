@@ -18,6 +18,7 @@ gradlew
 /null
 out/
 build/
+plugins
 
 # 忽略根目录下面的 gradlew 文件
 /gradlew
