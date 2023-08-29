@@ -104,7 +104,7 @@ public class PluginManageController {
         TenantInstallPlugin tenantInstallPlugin = TenantInstallPlugin.builder().tenantName(tenantName)
             .pluginCode(plugin.getCode())
             .pluginId(plugin.getId())
-            .status(TenantPluginStatusEnum.INSTALLED)
+            .status(TenantPluginStatusEnum.STARTED)
             .build();
         tenantInstallPluginRepository.save(tenantInstallPlugin);
 
@@ -113,23 +113,41 @@ public class PluginManageController {
     }
 
     @GetMapping(value = "/start/{id}")
-    public Response start(@PathVariable Long id) {
+    public Response start(@PathVariable Long id, HttpServletRequest request) {
+        Plugin plugin = pluginRepository.findById(id).orElseThrow();
+
+        String tenantName = request.getHeader(AuthConstants.TENANT_ID_HEADER);
+        TenantInstallPlugin tenantInstallPlugin = tenantInstallPluginRepository.findByTenantNameAndPluginId(tenantName, plugin.getId());
+        tenantInstallPlugin.setStatus(TenantPluginStatusEnum.STARTED);
+
         operate(id, PluginManageTypeEnum.START);
         return Response.success();
     }
 
     @GetMapping(value = "/stop/{id}")
-    public Response stop(@PathVariable Long id) {
-        operate(id, PluginManageTypeEnum.STOP);
+    public Response stop(@PathVariable Long id, HttpServletRequest request) {
+        Plugin plugin = pluginRepository.findById(id).orElseThrow();
+
+        String tenantName = request.getHeader(AuthConstants.TENANT_ID_HEADER);
+        TenantInstallPlugin tenantInstallPlugin = tenantInstallPluginRepository.findByTenantNameAndPluginId(tenantName, plugin.getId());
+        tenantInstallPlugin.setStatus(TenantPluginStatusEnum.STOPPED);
+
+        tenantInstallPluginRepository.delete(tenantInstallPlugin);
+
         return Response.success();
     }
 
     @GetMapping(value = "/restart/{id}")
-    public Response restart(@PathVariable Long id) {
-        operate(id, PluginManageTypeEnum.RESTART);
+    public Response restart(@PathVariable Long id, HttpServletRequest request) {
+        Plugin plugin = pluginRepository.findById(id).orElseThrow();
+
+        String tenantName = request.getHeader(AuthConstants.TENANT_ID_HEADER);
+        TenantInstallPlugin tenantInstallPlugin = tenantInstallPluginRepository.findByTenantNameAndPluginId(tenantName, plugin.getId());
+        tenantInstallPlugin.setStatus(TenantPluginStatusEnum.STARTED);
+        tenantInstallPluginRepository.save(tenantInstallPlugin);
+
         return Response.success();
     }
-
 
     @GetMapping(value = "/uninstall/{id}")
     public Response uninstall(@PathVariable Long id, HttpServletRequest request) {
@@ -140,7 +158,6 @@ public class PluginManageController {
         TenantInstallPlugin tenantInstallPlugin = tenantInstallPluginRepository.findByTenantNameAndPluginId(tenantName, plugin.getId());
         tenantInstallPluginRepository.delete(tenantInstallPlugin);
 
-//        operate(plugin, PluginManageTypeEnum.UNINSTALL);
         return Response.success();
     }
 

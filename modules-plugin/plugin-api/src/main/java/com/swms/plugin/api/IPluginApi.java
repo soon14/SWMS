@@ -4,5 +4,5 @@ import java.util.List;
 
 public interface IPluginApi {
 
-    List<String> getTenantPluginIds(String tenantName);
+    List<String> getStartedTenantPluginIds(String tenantName);
 }

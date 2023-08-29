@@ -11,15 +11,14 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Index;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import java.io.Serial;
-import java.io.Serializable;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -33,10 +32,9 @@ import java.io.Serializable;
 )
 @DynamicUpdate
 @Builder
-public class TenantInstallPlugin extends UpdateUserPO implements Serializable {
-
-    @Serial
-    private static final long serialVersionUID = 1L;
+@NoArgsConstructor
+@AllArgsConstructor
+public class TenantInstallPlugin extends UpdateUserPO {
 
     @Id
     @GeneratedValue(generator = "databaseIdGenerator")

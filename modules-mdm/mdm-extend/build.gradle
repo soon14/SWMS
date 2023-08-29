@@ -11,6 +11,7 @@ repositories {
 
 dependencies {
     implementation project(path: ":modules-mdm:mdm-api", configuration: 'default')
+    compileOnly 'org.pf4j:pf4j-spring'
 }
 
 bootJar {

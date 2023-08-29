@@ -21,7 +21,7 @@ public enum MainDataErrorDescEnum implements IBaseError {
     /**
      * 仓库存在通过ID查询没有具体code
      */
-    WAREHOUSE_EXIST("MD002001", "warehouse not exist"),
+    WAREHOUSE_NOT_EXIST("MD002001", "warehouse not exist"),
 
 
     /**
@@ -32,7 +32,7 @@ public enum MainDataErrorDescEnum implements IBaseError {
     /**
      * 客户编码不存在值返回错误信息没有具体代码
      */
-    OWNER_EXIST("MD003001", "owner not exist"),
+    OWNER_NOT_EXIST("MD003001", "owner not exist"),
 
     SKU_CODE_NOT_EXIST("MD004001", "sku code {0} not exist"),
 

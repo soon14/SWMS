@@ -1,0 +1,29 @@
+plugins {
+    id 'java'
+}
+
+group 'com.swms'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation project(path: ":modules-plugin:plugin-sdk", configuration: 'default')
+    implementation project(path: ":modules-mdm:mdm-extend", configuration: 'default')
+    annotationProcessor 'org.pf4j:pf4j-spring' // Replace 'xxx' with the actual version
+
+}
+
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}
+
+compileJava {
+    options.annotationProcessorPath = configurations.annotationProcessor
+}

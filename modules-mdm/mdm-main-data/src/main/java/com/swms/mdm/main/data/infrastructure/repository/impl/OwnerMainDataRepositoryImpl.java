@@ -1,16 +1,15 @@
 package com.swms.mdm.main.data.infrastructure.repository.impl;
 
 import static com.swms.common.utils.exception.code_enum.MainDataErrorDescEnum.OWNER_CODE_NOT_EXIST;
-import static com.swms.common.utils.exception.code_enum.MainDataErrorDescEnum.OWNER_EXIST;
+import static com.swms.common.utils.exception.code_enum.MainDataErrorDescEnum.OWNER_NOT_EXIST;
 
 import com.swms.common.utils.exception.WmsException;
-import com.swms.common.utils.exception.code_enum.MainDataErrorDescEnum;
 import com.swms.mdm.main.data.domain.entity.OwnerMainData;
 import com.swms.mdm.main.data.domain.repository.OwnerMainDataRepository;
 import com.swms.mdm.main.data.infrastructure.persistence.mapper.OwnerMainDataPORepository;
 import com.swms.mdm.main.data.infrastructure.persistence.transfer.OwnerMainDataPOTransfer;
-import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -57,8 +56,8 @@ public class OwnerMainDataRepositoryImpl implements OwnerMainDataRepository {
 
     @Override
     public OwnerMainData findById(Long id) {
-        ownerMainDataPORepository.findById(id)
+        return ownerMainDataPORepository.findById(id)
             .map(ownerMainDataPOTransfer::toDO)
-            .orElseThrow(WmsException.throwWmsExceptionSup(OWNER_EXIST));
+            .orElseThrow(WmsException.throwWmsExceptionSup(OWNER_NOT_EXIST));
     }
 }

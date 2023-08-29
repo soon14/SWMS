@@ -33,7 +33,7 @@ public class WarehouseMainDataRepositoryImpl implements WarehouseMainDataReposit
     public WarehouseMainData findById(Long id) {
         return warehouseMainDataPORepository.findById(id)
             .map(warehouseMainDataPOTransfer::toDO)
-            .orElseThrow(WmsException.throwWmsExceptionSup(MainDataErrorDescEnum.WAREHOUSE_EXIST));
+            .orElseThrow(WmsException.throwWmsExceptionSup(MainDataErrorDescEnum.WAREHOUSE_NOT_EXIST));
     }
 
     @Override

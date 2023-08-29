@@ -14,6 +14,7 @@ dependencies {
     testImplementation 'org.powermock:powermock-module-junit4-rule'
     testImplementation 'org.powermock:powermock-classloading-xstream'
 
+    implementation project(path: ":modules-mdm:mdm-extend", configuration: 'default')
     implementation project(path: ":modules-mdm:mdm-config", configuration: 'default')
     implementation project(path: ":modules-mdm:mdm-main-data", configuration: 'default')
     implementation project(path: ":modules-tenant:tenant-config", configuration: 'default')

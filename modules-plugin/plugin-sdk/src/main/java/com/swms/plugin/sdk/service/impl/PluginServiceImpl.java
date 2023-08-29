@@ -1,21 +1,19 @@
 package com.swms.plugin.sdk.service.impl;
 
-import com.gitee.starblues.core.PluginInfo;
-import com.gitee.starblues.integration.application.PluginApplication;
-import com.gitee.starblues.integration.operator.PluginOperator;
-import com.gitee.starblues.utils.PluginFileUtils;
 import com.swms.common.utils.exception.WmsException;
 import com.swms.distribute.file.client.FastdfsClient;
 import com.swms.plugin.api.dto.PluginManageDTO;
 import com.swms.plugin.sdk.service.PluginService;
-import com.swms.plugin.sdk.utils.SignatureUtil;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.pf4j.AbstractPluginManager;
+import org.pf4j.PluginManager;
+import org.pf4j.PluginState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Paths;
 
 @Service
@@ -23,14 +21,8 @@ public class PluginServiceImpl implements PluginService {
 
     private static final String JAR = ".jar";
 
-    private static final String YML = ".yml";
-
-    private static final String PROPERTIES = ".properties";
-
-    private static final String DIR_PLUGINS = "plugins";
-
     @Autowired
-    private PluginOperator pluginOperator;
+    private PluginManager pluginManager;
 
     @Autowired
     private FastdfsClient fastdfsClient;
@@ -39,18 +31,17 @@ public class PluginServiceImpl implements PluginService {
     public void install(PluginManageDTO pluginManageDTO) throws IOException {
 
         //1. download file from  file server
-        String installFilePath = downloadJar(pluginManageDTO, 0, pluginManageDTO.getPluginJarPath());
-        downloadJar(pluginManageDTO, 1, pluginManageDTO.getPluginConfigPath());
+        String installFilePath = downloadJar(pluginManageDTO, pluginManageDTO.getPluginJarPath());
 
         //2. install plugin
-        PluginInfo pluginInfo = pluginOperator.install(Paths.get(installFilePath), false);
-        if (pluginInfo == null) {
+        String pluginId = pluginManager.loadPlugin(Paths.get(installFilePath));
+        if (pluginId == null) {
             throw new WmsException("install plugin:" + pluginManageDTO.getPluginId() + " error");
         }
 
     }
 
-    private String downloadJar(PluginManageDTO pluginManageDTO, int type,
+    private String downloadJar(PluginManageDTO pluginManageDTO,
                                String filePath) throws IOException {
 
         if (StringUtils.isEmpty(filePath)) {
@@ -58,46 +49,32 @@ public class PluginServiceImpl implements PluginService {
         }
 
         byte[] fileBytes = fastdfsClient.download(filePath);
-        String fileName = generateFileName(type, pluginManageDTO.getPluginId(), pluginManageDTO.getVersion());
-
-        String configPath = DIR_PLUGINS + File.separator + pluginManageDTO.getPluginId()
-            + File.separator + pluginManageDTO.getVersion() + File.separator + fileName;
-        File newFile = PluginFileUtils.createExistFile(Paths.get(configPath));
-        Files.write(newFile.getAbsoluteFile().toPath(), fileBytes);
-
-        return newFile.getAbsolutePath();
+        String fileName = generateFileName(pluginManageDTO.getPluginId(), pluginManageDTO.getVersion());
+        File file = createFile(Paths.get(getPluginDir() + File.separator + fileName).toAbsolutePath().toString());
+        FileUtils.writeByteArrayToFile(file, fileBytes);
+        return file.getAbsolutePath();
     }
 
-    private String generateFileName(int type, String pluginId, String version) {
+    private String getPluginDir() {
+        return AbstractPluginManager.DEFAULT_PLUGINS_DIR;
+    }
 
-        String fileName = "";
-        //插件强制命名如下形式：pluginId-1.0.0.jar
-        if (type == 0) {
-            String signatrue = SignatureUtil.doSign(pluginId + version);
-            fileName = pluginId + "(" + signatrue.substring(0, 5) + ")" + "-" + version + JAR;
-        } else {
-            if (StringUtils.equals(fileName, YML)) {
-                fileName = pluginId + YML;
-            } else {
-                fileName = pluginId + PROPERTIES;
-            }
-        }
-        return fileName;
-
+    private String generateFileName(String pluginId, String version) {
+        return pluginId + "-" + version + JAR;
     }
 
     @Override
     public void start(PluginManageDTO pluginManageDTO) {
-        boolean result = pluginOperator.start(pluginManageDTO.getPluginId());
-        if (!result) {
+        PluginState pluginState = pluginManager.startPlugin(pluginManageDTO.getPluginId());
+        if (pluginState != PluginState.STARTED) {
             throw new WmsException("start plugin:" + pluginManageDTO.getPluginId() + " error");
         }
     }
 
     @Override
     public void stop(PluginManageDTO pluginManageDTO) {
-        boolean result = pluginOperator.stop(pluginManageDTO.getPluginId());
-        if (!result) {
+        PluginState pluginState = pluginManager.stopPlugin(pluginManageDTO.getPluginId());
+        if (pluginState != PluginState.STOPPED) {
             throw new WmsException("stop plugin:" + pluginManageDTO.getPluginId() + " error");
         }
     }
@@ -110,7 +87,27 @@ public class PluginServiceImpl implements PluginService {
 
     @Override
     public void uninstall(PluginManageDTO pluginManageDTO) {
-        pluginOperator.uninstall(pluginManageDTO.getPluginId(), true, true);
+        pluginManager.unloadPlugin(pluginManageDTO.getPluginId());
     }
 
+
+    public static File createFile(String path) throws IOException {
+        try {
+            File file = new File(path);
+            if (file.exists()) {
+                return file;
+            } else {
+                File parentFile = file.getParentFile();
+                if (!parentFile.exists() && !parentFile.mkdirs()) {
+                    throw new IOException("Create " + parentFile + " dir error");
+                } else if (file.createNewFile()) {
+                    return file;
+                } else {
+                    throw new IOException("Create " + path + " file error");
+                }
+            }
+        } catch (Exception var3) {
+            throw new IOException("Create " + path + " file error");
+        }
+    }
 }

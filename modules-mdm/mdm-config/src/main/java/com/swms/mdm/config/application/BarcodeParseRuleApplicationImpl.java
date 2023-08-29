@@ -64,9 +64,9 @@ public class BarcodeParseRuleApplicationImpl implements IBarcodeParseRuleApi {
             distributeLock.releaseLock(BARCODE_PARSE_RULE_ADD_LOCK);
         }
 
-        IBarcodeParseRulePlugin iBarcodeParseRulePlugin = pluginUtils.getExtractObject(IBarcodeParseRulePlugin.class);
-        if (iBarcodeParseRulePlugin != null) {
-            iBarcodeParseRulePlugin.doAfterCreateBarcode(barcodeParseRuleDTO);
+        List<IBarcodeParseRulePlugin> iBarcodeParseRulePlugins = pluginUtils.getExtractObject(IBarcodeParseRulePlugin.class);
+        if (CollectionUtils.isNotEmpty(iBarcodeParseRulePlugins)) {
+            iBarcodeParseRulePlugins.forEach(v -> v.doAfterCreateBarcode(barcodeParseRuleDTO));
         }
 
     }
