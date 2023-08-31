@@ -1,9 +1,7 @@
 package com.swms.plugin.sdk.utils;
 
-import com.swms.plugin.api.IPluginApi;
-import com.swms.tenant.config.util.TenantContext;
+import com.swms.plugin.sdk.facade.PluginFacade;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.dubbo.config.annotation.DubboReference;
 import org.pf4j.PluginManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -13,19 +11,19 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
+
 @Component
 public class PluginUtils {
 
-    @DubboReference
-    private IPluginApi iPluginApi;
+    @Autowired
+    private PluginFacade pluginFacade;
 
     @Autowired
     private PluginManager pluginManager;
 
     public <T> List<T> getExtractObject(Class<T> tClass) {
 
-        String tenant = TenantContext.getTenant();
-        List<String> pluginIds = iPluginApi.getStartedTenantPluginIds(tenant);
+        List<String> pluginIds = pluginFacade.getStartedTenantPluginIds();
 
         if (CollectionUtils.isEmpty(pluginIds)) {
             return Collections.emptyList();

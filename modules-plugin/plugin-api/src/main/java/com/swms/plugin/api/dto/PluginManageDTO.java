@@ -14,6 +14,7 @@ public class PluginManageDTO {
 
     private PluginManageTypeEnum pluginManageType;
 
+    private String tenantName;
     private String pluginId;
     private String pluginJarPath;
     private String pluginConfigPath;

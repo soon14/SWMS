@@ -15,4 +15,6 @@ public interface PluginService {
     void restart(PluginManageDTO pluginManageDTO);
 
     void uninstall(PluginManageDTO pluginManageDTO);
+
+    void configure(PluginManageDTO pluginManageDTO);
 }

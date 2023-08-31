@@ -3,12 +3,16 @@ package com.swms.plugin.sdk.service.impl;
 import com.swms.common.utils.exception.WmsException;
 import com.swms.distribute.file.client.FastdfsClient;
 import com.swms.plugin.api.dto.PluginManageDTO;
+import com.swms.plugin.api.dto.TenantPluginConfigDTO;
+import com.swms.plugin.sdk.config.TenantPluginConfig;
+import com.swms.plugin.sdk.facade.PluginFacade;
 import com.swms.plugin.sdk.service.PluginService;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.pf4j.AbstractPluginManager;
 import org.pf4j.PluginManager;
 import org.pf4j.PluginState;
+import org.pf4j.PluginWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +31,9 @@ public class PluginServiceImpl implements PluginService {
     @Autowired
     private FastdfsClient fastdfsClient;
 
+    @Autowired
+    private PluginFacade pluginFacade;
+
     @Override
     public void install(PluginManageDTO pluginManageDTO) throws IOException {
 
@@ -38,6 +45,8 @@ public class PluginServiceImpl implements PluginService {
         if (pluginId == null) {
             throw new WmsException("install plugin:" + pluginManageDTO.getPluginId() + " error");
         }
+
+        pluginManager.startPlugin(pluginId);
 
     }
 
@@ -56,7 +65,7 @@ public class PluginServiceImpl implements PluginService {
     }
 
     private String getPluginDir() {
-        return AbstractPluginManager.DEFAULT_PLUGINS_DIR;
+        return pluginManager.isDevelopment() ? AbstractPluginManager.DEVELOPMENT_PLUGINS_DIR : AbstractPluginManager.DEFAULT_PLUGINS_DIR;
     }
 
     private String generateFileName(String pluginId, String version) {
@@ -88,6 +97,15 @@ public class PluginServiceImpl implements PluginService {
     @Override
     public void uninstall(PluginManageDTO pluginManageDTO) {
         pluginManager.unloadPlugin(pluginManageDTO.getPluginId());
+    }
+
+    @Override
+    public void configure(PluginManageDTO pluginManageDTO) {
+        PluginWrapper plugin = pluginManager.getPlugin(pluginManageDTO.getPluginId());
+        if (plugin != null) {
+            TenantPluginConfigDTO tenantPluginConfigDTO = pluginFacade.getConfigJsonString(pluginManageDTO.getTenantName(), pluginManageDTO.getPluginId());
+            TenantPluginConfig.updateTenantConfig(tenantPluginConfigDTO);
+        }
     }
 
 

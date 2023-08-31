@@ -1,10 +1,8 @@
-package com.swms.plugin.core.model.dto;
+package com.swms.plugin.api.dto;
 
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
-import org.springframework.web.multipart.MultipartFile;
 
 @Data
 public class PluginDTO {
@@ -27,13 +25,11 @@ public class PluginDTO {
     @Size(max = 64)
     private String pluginVersion;
 
-    @NotEmpty
     @Size(max = 32)
-    private String applySystem;
+    private String applySystem = "";
 
-    @NotEmpty
     @Size(max = 32)
-    private String applyModule;
+    private String applyModule = "";
 
     @Size(max = 128)
     private String dependencies = "";
@@ -42,19 +38,8 @@ public class PluginDTO {
     private String description = "";
 
     @Size(max = 256)
-    private String systemRequest = "";
-
-    @Size(max = 256)
     private String jarFilePath;
 
-    @Size(max = 256)
-    private String configFilePath = "";
-
     private Long version;
-
-    @NotNull
-    private MultipartFile jarFile;
-
-    private MultipartFile configFile;
 
 }

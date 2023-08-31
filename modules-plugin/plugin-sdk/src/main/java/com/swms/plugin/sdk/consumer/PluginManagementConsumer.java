@@ -37,6 +37,9 @@ public class PluginManagementConsumer {
             case UNINSTALL:
                 pluginService.uninstall(pluginManageDTO);
                 break;
+            case CONFIG:
+                pluginService.configure(pluginManageDTO);
+                break;
             default:
                 break;
         }

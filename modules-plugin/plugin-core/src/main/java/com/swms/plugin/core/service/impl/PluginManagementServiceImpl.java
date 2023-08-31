@@ -3,10 +3,9 @@ package com.swms.plugin.core.service.impl;
 import com.google.common.base.Preconditions;
 import com.swms.common.utils.exception.WmsException;
 import com.swms.common.utils.user.UserContext;
-import com.swms.plugin.core.model.dto.PluginDTO;
+import com.swms.plugin.api.dto.PluginDTO;
 import com.swms.plugin.core.model.entity.Plugin;
 import com.swms.plugin.core.model.repository.PluginRepository;
-import com.swms.plugin.core.model.repository.TenantInstallPluginRepository;
 import com.swms.plugin.core.service.PluginManagementService;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -23,9 +22,6 @@ public class PluginManagementServiceImpl implements PluginManagementService {
 
     @Autowired
     private PluginRepository pluginRepository;
-
-    @Autowired
-    private TenantInstallPluginRepository tenantInstallPluginRepository;
 
     @Transactional(rollbackFor = Exception.class)
     @Override

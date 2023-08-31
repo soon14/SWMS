@@ -12,7 +12,7 @@ repositories {
 dependencies {
     implementation project(path: ":modules-plugin:plugin-sdk", configuration: 'default')
     implementation project(path: ":modules-mdm:mdm-extend", configuration: 'default')
-    annotationProcessor 'org.pf4j:pf4j-spring' // Replace 'xxx' with the actual version
+    annotationProcessor 'org.pf4j:pf4j-spring'
 
 }
 

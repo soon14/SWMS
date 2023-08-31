@@ -52,13 +52,13 @@ public class Plugin extends UpdateUserPO {
      * 所属模块（wms/station/user）
      */
     @Column(nullable = false, columnDefinition = "varchar(32) comment '所属于系统'")
-    private String applySystem;
+    private String applySystem = "";
 
     /**
      * 所属模块（outbound/inbound）
      */
     @Column(nullable = false, columnDefinition = "varchar(32) comment '所属于模块'")
-    private String applyModule;
+    private String applyModule = "";
 
     /**
      * 依赖关系（JSON存储）如：[{"pluginId":"plugin1","startVersion":"2.0.1","endVersion":"2.0.6"}]
@@ -72,17 +72,8 @@ public class Plugin extends UpdateUserPO {
     @Column(nullable = false, columnDefinition = "varchar(256) comment '描述'")
     private String description = "";
 
-    /**
-     * 系统要求
-     */
-    @Column(nullable = false, columnDefinition = "varchar(256) comment '系统要求'")
-    private String systemRequest = "";
-
-    @Column(nullable = false, columnDefinition = "varchar(256) comment '系统要求'")
+    @Column(nullable = false, columnDefinition = "varchar(256) comment 'jar文件地址'")
     private String jarFilePath;
-
-    @Column(nullable = false, columnDefinition = "varchar(256) comment '系统要求'")
-    private String configFilePath = "";
 
     @Version
     private Long version;
