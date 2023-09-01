@@ -1,12 +1,19 @@
 package com.swms.plugin.sdk.service.impl;
 
+import static com.swms.common.utils.exception.code_enum.CommonErrorDescEnum.DIR_CREATE_ERROR;
+import static com.swms.common.utils.exception.code_enum.CommonErrorDescEnum.FILE_CREATE_ERROR;
+import static com.swms.common.utils.exception.code_enum.PluginErrorDescEnum.PLUGIN_START_ERROR;
+import static com.swms.common.utils.exception.code_enum.PluginErrorDescEnum.PLUGIN_STOP_ERROR;
+
 import com.swms.common.utils.exception.WmsException;
+import com.swms.common.utils.exception.code_enum.PluginErrorDescEnum;
 import com.swms.distribute.file.client.FastdfsClient;
 import com.swms.plugin.api.dto.PluginManageDTO;
 import com.swms.plugin.api.dto.TenantPluginConfigDTO;
 import com.swms.plugin.sdk.config.TenantPluginConfig;
 import com.swms.plugin.sdk.facade.PluginFacade;
 import com.swms.plugin.sdk.service.PluginService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.pf4j.AbstractPluginManager;
@@ -21,6 +28,7 @@ import java.io.IOException;
 import java.nio.file.Paths;
 
 @Service
+@Slf4j
 public class PluginServiceImpl implements PluginService {
 
     private static final String JAR = ".jar";
@@ -43,7 +51,7 @@ public class PluginServiceImpl implements PluginService {
         //2. install plugin
         String pluginId = pluginManager.loadPlugin(Paths.get(installFilePath));
         if (pluginId == null) {
-            throw new WmsException("install plugin:" + pluginManageDTO.getPluginId() + " error");
+            throw WmsException.throwWmsException(PluginErrorDescEnum.PLUGIN_INSTALL_ERROR, pluginManageDTO.getPluginId());
         }
 
         pluginManager.startPlugin(pluginId);
@@ -76,7 +84,7 @@ public class PluginServiceImpl implements PluginService {
     public void start(PluginManageDTO pluginManageDTO) {
         PluginState pluginState = pluginManager.startPlugin(pluginManageDTO.getPluginId());
         if (pluginState != PluginState.STARTED) {
-            throw new WmsException("start plugin:" + pluginManageDTO.getPluginId() + " error");
+            throw WmsException.throwWmsException(PLUGIN_START_ERROR, pluginManageDTO.getPluginId());
         }
     }
 
@@ -84,7 +92,7 @@ public class PluginServiceImpl implements PluginService {
     public void stop(PluginManageDTO pluginManageDTO) {
         PluginState pluginState = pluginManager.stopPlugin(pluginManageDTO.getPluginId());
         if (pluginState != PluginState.STOPPED) {
-            throw new WmsException("stop plugin:" + pluginManageDTO.getPluginId() + " error");
+            throw WmsException.throwWmsException(PLUGIN_STOP_ERROR, pluginManageDTO.getPluginId());
         }
     }
 
@@ -109,7 +117,7 @@ public class PluginServiceImpl implements PluginService {
     }
 
 
-    public static File createFile(String path) throws IOException {
+    public static File createFile(String path) {
         try {
             File file = new File(path);
             if (file.exists()) {
@@ -117,15 +125,16 @@ public class PluginServiceImpl implements PluginService {
             } else {
                 File parentFile = file.getParentFile();
                 if (!parentFile.exists() && !parentFile.mkdirs()) {
-                    throw new IOException("Create " + parentFile + " dir error");
+                    throw WmsException.throwWmsException(DIR_CREATE_ERROR, parentFile);
                 } else if (file.createNewFile()) {
                     return file;
                 } else {
-                    throw new IOException("Create " + path + " file error");
+                    throw WmsException.throwWmsException(FILE_CREATE_ERROR, path);
                 }
             }
-        } catch (Exception var3) {
-            throw new IOException("Create " + path + " file error");
+        } catch (Exception e) {
+            log.error("create file error: ", e);
+            throw WmsException.throwWmsException(FILE_CREATE_ERROR, path);
         }
     }
 }

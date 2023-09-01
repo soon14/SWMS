@@ -22,6 +22,10 @@ import java.util.stream.Collectors;
 @Slf4j
 public class TenantPluginConfig {
 
+    private TenantPluginConfig() {
+        throw new IllegalStateException("tenant plugin config");
+    }
+
     private static final Map<String, List<PluginConfig>> tenantConfig = Maps.newConcurrentMap();
 
     public static void initTenantConfig(List<TenantPluginConfigDTO> tenantPluginConfigDTOS) {

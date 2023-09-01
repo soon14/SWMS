@@ -5,6 +5,7 @@ import com.swms.common.utils.utils.JsonUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -61,15 +62,15 @@ public class ControllerExceptionHandler {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
     }
 
-//    @ResponseBody
-//    @ExceptionHandler(DuplicateKeyException.class)
-//    public ResponseEntity<ErrorResponse> duplicateKeyExceptionHandler(HttpServletRequest request, HttpServletResponse response, Exception e) {
-//        ErrorResponse errorResponse = ErrorResponse.builder().message("Database Error")
-//            .errorCode(CommonErrorDescEnum.DATABASE_UNIQUE_ERROR.getCode())
-//            .description(CommonErrorDescEnum.DATABASE_UNIQUE_ERROR.getDesc())
-//            .build();
-//        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
-//    }
+    @ResponseBody
+    @ExceptionHandler(DuplicateKeyException.class)
+    public ResponseEntity<ErrorResponse> duplicateKeyExceptionHandler(HttpServletRequest request, HttpServletResponse response, Exception e) {
+        ErrorResponse errorResponse = ErrorResponse.builder().message("Database Error")
+            .errorCode(CommonErrorDescEnum.DATABASE_UNIQUE_ERROR.getCode())
+            .description(CommonErrorDescEnum.DATABASE_UNIQUE_ERROR.getDesc())
+            .build();
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+    }
 
     @ResponseBody
     @ExceptionHandler(Exception.class)

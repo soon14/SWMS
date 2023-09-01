@@ -20,6 +20,9 @@ public enum CommonErrorDescEnum implements IBaseError {
     PARAMETER_ERROR("CM010005", "parameter error."),
     HTTP_REQUEST_ERROR("CM010006", "http request error."),
 
+    FILE_CREATE_ERROR("CM010007", "file {0} create error."),
+    DIR_CREATE_ERROR("CM010008", "directory {0} create error."),
+
     ;
 
 

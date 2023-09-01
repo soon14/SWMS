@@ -2,6 +2,10 @@ package com.swms.common.utils.constants;
 
 public class RedisConstants {
 
+    private RedisConstants() {
+        throw new IllegalStateException("RedisConstants class");
+    }
+
     /**
      * topic
      */

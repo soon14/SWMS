@@ -10,11 +10,11 @@ import org.pf4j.Extension;
 @Extension
 public class BarcodePareRuleExtend implements IBarcodeParseRulePlugin {
 
-    private static final String pluginId = "barcodePlugin-0.0.1";
+    private static final String PLUGIN_ID = "barcodePlugin-0.0.1";
 
     @Override
     public void doAfterCreateBarcode(BarcodeParseRuleDTO rule) {
-        BarcodeConfig barcodeConfig = TenantPluginConfig.getTenantConfig(pluginId, BarcodeConfig.class);
+        BarcodeConfig barcodeConfig = TenantPluginConfig.getTenantConfig(PLUGIN_ID, BarcodeConfig.class);
         log.info("Extending Barcode : doAfterCreateBarcode. bar:{}", barcodeConfig.getNumber());
     }
 

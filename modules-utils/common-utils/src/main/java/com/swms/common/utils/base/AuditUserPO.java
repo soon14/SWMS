@@ -4,7 +4,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.springframework.data.annotation.LastModifiedDate;
 
 @EqualsAndHashCode(callSuper = true)
 @Data

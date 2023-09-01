@@ -8,7 +8,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 public abstract class SpringPluginApplication extends SpringPlugin {
 
-    public SpringPluginApplication(PluginWrapper wrapper) {
+    protected SpringPluginApplication(PluginWrapper wrapper) {
         super(wrapper);
     }
 

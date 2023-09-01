@@ -7,7 +7,11 @@ import java.security.MessageDigest;
 @Slf4j
 public class SignatureUtil {
 
-    private static final String SIGNATRUE = "HP2023!@#";
+    private SignatureUtil() {
+        throw new IllegalStateException("SignatureUtil class");
+    }
+
+    private static final String SIGNATURE = "HP2023!@#";
 
     private static final String UTF8 = "UTF-8";
 
@@ -48,6 +52,6 @@ public class SignatureUtil {
     }
 
     public static String doSign(String content) {
-        return doSign(content, UTF8, SIGNATRUE, "MD5");
+        return doSign(content, UTF8, SIGNATURE, "MD5");
     }
 }
