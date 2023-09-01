@@ -28,9 +28,7 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 
 /**
- * @Author guizhigang
- * @Date 2021/5/17 15:22
- * @Description:
+ * authorization and filter request
  */
 @Slf4j
 public class AuthGatewayFilter implements GlobalFilter, Ordered {
@@ -58,10 +56,10 @@ public class AuthGatewayFilter implements GlobalFilter, Ordered {
     /**
      * Token过滤器
      *
-     * @param exchange
-     * @param chain
+     * @param exchange exchange
+     * @param chain    chain
      *
-     * @return
+     * @return Mono
      */
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
@@ -116,7 +114,7 @@ public class AuthGatewayFilter implements GlobalFilter, Ordered {
         List<String> warehouseCodes = exchange.getRequest().getHeaders().get(SystemConstant.HEADER_WAREHOUSE);
         if (CollectionUtils.isNotEmpty(warehouseCodes)) {
             String warehouseCode = warehouseCodes.get(0);
-            if (StringUtils.isNotEmpty(warehouseCode) && !verifyAuthWarehouse(jwt, warehouseCode)) {
+            if (StringUtils.isNotEmpty(warehouseCode) && !"null".equals(warehouseCode.trim()) && !verifyAuthWarehouse(jwt, warehouseCode)) {
                 return unauthorized(exchange.getResponse(), "request access warehouse: " + warehouseCode + " denied, may be unauthorized.");
             }
         }
@@ -187,14 +185,6 @@ public class AuthGatewayFilter implements GlobalFilter, Ordered {
         return false;
     }
 
-    /**
-     * 无权限时返回
-     *
-     * @param resp
-     * @param msg
-     *
-     * @return
-     */
     private Mono<Void> unauthorized(ServerHttpResponse resp, String msg) {
         return ResponseUtil.webFluxResponseWriter(resp, SystemConstant.APPLICATION_JSON_UTF8, HttpStatus.UNAUTHORIZED, msg);
     }
