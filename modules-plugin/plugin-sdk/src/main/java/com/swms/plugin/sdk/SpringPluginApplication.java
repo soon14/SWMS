@@ -6,9 +6,6 @@ import org.pf4j.spring.SpringPlugin;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import java.util.Collections;
-import java.util.List;
-
 public abstract class SpringPluginApplication extends SpringPlugin {
 
     public SpringPluginApplication(PluginWrapper wrapper) {
@@ -21,11 +18,7 @@ public abstract class SpringPluginApplication extends SpringPlugin {
         applicationContext.setClassLoader(getWrapper().getPluginClassLoader());
         applicationContext.refresh();
 
-        new PluginConfigLoadProcessor(pluginConfigClasses(), applicationContext, wrapper).loadConfiguration();
+        new PluginConfigLoadProcessor(wrapper).loadConfiguration();
         return applicationContext;
-    }
-
-    protected List<Class<?>> pluginConfigClasses() {
-        return Collections.emptyList();
     }
 }
