@@ -93,6 +93,10 @@ public class UserServiceImpl implements UserService {
             throw new WmsException(UserErrorDescEnum.ERR_WRONG_CREDENTIALS);
         }
         User user = userMapper.findByUsername(username);
+        if (user == null) {
+            throw new WmsException(UserErrorDescEnum.ERR_WRONG_CREDENTIALS);
+        }
+
         if (!user.getUsername().equals(username)) {
             //mysql对大小写不敏感,单独处理大小写不匹配
             throw new WmsException(UserErrorDescEnum.ERR_WRONG_CREDENTIALS);

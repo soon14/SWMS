@@ -33,7 +33,7 @@ dependencies {
 
     implementation group: 'mysql', name: 'mysql-connector-java'
 
-    implementation 'org.liquibase:liquibase-core'
+//    implementation 'org.liquibase:liquibase-core'
 
 }
 

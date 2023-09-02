@@ -71,11 +71,6 @@ public class AuthGatewayFilter implements GlobalFilter, Ordered {
                 HttpStatus.BAD_REQUEST, "X-TenantID can't be empty.");
         }
 
-        // 如果未启用网关验证，则跳过
-        if (Boolean.FALSE.equals(authProperties.getEnable())) {
-            return chain.filter(exchange);
-        }
-
         String requestUrl = exchange.getRequest().getURI().getRawPath();
         boolean authorizeNotRequired = ignore(requestUrl);
         if (authorizeNotRequired) {

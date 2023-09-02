@@ -21,7 +21,7 @@ public class AuthProperties {
     /**
      * 是否启用网关鉴权模式
      */
-    private Boolean enable = false;
+//    private Boolean enable = true;
 
     /**
      * 网关鉴权超时续时时长

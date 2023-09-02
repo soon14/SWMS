@@ -1,27 +1,27 @@
-<databaseChangeLog
-        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
-         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
-    <include file="classpath:/database/init-config.xml"/>
+<!--<databaseChangeLog-->
+<!--        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"-->
+<!--        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"-->
+<!--        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-->
+<!--         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">-->
+<!--    <include file="classpath:/database/init-config.xml"/>-->
 
-    <changeSet id="init_dictionary" author="lsy">
-        <preConditions onFail="MARK_RAN">
-            <and>
-                <tableExists tableName="dictionary"/>
-            </and>
-        </preConditions>
-        <comment>init dictionary</comment>
-        <sql>
-            INSERT INTO `swms_mdm`.`dictionarypo`(`id`, `code`, `description`, `editable`, `items`, `name`, `version`)
-            VALUES (1, 'EDITABLE', '{\"languages\": {\"zh_CN\": \"是否允许编辑\"}}', b'0',
-                    '[{\"order\": 1, \"value\": \"true\", \"defaultItem\": true, \"description\": {\"languages\": {\"zh_CN\": \"允许编辑\"}}, \"showContext\": {\"languages\": {\"zh_CN\": \"是\"}}}, {\"order\": 2, \"value\": \"false\", \"defaultItem\": true, \"description\": {\"languages\": {\"zh_CN\": \"允许编辑\"}}, \"showContext\": {\"languages\": {\"zh_CN\": \"否\"}}}]',
-                    '{\"languages\": {\"zh_CN\": \"是否允许编辑\"}}', 0);
-            INSERT INTO `swms_mdm`.`dictionarypo`(`id`, `code`, `description`, `editable`, `items`, `name`, `version`)
-            VALUES (2, 'IS_DEFAULT', '{\"languages\": {\"zh_CN\": \"是否默认\"}}', b'0',
-                    '[{\"order\": 1, \"value\": \"true\", \"defaultItem\": true, \"description\": {\"languages\": {\"zh_CN\": \"是否默认\"}}, \"showContext\": {\"languages\": {\"zh_CN\": \"是\"}}}, {\"order\": 2, \"value\": \"false\", \"defaultItem\": true, \"description\": {\"languages\": {\"zh_CN\": \"是否默认\"}}, \"showContext\": {\"languages\": {\"zh_CN\": \"否\"}}}]',
-                    '{\"languages\": {\"zh_CN\": \"是否默认\"}}', 0);
+<!--    <changeSet id="init_dictionary" author="lsy">-->
+<!--        <preConditions onFail="MARK_RAN">-->
+<!--            <and>-->
+<!--                <tableExists tableName="dictionary"/>-->
+<!--            </and>-->
+<!--        </preConditions>-->
+<!--        <comment>init dictionary</comment>-->
+<!--        <sql>-->
+<!--            INSERT INTO `swms_mdm`.`dictionarypo`(`id`, `code`, `description`, `editable`, `items`, `name`, `version`)-->
+<!--            VALUES (1, 'EDITABLE', '{\"languages\": {\"zh_CN\": \"是否允许编辑\"}}', b'0',-->
+<!--                    '[{\"order\": 1, \"value\": \"true\", \"defaultItem\": true, \"description\": {\"languages\": {\"zh_CN\": \"允许编辑\"}}, \"showContext\": {\"languages\": {\"zh_CN\": \"是\"}}}, {\"order\": 2, \"value\": \"false\", \"defaultItem\": true, \"description\": {\"languages\": {\"zh_CN\": \"允许编辑\"}}, \"showContext\": {\"languages\": {\"zh_CN\": \"否\"}}}]',-->
+<!--                    '{\"languages\": {\"zh_CN\": \"是否允许编辑\"}}', 0);-->
+<!--            INSERT INTO `swms_mdm`.`dictionarypo`(`id`, `code`, `description`, `editable`, `items`, `name`, `version`)-->
+<!--            VALUES (2, 'IS_DEFAULT', '{\"languages\": {\"zh_CN\": \"是否默认\"}}', b'0',-->
+<!--                    '[{\"order\": 1, \"value\": \"true\", \"defaultItem\": true, \"description\": {\"languages\": {\"zh_CN\": \"是否默认\"}}, \"showContext\": {\"languages\": {\"zh_CN\": \"是\"}}}, {\"order\": 2, \"value\": \"false\", \"defaultItem\": true, \"description\": {\"languages\": {\"zh_CN\": \"是否默认\"}}, \"showContext\": {\"languages\": {\"zh_CN\": \"否\"}}}]',-->
+<!--                    '{\"languages\": {\"zh_CN\": \"是否默认\"}}', 0);-->
 
-        </sql>
-    </changeSet>
-</databaseChangeLog>
+<!--        </sql>-->
+<!--    </changeSet>-->
+<!--</databaseChangeLog>-->

@@ -2,6 +2,8 @@ package com.swms.user.rest.controller;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
+import com.swms.common.utils.http.Response;
+import com.swms.common.utils.user.UserContext;
 import com.swms.user.repository.entity.Menu;
 import com.swms.user.repository.entity.Role;
 import com.swms.user.rest.common.BaseResource;
@@ -10,8 +12,6 @@ import com.swms.user.rest.param.user.UserUpdatePasswordParam;
 import com.swms.user.service.CurrentUserService;
 import com.swms.user.service.MenuService;
 import com.swms.user.service.UserRoleService;
-import com.swms.common.utils.http.Response;
-import com.swms.common.utils.user.UserContext;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import jakarta.validation.Valid;
@@ -50,7 +50,7 @@ public class CurrentUserController extends BaseResource {
 
     @GetMapping("/getAuth")
     @ApiOperation("查询菜单树")
-    public Object getAuth() throws Exception {
+    public Object getAuth() {
         List<Menu> menuTrees = menuService.getMenuTreeByUser(UserContext.getCurrentUser());
         Map<String, Menu> menuMap = menuTrees.stream().collect(Collectors.toMap(Menu::getTitle, v -> v));
 
@@ -69,7 +69,7 @@ public class CurrentUserController extends BaseResource {
     @PostMapping("/searchMenuTree")
     @ApiOperation(value = "查询菜单树(前端使用)", response = Menu.class)
     public Object searchMenuTree(@RequestParam Integer pageIndex,
-                                 @RequestParam Integer pageSize) throws Exception {
+                                 @RequestParam Integer pageSize) {
         if (pageIndex == null || pageIndex <= 0) {
             pageIndex = 1;
         }
@@ -99,7 +99,7 @@ public class CurrentUserController extends BaseResource {
 
     @PostMapping("/password")
     @ApiOperation("修改密码")
-    public Object updatePassword(@RequestBody @Valid UserUpdatePasswordParam param) throws Exception {
+    public Object updatePassword(@RequestBody @Valid UserUpdatePasswordParam param) {
         Preconditions.checkState(Objects.equals(param.getNewPassword(), param.getConfirmNewPassword()));
 
         userService.updateCurrentUserPassword(UserContext.getCurrentUser(), param.getOldPassword(), param.getNewPassword());
@@ -108,7 +108,7 @@ public class CurrentUserController extends BaseResource {
 
     @PostMapping("/updateUserInfo")
     @ApiOperation("修改当前用户信息")
-    public Object updateUserInfo(@RequestBody @Valid CurrentUserInfoUpdatedParam param) throws Exception {
+    public Object updateUserInfo(@RequestBody @Valid CurrentUserInfoUpdatedParam param) {
         userService.updateInfo(UserContext.getCurrentUser(), param);
         return Response.builder().build();
     }
