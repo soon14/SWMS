@@ -4283,7 +4283,7 @@ INSERT INTO `u_menu` VALUES (1007020004, 'admin', 'iwms', 1007000000, 3, '区域
 INSERT INTO `u_menu` VALUES (1007020005, 'admin', 'iwms', 1007000000, 3, '禁边', NULL, '50205', NULL, 17, NULL, '', 1, 0, 0, '');
 INSERT INTO `u_menu` VALUES (1007030001, 'admin', 'iwms', 1007000000, 3, '主题模式', NULL, '50301', NULL, 18, NULL, '', 1, 0, 0, '');
 INSERT INTO `u_menu` VALUES (1007030002, 'admin', 'iwms', 1007000000, 3, '暂停/恢复系统', NULL, '50302', NULL, 19, NULL, '', 1, 0, 0, '');
-INSERT INTO `u_menu` VALUES (1100000000, 'admin', 'user', 0, 1, '用户中心', NULL, 'hairoutech-user', NULL, 1, 'userapp', '/user', 1, 0, 0, '');
+INSERT INTO `u_menu` VALUES (1100000000, 'admin', 'user', 0, 1, '用户中心', NULL, 'swms-user', NULL, 1, 'userapp', '/user', 1, 0, 0, '');
 INSERT INTO `u_menu` VALUES (1101000000, 'admin', 'user', 1100000000, 2, '角色管理', NULL, '/user/role-manage', NULL, 1, 'team', '/user/role-manage', 1, 0, 0, '');
 INSERT INTO `u_menu` VALUES (1101000001, 'admin', 'user', 1101000000, 3, '新增', NULL, 'post:/user/api/role/add', NULL, 1, NULL, NULL, 1, 0, 0, '');
 INSERT INTO `u_menu` VALUES (1101000002, 'admin', 'user', 1101000000, 3, '编辑', NULL, 'post:/user/api/role/update', NULL, 2, NULL, NULL, 1, 0, 0, '');
