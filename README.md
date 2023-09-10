@@ -47,7 +47,7 @@ The SWMS provides a user-friendly interface for managing your warehouse. You can
   Robot Control Systems (RCS). This streamlined connectivity allows for synchronized and efficient management of robotic
   systems within the warehouse environment.
 
-For detailed instructions and examples, refer to our [User Guide](docs/user-guide.md).
+For detailed instructions and examples, refer to our example [website](http://test.smartswms.xyz/):.
 
 ## Contributing
 
