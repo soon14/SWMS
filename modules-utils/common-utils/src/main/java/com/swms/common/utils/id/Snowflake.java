@@ -72,4 +72,13 @@ public class Snowflake {
         }
         return timestamp;
     }
+
+
+    public long getDatacenterId() {
+        return this.datacenterId;
+    }
+
+    public long getWorkerId() {
+        return this.workerId;
+    }
 }

@@ -14,6 +14,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Index;
 import jakarta.persistence.Table;
+import jakarta.persistence.Version;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.DynamicUpdate;
@@ -94,4 +95,7 @@ public class InboundPlanOrderPO extends AuditUserPO {
     @Column(columnDefinition = "json comment '扩展字段'")
     @Convert(converter = MapConverter.class)
     private Map<String, Object> extendFields;
+
+    @Version
+    private Long version;
 }
