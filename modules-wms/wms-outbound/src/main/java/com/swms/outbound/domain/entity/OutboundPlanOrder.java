@@ -2,12 +2,14 @@ package com.swms.outbound.domain.entity;
 
 import com.google.common.collect.Sets;
 import com.swms.common.utils.id.OrderNoGenerator;
+import com.swms.mdm.api.main.data.dto.SkuMainDataDTO;
 import com.swms.wms.api.outbound.constants.OutboundPlanOrderStatusEnum;
 import lombok.Data;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Data
 public class OutboundPlanOrder {
@@ -51,5 +53,15 @@ public class OutboundPlanOrder {
         }
         this.skuKindNum = skuSet.size();
         this.orderNo = OrderNoGenerator.generationOutboundPlanOrderNo();
+    }
+
+    public void initSkuId(Set<SkuMainDataDTO> skuMainDataDTOS) {
+        Map<String, SkuMainDataDTO> skuMap = skuMainDataDTOS.stream()
+            .collect(Collectors.toMap(SkuMainDataDTO::getSkuCode, v -> v));
+        this.details.forEach(v -> v.setSkuId(skuMap.get(v.getSkuCode()).getId()));
+    }
+
+    public void preAllocateDone() {
+        this.outboundPlanOrderStatus = OutboundPlanOrderStatusEnum.ASSIGNED;
     }
 }

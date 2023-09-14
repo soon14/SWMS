@@ -42,6 +42,10 @@ public class RedisUtils {
     public RLock getLock(String lockKey) {
         return redissonClient.getLock(lockKey);
     }
+
+    public long getAndIncrement(String key, int cacheSize) {
+        return redissonClient.getAtomicLong(key).getAndAdd(cacheSize);
+    }
 }
 
 

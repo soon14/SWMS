@@ -13,7 +13,7 @@ public interface StockTransferService {
     /**
      * when stock is moved from outside to warehouse, then stock is created. e.g: receiving
      *
-     * @param stockTransferDTOS
+     * @param stockTransferDTO
      */
     void createStock(@Valid StockCreateDTO stockTransferDTO);
 

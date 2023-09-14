@@ -4,6 +4,7 @@ import com.swms.mdm.api.main.data.dto.SkuMainDataDTO;
 import com.swms.wms.api.stock.IStockApi;
 import com.swms.wms.api.stock.dto.ContainerStockDTO;
 import com.swms.wms.api.stock.dto.ContainerStockLockDTO;
+import com.swms.wms.api.stock.dto.SkuBatchStockDTO;
 import com.swms.wms.api.stock.dto.SkuBatchStockLockDTO;
 import com.swms.wms.stock.domain.entity.ContainerStock;
 import com.swms.wms.stock.domain.entity.SkuBatchAttribute;
@@ -12,10 +13,12 @@ import com.swms.wms.stock.domain.repository.ContainerStockRepository;
 import com.swms.wms.stock.domain.repository.SkuBatchAttributeRepository;
 import com.swms.wms.stock.domain.repository.SkuBatchStockRepository;
 import com.swms.wms.stock.domain.transfer.ContainerStockTransfer;
+import com.swms.wms.stock.domain.transfer.SkuBatchStockTransfer;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.TreeMap;
@@ -31,6 +34,9 @@ public class StockApplicationApiImpl implements IStockApi {
 
     @Autowired
     private SkuBatchStockRepository skuBatchStockRepository;
+
+    @Autowired
+    private SkuBatchStockTransfer skuBatchStockTransfer;
 
     @Autowired
     private SkuBatchAttributeRepository skuBatchAttributeRepository;
@@ -86,5 +92,11 @@ public class StockApplicationApiImpl implements IStockApi {
         ContainerStock containerStock = containerStockRepository.findById(id);
         containerStock.unFreezeQty(qty);
         containerStockRepository.save(containerStock);
+    }
+
+    @Override
+    public List<SkuBatchStockDTO> getBySkuBatchAttributeIds(Collection<Long> skuBatchAttributeIds) {
+        List<SkuBatchStock> skuBatchStocks = skuBatchStockRepository.findAllBySkuBatchAttributeIds(skuBatchAttributeIds);
+        return skuBatchStockTransfer.toDTOs(skuBatchStocks);
     }
 }

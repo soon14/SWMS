@@ -17,6 +17,8 @@ public interface SkuBatchStockRepository {
 
     List<SkuBatchStock> findAllBySkuBatchAttributeId(Long skuBatchAttributeId);
 
+    List<SkuBatchStock> findAllBySkuBatchAttributeIds(Collection<Long> skuBatchAttributeIds);
+
     SkuBatchStock findBySkuBatchAttributeIdAndWarehouseAreaId(Long skuBatchAttributeId, Long warehouseAreaId);
 
 }

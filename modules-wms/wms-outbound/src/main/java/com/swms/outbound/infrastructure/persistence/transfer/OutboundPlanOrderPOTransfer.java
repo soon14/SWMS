@@ -24,4 +24,6 @@ public interface OutboundPlanOrderPOTransfer {
     List<OutboundPlanOrderDetailPO> toDetailPOS(List<OutboundPlanOrderDetail> details);
 
     List<OutboundPlanOrderPO> toPOS(List<OutboundPlanOrder> outboundPlanOrders);
+
+    OutboundPlanOrder toDO(OutboundPlanOrderPO outboundPlanOrderPO, List<OutboundPlanOrderDetailPO> details);
 }

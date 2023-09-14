@@ -3,6 +3,7 @@ package com.swms.wms.stock.domain.transfer;
 import static org.mapstruct.NullValueCheckStrategy.ALWAYS;
 import static org.mapstruct.NullValueMappingStrategy.RETURN_NULL;
 
+import com.swms.wms.api.stock.dto.SkuBatchStockDTO;
 import com.swms.wms.api.stock.dto.StockCreateDTO;
 import com.swms.wms.api.stock.dto.StockTransferDTO;
 import com.swms.wms.stock.domain.entity.SkuBatchStock;
@@ -29,4 +30,9 @@ public interface SkuBatchStockTransfer {
     @Mapping(source = "transferQty", target = "totalQty")
     @Mapping(source = "transferQty", target = "availableQty")
     SkuBatchStock fromCreateDTOtoDO(StockCreateDTO stockCreateDTO);
+
+    List<SkuBatchStockDTO> toDTO(SkuBatchStock stockStock);
+
+    List<SkuBatchStockDTO> toDTOs(List<SkuBatchStock> stockStocks);
+
 }

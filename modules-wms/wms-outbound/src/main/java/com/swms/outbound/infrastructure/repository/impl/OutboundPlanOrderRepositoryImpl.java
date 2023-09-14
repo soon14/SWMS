@@ -27,18 +27,28 @@ public class OutboundPlanOrderRepositoryImpl implements OutboundPlanOrderReposit
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void saveOutboundPlanOrder(OutboundPlanOrder outboundPlanOrder) {
+    public OutboundPlanOrder saveOutboundPlanOrder(OutboundPlanOrder outboundPlanOrder) {
         OutboundPlanOrderPO outboundPlanOrderPO = outboundPlanOrderPORepository.save(outboundPlanOrderPOTransfer.toPO(outboundPlanOrder));
 
         List<OutboundPlanOrderDetailPO> outboundPlanOrderDetailPOS = outboundPlanOrderPOTransfer.toDetailPOS(outboundPlanOrder.getDetails());
         outboundPlanOrderDetailPOS.forEach(v -> v.setOutboundPlanOrderId(outboundPlanOrderPO.getId()));
 
-        outboundPlanOrderDetailPORepository.saveAll(outboundPlanOrderDetailPOS);
+        List<OutboundPlanOrderDetailPO> details = outboundPlanOrderDetailPORepository.saveAll(outboundPlanOrderDetailPOS);
+
+        return outboundPlanOrderPOTransfer.toDO(outboundPlanOrderPO, details);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void saveAll(List<OutboundPlanOrder> outboundPlanOrders) {
         outboundPlanOrderPORepository.saveAll(outboundPlanOrderPOTransfer.toPOS(outboundPlanOrders));
+    }
+
+    @Override
+    public OutboundPlanOrder findByOrderNo(String orderNo) {
+        OutboundPlanOrderPO outboundPlanOrderPO = outboundPlanOrderPORepository.findByOrderNo(orderNo);
+        List<OutboundPlanOrderDetailPO> details = outboundPlanOrderDetailPORepository
+            .findAllByOutboundPlanOrderId(outboundPlanOrderPO.getId());
+        return outboundPlanOrderPOTransfer.toDO(outboundPlanOrderPO, details);
     }
 }

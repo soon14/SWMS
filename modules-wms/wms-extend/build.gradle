@@ -2,5 +2,10 @@ plugins {
     id 'java'
 }
 
+dependencies {
+    implementation project(path: ":modules-wms:wms-api", configuration: 'default')
+    implementation project(path: ":modules-plugin:plugin-sdk", configuration: 'default')
+}
+
 group 'com.swms'
 version '1.0-SNAPSHOT'

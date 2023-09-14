@@ -1,49 +1,63 @@
 package com.swms.outbound.application;
 
-import com.swms.domain.event.DomainEventPublisher;
+import com.swms.common.utils.constants.RedisConstants;
+import com.swms.distribute.lock.DistributeLock;
+import com.swms.mdm.api.main.data.dto.SkuMainDataDTO;
 import com.swms.outbound.domain.aggregate.OutboundWaveAggregate;
 import com.swms.outbound.domain.entity.OutboundPlanOrder;
 import com.swms.outbound.domain.repository.OutboundPlanOrderRepository;
 import com.swms.outbound.domain.service.OutboundPlanOrderService;
 import com.swms.outbound.domain.transfer.OutboundPlanOrderTransfer;
+import com.swms.outbound.domain.validator.IValidator;
+import com.swms.outbound.domain.validator.ValidateResult;
 import com.swms.wms.api.outbound.IOutboundPlanOrderApi;
 import com.swms.wms.api.outbound.dto.OutboundPlanOrderDTO;
-import com.swms.wms.api.outbound.event.NewOutboundPlanOrderEvent;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 @Validated
 public class OutboundPlanOrderApiImpl implements IOutboundPlanOrderApi {
 
     @Autowired
-    private OutboundPlanOrderTransfer outboundPlanOrderTransfer;
+    private OutboundPlanOrderRepository outboundPlanOrderRepository;
 
     @Autowired
     private OutboundPlanOrderService outboundPlanOrderService;
 
     @Autowired
-    private OutboundPlanOrderRepository outboundPlanOrderRepository;
+    private OutboundPlanOrderTransfer outboundPlanOrderTransfer;
 
     @Autowired
-    private DomainEventPublisher domainEventPublisher;
-
+    private DistributeLock distributeLock;
 
     @Override
     public void createOutboundPlanOrder(OutboundPlanOrderDTO outboundPlanOrderDTO) {
 
+        outboundPlanOrderService.beforeDoCreation(outboundPlanOrderDTO);
+
         OutboundPlanOrder outboundPlanOrder = outboundPlanOrderTransfer.toDO(outboundPlanOrderDTO);
-
         outboundPlanOrder.initialize();
-        outboundPlanOrderService.validateOutboundPlanOrder(outboundPlanOrder);
 
-        outboundPlanOrderRepository.saveOutboundPlanOrder(outboundPlanOrder);
+        ValidateResult<Set<SkuMainDataDTO>> result = outboundPlanOrderService.validate(outboundPlanOrder);
+        outboundPlanOrder.initSkuId(result.getResult(IValidator.ValidatorName.SKU));
 
-        domainEventPublisher.sendAsyncEvent(new NewOutboundPlanOrderEvent(outboundPlanOrder.getOrderNo()));
+        distributeLock.acquireLockIfThrows(RedisConstants.OUTBOUND_PLAN_ORDER_ADD_LOCK + outboundPlanOrder.getCustomerOrderNo(), 3000L);
+
+        OutboundPlanOrder savedOrder;
+        try {
+            outboundPlanOrderService.syncValidate(outboundPlanOrder);
+            savedOrder = outboundPlanOrderRepository.saveOutboundPlanOrder(outboundPlanOrder);
+        } finally {
+            distributeLock.releaseLock(RedisConstants.OUTBOUND_PLAN_ORDER_ADD_LOCK + outboundPlanOrder.getCustomerOrderNo());
+        }
+
+        outboundPlanOrderService.afterDoCreation(savedOrder);
     }
 
     @Override

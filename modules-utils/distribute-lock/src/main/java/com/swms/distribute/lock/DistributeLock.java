@@ -5,5 +5,7 @@ public interface DistributeLock {
 
     void releaseLock(String lockKey);
 
+    void acquireLockIfThrows(String lockKey);
+
     void acquireLockIfThrows(String lockKey, long leaseTimeInMillis);
 }

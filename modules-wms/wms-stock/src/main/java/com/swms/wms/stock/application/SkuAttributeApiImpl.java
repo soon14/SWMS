@@ -2,6 +2,8 @@ package com.swms.wms.stock.application;
 
 import com.swms.wms.api.stock.ISkuBatchAttributeApi;
 import com.swms.wms.api.stock.dto.SkuBatchAttributeDTO;
+import com.swms.wms.api.stock.dto.SkuBatchAttributeMatchRequest;
+import com.swms.wms.api.stock.dto.SkuBatchAttributeMatchResult;
 import com.swms.wms.stock.domain.entity.SkuBatchAttribute;
 import com.swms.wms.stock.domain.entity.SkuBatchStock;
 import com.swms.wms.stock.domain.repository.SkuBatchAttributeRepository;
@@ -58,4 +60,11 @@ public class SkuAttributeApiImpl implements ISkuBatchAttributeApi {
         }
         return skuBatchAttributeTransfer.toDTO(skuBatchAttributeRepository.save(newSkuBatchAttribute));
     }
+
+    @Override
+    public List<SkuBatchAttributeDTO> getBySkuIds(Collection<Long> skuIds) {
+        List<SkuBatchAttribute> skuBatchAttributes = skuBatchAttributeRepository.findAllBySkuIds(skuIds);
+        return skuBatchAttributeTransfer.toDTOS(skuBatchAttributes);
+    }
+
 }

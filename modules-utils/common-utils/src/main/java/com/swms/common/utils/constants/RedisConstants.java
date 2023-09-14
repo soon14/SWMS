@@ -33,6 +33,11 @@ public class RedisConstants {
 
 
     /**
+     * Outboud module lock
+     */
+    public static final String OUTBOUND_PLAN_ORDER_ADD_LOCK = "wms:outbound:plan:order:add:lock";
+
+    /**
      * Station module lock
      */
     public static final String WORK_STATION_OPERATE_SYNC_LOCK = "station:work:station:operate:sync:lock";

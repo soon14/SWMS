@@ -40,4 +40,9 @@ public class RedisDistributeLock implements DistributeLock {
             throw WmsException.throwWmsException(CommonErrorDescEnum.REPEAT_REQUEST);
         }
     }
+
+    @Override
+    public void acquireLockIfThrows(String lockKey) {
+        acquireLockIfThrows(lockKey, 3000L);
+    }
 }

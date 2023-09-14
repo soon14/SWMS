@@ -5,7 +5,9 @@ import com.swms.outbound.domain.entity.OutboundPlanOrder;
 import java.util.List;
 
 public interface OutboundPlanOrderRepository {
-    void saveOutboundPlanOrder(OutboundPlanOrder outboundPlanOrder);
+    OutboundPlanOrder saveOutboundPlanOrder(OutboundPlanOrder outboundPlanOrder);
 
     void saveAll(List<OutboundPlanOrder> outboundPlanOrders);
+
+    OutboundPlanOrder findByOrderNo(String orderNo);
 }

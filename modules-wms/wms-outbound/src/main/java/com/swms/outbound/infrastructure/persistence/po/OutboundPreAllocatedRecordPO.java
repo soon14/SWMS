@@ -1,6 +1,6 @@
 package com.swms.outbound.infrastructure.persistence.po;
 
-import com.swms.common.utils.base.UpdateUserPO;
+import com.swms.common.utils.base.CreateUserPO;
 import com.swms.common.utils.jpa.converter.MapConverter;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
@@ -16,7 +16,6 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.util.Map;
 import java.util.TreeMap;
 
 @EqualsAndHashCode(callSuper = true)
@@ -24,14 +23,13 @@ import java.util.TreeMap;
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Table(
-    name = "w_outbound_plan_order_deatil",
+    name = "w_outbound_pre_allocated_record",
     indexes = {
-        @Index(name = "idx_customer_order_no", columnList = "customerOrderNo"),
-        @Index(unique = true, name = "idx_order_no", columnList = "orderNo")
+        @Index(name = "idx_outbound_plan_order_id", columnList = "outboundPlanOrderId")
     }
 )
 @DynamicUpdate
-public class OutboundPlanOrderDetailPO extends UpdateUserPO {
+public class OutboundPreAllocatedRecordPO extends CreateUserPO {
 
     @Id
     @GeneratedValue(generator = "databaseIdGenerator")
@@ -41,23 +39,19 @@ public class OutboundPlanOrderDetailPO extends UpdateUserPO {
     @Column(nullable = false, columnDefinition = "bigint comment '出库计划单ID'")
     private Long outboundPlanOrderId;
 
+    @Column(nullable = false, columnDefinition = "bigint comment '出库计划单明细ID'")
+    private Long outboundPlanOrderDetailId;
+
     @Column(nullable = false, columnDefinition = "bigint comment 'skuID'")
     private Long skuId;
-    @Column(nullable = false, columnDefinition = "varchar(64) comment 'sku编码'")
-    private String skuCode;
-    @Column(nullable = false, columnDefinition = "varchar(128) comment 'sku名称'")
-    private String skuName = "";
+
+    @Column(nullable = false, columnDefinition = "bigint comment 'sku batch stock ID'")
+    private Long skuBatchStockId;
 
     @Column(columnDefinition = "json comment '批次属性'")
     @Convert(converter = MapConverter.class)
-    private Map<String, Object> batchAttributes = new TreeMap<>();
+    private TreeMap<String, Object> batchAttributes;
 
-    @Column(nullable = false, columnDefinition = "int(11) comment '计划数量'")
-    private Integer qtyRequired;
-    @Column(nullable = false, columnDefinition = "int(11) comment '实际拣货数量'")
-    private Integer qtyActual = 0;
-
-    @Column(columnDefinition = "json comment '扩展字段'")
-    @Convert(converter = MapConverter.class)
-    private Map<String, String> reservedFields;
+    @Column(nullable = false, columnDefinition = "int(11) comment '预占用数量'")
+    private Integer qtyPreAllocated;
 }

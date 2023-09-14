@@ -8,6 +8,9 @@ import java.util.TreeMap;
 @Data
 public class OutboundPlanOrderDetail {
 
+    private Long id;
+    private Long outboundPlanOrderId;
+    private Long skuId;
     private String skuCode;
     private String skuName;
 

@@ -14,4 +14,6 @@ public interface SkuBatchAttributeRepository {
     List<SkuBatchAttribute> findAllByIds(Collection<Long> skuBatchAttributeIds);
 
     SkuBatchAttribute findBySkuIdAndBatchNo(Long skuId, String batchNo);
+
+    List<SkuBatchAttribute> findAllBySkuIds(Collection<Long> skuIds);
 }

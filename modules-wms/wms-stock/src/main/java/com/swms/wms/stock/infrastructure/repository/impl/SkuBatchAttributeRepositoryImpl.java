@@ -38,4 +38,9 @@ public class SkuBatchAttributeRepositoryImpl implements SkuBatchAttributeReposit
     public SkuBatchAttribute findBySkuIdAndBatchNo(Long skuId, String batchNo) {
         return skuBatchAttributePOTransfer.toDO(skuBatchAttributePORepository.findBySkuIdAndBatchNo(skuId, batchNo));
     }
+
+    @Override
+    public List<SkuBatchAttribute> findAllBySkuIds(Collection<Long> skuIds) {
+        return skuBatchAttributePOTransfer.toDOs(skuBatchAttributePORepository.findAllBySkuIdIn(skuIds));
+    }
 }

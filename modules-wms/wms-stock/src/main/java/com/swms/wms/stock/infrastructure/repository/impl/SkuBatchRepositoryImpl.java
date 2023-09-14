@@ -49,6 +49,12 @@ public class SkuBatchRepositoryImpl implements SkuBatchStockRepository {
     }
 
     @Override
+    public List<SkuBatchStock> findAllBySkuBatchAttributeIds(Collection<Long> skuBatchAttributeIds) {
+        List<SkuBatchStockPO> skuBatchStocks = skuBatchStockPORepository.findAllBySkuBatchAttributeIdIn(skuBatchAttributeIds);
+        return skuBatchStockPOTransfer.toDOS(skuBatchStocks);
+    }
+
+    @Override
     public SkuBatchStock findBySkuBatchAttributeIdAndWarehouseAreaId(Long skuBatchAttributeId, Long warehouseAreaId) {
         SkuBatchStockPO skuBatchStockPO = skuBatchStockPORepository
             .findBySkuBatchAttributeIdAndWarehouseAreaId(skuBatchAttributeId, warehouseAreaId);

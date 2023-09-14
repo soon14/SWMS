@@ -42,7 +42,7 @@ public class OutboundWaveAggregate {
     @Autowired
     private DomainEventPublisher domainEventPublisher;
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void save() {
         outboundWaveRepository.save(outboundWaveTransfer.toDO(this));
 

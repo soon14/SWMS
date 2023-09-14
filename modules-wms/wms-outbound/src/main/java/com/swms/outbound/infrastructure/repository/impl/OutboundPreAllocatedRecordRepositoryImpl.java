@@ -1,0 +1,25 @@
+package com.swms.outbound.infrastructure.repository.impl;
+
+import com.swms.outbound.domain.entity.OutboundOrderPlanPreAllocatedRecord;
+import com.swms.outbound.domain.repository.OutboundPreAllocatedRecordRepository;
+import com.swms.outbound.infrastructure.persistence.mapper.OutboundPreAllocatedRecordPORepository;
+import com.swms.outbound.infrastructure.persistence.transfer.OutboundPreAllocatedRecordPOTransfer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class OutboundPreAllocatedRecordRepositoryImpl implements OutboundPreAllocatedRecordRepository {
+
+    @Autowired
+    private OutboundPreAllocatedRecordPORepository outboundPreAllocatedRecordPORepository;
+
+    @Autowired
+    private OutboundPreAllocatedRecordPOTransfer outboundPreAllocatedRecordPOTransfer;
+
+    @Override
+    public void saveAll(List<OutboundOrderPlanPreAllocatedRecord> planPreAllocatedRecords) {
+        outboundPreAllocatedRecordPORepository.saveAll(outboundPreAllocatedRecordPOTransfer.toPOs(planPreAllocatedRecords));
+    }
+}
