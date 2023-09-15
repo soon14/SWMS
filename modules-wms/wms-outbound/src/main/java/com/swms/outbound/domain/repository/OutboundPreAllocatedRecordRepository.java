@@ -7,4 +7,5 @@ import java.util.List;
 public interface OutboundPreAllocatedRecordRepository {
     void saveAll(List<OutboundOrderPlanPreAllocatedRecord> planPreAllocatedRecords);
 
+    List<OutboundOrderPlanPreAllocatedRecord> findByOutboundPlanOrderId(Long outboundPlanOrderId);
 }

@@ -70,11 +70,6 @@ public class OutboundPlanOrderServiceImpl implements OutboundPlanOrderService {
     }
 
     @Override
-    public List<OutboundWaveAggregate> wavePicking() {
-        return null;
-    }
-
-    @Override
     public void syncValidate(OutboundPlanOrder outboundPlanOrder) {
 
     }

@@ -10,6 +10,8 @@ import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @DubboService
 public class WorkStationApiImpl implements IWorkStationApi {
@@ -82,6 +84,12 @@ public class WorkStationApiImpl implements IWorkStationApi {
     @Override
     public WorkStationDTO queryWorkStation(Long id) {
         return workStationTransfer.toDTO(workStationRepository.findById(id));
+    }
+
+    @Override
+    public List<WorkStationDTO> getByWarehouseCode(String warehouseCode) {
+        List<WorkStation> workStations = workStationRepository.findByWarehouseCode(warehouseCode);
+        return workStationTransfer.toDTOs(workStations);
     }
 
 }

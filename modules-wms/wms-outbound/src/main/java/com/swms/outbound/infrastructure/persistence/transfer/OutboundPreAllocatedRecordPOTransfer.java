@@ -18,4 +18,6 @@ import java.util.List;
     nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface OutboundPreAllocatedRecordPOTransfer {
     List<OutboundPreAllocatedRecordPO> toPOs(List<OutboundOrderPlanPreAllocatedRecord> planPreAllocatedRecords);
+
+    List<OutboundOrderPlanPreAllocatedRecord> toDOs(List<OutboundPreAllocatedRecordPO> recordPOS);
 }

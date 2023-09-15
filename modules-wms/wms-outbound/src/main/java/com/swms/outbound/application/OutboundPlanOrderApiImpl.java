@@ -60,13 +60,4 @@ public class OutboundPlanOrderApiImpl implements IOutboundPlanOrderApi {
         outboundPlanOrderService.afterDoCreation(savedOrder);
     }
 
-    @Override
-    public void wavePicking() {
-        List<OutboundWaveAggregate> outboundWaves = outboundPlanOrderService.wavePicking();
-
-        if (CollectionUtils.isEmpty(outboundWaves)) {
-            return;
-        }
-        outboundWaves.forEach(OutboundWaveAggregate::save);
-    }
 }

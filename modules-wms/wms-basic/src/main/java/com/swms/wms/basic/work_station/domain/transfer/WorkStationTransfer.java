@@ -9,6 +9,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring",
     nullValueCheckStrategy = ALWAYS,
     nullValueMappingStrategy = RETURN_NULL,
@@ -18,4 +20,6 @@ public interface WorkStationTransfer {
     WorkStation toDO(WorkStationDTO workStationDTO);
 
     WorkStationDTO toDTO(WorkStation workStation);
+
+    List<WorkStationDTO> toDTOs(List<WorkStation> workStations);
 }

@@ -10,4 +10,8 @@ public interface OutboundPlanOrderRepository {
     void saveAll(List<OutboundPlanOrder> outboundPlanOrders);
 
     OutboundPlanOrder findByOrderNo(String orderNo);
+
+    OutboundPlanOrder findById(Long orderId);
+
+    List<OutboundPlanOrder> findAllByIds(List<Long> orderIds);
 }

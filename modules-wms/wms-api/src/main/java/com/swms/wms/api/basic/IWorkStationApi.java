@@ -3,6 +3,8 @@ package com.swms.wms.api.basic;
 import com.swms.wms.api.basic.constants.WorkStationOperationTypeEnum;
 import com.swms.wms.api.basic.dto.WorkStationDTO;
 
+import java.util.List;
+
 public interface IWorkStationApi {
 
     void save(WorkStationDTO workStationDTO);
@@ -24,4 +26,6 @@ public interface IWorkStationApi {
     void resume(Long id);
 
     WorkStationDTO queryWorkStation(Long id);
+
+    List<WorkStationDTO> getByWarehouseCode(String warehouseCode);
 }

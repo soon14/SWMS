@@ -1,5 +1,6 @@
 package com.swms.common.utils.utils;
 
+import org.redisson.api.RList;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.redisson.api.listener.MessageListener;
@@ -7,6 +8,8 @@ import org.redisson.codec.JsonJacksonCodec;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 @ConditionalOnClass(RedissonClient.class)
@@ -45,6 +48,24 @@ public class RedisUtils {
 
     public long getAndIncrement(String key, int cacheSize) {
         return redissonClient.getAtomicLong(key).getAndAdd(cacheSize);
+    }
+
+    public <T> void push(String key, T t) {
+        redissonClient.getList(key).add(t);
+    }
+
+    public <T> List<T> getList(String key) {
+        RList<T> rList = redissonClient.getList(key);
+        return rList.range(rList.size());
+    }
+
+    public <T> void removeList(String key, List<T> removeList) {
+        RList<T> rList = redissonClient.getList(key);
+        rList.removeAll(removeList);
+    }
+
+    public <T> void pushAll(String key, List<T> newList) {
+        redissonClient.getList(key).addAll(newList);
     }
 }
 

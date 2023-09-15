@@ -51,4 +51,20 @@ public class OutboundPlanOrderRepositoryImpl implements OutboundPlanOrderReposit
             .findAllByOutboundPlanOrderId(outboundPlanOrderPO.getId());
         return outboundPlanOrderPOTransfer.toDO(outboundPlanOrderPO, details);
     }
+
+    @Override
+    public OutboundPlanOrder findById(Long orderId) {
+        return null;
+    }
+
+    @Override
+    public List<OutboundPlanOrder> findAllByIds(List<Long> orderIds) {
+
+        List<OutboundPlanOrderPO> outboundPlanOrderPOS = outboundPlanOrderPORepository.findAllById(orderIds);
+        return outboundPlanOrderPOS.stream().map(outboundPlanOrderPO -> {
+            List<OutboundPlanOrderDetailPO> detailPOS = outboundPlanOrderDetailPORepository
+                .findAllByOutboundPlanOrderId(outboundPlanOrderPO.getId());
+            return outboundPlanOrderPOTransfer.toDO(outboundPlanOrderPO, detailPOS);
+        }).toList();
+    }
 }

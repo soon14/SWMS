@@ -4,4 +4,6 @@ import com.swms.outbound.domain.entity.OutboundWave;
 
 public interface OutboundWaveRepository {
     OutboundWave save(OutboundWave outboundWave);
+
+    OutboundWave findByWaveNo(String waveNo);
 }

@@ -6,6 +6,4 @@ import jakarta.validation.Valid;
 public interface IOutboundPlanOrderApi {
 
     void createOutboundPlanOrder(@Valid OutboundPlanOrderDTO outboundPlanOrderDTO);
-
-    void wavePicking();
 }

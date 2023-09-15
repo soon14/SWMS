@@ -17,6 +17,8 @@ public class OrderNoGenerator {
     private static final String RECEIVE_ORDER_NO_PREFIX = "RE_";
     private static final String ACCEPT_ORDER_NO_PREFIX = "APT_";
     private static final String OUTBOUND_PLAN_ORDER_NO_PREFIX = "OUT_";
+    private static final String OUTBOUND_WAVE_NO_PREFIX = "WAVE_";
+
     private static final String PICKING_ORDER_NO_PREFIX = "PICK_";
 
     private static final Map<String, Long> INDEX_MAP = new ConcurrentHashMap<>();
@@ -39,6 +41,14 @@ public class OrderNoGenerator {
 
     public static String generationOutboundPlanOrderNo() {
         return generateOrderNo(OUTBOUND_PLAN_ORDER_NO_PREFIX);
+    }
+
+    public static String generationOutboundWaveNo() {
+        return generateOrderNo(OUTBOUND_WAVE_NO_PREFIX);
+    }
+
+    public static String generationPickingOrderNo() {
+        return generateOrderNo(PICKING_ORDER_NO_PREFIX);
     }
 
     private static final FastDateFormat formatter = FastDateFormat.getInstance("yyyy-MM-dd");
