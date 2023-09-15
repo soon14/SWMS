@@ -7,6 +7,8 @@ import com.swms.outbound.domain.entity.PickingOrder;
 import com.swms.outbound.domain.entity.PickingOrderDetail;
 import com.swms.outbound.domain.repository.OutboundPreAllocatedRecordRepository;
 import com.swms.outbound.domain.service.PickingOrderService;
+import com.swms.wms.api.basic.dto.WorkStationDTO;
+import com.swms.wms.api.task.dto.OperationTaskDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -35,5 +37,16 @@ public class PickingOrderServiceImpl implements PickingOrderService {
                 .setWaveNo(order.getWaveNo())
                 .setDetails(pickingOrderDetails);
         }).toList();
+    }
+
+    @Override
+    public List<PickingOrder> assignOrders(List<PickingOrder> pickingOrders, List<WorkStationDTO> workStationDTOS) {
+
+        return null;
+    }
+
+    @Override
+    public List<OperationTaskDTO> allocateStocks(List<PickingOrder> pickingOrders) {
+        return null;
     }
 }

@@ -2,7 +2,7 @@ package com.swms.plugin.sdk.extensions;
 
 import org.pf4j.ExtensionPoint;
 
-public interface IPlugin<T> extends ExtensionPoint {
+public interface IPlugin<T, R> extends ExtensionPoint {
 
     default void initialize() {
     }
@@ -11,9 +11,15 @@ public interface IPlugin<T> extends ExtensionPoint {
 
     }
 
+    default R doOperation(OperationContext<T> operationContext) {
+
+    }
+
     default void afterDoOperation(OperationContext<T> operationContext) {
 
     }
 
-    void destory();
+    default void destory() {
+    }
+
 }

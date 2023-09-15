@@ -6,11 +6,14 @@ import com.google.common.eventbus.Subscribe;
 import com.swms.common.utils.utils.RedisUtils;
 import com.swms.outbound.domain.entity.PickingOrder;
 import com.swms.outbound.domain.repository.PickingOrderRepository;
+import com.swms.outbound.domain.service.PickingOrderService;
 import com.swms.wms.api.basic.IWorkStationApi;
 import com.swms.wms.api.basic.dto.WorkStationDTO;
 import com.swms.wms.api.outbound.event.NewPickingOrdersEvent;
+import com.swms.wms.api.task.dto.OperationTaskDTO;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -27,6 +30,9 @@ public class PickingOrderHandlerSubscribe {
     private PickingOrderRepository pickingOrderRepository;
 
     @Autowired
+    private PickingOrderService pickingOrderService;
+
+    @Autowired
     private IWorkStationApi workStationApi;
 
     @Subscribe
@@ -40,6 +46,12 @@ public class PickingOrderHandlerSubscribe {
         List<PickingOrder> pickingOrders = pickingOrderRepository.findByPickingOrderNos(allPickingOrderNos);
         List<WorkStationDTO> workStationDTOS = workStationApi.getByWarehouseCode(event.getWarehouseCode());
 
+        List<PickingOrder> assignOrders = pickingOrderService.assignOrders(pickingOrders, workStationDTOS);
 
+        if (CollectionUtils.isEmpty(assignOrders)) {
+            return;
+        }
+
+        List<OperationTaskDTO> operationTaskDTOS = pickingOrderService.allocateStocks(pickingOrders);
     }
 }

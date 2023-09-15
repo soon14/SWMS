@@ -81,7 +81,7 @@ public class OperationTaskApiImpl implements ITaskApi {
         List<OperationTaskDTO> operationTaskDTOS = operationTaskTransfer.toOperationTaskDTOS(operationTasks);
 
         Set<Long> skuMainDataIds = operationTaskDTOS.stream()
-            .map(OperationTaskDTO::getSkuMainDataId).collect(Collectors.toSet());
+            .map(OperationTaskDTO::getSkuId).collect(Collectors.toSet());
         Map<Long, SkuMainDataDTO> skuMainDataDTOMap = skuMainDataApi.getByIds(skuMainDataIds)
             .stream().collect(Collectors.toMap(SkuMainDataDTO::getId, v -> v));
 
@@ -89,7 +89,7 @@ public class OperationTaskApiImpl implements ITaskApi {
         List<SkuBatchAttributeDTO> skuBatchAttributeDTOS = skuBatchAttributeApi.getBySkuBatchStockIds(skuBatchStockIds);
 
         operationTaskDTOS.forEach(v -> {
-            v.setSkuMainDataDTO(skuMainDataDTOMap.get(v.getSkuMainDataId()));
+            v.setSkuMainDataDTO(skuMainDataDTOMap.get(v.getSkuId()));
 
             SkuBatchAttributeDTO batchAttributeDTO = skuBatchAttributeDTOS.stream()
                 .filter(skuBatchAttributeDTO ->

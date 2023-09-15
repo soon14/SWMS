@@ -9,6 +9,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring",
     nullValueCheckStrategy = ALWAYS,
     nullValueMappingStrategy = RETURN_NULL,
@@ -19,4 +21,8 @@ public interface OutboundPlanOrderTransfer {
     OutboundPlanOrder toDO(OutboundPlanOrderDTO outboundPlanOrderDTO);
 
     OutboundPlanOrderDTO toDTO(OutboundPlanOrder outboundPlanOrder);
+
+    List<OutboundPlanOrderDTO> toDTOs(List<OutboundPlanOrder> outboundPlanOrders);
+
+    List<List<OutboundPlanOrder>> toDOs(List<List<OutboundPlanOrderDTO>> outboundPlanOrderDTOs);
 }

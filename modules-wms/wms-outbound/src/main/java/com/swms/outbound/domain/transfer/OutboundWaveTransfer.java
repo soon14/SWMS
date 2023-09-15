@@ -5,9 +5,12 @@ import static org.mapstruct.NullValueMappingStrategy.RETURN_NULL;
 
 import com.swms.outbound.domain.aggregate.OutboundWaveAggregate;
 import com.swms.outbound.domain.entity.OutboundWave;
+import com.swms.wms.api.outbound.dto.OutboundWaveDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
+
+import java.util.List;
 
 @Mapper(componentModel = "spring",
     nullValueCheckStrategy = ALWAYS,
@@ -16,4 +19,6 @@ import org.mapstruct.ReportingPolicy;
     nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface OutboundWaveTransfer {
     OutboundWave toDO(OutboundWaveAggregate outboundWaveAggregate);
+
+    List<OutboundWave> toDOs(List<OutboundWaveDTO> outboundWaveDTOS);
 }

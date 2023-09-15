@@ -19,7 +19,7 @@ public class OperationTask {
 
     private Long workStationId;
 
-    private Long skuMainDataId;
+    private Long skuId;
     private Long skuBatchStockId;
     private Long containerStockId;
 
@@ -36,8 +36,8 @@ public class OperationTask {
     private String targetContainerCode;
     private String targetContainerSlotCode;
 
-    private Long originalOrderId;
-    private Long originalOrderDetailId;
+    private Long pickingOrderId;
+    private Long pickingOrderDetailId;
 
     private OperationTaskStatusEnum taskStatus;
 

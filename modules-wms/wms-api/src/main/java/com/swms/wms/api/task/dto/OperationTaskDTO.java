@@ -35,7 +35,7 @@ public class OperationTaskDTO {
     private Long workStationId;
 
     @NotNull
-    private Long skuMainDataId;
+    private Long skuId;
 
     @NotNull
     private Long skuBatchStockId;
@@ -61,8 +61,8 @@ public class OperationTaskDTO {
     private String targetContainerCode;
     private String targetContainerSlot;
 
-    private Long originalOrderId;
-    private Long originalOrderDetailId;
+    private Long pickingOrderId;
+    private Long pickingOrderDetailId;
 
     private OperationTaskStatusEnum taskStatus;
 

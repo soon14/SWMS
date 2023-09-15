@@ -2,9 +2,8 @@ package com.swms.outbound.domain.service.impl;
 
 import com.google.common.collect.Lists;
 import com.swms.domain.event.DomainEventPublisher;
-import com.swms.extend.outbound.OutboundPlanOrderCreatePlugin;
+import com.swms.extend.outbound.IOutboundPlanOrderCreatePlugin;
 import com.swms.mdm.api.main.data.dto.SkuMainDataDTO;
-import com.swms.outbound.domain.aggregate.OutboundWaveAggregate;
 import com.swms.outbound.domain.entity.OutboundPlanOrder;
 import com.swms.outbound.domain.entity.OutboundPlanOrderDetail;
 import com.swms.outbound.domain.service.OutboundPlanOrderService;
@@ -39,7 +38,7 @@ public class OutboundPlanOrderServiceImpl implements OutboundPlanOrderService {
 
     @Override
     public void beforeDoCreation(OutboundPlanOrderDTO outboundPlanOrderDTO) {
-        List<OutboundPlanOrderCreatePlugin> outboundPlanOrderCreatePlugins = pluginUtils.getExtractObject(OutboundPlanOrderCreatePlugin.class);
+        List<IOutboundPlanOrderCreatePlugin> outboundPlanOrderCreatePlugins = pluginUtils.getExtractObject(IOutboundPlanOrderCreatePlugin.class);
         outboundPlanOrderCreatePlugins.forEach(v -> v.beforeDoOperation(new OperationContext<>(outboundPlanOrderDTO)));
     }
 
@@ -65,7 +64,7 @@ public class OutboundPlanOrderServiceImpl implements OutboundPlanOrderService {
     public void afterDoCreation(OutboundPlanOrder outboundPlanOrder) {
         domainEventPublisher.sendAsyncEvent(new NewOutboundPlanOrderEvent(outboundPlanOrder.getOrderNo()));
 
-        List<OutboundPlanOrderCreatePlugin> outboundPlanOrderCreatePlugins = pluginUtils.getExtractObject(OutboundPlanOrderCreatePlugin.class);
+        List<IOutboundPlanOrderCreatePlugin> outboundPlanOrderCreatePlugins = pluginUtils.getExtractObject(IOutboundPlanOrderCreatePlugin.class);
         outboundPlanOrderCreatePlugins.forEach(v -> v.afterDoOperation(new OperationContext<>(outboundPlanOrderTransfer.toDTO(outboundPlanOrder))));
     }
 

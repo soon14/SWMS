@@ -3,7 +3,15 @@ package com.swms.wms.task.infrastructure.persistence.po;
 import com.swms.common.utils.base.UpdateUserPO;
 import com.swms.wms.api.task.constants.OperationTaskStatusEnum;
 import com.swms.wms.api.task.constants.OperationTaskTypeEnum;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Index;
+import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.GenericGenerator;
@@ -36,7 +44,7 @@ public class OperationTaskPO extends UpdateUserPO {
     private OperationTaskTypeEnum taskType;
 
     @Column(nullable = false, columnDefinition = "bigint default 0 comment 'SKU ID'")
-    private Long skuMainDataId;
+    private Long skuId;
     @Column(nullable = false, columnDefinition = "bigint default 0 comment '批次库存ID'")
     private Long skuBatchStockId;
     @Column(nullable = false, columnDefinition = "bigint default 0 comment '容器库存ID'")
@@ -70,10 +78,10 @@ public class OperationTaskPO extends UpdateUserPO {
     @Column(nullable = false, columnDefinition = "varchar(64) comment '目标容器格口编码'")
     private String targetContainerSlotCode = "";
 
-    @Column(nullable = false, columnDefinition = "bigint comment '原始订单id'")
-    private Long originalOrderId;
-    @Column(nullable = false, columnDefinition = "bigint comment '原始订单明细id'")
-    private Long originalOrderDetailId;
+    @Column(nullable = false, columnDefinition = "bigint comment '拣货单ID'")
+    private Long pickingOrderId;
+    @Column(nullable = false, columnDefinition = "bigint comment '拣货单明细ID'")
+    private Long pickingOrderDetailId;
 
     @Column(nullable = false, columnDefinition = "varchar(20) comment '任务状态'")
     @Enumerated(EnumType.STRING)
