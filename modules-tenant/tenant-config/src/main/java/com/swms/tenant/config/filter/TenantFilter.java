@@ -1,7 +1,7 @@
 package com.swms.tenant.config.filter;
 
 import com.swms.common.utils.user.AuthConstants;
-import com.swms.tenant.config.util.TenantContext;
+import com.swms.common.utils.utils.TenantContext;
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

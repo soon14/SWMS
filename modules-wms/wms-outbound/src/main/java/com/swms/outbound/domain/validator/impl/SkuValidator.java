@@ -2,12 +2,12 @@ package com.swms.outbound.domain.validator.impl;
 
 import com.swms.common.utils.exception.WmsException;
 import com.swms.common.utils.exception.code_enum.MainDataErrorDescEnum;
-import com.swms.mdm.api.main.data.ISkuMainDataApi;
 import com.swms.mdm.api.main.data.dto.SkuMainDataDTO;
 import com.swms.outbound.domain.validator.IValidator;
+import com.swms.outbound.facade.SkuMainDataFacade;
 import lombok.Data;
 import lombok.experimental.Accessors;
-import org.apache.dubbo.config.annotation.DubboReference;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,13 +17,13 @@ import java.util.stream.Collectors;
 @Service
 public class SkuValidator implements IValidator<SkuValidator.SkuValidatorObject, Set<SkuMainDataDTO>> {
 
-    @DubboReference
-    protected ISkuMainDataApi iSkuApi;
+    @Autowired
+    protected SkuMainDataFacade skuMainDataApi;
 
     @Override
     public Set<SkuMainDataDTO> validate(SkuValidatorObject skuValidatorObject) {
 
-        Set<SkuMainDataDTO> skuMainDataDTOS = iSkuApi.getSkuMainData(skuValidatorObject.getSkuCodes())
+        Set<SkuMainDataDTO> skuMainDataDTOS = skuMainDataApi.getSkuMainData(skuValidatorObject.getSkuCodes())
             .stream()
             .filter(v -> skuValidatorObject.getOwnerCode().equals(v.getOwnerCode()))
             .collect(Collectors.toSet());
@@ -32,7 +32,7 @@ public class SkuValidator implements IValidator<SkuValidator.SkuValidatorObject,
             .map(SkuMainDataDTO::getSkuCode)
             .collect(Collectors.toSet());
 
-        if (dataSkuCodes.size() != skuMainDataDTOS.size()) {
+        if (skuValidatorObject.getSkuCodes().size() != skuMainDataDTOS.size()) {
             throw WmsException.throwWmsException(MainDataErrorDescEnum.SOME_SKU_CODE_NOT_EXIST, skuValidatorObject.getSkuCodes());
         }
 

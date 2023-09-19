@@ -64,8 +64,6 @@ public class PutWallDTO implements IValidate {
         private PutWallSlotStatusEnum putWallSlotStatus;
         private String transferContainerCode;
 
-        private Long version;
-
         public void assignOrders(List<Long> orderIds) {
 
             if (CollectionUtils.isNotEmpty(this.orderIds)) {
@@ -104,15 +102,6 @@ public class PutWallDTO implements IValidate {
 
             this.orderIds = Lists.newArrayList();
             this.putWallSlotStatus = PutWallSlotStatusEnum.IDLE;
-        }
-
-        public void bindContainer(String containerCode) {
-            if (this.putWallSlotStatus != PutWallSlotStatusEnum.WAITING_BINDING) {
-                throw new WmsException("PutWallSlot is not WAITING_BINDING, cannot bind container");
-            }
-
-            this.transferContainerCode = containerCode;
-            this.putWallSlotStatus = PutWallSlotStatusEnum.BOUND;
         }
 
         public void initPutWallSlot(String putWallCode, Long workStationId) {

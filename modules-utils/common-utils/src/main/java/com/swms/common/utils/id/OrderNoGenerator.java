@@ -4,6 +4,8 @@ import com.swms.common.utils.utils.RedisUtils;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.time.FastDateFormat;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -11,14 +13,15 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Component
 @NoArgsConstructor
+@ConditionalOnBean(RedisUtils.class)
 public class OrderNoGenerator {
 
     private static final String INBOUND_PLAN_ORDER_NO_PREFIX = "IN_";
     private static final String RECEIVE_ORDER_NO_PREFIX = "RE_";
     private static final String ACCEPT_ORDER_NO_PREFIX = "APT_";
+
     private static final String OUTBOUND_PLAN_ORDER_NO_PREFIX = "OUT_";
     private static final String OUTBOUND_WAVE_NO_PREFIX = "WAVE_";
-
     private static final String PICKING_ORDER_NO_PREFIX = "PICK_";
 
     private static final Map<String, Long> INDEX_MAP = new ConcurrentHashMap<>();

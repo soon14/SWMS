@@ -1,4 +1,4 @@
-package com.swms.tenant.config.util;
+package com.swms.common.utils.utils;
 
 import com.alibaba.ttl.TransmittableThreadLocal;
 

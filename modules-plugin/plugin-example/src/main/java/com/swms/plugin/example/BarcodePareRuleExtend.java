@@ -13,7 +13,7 @@ public class BarcodePareRuleExtend implements IBarcodeParseRulePlugin {
     private static final String PLUGIN_ID = "barcodePlugin-0.0.1";
 
     @Override
-    public void doAfterCreateBarcode(BarcodeParseRuleDTO rule) {
+    public void afterDoOperation(BarcodeParseRuleDTO rule) {
         BarcodeConfig barcodeConfig = TenantPluginConfig.getTenantConfig(PLUGIN_ID, BarcodeConfig.class);
         log.info("Extending Barcode : doAfterCreateBarcode. bar:{}", barcodeConfig.getNumber());
     }

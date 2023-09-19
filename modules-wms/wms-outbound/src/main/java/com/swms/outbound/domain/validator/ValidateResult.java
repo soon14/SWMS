@@ -1,5 +1,6 @@
 package com.swms.outbound.domain.validator;
 
+import com.google.common.collect.Maps;
 import lombok.Data;
 
 import java.util.Map;
@@ -7,7 +8,7 @@ import java.util.Map;
 @Data
 public class ValidateResult<R> {
 
-    private Map<IValidator.ValidatorName, R> resultMap;
+    private Map<IValidator.ValidatorName, R> resultMap = Maps.newHashMap();
 
     public R getResult(IValidator.ValidatorName key) {
         return resultMap.get(key);

@@ -21,6 +21,7 @@ import org.pf4j.PluginManager;
 import org.pf4j.PluginState;
 import org.pf4j.PluginWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -41,6 +42,9 @@ public class PluginServiceImpl implements PluginService {
 
     @Autowired
     private PluginFacade pluginFacade;
+
+    @Autowired
+    private Environment environment;
 
     @Override
     public void install(PluginManageDTO pluginManageDTO) throws IOException {
@@ -73,7 +77,8 @@ public class PluginServiceImpl implements PluginService {
     }
 
     private String getPluginDir() {
-        return pluginManager.isDevelopment() ? AbstractPluginManager.DEVELOPMENT_PLUGINS_DIR : AbstractPluginManager.DEFAULT_PLUGINS_DIR;
+        return (pluginManager.isDevelopment() ? AbstractPluginManager.DEVELOPMENT_PLUGINS_DIR : AbstractPluginManager.DEFAULT_PLUGINS_DIR);
+//            + File.separator + environment.getProperty("spring.application.name");
     }
 
     private String generateFileName(String pluginId, String version) {

@@ -2,7 +2,7 @@ package com.swms.plugin.sdk.facade;
 
 import com.swms.plugin.api.IPluginApi;
 import com.swms.plugin.api.dto.TenantPluginConfigDTO;
-import com.swms.tenant.config.util.TenantContext;
+import com.swms.common.utils.utils.TenantContext;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.stereotype.Component;
 

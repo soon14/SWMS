@@ -17,10 +17,10 @@ public class RedisDistributeLock implements DistributeLock {
     private RedisUtils redisUtils;
 
     @Override
-    public boolean acquireLock(String lockKey, long leaseTimeInMillis) {
+    public boolean acquireLock(String lockKey, long waitTimeInMillis) {
         RLock lock = redisUtils.getLock(lockKey);
         try {
-            return lock.tryLock(0, leaseTimeInMillis, TimeUnit.MILLISECONDS);
+            return lock.tryLock(waitTimeInMillis, 600000, TimeUnit.MILLISECONDS);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             return false;
@@ -34,8 +34,8 @@ public class RedisDistributeLock implements DistributeLock {
     }
 
     @Override
-    public void acquireLockIfThrows(String lockKey, long leaseTimeInMillis) {
-        boolean acquireLock = acquireLock(lockKey, leaseTimeInMillis);
+    public void acquireLockIfThrows(String lockKey, long waitTimeInMillis) {
+        boolean acquireLock = acquireLock(lockKey, waitTimeInMillis);
         if (!acquireLock) {
             throw WmsException.throwWmsException(CommonErrorDescEnum.REPEAT_REQUEST);
         }

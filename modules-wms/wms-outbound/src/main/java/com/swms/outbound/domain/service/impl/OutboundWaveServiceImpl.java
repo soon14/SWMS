@@ -30,8 +30,7 @@ public class OutboundWaveServiceImpl implements OutboundWaveService {
         if (CollectionUtils.isNotEmpty(outboundWavePickingPlugins)) {
             List<List<OutboundPlanOrderDTO>> outboundWaveDTOS = outboundWavePickingPlugins.iterator().next()
                 .doOperation(outboundPlanOrderTransfer.toDTOs(outboundPlanOrders));
-
-            return outboundPlanOrderTransfer.toDOs(outboundWaveDTOS);
+            return outboundPlanOrderTransfer.toDOList(outboundWaveDTOS);
         }
 
         List<List<OutboundPlanOrder>> orders = Lists.newArrayList();

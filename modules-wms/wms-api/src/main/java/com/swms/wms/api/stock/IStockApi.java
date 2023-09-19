@@ -23,8 +23,6 @@ public interface IStockApi {
 
     void lockContainerStock(List<ContainerStockLockDTO> containerStockLockDTOS);
 
-    List<ContainerStockDTO> getContainerStock(String containerCode);
-
     void freezeContainerStock(Long id, int qty);
 
     void unFreezeContainerStock(Long id, int qty);
@@ -38,4 +36,8 @@ public interface IStockApi {
      * @return
      */
     List<SkuBatchStockDTO> getBySkuBatchAttributeIds(Collection<Long> skuBatchAttributeIds);
+
+    List<ContainerStockDTO> getContainerStock(String containerCode);
+
+    List<ContainerStockDTO> getContainerStockBySkuBatchStockIds(List<Long> skuBatchStockIds);
 }

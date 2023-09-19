@@ -4,14 +4,14 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.common.eventbus.Subscribe;
 import com.swms.domain.event.DomainEventPublisher;
-import com.swms.mdm.api.config.IBatchAttributeConfigApi;
 import com.swms.mdm.api.config.dto.BatchAttributeConfigDTO;
-import com.swms.mdm.api.main.data.ISkuMainDataApi;
 import com.swms.mdm.api.main.data.dto.SkuMainDataDTO;
 import com.swms.outbound.domain.aggregate.OutboundPlanOrderPreAllocatedAggregate;
 import com.swms.outbound.domain.entity.OutboundPlanOrder;
 import com.swms.outbound.domain.entity.OutboundPlanOrderDetail;
 import com.swms.outbound.domain.repository.OutboundPlanOrderRepository;
+import com.swms.outbound.facade.BatchAttributeConfigFacade;
+import com.swms.outbound.facade.SkuMainDataFacade;
 import com.swms.wms.api.outbound.event.NewOutboundPlanOrderEvent;
 import com.swms.wms.api.outbound.event.OutboundPlanOrderAssignedEvent;
 import com.swms.wms.api.stock.ISkuBatchAttributeApi;
@@ -46,10 +46,10 @@ public class OutboundPlanOrderSubscribe {
     private ISkuBatchAttributeApi skuBatchAttributeApi;
 
     @Autowired
-    private ISkuMainDataApi skuMainDataApi;
+    private SkuMainDataFacade skuMainDataApi;
 
     @Autowired
-    private IBatchAttributeConfigApi skuBatchAttributeConfigApi;
+    private BatchAttributeConfigFacade skuBatchAttributeConfigApi;
 
     @Autowired
     private IStockApi stockApi;

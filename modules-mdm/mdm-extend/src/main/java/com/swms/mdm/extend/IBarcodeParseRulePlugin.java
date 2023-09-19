@@ -1,8 +1,8 @@
 package com.swms.mdm.extend;
 
 import com.swms.mdm.api.config.dto.BarcodeParseRuleDTO;
-import org.pf4j.ExtensionPoint;
+import com.swms.plugin.sdk.extensions.IPlugin;
 
-public interface IBarcodeParseRulePlugin extends ExtensionPoint {
-    void doAfterCreateBarcode(BarcodeParseRuleDTO rule);
+public interface IBarcodeParseRulePlugin extends IPlugin<BarcodeParseRuleDTO, Void> {
+    void afterDoOperation(BarcodeParseRuleDTO barcodeParseRuleDTO);
 }

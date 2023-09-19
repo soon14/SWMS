@@ -10,6 +10,7 @@ import com.swms.mdm.api.config.dto.BatchAttributeConfigDTO;
 import com.swms.mdm.config.domain.entity.BatchAttributeConfig;
 import com.swms.mdm.config.domain.repository.BatchAttributeConfigRepository;
 import com.swms.mdm.config.domain.transfer.BatchAttributeConfigTransfer;
+import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -18,6 +19,7 @@ import java.util.List;
 
 @Validated
 @Service
+@DubboService
 public class BatchAttributeConfigApplicationImpl implements IBatchAttributeConfigApi {
 
     @Autowired

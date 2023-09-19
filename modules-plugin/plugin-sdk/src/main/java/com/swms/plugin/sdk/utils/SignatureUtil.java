@@ -11,7 +11,7 @@ public class SignatureUtil {
         throw new IllegalStateException("SignatureUtil class");
     }
 
-    private static final String SIGNATURE = "HP2023!@#";
+    private static final String SIGNATURE = "LINSANAIYYE!@#";
 
     private static final String UTF8 = "UTF-8";
 

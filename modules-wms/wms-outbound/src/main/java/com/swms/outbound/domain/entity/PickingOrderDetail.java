@@ -9,12 +9,14 @@ import java.util.TreeMap;
 @Accessors(chain = true)
 public class PickingOrderDetail {
 
+    private Long id;
+    private Long pickingOrderId;
     private Long outboundOrderPlanId;
     private Long outboundOrderPlanDetailId;
     private Long skuId;
     private TreeMap<String, Object> batchAttributes;
 
-    private Long skuBatchId;
+    private Long skuBatchStockId;
 
     private Integer qtyRequired;
     private Integer qtyActual;

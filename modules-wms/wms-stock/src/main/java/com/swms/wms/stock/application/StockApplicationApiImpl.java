@@ -76,11 +76,6 @@ public class StockApplicationApiImpl implements IStockApi {
     }
 
     @Override
-    public List<ContainerStockDTO> getContainerStock(String containerCode) {
-        return containerStockTransfer.toDTOs(containerStockRepository.findAllByContainerCode(containerCode));
-    }
-
-    @Override
     public void freezeContainerStock(Long id, int qty) {
         ContainerStock containerStock = containerStockRepository.findById(id);
         containerStock.freezeQty(qty);
@@ -98,5 +93,15 @@ public class StockApplicationApiImpl implements IStockApi {
     public List<SkuBatchStockDTO> getBySkuBatchAttributeIds(Collection<Long> skuBatchAttributeIds) {
         List<SkuBatchStock> skuBatchStocks = skuBatchStockRepository.findAllBySkuBatchAttributeIds(skuBatchAttributeIds);
         return skuBatchStockTransfer.toDTOs(skuBatchStocks);
+    }
+
+    @Override
+    public List<ContainerStockDTO> getContainerStock(String containerCode) {
+        return containerStockTransfer.toDTOs(containerStockRepository.findAllByContainerCode(containerCode));
+    }
+
+    @Override
+    public List<ContainerStockDTO> getContainerStockBySkuBatchStockIds(List<Long> skuBatchStockIds) {
+        return containerStockTransfer.toDTOs(containerStockRepository.findAllBySkuBatchStockIds(skuBatchStockIds));
     }
 }

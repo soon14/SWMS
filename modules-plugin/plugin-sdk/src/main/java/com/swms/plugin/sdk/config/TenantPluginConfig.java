@@ -5,7 +5,7 @@ import com.google.common.collect.Maps;
 import com.swms.common.utils.exception.WmsException;
 import com.swms.common.utils.utils.JsonUtils;
 import com.swms.plugin.api.dto.TenantPluginConfigDTO;
-import com.swms.tenant.config.util.TenantContext;
+import com.swms.common.utils.utils.TenantContext;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

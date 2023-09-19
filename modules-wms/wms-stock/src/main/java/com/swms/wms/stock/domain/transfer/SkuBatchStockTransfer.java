@@ -31,8 +31,6 @@ public interface SkuBatchStockTransfer {
     @Mapping(source = "transferQty", target = "availableQty")
     SkuBatchStock fromCreateDTOtoDO(StockCreateDTO stockCreateDTO);
 
-    List<SkuBatchStockDTO> toDTO(SkuBatchStock stockStock);
-
     List<SkuBatchStockDTO> toDTOs(List<SkuBatchStock> stockStocks);
 
 }

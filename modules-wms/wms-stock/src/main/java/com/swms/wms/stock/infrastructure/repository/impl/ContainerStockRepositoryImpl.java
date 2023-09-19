@@ -54,4 +54,9 @@ public class ContainerStockRepositoryImpl implements ContainerStockRepository {
     public List<ContainerStock> findAllByContainerCode(String containerCode) {
         return containerStockPOTransfer.toDOs(containerStockPORepository.findAllByContainerCode(containerCode));
     }
+
+    @Override
+    public List<ContainerStock> findAllBySkuBatchStockIds(List<Long> skuBatchStockIds) {
+        return containerStockPOTransfer.toDOs(containerStockPORepository.findAllBySkuBatchStockIdIn(skuBatchStockIds));
+    }
 }

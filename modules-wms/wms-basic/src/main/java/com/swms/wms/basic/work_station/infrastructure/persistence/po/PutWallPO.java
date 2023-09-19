@@ -1,7 +1,11 @@
 package com.swms.wms.basic.work_station.infrastructure.persistence.po;
 
 import com.swms.common.utils.base.UpdateUserPO;
+import com.swms.wms.api.basic.dto.PutWallDTO;
+import com.swms.wms.basic.work_station.infrastructure.persistence.converter.ListPutWallSlotConverter;
+import com.swms.wms.basic.work_station.infrastructure.persistence.converter.ListWorkLocationConverter;
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
@@ -15,6 +19,8 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.util.List;
+
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
@@ -22,8 +28,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Table(
     name = "w_put_wall",
     indexes = {
-        @Index(unique = true, name = "idx_put_wall_code_station", columnList = "putWallCode,workStationId"),
-        @Index(unique = true, name = "idx_work_station_id", columnList = "workStationId")
+        @Index(unique = true, name = "uk_put_wall_code_station", columnList = "putWallCode,workStationId"),
+        @Index(name = "idx_work_station_id", columnList = "workStationId")
     }
 )
 @DynamicUpdate
@@ -49,6 +55,10 @@ public class PutWallPO extends UpdateUserPO {
     private boolean deleted;
 
     private boolean enable;
+
+    @Column(columnDefinition = "json comment '播种墙格口'")
+    @Convert(converter = ListPutWallSlotConverter.class)
+    private List<PutWallDTO.PutWallSlot> putWallSlots;
 
     @Version
     private Long version;

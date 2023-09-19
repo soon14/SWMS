@@ -17,7 +17,7 @@ public class OutboundOrderPlanPreAllocatedRecord {
     private Long skuId;
     private TreeMap<String, Object> batchAttributes;
 
-    private Long skuBatchId;
+    private Long skuBatchStockId;
 
     private Integer qtyPreAllocated;
 

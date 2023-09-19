@@ -23,11 +23,7 @@ public interface IPutWallApi {
 
     void delete(@NotNull Long putWallId);
 
-    void assignOrders(@NotEmpty List<AssignOrdersDTO> assignOrdersDTOS);
-
-    void appendOrders(@NotEmpty List<AssignOrdersDTO> assignOrdersDTOS);
-
-    void releasePutWallSlots(@NotEmpty List<ReleasePutWallSlotsDTO> releasePutWallSlotsDTOS);
+    void assignOrders(@NotEmpty AssignOrdersDTO assignOrdersDTO);
 
     void bindContainer(@Valid BindContainerDTO bindContainerDTO);
 

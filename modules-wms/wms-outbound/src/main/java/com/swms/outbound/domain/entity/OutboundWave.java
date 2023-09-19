@@ -10,13 +10,14 @@ import java.util.List;
 @NoArgsConstructor
 public class OutboundWave {
 
+    private Long id;
     private String warehouseCode;
     private String waveNo;
-    private List<OutboundPlanOrder> orders;
+    private List<Long> outboundPlanOrderIds;
 
     public OutboundWave(String waveNo, List<OutboundPlanOrder> orders) {
         this.waveNo = waveNo;
-        this.orders = orders;
+        this.outboundPlanOrderIds = orders.stream().map(OutboundPlanOrder::getId).toList();
     }
 
     private OutboundWaveStatusEnum waveStatus;

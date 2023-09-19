@@ -24,5 +24,7 @@ public interface OutboundPlanOrderTransfer {
 
     List<OutboundPlanOrderDTO> toDTOs(List<OutboundPlanOrder> outboundPlanOrders);
 
-    List<List<OutboundPlanOrder>> toDOs(List<List<OutboundPlanOrderDTO>> outboundPlanOrderDTOs);
+    List<OutboundPlanOrder> toDOs(List<OutboundPlanOrderDTO> outboundPlanOrderDTOs);
+
+    List<List<OutboundPlanOrder>> toDOList(List<List<OutboundPlanOrderDTO>> outboundPlanOrderDTOs);
 }

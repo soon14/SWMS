@@ -12,7 +12,7 @@ public interface IPlugin<T, R> extends ExtensionPoint {
     }
 
     default R doOperation(OperationContext<T> operationContext) {
-
+        return null;
     }
 
     default void afterDoOperation(OperationContext<T> operationContext) {

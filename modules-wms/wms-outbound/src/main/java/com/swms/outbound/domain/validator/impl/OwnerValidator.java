@@ -2,10 +2,10 @@ package com.swms.outbound.domain.validator.impl;
 
 import com.swms.common.utils.exception.WmsException;
 import com.swms.common.utils.exception.code_enum.MainDataErrorDescEnum;
-import com.swms.mdm.api.main.data.IOwnerMainDataApi;
 import com.swms.mdm.api.main.data.dto.OwnerMainDataDTO;
 import com.swms.outbound.domain.validator.IValidator;
-import org.apache.dubbo.config.annotation.DubboReference;
+import com.swms.outbound.facade.OwnerMainDataFacade;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,12 +15,12 @@ import java.util.stream.Collectors;
 @Service
 public class OwnerValidator implements IValidator<List<String>, Void> {
 
-    @DubboReference
-    protected IOwnerMainDataApi iOwnerApi;
+    @Autowired
+    protected OwnerMainDataFacade ownerMainDataApi;
 
     @Override
     public Void validate(List<String> ownerCodes) {
-        final Set<String> dataOwnerCodes = iOwnerApi.getOwners(ownerCodes)
+        final Set<String> dataOwnerCodes = ownerMainDataApi.getOwners(ownerCodes)
             .stream()
             .map(OwnerMainDataDTO::getOwnerCode)
             .collect(Collectors.toSet());

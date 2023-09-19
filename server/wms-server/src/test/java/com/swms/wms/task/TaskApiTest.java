@@ -2,7 +2,7 @@ package com.swms.wms.task;
 
 import com.google.common.collect.Lists;
 import com.swms.common.utils.utils.ObjectUtils;
-import com.swms.tenant.config.util.TenantContext;
+import com.swms.common.utils.utils.TenantContext;
 import com.swms.wms.BaseTest;
 import com.swms.wms.api.stock.IStockApi;
 import com.swms.wms.api.stock.constants.StockLockTypeEnum;

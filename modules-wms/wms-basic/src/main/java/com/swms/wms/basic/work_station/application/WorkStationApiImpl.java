@@ -3,7 +3,9 @@ package com.swms.wms.basic.work_station.application;
 import com.swms.wms.api.basic.IWorkStationApi;
 import com.swms.wms.api.basic.constants.WorkStationOperationTypeEnum;
 import com.swms.wms.api.basic.dto.WorkStationDTO;
+import com.swms.wms.basic.work_station.domain.entity.PutWall;
 import com.swms.wms.basic.work_station.domain.entity.WorkStation;
+import com.swms.wms.basic.work_station.domain.repository.PutWallRepository;
 import com.swms.wms.basic.work_station.domain.repository.WorkStationRepository;
 import com.swms.wms.basic.work_station.domain.transfer.WorkStationTransfer;
 import org.apache.dubbo.config.annotation.DubboService;
@@ -11,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @DubboService
@@ -21,6 +25,9 @@ public class WorkStationApiImpl implements IWorkStationApi {
 
     @Autowired
     private WorkStationTransfer workStationTransfer;
+
+    @Autowired
+    private PutWallRepository putWallRepository;
 
     @Override
     public void save(WorkStationDTO workStationDTO) {
@@ -89,7 +96,13 @@ public class WorkStationApiImpl implements IWorkStationApi {
     @Override
     public List<WorkStationDTO> getByWarehouseCode(String warehouseCode) {
         List<WorkStation> workStations = workStationRepository.findByWarehouseCode(warehouseCode);
-        return workStationTransfer.toDTOs(workStations);
+
+        List<PutWall> putWalls = putWallRepository.findAllByWorkStationIds(workStations.stream()
+            .map(WorkStation::getId).toList());
+
+        Map<Long, List<PutWall>> putWallMap = putWalls.stream().collect(Collectors.groupingBy(PutWall::getWorkStationId));
+        return workStations.stream().map(workStation ->
+            workStationTransfer.toDTO(workStation, putWallMap.get(workStation.getId()))).toList();
     }
 
 }

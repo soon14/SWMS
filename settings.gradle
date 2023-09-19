@@ -49,4 +49,6 @@ include 'server:user-server'
 include 'server:tenant-server'
 include 'server:gateway-server'
 include 'server:plugin-server'
+include 'modules-wms:wms-algo'
+findProject(':modules-wms:wms-algo')?.name = 'wms-algo'
 

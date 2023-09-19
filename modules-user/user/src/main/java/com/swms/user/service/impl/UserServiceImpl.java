@@ -8,7 +8,7 @@ import com.swms.common.utils.exception.WmsException;
 import com.swms.common.utils.exception.code_enum.UserErrorDescEnum;
 import com.swms.common.utils.user.AuthConstants;
 import com.swms.common.utils.user.UserContext;
-import com.swms.tenant.config.util.TenantContext;
+import com.swms.common.utils.utils.TenantContext;
 import com.swms.user.api.dto.constants.UserTypeEnum;
 import com.swms.user.api.dto.constants.YesOrNo;
 import com.swms.user.config.prop.SystemProp;

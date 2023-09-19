@@ -5,9 +5,7 @@ import static org.mapstruct.NullValueMappingStrategy.RETURN_NULL;
 
 import com.swms.wms.basic.work_station.domain.entity.PutWall;
 import com.swms.wms.basic.work_station.infrastructure.persistence.po.PutWallPO;
-import com.swms.wms.basic.work_station.infrastructure.persistence.po.PutWallSlotPO;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
 
@@ -21,8 +19,9 @@ import java.util.List;
 public interface PutWallPOTransfer {
     PutWallPO toPO(PutWall putWall);
 
-    @Mapping(target = "putWallSlots", source = "putWallSlotPOS")
-    PutWall toDO(PutWallPO putWallPO, List<PutWallSlotPO> putWallSlotPOS);
+    List<PutWallPO> toPOs(List<PutWall> putWalls);
 
     PutWall toDO(PutWallPO putWallPO);
+
+    List<PutWall> toDOs(List<PutWallPO> putWallPOS);
 }

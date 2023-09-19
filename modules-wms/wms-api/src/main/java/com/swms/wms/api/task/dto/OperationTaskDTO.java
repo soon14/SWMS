@@ -9,7 +9,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 import java.util.Map;
 
@@ -18,7 +18,7 @@ import java.util.Map;
  */
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
+@Accessors(chain = true)
 public class OperationTaskDTO {
 
     private Long id;
@@ -31,7 +31,6 @@ public class OperationTaskDTO {
     @NotNull
     private OperationTaskTypeEnum taskType;
 
-    @NotNull
     private Long workStationId;
 
     @NotNull
@@ -61,12 +60,18 @@ public class OperationTaskDTO {
     private String targetContainerCode;
     private String targetContainerSlot;
 
-    private Long pickingOrderId;
-    private Long pickingOrderDetailId;
+    private Long orderId;
+    private Long detailId;
 
     private OperationTaskStatusEnum taskStatus;
 
     private SkuMainDataDTO skuMainDataDTO;
 
     private SkuBatchAttributeDTO skuBatchAttributeDTO;
+
+    private Map<Long, String> assignedStationSlot;
+
+    public OperationTaskDTO() {
+        this.taskStatus = OperationTaskStatusEnum.CREATED;
+    }
 }

@@ -51,7 +51,7 @@ public class OutboundPlanOrderPreAllocatedAggregate {
 
         List<SkuBatchStockLockDTO> skuBatchStockLockDTOS = planPreAllocatedRecords.stream().map(preAllocatedRecord -> {
             SkuBatchStockLockDTO skuBatchStockLockDTO = new SkuBatchStockLockDTO();
-            skuBatchStockLockDTO.setSkuBatchStockId(preAllocatedRecord.getSkuBatchId());
+            skuBatchStockLockDTO.setSkuBatchStockId(preAllocatedRecord.getSkuBatchStockId());
             skuBatchStockLockDTO.setLockQty(preAllocatedRecord.getQtyPreAllocated());
             skuBatchStockLockDTO.setLockType(StockLockTypeEnum.OUTBOUND);
             skuBatchStockLockDTO.setOrderDetailId(preAllocatedRecord.getOutboundPlanOrderDetailId());
@@ -99,7 +99,7 @@ public class OutboundPlanOrderPreAllocatedAggregate {
             skuBatchStockDTO.setAvailableQty(skuBatchStockDTO.getAvailableQty() - qtyRequired);
 
             OutboundOrderPlanPreAllocatedRecord preAllocatedRecord = new OutboundOrderPlanPreAllocatedRecord()
-                .setSkuBatchId(skuBatchStockDTO.getId())
+                .setSkuBatchStockId(skuBatchStockDTO.getId())
                 .setSkuId(skuBatchStockDTO.getSkuId())
                 .setBatchAttributes(detail.getBatchAttributes())
                 .setOutboundPlanOrderId(detail.getOutboundPlanOrderId())

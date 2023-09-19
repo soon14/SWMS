@@ -22,6 +22,8 @@ dependencies {
     implementation project(path: ":modules-wms:wms-stock", configuration: 'default')
     implementation project(path: ":modules-wms:wms-task", configuration: 'default')
     implementation project(path: ":modules-wms:wms-inbound", configuration: 'default')
+    implementation project(path: ":modules-wms:wms-outbound", configuration: 'default')
+    implementation project(path: ":modules-wms:wms-algo", configuration: 'default')
     implementation project(path: ":modules-tenant:tenant-config", configuration: 'default')
 
     implementation 'org.springframework.boot:spring-boot-starter'

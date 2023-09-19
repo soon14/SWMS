@@ -1,7 +1,7 @@
 package com.swms.mdm.api;
 
 import com.swms.common.utils.user.UserContext;
-import com.swms.tenant.config.util.TenantContext;
+import com.swms.common.utils.utils.TenantContext;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer;

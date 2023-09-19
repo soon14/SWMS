@@ -4,10 +4,12 @@ import static com.swms.common.utils.constants.RedisConstants.OUTBOUND_PLAN_ORDER
 
 import com.google.common.eventbus.Subscribe;
 import com.swms.common.utils.utils.RedisUtils;
+import com.swms.domain.event.DomainEventPublisher;
 import com.swms.outbound.domain.aggregate.OutboundWaveAggregate;
 import com.swms.outbound.domain.entity.OutboundPlanOrder;
 import com.swms.outbound.domain.repository.OutboundPlanOrderRepository;
 import com.swms.outbound.domain.service.OutboundWaveService;
+import com.swms.wms.api.outbound.event.NewOutboundWaveEvent;
 import com.swms.wms.api.outbound.event.OutboundPlanOrderAssignedEvent;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -34,6 +36,9 @@ public class OutboundWaveSubscribe {
     @Autowired
     private RedisUtils redisUtils;
 
+    @Autowired
+    private DomainEventPublisher publisher;
+
     @Subscribe
     public void onEvent(@Valid OutboundPlanOrderAssignedEvent event) {
 
@@ -53,8 +58,7 @@ public class OutboundWaveSubscribe {
             .filter(v -> StringUtils.isEmpty(v.getWaveNo())).toList();
         if (CollectionUtils.isEmpty(emptyWaveNoOrders)) {
             log.error("lists can't be empty, there maybe something error. remove it from redis.");
-            redisUtils.removeList(redisKey, outboundPlanOrders
-                .stream().map(OutboundPlanOrder::getId).toList());
+            redisUtils.removeList(redisKey, outboundPlanOrders.stream().map(OutboundPlanOrder::getId).toList());
             return;
         }
 
@@ -64,7 +68,8 @@ public class OutboundWaveSubscribe {
         }
 
         lists.forEach(list -> {
-            outboundWaveAggregate.waveOrders(list);
+            String waveNo = outboundWaveAggregate.waveOrders(list);
+            publisher.sendAsyncEvent(new NewOutboundWaveEvent().setWaveNo(waveNo));
             redisUtils.removeList(redisKey, list.stream().map(OutboundPlanOrder::getId).toList());
         });
 

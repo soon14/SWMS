@@ -1,8 +1,8 @@
-package com.swms.wms.basic.work_station.infrastructure.persistence.po;
+package com.swms.outbound.infrastructure.persistence.po;
 
 import com.swms.common.utils.base.UpdateUserPO;
 import com.swms.common.utils.jpa.converter.ListLongConverter;
-import com.swms.wms.api.basic.constants.PutWallSlotStatusEnum;
+import com.swms.wms.api.outbound.constants.OutboundWaveStatusEnum;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
@@ -13,7 +13,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Index;
 import jakarta.persistence.Table;
-import jakarta.persistence.Version;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.DynamicUpdate;
@@ -27,44 +26,30 @@ import java.util.List;
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Table(
-    name = "w_put_wall_slot",
+    name = "w_outbound_wave",
     indexes = {
-        @Index(unique = true, name = "idx_put_wall_slot_code_station", columnList = "putWallSlotCode,workStationId"),
-        @Index(name = "idx_work_station_id", columnList = "workStationId")
+        @Index(unique = true, name = "uk_wave_no", columnList = "waveNo")
     }
 )
 @DynamicUpdate
-public class PutWallSlotPO extends UpdateUserPO {
+public class OutboundWavePO extends UpdateUserPO {
 
     @Id
     @GeneratedValue(generator = "databaseIdGenerator")
     @GenericGenerator(name = "databaseIdGenerator", strategy = "com.swms.common.utils.id.IdGenerator")
     private Long id;
 
-    private String face;
+    @Column(nullable = false, columnDefinition = "varchar(64) comment '仓库'")
+    private String warehouseCode;
 
-    @Column(nullable = false, columnDefinition = "bigint(11) comment '工作站ID'")
-    private Long workStationId;
+    @Column(nullable = false, columnDefinition = "varchar(32) comment '波次号'")
+    private String waveNo;
 
-    @Column(nullable = false, columnDefinition = "varchar(64) comment '播种墙编码'")
-    private String putWallCode;
-
-    @Column(nullable = false, columnDefinition = "varchar(64) comment '播种墙格口编码'")
-    private String putWallSlotCode;
-
-    @Column(columnDefinition = "json comment '播种墙格口订单'")
+    @Column(columnDefinition = "json comment '出库计划单ID'")
     @Convert(converter = ListLongConverter.class)
-    private List<Long> orderIds;
+    private List<Long> outboundPlanOrderIds;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, columnDefinition = "varchar(20) comment '状态'")
-    private PutWallSlotStatusEnum putWallSlotStatus = PutWallSlotStatusEnum.IDLE;
-
-    @Column(columnDefinition = "varchar(64) comment '周转容器编码'")
-    private String transferContainerCode;
-
-    private boolean enable;
-
-    @Version
-    private Long version;
+    private OutboundWaveStatusEnum waveStatus;
 }

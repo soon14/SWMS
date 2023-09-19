@@ -26,8 +26,7 @@ import java.util.TreeMap;
 @Table(
     name = "w_outbound_plan_order_deatil",
     indexes = {
-        @Index(name = "idx_customer_order_no", columnList = "customerOrderNo"),
-        @Index(unique = true, name = "idx_order_no", columnList = "orderNo")
+        @Index(name = "idx_outbound_plan_order_id", columnList = "outboundPlanOrderId"),
     }
 )
 @DynamicUpdate

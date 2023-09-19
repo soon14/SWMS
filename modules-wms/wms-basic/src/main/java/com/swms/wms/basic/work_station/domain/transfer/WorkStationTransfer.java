@@ -4,6 +4,7 @@ import static org.mapstruct.NullValueCheckStrategy.ALWAYS;
 import static org.mapstruct.NullValueMappingStrategy.RETURN_NULL;
 
 import com.swms.wms.api.basic.dto.WorkStationDTO;
+import com.swms.wms.basic.work_station.domain.entity.PutWall;
 import com.swms.wms.basic.work_station.domain.entity.WorkStation;
 import org.mapstruct.Mapper;
 import org.mapstruct.NullValuePropertyMappingStrategy;
@@ -22,4 +23,6 @@ public interface WorkStationTransfer {
     WorkStationDTO toDTO(WorkStation workStation);
 
     List<WorkStationDTO> toDTOs(List<WorkStation> workStations);
+
+    WorkStationDTO toDTO(WorkStation workStation, List<PutWall> putWalls);
 }

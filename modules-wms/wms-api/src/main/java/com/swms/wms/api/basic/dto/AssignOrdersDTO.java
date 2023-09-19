@@ -2,31 +2,33 @@ package com.swms.wms.api.basic.dto;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 import java.util.List;
 
 @Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
+@Accessors(chain = true)
 public class AssignOrdersDTO {
-
-    @NotNull
-    private Long workStationId;
 
     @NotEmpty
     private List<AssignDetail> assignDetails;
 
     @Data
+    @Accessors(chain = true)
     public static class AssignDetail {
-        @NotEmpty
-        private List<Long> orderIds;
+
+        @NotNull
+        private Long workStationId;
 
         @NotEmpty
         private String putWallSlotCode;
+
+        @NotEmpty
+        private String putWallCode;
+
+        @NotEmpty
+        private Long orderId;
+
     }
 }
