@@ -20,8 +20,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
-import java.util.TreeMap;
 
 @Service
 public class StockApplicationApiImpl implements IStockApi {
@@ -42,7 +42,7 @@ public class StockApplicationApiImpl implements IStockApi {
     private SkuBatchAttributeRepository skuBatchAttributeRepository;
 
     @Override
-    public void createSkuBatchAttribute(SkuMainDataDTO skuMainDataDTO, TreeMap<String, Object> skuAttributes) {
+    public void createSkuBatchAttribute(SkuMainDataDTO skuMainDataDTO, Map<String, Object> skuAttributes) {
         List<SkuBatchAttribute> skuBatchAttributes = skuBatchAttributeRepository.findAllBySkuId(skuMainDataDTO.getId());
         if (CollectionUtils.isEmpty(skuBatchAttributes) || skuBatchAttributes.stream().noneMatch(v -> v.isSame(skuAttributes))) {
             skuBatchAttributeRepository.save(new SkuBatchAttribute(skuMainDataDTO.getId(), skuAttributes));

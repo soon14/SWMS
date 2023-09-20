@@ -6,6 +6,7 @@ import com.swms.wms.api.task.constants.OperationTaskStatusEnum;
 import com.swms.wms.api.task.constants.OperationTaskTypeEnum;
 import lombok.Data;
 
+import java.util.Map;
 import java.util.Objects;
 
 @Data
@@ -14,7 +15,6 @@ public class OperationTask {
     private Long id;
 
     private String warehouseCode;
-    private String taskNo;
     private OperationTaskTypeEnum taskType;
 
     private Long workStationId;
@@ -36,8 +36,10 @@ public class OperationTask {
     private String targetContainerCode;
     private String targetContainerSlotCode;
 
-    private Long pickingOrderId;
-    private Long pickingOrderDetailId;
+    private Long orderId;
+    private Long detailId;
+
+    private Map<Long, String> assignedStationSlot;
 
     private OperationTaskStatusEnum taskStatus;
 

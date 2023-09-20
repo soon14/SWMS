@@ -26,8 +26,6 @@ public class OperationTaskDTO {
     @NotEmpty
     private String warehouseCode;
 
-    @NotEmpty
-    private String taskNo;
     @NotNull
     private OperationTaskTypeEnum taskType;
 

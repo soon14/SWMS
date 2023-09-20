@@ -12,6 +12,7 @@ import com.swms.outbound.domain.entity.OutboundPlanOrderDetail;
 import com.swms.outbound.domain.repository.OutboundPlanOrderRepository;
 import com.swms.outbound.facade.BatchAttributeConfigFacade;
 import com.swms.outbound.facade.SkuMainDataFacade;
+import com.swms.wms.api.outbound.constants.OutboundPlanOrderStatusEnum;
 import com.swms.wms.api.outbound.event.NewOutboundPlanOrderEvent;
 import com.swms.wms.api.outbound.event.OutboundPlanOrderAssignedEvent;
 import com.swms.wms.api.stock.ISkuBatchAttributeApi;
@@ -63,9 +64,13 @@ public class OutboundPlanOrderSubscribe {
         PreAllocateCache preAllocateCache = new PreAllocateCache();
 
         OutboundPlanOrder outboundPlanOrder = outboundPlanOrderRepository.findByOrderNo(event.getOrderNo());
+        if (outboundPlanOrder.getOutboundPlanOrderStatus() != OutboundPlanOrderStatusEnum.NEW) {
+            log.error("outbound status must be NEW when preparing allocate stocks");
+            return;
+        }
 
         List<Long> skuIds = outboundPlanOrder.getDetails()
-            .stream().map(OutboundPlanOrderDetail::getSkuId).collect(Collectors.toList());
+            .stream().map(OutboundPlanOrderDetail::getSkuId).toList();
         Map<Long, List<SkuBatchAttributeDTO>> skuBatchAttributeMap = skuBatchAttributeApi.getBySkuIds(skuIds)
             .stream().collect(Collectors.groupingBy(SkuBatchAttributeDTO::getSkuId));
 
@@ -91,11 +96,16 @@ public class OutboundPlanOrderSubscribe {
         preAllocateCache.setSkuBatchAttributeConfigMap(skuBatchAttributeConfigMap);
         preAllocateCache.setSkuBatchStocks(skuBatchStockDTOS);
 
-        outboundPlanOrderPreAllocatedAggregate.preAllocate(outboundPlanOrder, preAllocateCache);
+        boolean preAllocateResult = outboundPlanOrderPreAllocatedAggregate.preAllocate(outboundPlanOrder, preAllocateCache);
 
-        publisher.sendAsyncEvent(new OutboundPlanOrderAssignedEvent()
-            .setOutboundPlanOrderId(outboundPlanOrder.getId())
-            .setWarehouseCode(outboundPlanOrder.getWarehouseCode()));
+        if (preAllocateResult) {
+            publisher.sendAsyncEvent(new OutboundPlanOrderAssignedEvent()
+                .setOutboundPlanOrderId(outboundPlanOrder.getId())
+                .setWarehouseCode(outboundPlanOrder.getWarehouseCode()));
+        } else {
+            //TODO prepare allocate stocks error, order complete and callback
+        }
+
     }
 
     @Data

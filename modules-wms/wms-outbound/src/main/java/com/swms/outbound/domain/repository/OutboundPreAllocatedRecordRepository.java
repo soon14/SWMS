@@ -1,11 +1,11 @@
 package com.swms.outbound.domain.repository;
 
-import com.swms.outbound.domain.entity.OutboundOrderPlanPreAllocatedRecord;
+import com.swms.outbound.domain.entity.OutboundPreAllocatedRecord;
 
 import java.util.List;
 
 public interface OutboundPreAllocatedRecordRepository {
-    void saveAll(List<OutboundOrderPlanPreAllocatedRecord> planPreAllocatedRecords);
+    void saveAll(List<OutboundPreAllocatedRecord> planPreAllocatedRecords);
 
-    List<OutboundOrderPlanPreAllocatedRecord> findByOutboundPlanOrderId(Long outboundPlanOrderId);
+    List<OutboundPreAllocatedRecord> findByOutboundPlanOrderId(Long outboundPlanOrderId);
 }

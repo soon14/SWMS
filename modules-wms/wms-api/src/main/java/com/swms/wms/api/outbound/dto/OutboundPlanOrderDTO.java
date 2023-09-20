@@ -53,7 +53,7 @@ public class OutboundPlanOrderDTO {
         private String skuCode;
         private String skuName;
 
-        private TreeMap<String, Object> batchAttributes;
+        private Map<String, Object> batchAttributes;
 
         @NotNull
         @Min(1)

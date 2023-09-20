@@ -4,6 +4,7 @@ import static org.mapstruct.NullValueCheckStrategy.ALWAYS;
 import static org.mapstruct.NullValueMappingStrategy.RETURN_NULL;
 
 import com.swms.outbound.domain.entity.PickingOrder;
+import com.swms.outbound.infrastructure.persistence.po.PickingOrderDetailPO;
 import com.swms.outbound.infrastructure.persistence.po.PickingOrderPO;
 import org.mapstruct.Mapper;
 import org.mapstruct.NullValuePropertyMappingStrategy;
@@ -20,4 +21,6 @@ public interface PickingOrderPOTransfer {
     List<PickingOrderPO> toPOs(List<PickingOrder> pickingOrders);
 
     List<PickingOrder> toDOs(List<PickingOrderPO> pickingOrderPOS);
+
+    PickingOrder toDO(PickingOrderPO pickingOrderPO, List<PickingOrderDetailPO> details);
 }

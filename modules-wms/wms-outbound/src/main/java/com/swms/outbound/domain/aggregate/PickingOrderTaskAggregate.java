@@ -39,7 +39,7 @@ public class PickingOrderTaskAggregate {
 
         List<ContainerStockLockDTO> lockDTOS = operationTaskDTOS.stream()
             .map(v -> ContainerStockLockDTO.builder().lockType(StockLockTypeEnum.OUTBOUND)
-                .lockQty(v.getOperatedQty()).taskId(v.getId())
+                .lockQty(v.getRequiredQty()).taskId(v.getId())
                 .containerStockId(v.getContainerStockId())
                 .build()).toList();
         stockApi.lockContainerStock(lockDTOS);

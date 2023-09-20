@@ -36,6 +36,8 @@ public class OutboundPlanOrder {
 
     private OutboundPlanOrderStatusEnum outboundPlanOrderStatus;
 
+    private boolean shortOutbound;
+
     private boolean abnormal;
     private String abnormalReason;
 
@@ -61,7 +63,27 @@ public class OutboundPlanOrder {
         this.details.forEach(v -> v.setSkuId(skuMap.get(v.getSkuCode()).getId()));
     }
 
-    public void preAllocateDone() {
-        this.outboundPlanOrderStatus = OutboundPlanOrderStatusEnum.ASSIGNED;
+    public boolean preAllocate(List<OutboundPreAllocatedRecord> planPreAllocatedRecords) {
+        Integer totalPreAllocated = planPreAllocatedRecords
+            .stream().map(OutboundPreAllocatedRecord::getQtyPreAllocated).reduce(Integer::sum).orElse(0);
+        Integer totalRequired = details.stream().map(OutboundPlanOrderDetail::getQtyRequired).reduce(Integer::sum).orElse(0);
+        if (totalRequired.equals(totalPreAllocated)) {
+            this.outboundPlanOrderStatus = OutboundPlanOrderStatusEnum.ASSIGNED;
+            return true;
+        }
+
+        if (shortOutbound) {
+            this.outboundPlanOrderStatus = OutboundPlanOrderStatusEnum.SHORT_WAITING;
+            return true;
+        }
+
+        shortComplete();
+        return false;
+    }
+
+    private void shortComplete() {
+        this.outboundPlanOrderStatus = OutboundPlanOrderStatusEnum.PICKED;
+        this.abnormal = true;
+        this.abnormalReason = "short complete";
     }
 }

@@ -16,6 +16,7 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.util.Map;
 import java.util.TreeMap;
 
 @EqualsAndHashCode(callSuper = true)
@@ -50,7 +51,7 @@ public class PickingOrderDetailPO extends UpdateUserPO {
 
     @Column(columnDefinition = "json comment '批次属性'")
     @Convert(converter = MapConverter.class)
-    private TreeMap<String, Object> batchAttributes;
+    private Map<String, Object> batchAttributes;
 
     @Column(nullable = false, columnDefinition = "bigint comment 'sku batch stock ID'")
     private Long skuBatchStockId;

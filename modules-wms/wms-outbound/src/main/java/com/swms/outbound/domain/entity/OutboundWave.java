@@ -17,7 +17,9 @@ public class OutboundWave {
 
     public OutboundWave(String waveNo, List<OutboundPlanOrder> orders) {
         this.waveNo = waveNo;
+        this.warehouseCode = orders.iterator().next().getWarehouseCode();
         this.outboundPlanOrderIds = orders.stream().map(OutboundPlanOrder::getId).toList();
+        this.waveStatus = OutboundWaveStatusEnum.NEW;
     }
 
     private OutboundWaveStatusEnum waveStatus;

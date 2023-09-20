@@ -38,7 +38,7 @@ public class PickingOrderDTO {
         private Long outboundOrderPlanId;
         private Long outboundOrderPlanDetailId;
         private Long skuId;
-        private TreeMap<String, Object> batchAttributes;
+        private Map<String, Object> batchAttributes;
 
         private Long skuBatchStockId;
 

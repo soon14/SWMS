@@ -31,13 +31,15 @@ public class PickingOrderAlgoApiImpl implements IPickingOrderAlgoApi {
     public List<PickingOrderAssignedResult> assignOrders(PickingOrderHandlerContext pickingOrderHandlerContext) {
 
         List<WorkStationDTO> workStations = pickingOrderHandlerContext.getWorkStations()
-            .stream().filter(v -> v.getWorkStationStatus() == WorkStationStatusEnum.ONLINE).toList();
+            .stream()
+            .filter(v -> v.getWorkStationStatus() == WorkStationStatusEnum.ONLINE)
+            .filter(v -> CollectionUtils.isNotEmpty(v.getPutWalls())).toList();
 
         if (CollectionUtils.isEmpty(workStations)) {
             return Collections.emptyList();
         }
 
-        List<PutWallDTO.PutWallSlot> putWallSlots = pickingOrderHandlerContext.getWorkStations()
+        List<PutWallDTO.PutWallSlot> putWallSlots = workStations
             .stream().flatMap(workStationDTO -> workStationDTO.getPutWalls().stream())
             .flatMap(putWallDTO -> putWallDTO.getPutWallSlots().stream())
             .filter(putWallSlot -> putWallSlot.getPutWallSlotStatus() == PutWallSlotStatusEnum.IDLE)

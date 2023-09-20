@@ -14,7 +14,7 @@ public class OutboundPlanOrderDetail {
     private String skuCode;
     private String skuName;
 
-    private TreeMap<String, Object> batchAttributes;
+    private Map<String, Object> batchAttributes;
 
     private Integer qtyRequired;
     private Integer qtyActual;

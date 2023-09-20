@@ -3,6 +3,7 @@ package com.swms.outbound.domain.entity;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.util.Map;
 import java.util.TreeMap;
 
 @Data
@@ -14,7 +15,7 @@ public class PickingOrderDetail {
     private Long outboundOrderPlanId;
     private Long outboundOrderPlanDetailId;
     private Long skuId;
-    private TreeMap<String, Object> batchAttributes;
+    private Map<String, Object> batchAttributes;
 
     private Long skuBatchStockId;
 

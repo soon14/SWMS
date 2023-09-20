@@ -3,11 +3,11 @@ package com.swms.outbound.domain.entity;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-import java.util.TreeMap;
+import java.util.Map;
 
 @Data
 @Accessors(chain = true)
-public class OutboundOrderPlanPreAllocatedRecord {
+public class OutboundPreAllocatedRecord {
 
     private Long id;
 
@@ -15,7 +15,7 @@ public class OutboundOrderPlanPreAllocatedRecord {
     private Long outboundPlanOrderDetailId;
 
     private Long skuId;
-    private TreeMap<String, Object> batchAttributes;
+    private Map<String, Object> batchAttributes;
 
     private Long skuBatchStockId;
 

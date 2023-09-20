@@ -5,6 +5,7 @@ import com.swms.common.utils.exception.WmsException;
 import com.swms.common.utils.validate.IValidate;
 import com.swms.wms.api.basic.constants.PutWallSlotStatusEnum;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,7 +22,7 @@ public class PutWallDTO implements IValidate {
 
     private Long id;
 
-    @NotEmpty
+    @NotNull
     private Long workStationId;
     @NotEmpty
     private String putWallCode;
@@ -46,11 +47,8 @@ public class PutWallDTO implements IValidate {
     public static class PutWallSlot {
 
         private Long id;
-        @NotEmpty
         private Long workStationId;
-        @NotEmpty
         private String putWallCode;
-        @NotEmpty
         private String putWallSlotCode;
 
         // it's define the put wall LEFT or RIGHT or MIDDLE
@@ -63,33 +61,6 @@ public class PutWallDTO implements IValidate {
         private List<Long> orderIds;
         private PutWallSlotStatusEnum putWallSlotStatus;
         private String transferContainerCode;
-
-        public void assignOrders(List<Long> orderIds) {
-
-            if (CollectionUtils.isNotEmpty(this.orderIds)) {
-                throw new WmsException("PutWallSlot is not empty");
-            }
-
-            if (this.putWallSlotStatus != PutWallSlotStatusEnum.IDLE) {
-                throw new WmsException("PutWallSlot is not IDLE");
-            }
-
-            this.orderIds = orderIds;
-            this.putWallSlotStatus = PutWallSlotStatusEnum.WAITING_BINDING;
-        }
-
-        public void appendOrders(List<Long> orderIds) {
-
-            if (CollectionUtils.isEmpty(this.orderIds)) {
-                throw new WmsException("PutWallSlot is empty");
-            }
-
-            if (this.putWallSlotStatus == PutWallSlotStatusEnum.IDLE) {
-                throw new WmsException("PutWallSlot is IDLE, cannot append orders");
-            }
-
-            this.orderIds.addAll(orderIds);
-        }
 
         public void release() {
             if (CollectionUtils.isEmpty(this.orderIds)) {

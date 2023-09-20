@@ -5,23 +5,24 @@ import com.swms.wms.api.stock.dto.ContainerStockDTO;
 import com.swms.wms.api.stock.dto.ContainerStockLockDTO;
 import com.swms.wms.api.stock.dto.SkuBatchStockDTO;
 import com.swms.wms.api.stock.dto.SkuBatchStockLockDTO;
+import jakarta.validation.Valid;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.TreeMap;
+import java.util.Map;
 
 public interface IStockApi {
 
-    void createSkuBatchAttribute(SkuMainDataDTO skuMainDataDTO, TreeMap<String, Object> skuAttributes);
+    void createSkuBatchAttribute(SkuMainDataDTO skuMainDataDTO, Map<String, Object> skuAttributes);
 
     /**
      * when receiving sku into container, create stock
      *
      * @param skuBatchStockLockDTOS
      */
-    void lockSkuBatchStock(List<SkuBatchStockLockDTO> skuBatchStockLockDTOS);
+    void lockSkuBatchStock(@Valid List<SkuBatchStockLockDTO> skuBatchStockLockDTOS);
 
-    void lockContainerStock(List<ContainerStockLockDTO> containerStockLockDTOS);
+    void lockContainerStock(@Valid List<ContainerStockLockDTO> containerStockLockDTOS);
 
     void freezeContainerStock(Long id, int qty);
 

@@ -67,4 +67,10 @@ public class OutboundPlanOrderRepositoryImpl implements OutboundPlanOrderReposit
             return outboundPlanOrderPOTransfer.toDO(outboundPlanOrderPO, detailPOS);
         }).toList();
     }
+
+    @Override
+    public List<OutboundPlanOrder> findByCustomerOrderNo(String customerOrderNo) {
+        List<OutboundPlanOrderPO> outboundPlanOrderPOS = outboundPlanOrderPORepository.findAllByCustomerOrderNo(customerOrderNo);
+        return outboundPlanOrderPOTransfer.toDOs((outboundPlanOrderPOS));
+    }
 }

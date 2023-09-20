@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.DigestUtils;
 
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -71,7 +72,7 @@ public class SkuBatchAttribute extends UpdateUserDTO {
             return "";
         }
 
-        return DigestUtils.md5DigestAsHex(new TreeMap<>(this.skuAttributes).toString().getBytes(StandardCharsets.UTF_8));
+        return DigestUtils.md5DigestAsHex(new HashMap<>(this.skuAttributes).toString().getBytes(StandardCharsets.UTF_8));
     }
 
 }

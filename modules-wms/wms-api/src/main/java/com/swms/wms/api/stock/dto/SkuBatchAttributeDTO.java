@@ -15,7 +15,7 @@ public class SkuBatchAttributeDTO {
 
     private Long skuId;
 
-    private TreeMap<String, Object> skuAttributes;
+    private Map<String, Object> skuAttributes;
 
     private String batchNo;
 

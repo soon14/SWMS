@@ -43,7 +43,6 @@ public class OperationTaskServiceImpl implements OperationTaskService {
                 operationTask.setId(null);
                 operationTask.setRequiredQty(operationTask.getRequiredQty() - operationTask.getOperatedQty());
                 operationTask.setAbnormalQty(0);
-                operationTask.setTaskNo(null);
                 operationTask.setTaskStatus(OperationTaskStatusEnum.CREATED);
             });
             operationTaskRepository.saveAll(splitTasks);

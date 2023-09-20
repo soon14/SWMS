@@ -3,11 +3,11 @@ package com.swms.outbound.domain.aggregate;
 import com.google.common.collect.Lists;
 import com.swms.mdm.api.config.dto.BatchAttributeConfigDTO;
 import com.swms.outbound.application.event.OutboundPlanOrderSubscribe;
-import com.swms.outbound.domain.entity.OutboundOrderPlanPreAllocatedRecord;
 import com.swms.outbound.domain.entity.OutboundPlanOrder;
 import com.swms.outbound.domain.entity.OutboundPlanOrderDetail;
-import com.swms.outbound.domain.repository.OutboundPreAllocatedRecordRepository;
+import com.swms.outbound.domain.entity.OutboundPreAllocatedRecord;
 import com.swms.outbound.domain.repository.OutboundPlanOrderRepository;
+import com.swms.outbound.domain.repository.OutboundPreAllocatedRecordRepository;
 import com.swms.wms.api.stock.IStockApi;
 import com.swms.wms.api.stock.constants.StockLockTypeEnum;
 import com.swms.wms.api.stock.dto.SkuBatchAttributeDTO;
@@ -20,8 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,12 +32,12 @@ public class OutboundPlanOrderPreAllocatedAggregate {
     @Autowired
     private OutboundPreAllocatedRecordRepository preAllocatedRecordRepository;
     @Autowired
-    private IStockApi iStockApi;
+    private IStockApi stockApi;
 
     @Transactional(rollbackFor = Exception.class)
-    public void preAllocate(OutboundPlanOrder outboundPlanOrder, OutboundPlanOrderSubscribe.PreAllocateCache preAllocateCache) {
+    public boolean preAllocate(OutboundPlanOrder outboundPlanOrder, OutboundPlanOrderSubscribe.PreAllocateCache preAllocateCache) {
 
-        List<OutboundOrderPlanPreAllocatedRecord> planPreAllocatedRecords = Lists.newArrayList();
+        List<OutboundPreAllocatedRecord> planPreAllocatedRecords = Lists.newArrayList();
         outboundPlanOrder.getDetails().forEach(detail -> {
 
             List<SkuBatchAttributeDTO> skuBatchAttributeDTOS = match(preAllocateCache.getSkuBatchAttributeMap().get(detail.getSkuId()),
@@ -49,6 +49,13 @@ public class OutboundPlanOrderPreAllocatedAggregate {
             planPreAllocatedRecords.addAll(preAllocate(detail, skuBatchStocks));
         });
 
+        boolean preAllocateResult = outboundPlanOrder.preAllocate(planPreAllocatedRecords);
+        outboundPlanOrderRepository.saveOutboundPlanOrder(outboundPlanOrder);
+
+        if (!preAllocateResult) {
+            return false;
+        }
+
         List<SkuBatchStockLockDTO> skuBatchStockLockDTOS = planPreAllocatedRecords.stream().map(preAllocatedRecord -> {
             SkuBatchStockLockDTO skuBatchStockLockDTO = new SkuBatchStockLockDTO();
             skuBatchStockLockDTO.setSkuBatchStockId(preAllocatedRecord.getSkuBatchStockId());
@@ -57,12 +64,10 @@ public class OutboundPlanOrderPreAllocatedAggregate {
             skuBatchStockLockDTO.setOrderDetailId(preAllocatedRecord.getOutboundPlanOrderDetailId());
             return skuBatchStockLockDTO;
         }).toList();
-        iStockApi.lockSkuBatchStock(skuBatchStockLockDTOS);
+        stockApi.lockSkuBatchStock(skuBatchStockLockDTOS);
 
         preAllocatedRecordRepository.saveAll(planPreAllocatedRecords);
-
-        outboundPlanOrder.preAllocateDone();
-        outboundPlanOrderRepository.saveOutboundPlanOrder(outboundPlanOrder);
+        return true;
     }
 
     private List<SkuBatchStockDTO> filterSkuBatchStock(List<SkuBatchAttributeDTO> skuBatchAttributeDTOS, List<SkuBatchStockDTO> skuBatchStocks) {
@@ -72,7 +77,7 @@ public class OutboundPlanOrderPreAllocatedAggregate {
     }
 
     private List<SkuBatchAttributeDTO> match(List<SkuBatchAttributeDTO> skuBatchAttributeDTOS,
-                                             BatchAttributeConfigDTO batchAttributeConfigDTO, TreeMap<String, Object> batchAttributes) {
+                                             BatchAttributeConfigDTO batchAttributeConfigDTO, Map<String, Object> batchAttributes) {
 
         if (CollectionUtils.isEmpty(skuBatchAttributeDTOS)) {
             return Collections.emptyList();
@@ -84,9 +89,9 @@ public class OutboundPlanOrderPreAllocatedAggregate {
         return skuBatchAttributeDTOS.stream().filter(v -> v.match(batchAttributeConfigDTO, batchAttributes)).toList();
     }
 
-    private List<OutboundOrderPlanPreAllocatedRecord> preAllocate(OutboundPlanOrderDetail detail, List<SkuBatchStockDTO> skuBatchStocks) {
+    private List<OutboundPreAllocatedRecord> preAllocate(OutboundPlanOrderDetail detail, List<SkuBatchStockDTO> skuBatchStocks) {
 
-        List<OutboundOrderPlanPreAllocatedRecord> preAllocatedRecords = Lists.newArrayList();
+        List<OutboundPreAllocatedRecord> preAllocatedRecords = Lists.newArrayList();
 
         int qtyRequired = detail.getQtyRequired();
 
@@ -98,7 +103,7 @@ public class OutboundPlanOrderPreAllocatedAggregate {
             qtyRequired -= preAllocated;
             skuBatchStockDTO.setAvailableQty(skuBatchStockDTO.getAvailableQty() - qtyRequired);
 
-            OutboundOrderPlanPreAllocatedRecord preAllocatedRecord = new OutboundOrderPlanPreAllocatedRecord()
+            OutboundPreAllocatedRecord preAllocatedRecord = new OutboundPreAllocatedRecord()
                 .setSkuBatchStockId(skuBatchStockDTO.getId())
                 .setSkuId(skuBatchStockDTO.getSkuId())
                 .setBatchAttributes(detail.getBatchAttributes())

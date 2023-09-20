@@ -13,13 +13,16 @@ import com.swms.mdm.api.main.data.IWarehouseMainDataApi;
 import com.swms.mdm.api.main.data.dto.OwnerMainDataDTO;
 import com.swms.mdm.api.main.data.dto.SkuMainDataDTO;
 import com.swms.mdm.api.main.data.dto.WarehouseMainDataDTO;
+import lombok.NoArgsConstructor;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.powermock.api.mockito.PowerMockito;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.util.ResourceUtils;
 
 import java.io.File;
@@ -27,10 +30,24 @@ import java.io.IOException;
 
 @SpringBootApplication(scanBasePackages = {"com.swms"})
 @EnableDiscoveryClient
+@NoArgsConstructor
 public class WmsApplicationTest {
+
+    private static ThreadPoolTaskExecutor executor;
+
+    @Autowired
+    private WmsApplicationTest(ThreadPoolTaskExecutor executor) {
+        WmsApplicationTest.executor = executor;
+    }
 
     public static void main(String[] args) {
         SpringApplication.run(WmsApplicationTest.class, args);
+        // Register a shutdown hook to perform cleanup on application shutdown
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            System.out.println("Shutdown hook invoked. Performing cleanup tasks...");
+            // Place your cleanup logic here, e.g., closing resources or saving application state
+            executor.shutdown();
+        }));
     }
 
     @Bean("mockISkuMainDataApi")

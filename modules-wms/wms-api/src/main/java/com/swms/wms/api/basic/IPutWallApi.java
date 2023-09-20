@@ -3,13 +3,9 @@ package com.swms.wms.api.basic;
 import com.swms.wms.api.basic.dto.AssignOrdersDTO;
 import com.swms.wms.api.basic.dto.CreatePutWallDTO;
 import com.swms.wms.api.basic.dto.PutWallDTO;
-import com.swms.wms.api.basic.dto.ReleasePutWallSlotsDTO;
 import com.swms.wms.api.task.dto.BindContainerDTO;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-
-import java.util.List;
 
 public interface IPutWallApi {
 
@@ -23,7 +19,7 @@ public interface IPutWallApi {
 
     void delete(@NotNull Long putWallId);
 
-    void assignOrders(@NotEmpty AssignOrdersDTO assignOrdersDTO);
+    void assignOrders(@Valid AssignOrdersDTO assignOrdersDTO);
 
     void bindContainer(@Valid BindContainerDTO bindContainerDTO);
 

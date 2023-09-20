@@ -9,12 +9,12 @@ import com.swms.outbound.domain.aggregate.OutboundWaveAggregate;
 import com.swms.outbound.domain.entity.OutboundPlanOrder;
 import com.swms.outbound.domain.repository.OutboundPlanOrderRepository;
 import com.swms.outbound.domain.service.OutboundWaveService;
+import com.swms.wms.api.outbound.constants.OutboundPlanOrderStatusEnum;
 import com.swms.wms.api.outbound.event.NewOutboundWaveEvent;
 import com.swms.wms.api.outbound.event.OutboundPlanOrderAssignedEvent;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -54,15 +54,15 @@ public class OutboundWaveSubscribe {
 
         List<OutboundPlanOrder> outboundPlanOrders = outboundPlanOrderRepository.findAllByIds(orderIds);
 
-        List<OutboundPlanOrder> emptyWaveNoOrders = outboundPlanOrders.stream()
-            .filter(v -> StringUtils.isEmpty(v.getWaveNo())).toList();
-        if (CollectionUtils.isEmpty(emptyWaveNoOrders)) {
+        List<OutboundPlanOrder> newOrders = outboundPlanOrders.stream()
+            .filter(v -> v.getOutboundPlanOrderStatus() == OutboundPlanOrderStatusEnum.ASSIGNED).toList();
+        if (CollectionUtils.isEmpty(newOrders)) {
             log.error("lists can't be empty, there maybe something error. remove it from redis.");
-            redisUtils.removeList(redisKey, outboundPlanOrders.stream().map(OutboundPlanOrder::getId).toList());
+            redisUtils.removeList(redisKey, orderIds);
             return;
         }
 
-        List<List<OutboundPlanOrder>> lists = outboundWaveService.wavePickings(emptyWaveNoOrders);
+        List<List<OutboundPlanOrder>> lists = outboundWaveService.wavePickings(newOrders);
         if (CollectionUtils.isEmpty(lists)) {
             return;
         }

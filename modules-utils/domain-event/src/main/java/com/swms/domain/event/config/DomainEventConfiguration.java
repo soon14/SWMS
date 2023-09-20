@@ -6,6 +6,7 @@ import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.SubscriberExceptionContext;
 import com.google.common.eventbus.SubscriberExceptionHandler;
 import com.swms.common.utils.utils.JsonUtils;
+import jakarta.annotation.PreDestroy;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,8 +22,8 @@ public class DomainEventConfiguration {
     private static final int CORE_POOL_SIZE = Runtime.getRuntime().availableProcessors();
     private static final int MAX_POOL_SIZE = CORE_POOL_SIZE * 2 + 1;
 
-    @Bean
-    public Executor asyncEventBusExecutor() {
+    @Bean("threadPoolTaskExecutor")
+    public ThreadPoolTaskExecutor executor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(11);
         executor.setMaxPoolSize(MAX_POOL_SIZE * 4);
@@ -30,7 +31,12 @@ public class DomainEventConfiguration {
         executor.setThreadNamePrefix("async-event-bus-executor");
         executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
         executor.initialize();
-        return TtlExecutors.getTtlExecutor(executor);
+        return executor;
+    }
+
+    @Bean
+    public Executor asyncEventBusExecutor() {
+        return TtlExecutors.getTtlExecutor(executor());
     }
 
     @Bean("asyncEventBus")
@@ -47,7 +53,7 @@ public class DomainEventConfiguration {
         @Override
         public void handleException(Throwable exception, SubscriberExceptionContext context) {
             log.error("exception occurred while handling event: {} with method: {}.",
-                JsonUtils.obj2String(context.getEvent()), context.getSubscriberMethod().getName(), exception);
+                JsonUtils.obj2String(context.getEvent()), context.getSubscriberMethod().getParameterTypes(), exception);
         }
     }
 }

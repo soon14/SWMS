@@ -89,17 +89,6 @@ public class PutWallApiImpl implements IPutWallApi {
         putWallRepository.saveAll(putWalls);
     }
 
-//    @Override
-//    public void releasePutWallSlots(List<ReleasePutWallSlotsDTO> releasePutWallSlotsDTOS) {
-//
-//        List<PutWallDTO.PutWallSlot> putWallSlots = releasePutWallSlotsDTOS.stream()
-//            .flatMap(v -> putWallRepository.findByPutWallSlotCodeIn(v.getPutWallSlotCodes(), v.getWorkStationId()).stream())
-//            .toList();
-//
-//        putWallSlots.forEach(PutWallDTO.PutWallSlot::release);
-//        putWallRepository.saveAll(putWallSlots);
-//    }
-
     @Override
     public void bindContainer(BindContainerDTO bindContainerDTO) {
         PutWall putWall = putWallRepository.findByCodeAndWorkStationId(bindContainerDTO.getPutWallCode()

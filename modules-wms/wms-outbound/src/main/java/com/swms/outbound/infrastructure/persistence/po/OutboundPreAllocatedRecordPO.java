@@ -16,7 +16,7 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.util.TreeMap;
+import java.util.Map;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -50,7 +50,7 @@ public class OutboundPreAllocatedRecordPO extends CreateUserPO {
 
     @Column(columnDefinition = "json comment '批次属性'")
     @Convert(converter = MapConverter.class)
-    private TreeMap<String, Object> batchAttributes;
+    private Map<String, Object> batchAttributes;
 
     @Column(nullable = false, columnDefinition = "int(11) comment '预占用数量'")
     private Integer qtyPreAllocated;

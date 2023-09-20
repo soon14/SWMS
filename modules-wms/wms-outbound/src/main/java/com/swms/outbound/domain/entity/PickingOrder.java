@@ -14,6 +14,8 @@ public class PickingOrder {
 
     private Long id;
 
+    private String warehouseCode;
+
     private String waveNo;
 
     private String pickingOrderNo;

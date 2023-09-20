@@ -1,9 +1,11 @@
 package com.swms.wms.task.infrastructure.persistence.po;
 
 import com.swms.common.utils.base.UpdateUserPO;
+import com.swms.common.utils.jpa.converter.MapConverter;
 import com.swms.wms.api.task.constants.OperationTaskStatusEnum;
 import com.swms.wms.api.task.constants.OperationTaskTypeEnum;
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.EnumType;
@@ -17,6 +19,8 @@ import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.util.Map;
+
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
@@ -24,7 +28,6 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Table(
     name = "w_operation_task",
     indexes = {
-        @Index(unique = true, name = "idx_task_no", columnList = "taskNo"),
         @Index(name = "idx_source_container_code", columnList = "sourceContainerCode"),
         @Index(name = "idx_work_station_target_location", columnList = "workStationId,targetLocationCode")
     }
@@ -35,9 +38,6 @@ public class OperationTaskPO extends UpdateUserPO {
     @GeneratedValue(generator = "databaseIdGenerator")
     @GenericGenerator(name = "databaseIdGenerator", strategy = "com.swms.common.utils.id.IdGenerator")
     private Long id;
-
-    @Column(nullable = false, columnDefinition = "varchar(64) comment '任务编号'")
-    private String taskNo;
 
     @Column(nullable = false, columnDefinition = "varchar(20) comment '任务类型'")
     @Enumerated(EnumType.STRING)
@@ -78,10 +78,20 @@ public class OperationTaskPO extends UpdateUserPO {
     @Column(nullable = false, columnDefinition = "varchar(64) comment '目标容器格口编码'")
     private String targetContainerSlotCode = "";
 
-    @Column(nullable = false, columnDefinition = "bigint comment '拣货单ID'")
-    private Long pickingOrderId;
-    @Column(nullable = false, columnDefinition = "bigint comment '拣货单明细ID'")
-    private Long pickingOrderDetailId;
+    @Column(nullable = false, columnDefinition = "bigint comment '单据ID：可能是拣货单/盘点单/理货单'")
+    private Long orderId;
+    @Column(nullable = false, columnDefinition = "bigint comment '单据明细ID'")
+    private Long detailId;
+
+    /**
+     * one picking order can be assigned to multiple station slot
+     * <p>
+     * Key is the station id
+     * Value is the put wall slot code
+     */
+    @Column(columnDefinition = "json comment '分配的工作站格口'")
+    @Convert(converter = MapConverter.class)
+    private Map<Long, String> assignedStationSlot;
 
     @Column(nullable = false, columnDefinition = "varchar(20) comment '任务状态'")
     @Enumerated(EnumType.STRING)

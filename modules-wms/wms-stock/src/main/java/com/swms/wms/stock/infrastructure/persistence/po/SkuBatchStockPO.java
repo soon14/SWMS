@@ -33,6 +33,9 @@ public class SkuBatchStockPO extends UpdateUserPO {
     @GenericGenerator(name = "databaseIdGenerator", strategy = "com.swms.common.utils.id.IdGenerator")
     private Long id;
 
+    @Column(nullable = false, columnDefinition = "varchar(64) comment '仓库编码'")
+    private String warehouseCode;
+
     @Column(nullable = false, columnDefinition = "bigint default 0 comment 'skuId'")
     private Long skuId;
 

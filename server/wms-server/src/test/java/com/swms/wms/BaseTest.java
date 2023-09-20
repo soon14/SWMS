@@ -14,6 +14,10 @@ import com.swms.outbound.facade.BatchAttributeConfigFacade;
 import com.swms.outbound.facade.OwnerMainDataFacade;
 import com.swms.outbound.facade.SkuMainDataFacade;
 import com.swms.outbound.facade.WarehouseMainDataFacade;
+import com.swms.wms.api.basic.IPutWallApi;
+import com.swms.wms.api.basic.IWorkStationApi;
+import com.swms.wms.api.basic.dto.PutWallDTO;
+import com.swms.wms.api.basic.dto.WorkStationDTO;
 import com.swms.wms.api.inbound.IInboundPlanOrderApi;
 import com.swms.wms.api.inbound.dto.InboundPlanOrderDTO;
 import com.swms.wms.api.outbound.IOutboundPlanOrderApi;
@@ -26,12 +30,14 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.platform.commons.util.PackageUtils;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 
 import java.util.Collections;
+import java.util.List;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = WmsApplicationTest.class)
 public class BaseTest {
@@ -43,6 +49,10 @@ public class BaseTest {
     private IInboundPlanOrderApi inboundPlanOrderApi;
     @Autowired
     private IOutboundPlanOrderApi outboundPlanOrderApi;
+    @Autowired
+    private IWorkStationApi workStationApi;
+    @Autowired
+    private IPutWallApi putWallApi;
 
     @Autowired
     protected ApplicationContext applicationContext;
@@ -142,6 +152,18 @@ public class BaseTest {
         });
 
         outboundPlanOrderApi.createOutboundPlanOrder(outboundPlanOrderDTO);
+    }
+
+    protected void createWorkStation() {
+        WorkStationDTO workStationDTO = ObjectUtils.getRandomObjectIgnoreFields(WorkStationDTO.class, "id", "version", "workLocations");
+        workStationDTO.setWarehouseCode(WAREHOUSE_CODE);
+        workStationApi.save(workStationDTO);
+
+        List<WorkStationDTO> workStationDTOS = workStationApi.getByWarehouseCode(WAREHOUSE_CODE);
+
+        PutWallDTO putWallDTO = ObjectUtils.getRandomObjectIgnoreFields(PutWallDTO.class, "id", "version");
+        putWallDTO.setWorkStationId(workStationDTOS.iterator().next().getId());
+        putWallApi.save(putWallDTO);
     }
 
     @Test

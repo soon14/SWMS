@@ -50,7 +50,7 @@ public class PickingOrderPO extends UpdateUserPO {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, columnDefinition = "varchar(20) comment '状态'")
-    private PickingOrderStatusEnum pickingOrderStatus;
+    private PickingOrderStatusEnum pickingOrderStatus = PickingOrderStatusEnum.NEW;
 
     /**
      * one picking order can be assigned to multiple station slot

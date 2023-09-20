@@ -4,7 +4,7 @@ import com.swms.common.utils.id.OrderNoGenerator;
 import com.swms.extend.outbound.IOutboundWaveSplitPlugin;
 import com.swms.extend.outbound.IPickingOrderAllocateStockPlugin;
 import com.swms.extend.outbound.IPickingOrderAssignPlugin;
-import com.swms.outbound.domain.entity.OutboundOrderPlanPreAllocatedRecord;
+import com.swms.outbound.domain.entity.OutboundPreAllocatedRecord;
 import com.swms.outbound.domain.entity.OutboundWave;
 import com.swms.outbound.domain.entity.PickingOrder;
 import com.swms.outbound.domain.entity.PickingOrderDetail;
@@ -59,7 +59,7 @@ public class PickingOrderServiceImpl implements PickingOrderService {
 
         return outboundWave.getOutboundPlanOrderIds().stream().map(outboundPlanOrderId -> {
 
-            List<OutboundOrderPlanPreAllocatedRecord> records = outboundPreAllocatedRecordRepository
+            List<OutboundPreAllocatedRecord> records = outboundPreAllocatedRecordRepository
                 .findByOutboundPlanOrderId(outboundPlanOrderId);
             List<PickingOrderDetail> pickingOrderDetails = records.stream().map(preAllocatedRecord ->
                 new PickingOrderDetail().setSkuId(preAllocatedRecord.getSkuId())
@@ -70,6 +70,7 @@ public class PickingOrderServiceImpl implements PickingOrderService {
                     .setOutboundOrderPlanDetailId(preAllocatedRecord.getOutboundPlanOrderDetailId())).toList();
 
             return new PickingOrder()
+                .setWarehouseCode(outboundWave.getWarehouseCode())
                 .setPickingOrderNo(OrderNoGenerator.generationPickingOrderNo())
                 .setWaveNo(outboundWave.getWaveNo())
                 .setDetails(pickingOrderDetails);

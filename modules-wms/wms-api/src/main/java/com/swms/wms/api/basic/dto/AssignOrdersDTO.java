@@ -27,7 +27,7 @@ public class AssignOrdersDTO {
         @NotEmpty
         private String putWallCode;
 
-        @NotEmpty
+        @NotNull
         private Long orderId;
 
     }

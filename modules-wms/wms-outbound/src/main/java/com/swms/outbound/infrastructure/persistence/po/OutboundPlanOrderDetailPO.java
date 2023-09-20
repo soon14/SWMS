@@ -49,7 +49,7 @@ public class OutboundPlanOrderDetailPO extends UpdateUserPO {
 
     @Column(columnDefinition = "json comment '批次属性'")
     @Convert(converter = MapConverter.class)
-    private Map<String, Object> batchAttributes = new TreeMap<>();
+    private Map<String, Object> batchAttributes;
 
     @Column(nullable = false, columnDefinition = "int(11) comment '计划数量'")
     private Integer qtyRequired;
