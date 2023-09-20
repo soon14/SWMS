@@ -17,7 +17,6 @@ import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.Map;
-import java.util.TreeMap;
 
 @EqualsAndHashCode(callSuper = true)
 @Data

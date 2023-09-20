@@ -28,11 +28,7 @@ public class SkuValidator implements IValidator<SkuValidator.SkuValidatorObject,
             .filter(v -> skuValidatorObject.getOwnerCode().equals(v.getOwnerCode()))
             .collect(Collectors.toSet());
 
-        final Set<String> dataSkuCodes = skuMainDataDTOS.stream()
-            .map(SkuMainDataDTO::getSkuCode)
-            .collect(Collectors.toSet());
-
-        if (skuValidatorObject.getSkuCodes().size() != skuMainDataDTOS.size()) {
+        if (skuValidatorObject.getSkuCodes().stream().distinct().count() != skuMainDataDTOS.size()) {
             throw WmsException.throwWmsException(MainDataErrorDescEnum.SOME_SKU_CODE_NOT_EXIST, skuValidatorObject.getSkuCodes());
         }
 

@@ -5,7 +5,6 @@ import static org.mapstruct.NullValueMappingStrategy.RETURN_NULL;
 
 import com.swms.outbound.domain.aggregate.OutboundWaveAggregate;
 import com.swms.outbound.domain.entity.OutboundWave;
-import com.swms.plugin.sdk.extensions.OperationContext;
 import com.swms.wms.api.outbound.dto.OutboundWaveDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.NullValuePropertyMappingStrategy;
