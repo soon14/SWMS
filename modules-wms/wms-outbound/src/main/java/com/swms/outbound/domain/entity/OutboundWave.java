@@ -27,4 +27,8 @@ public class OutboundWave {
     public void process() {
         this.waveStatus = OutboundWaveStatusEnum.PROCESSING;
     }
+
+    public void done() {
+        this.waveStatus = OutboundWaveStatusEnum.DONE;
+    }
 }

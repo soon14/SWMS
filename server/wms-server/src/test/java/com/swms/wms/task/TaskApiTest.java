@@ -13,6 +13,8 @@ import com.swms.wms.api.task.constants.OperationTaskStatusEnum;
 import com.swms.wms.api.task.constants.OperationTaskTypeEnum;
 import com.swms.wms.api.task.dto.HandleTaskDTO;
 import com.swms.wms.api.task.dto.OperationTaskDTO;
+import com.swms.wms.task.domain.entity.OperationTask;
+import com.swms.wms.task.domain.repository.OperationTaskRepository;
 import org.apache.commons.collections4.CollectionUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -28,6 +30,9 @@ class TaskApiTest extends BaseTest {
 
     @Autowired
     private IStockApi stockApi;
+
+    @Autowired
+    private OperationTaskRepository operationTaskRepository;
 
     @Test
     @Transactional
@@ -69,6 +74,20 @@ class TaskApiTest extends BaseTest {
         operationTaskDTOS = taskApi.queryTasks(operationTaskDTO.getWorkStationId(),
             Lists.newArrayList(operationTaskDTO.getSourceContainerCode()), operationTaskDTO.getTaskType());
         Assertions.assertSame(OperationTaskStatusEnum.PROCESSED, operationTaskDTOS.get(0).getTaskStatus());
+    }
+
+    @Test
+    void testHandleTask() throws InterruptedException {
+        List<OperationTask> operationTasks = operationTaskRepository.findAllByIds(Lists.newArrayList(492351075085586432L));
+
+        HandleTaskDTO.HandleTask handleTask = HandleTaskDTO.HandleTask.builder().taskId(operationTasks.get(0).getId())
+            .handleTaskType(HandleTaskDTO.HandleTaskTypeEnum.COMPLETE)
+            .requiredQty(operationTasks.get(0).getRequiredQty()).operatedQty(3).abnormalQty(0).build();
+        HandleTaskDTO handleTaskDTO = HandleTaskDTO.builder().handleTasks(Lists.newArrayList(handleTask))
+            .handleTaskType(HandleTaskDTO.HandleTaskTypeEnum.COMPLETE).build();
+        taskApi.handleTasks(handleTaskDTO);
+
+        Thread.sleep(10000L);
     }
 
     @Test

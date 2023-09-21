@@ -9,6 +9,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring",
     nullValueCheckStrategy = ALWAYS,
     nullValueMappingStrategy = RETURN_NULL,
@@ -18,4 +20,8 @@ public interface OutboundWavePOTransfer {
     OutboundWavePO toPO(OutboundWave outboundWave);
 
     OutboundWave toDO(OutboundWavePO outboundWavePO);
+
+    List<OutboundWave> toDOs(List<OutboundWavePO> outboundWavePOS);
+
+    List<OutboundWavePO> toPOs(List<OutboundWave> outboundWaves);
 }

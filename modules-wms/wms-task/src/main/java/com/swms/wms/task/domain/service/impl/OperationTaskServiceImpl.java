@@ -5,7 +5,6 @@ import com.swms.wms.api.task.dto.HandleTaskDTO;
 import com.swms.wms.task.domain.entity.OperationTask;
 import com.swms.wms.task.domain.repository.OperationTaskRepository;
 import com.swms.wms.task.domain.service.OperationTaskService;
-import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +21,7 @@ public class OperationTaskServiceImpl implements OperationTaskService {
     private OperationTaskRepository operationTaskRepository;
 
     @Transactional
-    public void handleTasks(HandleTaskDTO handleTaskDTO) {
+    public List<OperationTask> handleTasks(HandleTaskDTO handleTaskDTO) {
 
         //1. update operatedQty and status and abnormalQty
         Map<Long, HandleTaskDTO.HandleTask> handleTaskMap = handleTaskDTO.getHandleTasks().stream()
@@ -47,13 +46,8 @@ public class OperationTaskServiceImpl implements OperationTaskService {
             });
             operationTaskRepository.saveAll(splitTasks);
         }
+
+        return operationTasks;
     }
 
-    public List<OperationTask> getByPutWallSlotAndStation(String putWallSlotCode, @NotNull Long workStationId) {
-        return operationTaskRepository.findAllByPutWallSlotCodeAndWorkStationId(putWallSlotCode, workStationId);
-    }
-
-    public List<OperationTask> queryOperationTasksByIds(List<Long> taskIds) {
-        return operationTaskRepository.findAllByIds(taskIds);
-    }
 }

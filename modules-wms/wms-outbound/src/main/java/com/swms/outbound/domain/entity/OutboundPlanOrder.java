@@ -86,4 +86,13 @@ public class OutboundPlanOrder {
         this.abnormal = true;
         this.abnormalReason = "short complete";
     }
+
+    public void picking(Integer operatedQty, Long outboundOrderDetailId) {
+        details.stream().filter(v -> v.getId().equals(outboundOrderDetailId))
+            .forEach(detail -> detail.setQtyActual(detail.getQtyActual() + operatedQty));
+
+        if (this.outboundPlanOrderStatus == OutboundPlanOrderStatusEnum.ASSIGNED) {
+            this.outboundPlanOrderStatus = OutboundPlanOrderStatusEnum.PICKING;
+        }
+    }
 }

@@ -14,6 +14,7 @@ import com.swms.outbound.facade.BatchAttributeConfigFacade;
 import com.swms.outbound.facade.SkuMainDataFacade;
 import com.swms.wms.api.outbound.constants.OutboundPlanOrderStatusEnum;
 import com.swms.wms.api.outbound.event.NewOutboundPlanOrderEvent;
+import com.swms.wms.api.outbound.event.OrderPickingEvent;
 import com.swms.wms.api.outbound.event.OutboundPlanOrderAssignedEvent;
 import com.swms.wms.api.stock.ISkuBatchAttributeApi;
 import com.swms.wms.api.stock.IStockApi;
@@ -59,7 +60,7 @@ public class OutboundPlanOrderSubscribe {
     private DomainEventPublisher publisher;
 
     @Subscribe
-    public void onEvent(@Valid NewOutboundPlanOrderEvent event) {
+    public void onCreateEvent(@Valid NewOutboundPlanOrderEvent event) {
 
         PreAllocateCache preAllocateCache = new PreAllocateCache();
 
@@ -106,6 +107,27 @@ public class OutboundPlanOrderSubscribe {
             //TODO prepare allocate stocks error, order complete and callback
         }
 
+    }
+
+    @Subscribe
+    public void onPickingEvent(@Valid OrderPickingEvent event) {
+
+        List<OrderPickingEvent.PickingDetail> pickingDetails = event.getPickingDetails();
+        List<Long> outboundPlanOrderIds = pickingDetails.stream().map(OrderPickingEvent.PickingDetail::getOutboundOrderId).toList();
+        List<Long> outboundPlanOrderDetailIds = pickingDetails.stream().map(OrderPickingEvent.PickingDetail::getOutboundOrderDetailId).toList();
+        List<OutboundPlanOrder> outboundPlanOrders = outboundPlanOrderRepository.findAllByIds(outboundPlanOrderIds);
+        outboundPlanOrders.forEach(outboundPlanOrder ->
+            outboundPlanOrder.getDetails().removeIf(v -> !outboundPlanOrderDetailIds.contains(v.getId())));
+
+        Map<Long, OutboundPlanOrder> outboundPlanOrderMap = outboundPlanOrders.stream().collect(Collectors.toMap(OutboundPlanOrder::getId, v -> v));
+        pickingDetails.forEach(pickingDetail -> {
+            OutboundPlanOrder outboundPlanOrder = outboundPlanOrderMap.get(pickingDetail.getOutboundOrderId());
+            outboundPlanOrder.picking(pickingDetail.getOperatedQty(), pickingDetail.getOutboundOrderDetailId());
+        });
+
+        outboundPlanOrderRepository.saveOrderAndDetails(outboundPlanOrders);
+
+        //TODO callback if order completed
     }
 
     @Data

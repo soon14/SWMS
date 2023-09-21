@@ -41,17 +41,7 @@ public class PickingOrderRepositoryImpl implements PickingOrderRepository {
 
     @Override
     public List<PickingOrder> findByPickingOrderNos(Collection<String> pickingOrderNos) {
-        Map<Long, PickingOrderPO> pickingOrderPOMap = pickingOrderPORepository.findAllByPickingOrderNoIn(pickingOrderNos)
-            .stream().collect(Collectors.toMap(PickingOrderPO::getId, v -> v));
-        Map<Long, List<PickingOrderDetailPO>> pickingOrderDetailMap = pickingOrderDetailPORepository
-            .findByPickingOrderIdIn(pickingOrderPOMap.keySet())
-            .stream().collect(Collectors.groupingBy(PickingOrderDetailPO::getPickingOrderId));
-
-        List<PickingOrder> pickingOrders = Lists.newArrayList();
-        pickingOrderDetailMap.forEach((pickingOrderId, details) ->
-            pickingOrders.add(pickingOrderPOTransfer.toDO(pickingOrderPOMap.get(pickingOrderId), details)));
-
-        return pickingOrders;
+        return transferPickingOrders(pickingOrderPORepository.findAllByPickingOrderNoIn(pickingOrderNos));
     }
 
     @Override
@@ -68,5 +58,30 @@ public class PickingOrderRepositoryImpl implements PickingOrderRepository {
 
         List<PickingOrderDetail> pickingOrderDetails = pickingOrders.stream().flatMap(v -> v.getDetails().stream()).toList();
         pickingOrderDetailPORepository.saveAll(pickingOrderDetailPOTransfer.toPOs(pickingOrderDetails));
+    }
+
+    @Override
+    public List<PickingOrder> findByPickingOrderIds(Collection<Long> pickingOrderIds) {
+        List<PickingOrderPO> pickingOrderPOS = pickingOrderPORepository.findAllById(pickingOrderIds);
+        return transferPickingOrders(pickingOrderPOS);
+    }
+
+    @Override
+    public List<PickingOrder> findByWaveNos(List<String> waveNos) {
+        List<PickingOrderPO> pickingOrderPOS = pickingOrderPORepository.findAllByWaveNoIn(waveNos);
+        return pickingOrderPOTransfer.toDOs(pickingOrderPOS);
+    }
+
+    private List<PickingOrder> transferPickingOrders(List<PickingOrderPO> pickingOrderPOS) {
+        Map<Long, PickingOrderPO> pickingOrderPOMap = pickingOrderPOS.stream().collect(Collectors.toMap(PickingOrderPO::getId, v -> v));
+        Map<Long, List<PickingOrderDetailPO>> pickingOrderDetailMap = pickingOrderDetailPORepository
+            .findByPickingOrderIdIn(pickingOrderPOMap.keySet())
+            .stream().collect(Collectors.groupingBy(PickingOrderDetailPO::getPickingOrderId));
+
+        List<PickingOrder> pickingOrders = Lists.newArrayList();
+        pickingOrderDetailMap.forEach((pickingOrderId, details) ->
+            pickingOrders.add(pickingOrderPOTransfer.toDO(pickingOrderPOMap.get(pickingOrderId), details)));
+
+        return pickingOrders;
     }
 }

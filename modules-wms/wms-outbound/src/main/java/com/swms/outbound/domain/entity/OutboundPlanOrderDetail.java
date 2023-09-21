@@ -1,10 +1,12 @@
 package com.swms.outbound.domain.entity;
 
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.util.Map;
 
 @Data
+@Accessors(chain = true)
 public class OutboundPlanOrderDetail {
 
     private Long id;

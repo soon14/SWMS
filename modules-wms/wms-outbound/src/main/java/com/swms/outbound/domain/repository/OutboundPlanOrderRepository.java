@@ -17,4 +17,6 @@ public interface OutboundPlanOrderRepository {
     List<OutboundPlanOrder> findAllByIds(List<Long> orderIds);
 
     List<OutboundPlanOrder> findByCustomerOrderNo(String customerOrderNo);
+
+    void saveOrderAndDetails(List<OutboundPlanOrder> outboundPlanOrders);
 }

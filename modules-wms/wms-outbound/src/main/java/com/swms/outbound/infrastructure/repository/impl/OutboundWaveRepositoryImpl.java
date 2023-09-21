@@ -8,6 +8,8 @@ import com.swms.outbound.infrastructure.persistence.transfer.OutboundWavePOTrans
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class OutboundWaveRepositoryImpl implements OutboundWaveRepository {
 
@@ -26,5 +28,16 @@ public class OutboundWaveRepositoryImpl implements OutboundWaveRepository {
     public OutboundWave findByWaveNo(String waveNo) {
         OutboundWavePO outboundWavePO = outboundWavePORepository.findByWaveNo(waveNo);
         return outboundWavePOTransfer.toDO(outboundWavePO);
+    }
+
+    @Override
+    public List<OutboundWave> findByWaveNos(List<String> waveNos) {
+        List<OutboundWavePO> outboundWavePOS = outboundWavePORepository.findByWaveNoIn(waveNos);
+        return outboundWavePOTransfer.toDOs(outboundWavePOS);
+    }
+
+    @Override
+    public void saveAll(List<OutboundWave> outboundWaves) {
+        outboundWavePORepository.saveAll(outboundWavePOTransfer.toPOs(outboundWaves));
     }
 }

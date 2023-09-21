@@ -1,6 +1,7 @@
 package com.swms.outbound.infrastructure.repository.impl;
 
 import com.swms.outbound.domain.entity.OutboundPlanOrder;
+import com.swms.outbound.domain.entity.OutboundPlanOrderDetail;
 import com.swms.outbound.domain.repository.OutboundPlanOrderRepository;
 import com.swms.outbound.infrastructure.persistence.mapper.OutboundPlanOrderDetailPORepository;
 import com.swms.outbound.infrastructure.persistence.mapper.OutboundPlanOrderPORepository;
@@ -72,5 +73,12 @@ public class OutboundPlanOrderRepositoryImpl implements OutboundPlanOrderReposit
     public List<OutboundPlanOrder> findByCustomerOrderNo(String customerOrderNo) {
         List<OutboundPlanOrderPO> outboundPlanOrderPOS = outboundPlanOrderPORepository.findAllByCustomerOrderNo(customerOrderNo);
         return outboundPlanOrderPOTransfer.toDOs((outboundPlanOrderPOS));
+    }
+
+    @Override
+    public void saveOrderAndDetails(List<OutboundPlanOrder> outboundPlanOrders) {
+        outboundPlanOrderPORepository.saveAll(outboundPlanOrderPOTransfer.toPOS(outboundPlanOrders));
+        List<OutboundPlanOrderDetail> outboundPlanOrderDetails = outboundPlanOrders.stream().flatMap(v -> v.getDetails().stream()).toList();
+        outboundPlanOrderDetailPORepository.saveAll(outboundPlanOrderPOTransfer.toDetailPOS(outboundPlanOrderDetails));
     }
 }

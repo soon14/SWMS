@@ -12,4 +12,7 @@ public interface PickingOrderRepository {
 
     void saveOrderAndDetails(List<PickingOrder> pickingOrders);
 
+    List<PickingOrder> findByPickingOrderIds(Collection<Long> pickingOrderIds);
+
+    List<PickingOrder> findByWaveNos(List<String> waveNos);
 }

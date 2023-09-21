@@ -7,6 +7,7 @@ import org.apache.commons.collections4.MapUtils;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Data
 @Accessors(chain = true)
@@ -38,5 +39,16 @@ public class PickingOrder {
         }
         this.assignedStationSlot = assignedStationSlot;
         this.pickingOrderStatus = PickingOrderStatusEnum.DISPATCHED;
+    }
+
+    public void picking(Integer operatedQty, Long detailId) {
+        details.stream().filter(v -> v.getId().equals(detailId))
+            .forEach(detail -> detail.setQtyActual(detail.getQtyActual() + operatedQty));
+
+        if (details.stream().allMatch(v -> Objects.equals(v.getQtyRequired(), v.getQtyActual()))) {
+            this.pickingOrderStatus = PickingOrderStatusEnum.PICKED;
+        } else {
+            this.pickingOrderStatus = PickingOrderStatusEnum.PICKING;
+        }
     }
 }
