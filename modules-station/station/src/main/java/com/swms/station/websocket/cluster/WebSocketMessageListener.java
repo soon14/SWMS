@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class WebSocketMessageListener {
 
-    @RedisListener(topic = "${topics.iwms.station.websocket}")
+    @RedisListener(topic = "${station.listen.station.websocket}")
     public void onMessage(String workStationId) {
 
         if (workStationId == null) {
