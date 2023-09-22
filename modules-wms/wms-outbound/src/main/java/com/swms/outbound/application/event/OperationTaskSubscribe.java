@@ -3,8 +3,6 @@ package com.swms.outbound.application.event;
 import com.google.common.eventbus.Subscribe;
 import com.swms.wms.api.outbound.event.NewOperationTaskEvent;
 import jakarta.validation.Valid;
-import lombok.Data;
-import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 

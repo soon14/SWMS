@@ -117,6 +117,9 @@ public class RedisUtils {
         return TenantContext.getTenant() + "." + key;
     }
 
+    public List<String> keys(String pattern) {
+        return redissonClient.getKeys().getKeysStreamByPattern(pattern).toList();
+    }
 }
 
 

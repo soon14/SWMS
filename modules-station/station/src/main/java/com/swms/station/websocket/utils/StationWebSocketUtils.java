@@ -24,10 +24,7 @@ public class StationWebSocketUtils {
                 stationWebSocketController.getSession() == null ? "NULL" : stationWebSocketController.getSession().getId());
 
             stationWebSocketController.sendMessage(message);
-        } else {
-            log.debug("StationWebSocketUtils STATION_WEBSOCKET does not exist! station: {}, message:{}", workStationId, message);
         }
-
     }
 
     /**
