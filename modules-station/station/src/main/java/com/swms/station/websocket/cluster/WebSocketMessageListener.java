@@ -1,5 +1,6 @@
 package com.swms.station.websocket.cluster;
 
+import com.swms.common.utils.constants.RedisConstants;
 import com.swms.mq.redis.RedisListener;
 import com.swms.station.websocket.utils.StationWebSocketUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +15,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class WebSocketMessageListener {
 
-    @RedisListener(topic = "${station.listen.station.websocket}")
+    @RedisListener(topic = RedisConstants.STATION_LISTEN_STATION_WEBSOCKET)
     public void onMessage(String workStationId) {
 
         if (workStationId == null) {
