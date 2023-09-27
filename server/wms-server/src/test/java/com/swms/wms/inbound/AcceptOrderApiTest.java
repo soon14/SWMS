@@ -1,9 +1,9 @@
 package com.swms.wms.inbound;
 
-import com.swms.inbound.domain.entity.AcceptOrder;
-import com.swms.inbound.domain.entity.InboundPlanOrder;
-import com.swms.inbound.domain.repository.AcceptOrderRepository;
-import com.swms.inbound.domain.repository.InboundPlanOrderRepository;
+import com.swms.wms.inbound.domain.entity.AcceptOrder;
+import com.swms.wms.inbound.domain.entity.InboundPlanOrder;
+import com.swms.wms.inbound.domain.repository.AcceptOrderRepository;
+import com.swms.wms.inbound.domain.repository.InboundPlanOrderRepository;
 import com.swms.wms.BaseTest;
 import com.swms.wms.api.inbound.IAcceptOrderApi;
 import com.swms.wms.api.inbound.constants.AcceptMethodEnum;

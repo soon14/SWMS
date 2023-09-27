@@ -1,7 +1,7 @@
 package com.swms.wms.inbound;
 
-import com.swms.inbound.domain.entity.InboundPlanOrder;
-import com.swms.inbound.domain.repository.InboundPlanOrderRepository;
+import com.swms.wms.inbound.domain.entity.InboundPlanOrder;
+import com.swms.wms.inbound.domain.repository.InboundPlanOrderRepository;
 import com.swms.wms.BaseTest;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
