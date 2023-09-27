@@ -25,6 +25,7 @@ dependencies {
     implementation project(path: ":modules-wms:wms-outbound", configuration: 'default')
     implementation project(path: ":modules-wms:wms-algo", configuration: 'default')
     implementation project(path: ":modules-tenant:tenant-config", configuration: 'default')
+    implementation project(path: ":modules-utils:exception-handler", configuration: 'default')
 
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-web'

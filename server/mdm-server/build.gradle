@@ -14,11 +14,12 @@ dependencies {
     testImplementation 'org.powermock:powermock-module-junit4-rule'
     testImplementation 'org.powermock:powermock-classloading-xstream'
 
-    implementation project(path: ":modules-mdm:mdm-extend", configuration: 'default')
     implementation project(path: ":modules-mdm:mdm-config", configuration: 'default')
     implementation project(path: ":modules-mdm:mdm-main-data", configuration: 'default')
+    implementation project(path: ":modules-international:international-core", configuration: 'default')
     implementation project(path: ":modules-tenant:tenant-config", configuration: 'default')
     implementation project(path: ":modules-plugin:plugin-sdk", configuration: 'default')
+    implementation project(path: ":modules-utils:exception-handler", configuration: 'default')
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'

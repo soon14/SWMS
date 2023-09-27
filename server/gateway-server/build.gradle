@@ -10,6 +10,8 @@ repositories {
 }
 
 dependencies {
+    implementation project(path: ":modules-utils:exception-handler", configuration: 'default')
+
     implementation project(path: ":modules-gateway:gateway-core", configuration: 'default')
 
     implementation('org.springframework.boot:spring-boot-starter') {

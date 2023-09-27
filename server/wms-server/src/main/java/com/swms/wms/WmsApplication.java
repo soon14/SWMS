@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication(scanBasePackages = {"com.swms"})
 @EnableDubbo(scanBasePackages = "com.swms")
-@EnableJpaRepositories("com.swms")
+@EnableJpaRepositories({"com.swms.wms", "com.swms.domain.event"})
 public class WmsApplication {
     public static void main(String[] args) {
         SpringApplication.run(WmsApplication.class, args);
