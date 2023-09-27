@@ -16,7 +16,6 @@ import java.util.function.Supplier;
  * wms exception
  *
  * @author sws
- * @date 2023/02/24
  */
 @Data
 @Builder
@@ -37,20 +36,17 @@ public class WmsException extends RuntimeException {
      */
     private String message;
 
-    /**
-     * wms例外
-     *
-     * @param message 消息
-     */
+    private Object[] args;
+
     public WmsException(String message) {
         this.message = message;
     }
 
-    /**
-     * wms例外
-     *
-     * @param iBaseError 代码
-     */
+    public WmsException(String message, Object... args) {
+        this.message = message;
+        this.args = args;
+    }
+
     public WmsException(IBaseError iBaseError) {
         this.code = iBaseError.getCode();
         this.message = iBaseError.getDesc();
@@ -65,8 +61,7 @@ public class WmsException extends RuntimeException {
      * @return {@link WmsException}
      */
     public static WmsException throwWmsException(IBaseError iBaseError) {
-        return WmsException.builder()
-            .code(iBaseError.getCode())
+        return WmsException.builder().code(iBaseError.getCode())
             .message(iBaseError.getDesc())
             .build();
     }
@@ -112,7 +107,7 @@ public class WmsException extends RuntimeException {
     public static Supplier<WmsException> throwWmsExceptionSup(IBaseError iBaseError, Object... args) {
         return () -> WmsException.builder()
             .code(iBaseError.getCode())
-            .message(MessageFormat.format(iBaseError.getDesc(), args))
+            .args(args)
             .build();
     }
 

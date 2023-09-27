@@ -17,7 +17,7 @@ public class OutboundAsyncExecutorConfig {
     public Executor wavePickingExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(Runtime.getRuntime().availableProcessors() * 2 + 1);
-        executor.setMaxPoolSize(16);
+        executor.setMaxPoolSize(executor.getCorePoolSize() * 2);
         executor.setQueueCapacity(256);
         executor.setThreadNamePrefix("wave-picking-executor");
         executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
@@ -29,7 +29,7 @@ public class OutboundAsyncExecutorConfig {
     public Executor pickingOrderHandleExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(Runtime.getRuntime().availableProcessors() * 2 + 1);
-        executor.setMaxPoolSize(16);
+        executor.setMaxPoolSize(executor.getCorePoolSize() * 2);
         executor.setQueueCapacity(256);
         executor.setThreadNamePrefix("picking-order-handle-executor");
         executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());

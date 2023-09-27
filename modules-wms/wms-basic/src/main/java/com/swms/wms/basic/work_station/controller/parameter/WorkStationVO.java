@@ -40,7 +40,7 @@ public class WorkStationVO {
     private boolean enable;
     private Long version;
 
-    public List<WorkStationDTO.WorkLocation<? extends WorkStationDTO.WorkLocationSlot>> getWorkLocations() {
+    public List<WorkStationDTO.WorkLocation<WorkStationDTO.WorkLocationSlot>> getWorkLocations() {
 
         return Lists.newArrayList(WorkStationDTO.WorkLocation.builder()
             .stationCode(stationCode)

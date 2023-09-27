@@ -1,6 +1,6 @@
 package com.swms.common.utils.id;
 
-import com.swms.common.utils.exception.WmsException;
+import com.swms.common.utils.exception.CommonException;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -48,7 +48,8 @@ public class Snowflake {
     public synchronized long nextId() {
         long timestamp = System.currentTimeMillis();
         if (timestamp < lastTimestamp) {
-            throw new WmsException(String.format("Clock moved backwards. Refusing to generate id for %d milliseconds", lastTimestamp - timestamp));
+            throw new CommonException(String.format("Clock moved backwards. Refusing to generate id for %d milliseconds",
+                lastTimestamp - timestamp));
         }
         if (lastTimestamp == timestamp) {
             sequence = (sequence + 1) & SEQUENCE_MASK;

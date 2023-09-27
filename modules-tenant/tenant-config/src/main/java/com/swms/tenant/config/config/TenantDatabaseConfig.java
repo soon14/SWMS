@@ -49,7 +49,7 @@ public class TenantDatabaseConfig {
      */
     @Bean
     public MultiTenantConnectionProvider multiTenantConnectionProvider() {
-        // Autowires the multi connection provider
+        // Autowire the multi connection provider
         return new DataSourceBasedMultiTenantConnectionProviderImpl();
     }
 

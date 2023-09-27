@@ -157,14 +157,13 @@ public class WorkStation {
     public void setArrivedContainersOnLocation(List<ArrivedContainer> newArrivedContainers) {
         if (CollectionUtils.isNotEmpty(workLocations)
             && workLocations.stream().anyMatch(workLocation -> StringUtils.equals(workLocation.getWorkLocationCode(), newArrivedContainers.get(0).getWorkLocationCode()))) {
-            newArrivedContainers.forEach(arrivedContainer -> {
+            newArrivedContainers.forEach(arrivedContainer ->
                 workLocations.stream().flatMap(workLocation -> workLocation.getWorkLocationSlots()
                     .stream()).forEach(workLocationSlotExtend -> {
                     if (workLocationSlotExtend.getSlotCode().equals(arrivedContainer.getLocationCode())) {
                         workLocationSlotExtend.setArrivedContainer(arrivedContainer);
                     }
-                });
-            });
+                }));
         } else {
             WorkLocationExtend workLocationExtend = new WorkLocationExtend();
             List<WorkLocationExtend.WorkLocationSlotExtend> workLocationSlotExtends = newArrivedContainers.stream().map(arrivedContainer -> {

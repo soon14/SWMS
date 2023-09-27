@@ -4,7 +4,7 @@ import com.swms.common.utils.exception.WmsException;
 import com.swms.common.utils.exception.code_enum.MainDataErrorDescEnum;
 import com.swms.mdm.api.main.data.dto.OwnerMainDataDTO;
 import com.swms.outbound.domain.validator.IValidator;
-import com.swms.outbound.facade.OwnerMainDataFacade;
+import com.swms.outbound.infrastructure.remote.OwnerMainDataFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

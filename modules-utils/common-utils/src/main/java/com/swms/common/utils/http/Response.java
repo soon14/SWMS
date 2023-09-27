@@ -1,6 +1,5 @@
 package com.swms.common.utils.http;
 
-import com.swms.common.utils.exception.code_enum.IBaseError;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -31,7 +30,7 @@ public final class Response<T> {
 
 
     /**
-     * @see IBaseError
+     *
      */
     @Builder.Default
     private String code = SUCCESS_CODE;
@@ -62,11 +61,4 @@ public final class Response<T> {
         return success;
     }
 
-    public static <T> Response<T> fail() {
-        return ((Response<T>) Response.builder().code(FAIL_CODE).msg(FAILED_MSG).build());
-    }
-
-    public static <T> Response<T> fail(IBaseError baseEr) {
-        return ((Response<T>) Response.builder().code(baseEr.getCode()).msg(baseEr.getDesc()).build());
-    }
 }

@@ -3,7 +3,6 @@ package com.swms.plugin.api;
 import com.swms.plugin.api.dto.TenantPluginConfigDTO;
 
 import java.util.List;
-import java.util.Map;
 
 public interface IPluginApi {
 

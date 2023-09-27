@@ -26,6 +26,7 @@ public class DataSourceUtil {
         HikariDataSource ds = (HikariDataSource) factory.build();
         ds.setKeepaliveTime(40000);
         ds.setMinimumIdle(10);
+        ds.setMaximumPoolSize(60);
         ds.setMaxLifetime(45000);
         ds.setIdleTimeout(35000);
         return ds;

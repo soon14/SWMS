@@ -3,7 +3,7 @@ package com.swms.common.utils.utils;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.swms.common.utils.exception.WmsException;
+import com.swms.common.utils.exception.CommonException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.EnumUtils;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -49,7 +49,7 @@ public class ObjectUtils {
         try {
             return getRandomObjectIgnoreFields(tClass);
         } catch (Exception e) {
-            throw new WmsException(e.getMessage());
+            throw new CommonException(e.getMessage());
         }
     }
 
@@ -78,7 +78,7 @@ public class ObjectUtils {
             return t;
 
         } catch (Exception e) {
-            throw new WmsException(e.getMessage());
+            throw new CommonException(e.getMessage());
         }
     }
 

@@ -17,7 +17,7 @@ import com.swms.mdm.api.main.data.dto.SkuMainDataDTO;
 import com.swms.mdm.config.domain.entity.BarcodeParseRule;
 import com.swms.mdm.config.domain.repository.BarcodeParseRuleRepository;
 import com.swms.mdm.config.domain.transfer.BarcodeParseRuleTransfer;
-import com.swms.mdm.extend.IBarcodeParseRulePlugin;
+import com.swms.plugin.extend.mdm.config.IBarcodeParseRulePlugin;
 import com.swms.plugin.sdk.utils.PluginUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -66,7 +66,7 @@ public class BarcodeParseRuleApplicationImpl implements IBarcodeParseRuleApi {
 
         List<IBarcodeParseRulePlugin> iBarcodeParseRulePlugins = pluginUtils.getExtractObject(IBarcodeParseRulePlugin.class);
         if (CollectionUtils.isNotEmpty(iBarcodeParseRulePlugins)) {
-            iBarcodeParseRulePlugins.forEach(v -> v.doAfterCreateBarcode(barcodeParseRuleDTO));
+            iBarcodeParseRulePlugins.forEach(v -> v.afterDoOperation(barcodeParseRuleDTO));
         }
 
     }

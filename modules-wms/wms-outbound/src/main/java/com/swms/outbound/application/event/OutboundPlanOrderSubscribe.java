@@ -10,8 +10,8 @@ import com.swms.outbound.domain.aggregate.OutboundPlanOrderPreAllocatedAggregate
 import com.swms.outbound.domain.entity.OutboundPlanOrder;
 import com.swms.outbound.domain.entity.OutboundPlanOrderDetail;
 import com.swms.outbound.domain.repository.OutboundPlanOrderRepository;
-import com.swms.outbound.facade.BatchAttributeConfigFacade;
-import com.swms.outbound.facade.SkuMainDataFacade;
+import com.swms.outbound.infrastructure.remote.BatchAttributeConfigFacade;
+import com.swms.outbound.infrastructure.remote.SkuMainDataFacade;
 import com.swms.wms.api.outbound.constants.OutboundPlanOrderStatusEnum;
 import com.swms.wms.api.outbound.event.NewOutboundPlanOrderEvent;
 import com.swms.wms.api.outbound.event.OrderPickingEvent;

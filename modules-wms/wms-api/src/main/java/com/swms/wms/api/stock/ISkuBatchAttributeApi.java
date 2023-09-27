@@ -1,8 +1,6 @@
 package com.swms.wms.api.stock;
 
 import com.swms.wms.api.stock.dto.SkuBatchAttributeDTO;
-import com.swms.wms.api.stock.dto.SkuBatchAttributeMatchRequest;
-import com.swms.wms.api.stock.dto.SkuBatchAttributeMatchResult;
 import jakarta.validation.constraints.NotEmpty;
 
 import java.util.Collection;

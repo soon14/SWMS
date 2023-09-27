@@ -10,17 +10,15 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.json.JsonMapper;
-import com.swms.common.utils.exception.WmsException;
+import com.swms.common.utils.exception.CommonException;
 import com.swms.common.utils.exception.code_enum.CommonErrorDescEnum;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.ClassUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.SortedMap;
 import java.util.TimeZone;
 
 /**
@@ -65,17 +63,6 @@ public class JsonUtils {
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         // 允许接受空字符串
         objectMapper.configure(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, true);
-    }
-
-    /**
-     * 将非基础类型或者String的 Object 转化成为 Map
-     */
-    public static Map<String, Object> obj2Map(Object object) {
-        if (ClassUtils.isPrimitiveOrWrapper(object.getClass()) || object instanceof String) {
-            log.error("json processing error: {}.", object);
-            throw new WmsException(CommonErrorDescEnum.JSON_PARSER_ERROR);
-        }
-        return OBJECT_MAPPER.convertValue(object, Map.class);
     }
 
     /**
@@ -161,8 +148,8 @@ public class JsonUtils {
         try {
             return OBJECT_MAPPER.readValue(str, elementClasses);
         } catch (JsonProcessingException e) {
-            log.error("obj2String json processing error: ", e);
-            throw new WmsException(CommonErrorDescEnum.JSON_PARSER_ERROR);
+            log.error("string2Object json: {} processing error: ", str, e);
+            throw new CommonException(CommonErrorDescEnum.JSON_PARSER_ERROR.getDesc(), str);
         }
     }
 
@@ -201,8 +188,8 @@ public class JsonUtils {
         try {
             return OBJECT_MAPPER.readValue(str, Map.class);
         } catch (JsonProcessingException e) {
-            log.error("string2Map json processing error: ", e);
-            throw new WmsException(CommonErrorDescEnum.JSON_PARSER_ERROR);
+            log.error("string2Map json: {} processing error: ", str, e);
+            throw new CommonException(CommonErrorDescEnum.JSON_PARSER_ERROR.getDesc(), str);
         }
     }
 
@@ -211,8 +198,8 @@ public class JsonUtils {
             return OBJECT_MAPPER.readValue(str, new TypeReference<>() {
             });
         } catch (JsonProcessingException e) {
-            log.error("string2Map json processing error: ", e);
-            throw new WmsException(CommonErrorDescEnum.JSON_PARSER_ERROR);
+            log.error("string2MapObject json: {} processing error: ", str, e);
+            throw new CommonException(CommonErrorDescEnum.JSON_PARSER_ERROR.getDesc(), str);
         }
     }
 
@@ -234,8 +221,8 @@ public class JsonUtils {
         try {
             return OBJECT_MAPPER.readValue(str, javaType);
         } catch (JsonProcessingException e) {
-            log.error("string2Collection json processing error: ", e);
-            throw new WmsException(CommonErrorDescEnum.JSON_PARSER_ERROR);
+            log.error("string2Collection json: {} processing error: ", str, e);
+            throw new CommonException("json parse error", str);
         }
     }
 
@@ -256,7 +243,7 @@ public class JsonUtils {
             return OBJECT_MAPPER.readTree(obj2String(object));
         } catch (JsonProcessingException e) {
             log.error("json processing error: ", e);
-            throw new WmsException(CommonErrorDescEnum.JSON_PARSER_ERROR);
+            throw new CommonException("json parse error", object);
         }
     }
 

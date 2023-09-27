@@ -4,7 +4,7 @@ import com.swms.common.utils.exception.WmsException;
 import com.swms.common.utils.exception.code_enum.MainDataErrorDescEnum;
 import com.swms.mdm.api.main.data.dto.SkuMainDataDTO;
 import com.swms.outbound.domain.validator.IValidator;
-import com.swms.outbound.facade.SkuMainDataFacade;
+import com.swms.outbound.infrastructure.remote.SkuMainDataFacade;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,7 +1,7 @@
 package com.swms.plugin.example;
 
 import com.swms.mdm.api.config.dto.BarcodeParseRuleDTO;
-import com.swms.mdm.extend.IBarcodeParseRulePlugin;
+import com.swms.plugin.extend.mdm.config.IBarcodeParseRulePlugin;
 import com.swms.plugin.sdk.config.TenantPluginConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.pf4j.Extension;

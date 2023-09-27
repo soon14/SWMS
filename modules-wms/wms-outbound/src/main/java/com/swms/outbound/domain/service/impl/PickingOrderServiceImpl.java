@@ -1,9 +1,6 @@
 package com.swms.outbound.domain.service.impl;
 
 import com.swms.common.utils.id.OrderNoGenerator;
-import com.swms.extend.outbound.IOutboundWaveSplitPlugin;
-import com.swms.extend.outbound.IPickingOrderAllocateStockPlugin;
-import com.swms.extend.outbound.IPickingOrderAssignPlugin;
 import com.swms.outbound.domain.entity.OutboundPreAllocatedRecord;
 import com.swms.outbound.domain.entity.OutboundWave;
 import com.swms.outbound.domain.entity.PickingOrder;
@@ -12,6 +9,9 @@ import com.swms.outbound.domain.repository.OutboundPreAllocatedRecordRepository;
 import com.swms.outbound.domain.service.PickingOrderService;
 import com.swms.outbound.domain.transfer.OutboundWaveTransfer;
 import com.swms.outbound.domain.transfer.PickingOrderTransfer;
+import com.swms.plugin.extend.wms.outbound.IOutboundWaveSplitPlugin;
+import com.swms.plugin.extend.wms.outbound.IPickingOrderAllocateStockPlugin;
+import com.swms.plugin.extend.wms.outbound.IPickingOrderAssignPlugin;
 import com.swms.plugin.sdk.utils.PluginUtils;
 import com.swms.wms.api.algo.IPickingOrderAlgoApi;
 import com.swms.wms.api.outbound.dto.PickingOrderAssignedResult;

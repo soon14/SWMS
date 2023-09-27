@@ -1,6 +1,6 @@
 package com.swms.domain.event;
 
-import com.swms.common.utils.exception.WmsException;
+import com.swms.common.utils.exception.CommonException;
 import com.swms.common.utils.utils.JsonUtils;
 import com.swms.domain.event.domain.DomainEventPO;
 import com.swms.domain.event.domain.repository.DomainEventPORepository;
@@ -61,7 +61,7 @@ public class DomainTransactionAspect {
             if (TransactionSynchronizationManager.isActualTransactionActive()) {
                 transactionManager.rollback(status);
             }
-            throw new WmsException(e.getMessage());
+            throw new CommonException(e.getMessage());
         }
     }
 }

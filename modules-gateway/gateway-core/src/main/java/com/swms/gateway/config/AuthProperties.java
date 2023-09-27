@@ -19,16 +19,6 @@ public class AuthProperties {
     private List<String> ignoreUrl = new ArrayList<>();
 
     /**
-     * 是否启用网关鉴权模式
-     */
-//    private Boolean enable = true;
-
-    /**
-     * 网关鉴权超时续时时长
-     */
-    private long extendTimeSecond;
-
-    /**
      * JWT签名KEY
      */
     private String signingKey = "defaultSigningKey";

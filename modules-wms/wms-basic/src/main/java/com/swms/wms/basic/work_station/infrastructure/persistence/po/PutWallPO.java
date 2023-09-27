@@ -3,7 +3,6 @@ package com.swms.wms.basic.work_station.infrastructure.persistence.po;
 import com.swms.common.utils.base.UpdateUserPO;
 import com.swms.wms.api.basic.dto.PutWallDTO;
 import com.swms.wms.basic.work_station.infrastructure.persistence.converter.ListPutWallSlotConverter;
-import com.swms.wms.basic.work_station.infrastructure.persistence.converter.ListWorkLocationConverter;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;

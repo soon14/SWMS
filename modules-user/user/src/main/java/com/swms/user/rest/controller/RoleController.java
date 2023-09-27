@@ -66,7 +66,7 @@ public class RoleController extends BaseResource {
 
     @PostMapping("/updateRoleMenu/{id}")
     @ApiOperation("分配角色菜单和权限")
-    public Object updateRoleMenu(@PathVariable long id, @RequestBody @Valid RoleMenuUpdateParam param) throws Exception {
+    public Object updateRoleMenu(@PathVariable long id, @RequestBody @Valid RoleMenuUpdateParam param) {
         param.setRoleId(id);
         roleService.updateRoleMenu(param);
         return Response.builder().build();
@@ -74,21 +74,21 @@ public class RoleController extends BaseResource {
 
     @PostMapping("/add")
     @ApiOperation("添加角色")
-    public Object add(@RequestBody @Valid RoleAddParam param) throws Exception {
+    public Object add(@RequestBody @Valid RoleAddParam param) {
         roleService.addRole(param);
         return Response.builder().build();
     }
 
     @PostMapping("update")
     @ApiOperation("修改角色")
-    public Object update(@RequestBody @Valid RoleUpdateParam param) throws Exception {
+    public Object update(@RequestBody @Valid RoleUpdateParam param) {
         roleService.updateRole(param);
         return Response.builder().build();
     }
 
     @DeleteMapping("{id}")
     @ApiOperation("删除角色")
-    public Object delete(@PathVariable Long id) throws Exception {
+    public Object delete(@PathVariable Long id) {
         roleService.deleteRole(id);
         return Response.builder().build();
     }

@@ -8,7 +8,6 @@ include 'modules-wms:wms-task'
 include 'modules-wms:wms-stock'
 include 'modules-wms:wms-stock-movement'
 include 'modules-wms:wms-report'
-include 'modules-wms:wms-extend'
 
 include 'modules-station:station'
 include 'modules-station:station-extend'
@@ -16,7 +15,6 @@ include 'modules-station:station-extend'
 include 'modules-mdm:mdm-config'
 include 'modules-mdm:mdm-main-data'
 include 'modules-mdm:mdm-api'
-include 'modules-mdm:mdm-extend'
 
 include 'modules-user:user'
 include 'modules-user:user-api'
@@ -26,7 +24,6 @@ include 'modules-tenant:tenant-api'
 include 'modules-tenant:tenant-config'
 
 include 'modules-gateway:gateway-core'
-include 'modules-gateway:gateway-extend'
 
 include 'modules-search:search-core'
 
@@ -35,11 +32,20 @@ include 'modules-utils:domain-event'
 include 'modules-utils:distribute-lock'
 include 'modules-utils:mq'
 include 'modules-utils:distribute-file'
+include 'modules-utils:exception-handler'
 
 include 'modules-plugin:plugin-core'
 include 'modules-plugin:plugin-sdk'
 include 'modules-plugin:plugin-api'
 include 'modules-plugin:plugin-example'
+include 'modules-plugin:plugin-extend'
+
+include 'modules-wms:wms-algo'
+
+include 'modules-international'
+include 'modules-international:international-core'
+include 'modules-international:i18n-sdk'
+include 'modules-international:international-api'
 
 include 'server:search-server'
 include 'server:wms-server'
@@ -49,6 +55,4 @@ include 'server:user-server'
 include 'server:tenant-server'
 include 'server:gateway-server'
 include 'server:plugin-server'
-include 'modules-wms:wms-algo'
-findProject(':modules-wms:wms-algo')?.name = 'wms-algo'
 

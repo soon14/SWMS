@@ -2,7 +2,6 @@ package com.swms.user.service.model;
 
 import com.swms.common.utils.user.AuthConstants;
 import com.swms.user.repository.entity.Role;
-import com.swms.common.utils.user.UserContext;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 

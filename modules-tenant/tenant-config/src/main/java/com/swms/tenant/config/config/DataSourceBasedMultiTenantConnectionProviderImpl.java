@@ -37,7 +37,7 @@ public class DataSourceBasedMultiTenantConnectionProviderImpl
     /**
      * Map to store the tenant ids as key and the data source as the value
      */
-    private static Map<String, DataSource> dataSourcesMtApp = Maps.newConcurrentMap();
+    private static final Map<String, DataSource> dataSourcesMtApp = Maps.newConcurrentMap();
 
     @Override
     protected DataSource selectAnyDataSource() {
@@ -49,7 +49,7 @@ public class DataSourceBasedMultiTenantConnectionProviderImpl
             if (masterTenants == null || masterTenants.isEmpty()) {
                 return null;
             }
-            log.info(">>>> selectAnyDataSource :{} -- Total tenants:", masterTenants.size());
+            log.info("fetch all tenant size: {}.", masterTenants.size());
             for (TenantDTO masterTenant : masterTenants) {
                 dataSourcesMtApp.put(masterTenant.getTenantId(), DataSourceUtil.createAndConfigureDataSource(masterTenant));
             }

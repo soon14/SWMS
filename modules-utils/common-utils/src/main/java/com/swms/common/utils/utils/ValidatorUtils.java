@@ -1,8 +1,6 @@
 package com.swms.common.utils.utils;
 
-import static com.swms.common.utils.exception.code_enum.CommonErrorDescEnum.PARAMETER_ERROR;
-
-import com.swms.common.utils.exception.WmsException;
+import com.swms.common.utils.exception.CommonException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
 import org.apache.commons.collections4.CollectionUtils;
@@ -34,9 +32,8 @@ public class ValidatorUtils {
         Set<ConstraintViolation<Object>> violations = validator.validate(object);
         if (CollectionUtils.isNotEmpty(violations)) {
             ConstraintViolation<Object> violation = violations.iterator().next();
-            throw WmsException.builder().code(PARAMETER_ERROR.getCode())
-                .message(violation.getPropertyPath().toString() +
-                    "[" + violation.getInvalidValue() + "] " + violation.getMessage()).build();
+            throw new CommonException(violation.getPropertyPath().toString() +
+                "[" + violation.getInvalidValue() + "] " + violation.getMessage());
         }
     }
 }

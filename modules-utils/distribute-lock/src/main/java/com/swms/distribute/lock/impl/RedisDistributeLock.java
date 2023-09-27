@@ -1,7 +1,6 @@
 package com.swms.distribute.lock.impl;
 
-import com.swms.common.utils.exception.WmsException;
-import com.swms.common.utils.exception.code_enum.CommonErrorDescEnum;
+import com.swms.common.utils.exception.CommonException;
 import com.swms.common.utils.utils.RedisUtils;
 import com.swms.distribute.lock.DistributeLock;
 import org.redisson.api.RLock;
@@ -37,7 +36,7 @@ public class RedisDistributeLock implements DistributeLock {
     public void acquireLockIfThrows(String lockKey, long waitTimeInMillis) {
         boolean acquireLock = acquireLock(lockKey, waitTimeInMillis);
         if (!acquireLock) {
-            throw WmsException.throwWmsException(CommonErrorDescEnum.REPEAT_REQUEST);
+            throw new CommonException("request repeated, please try again");
         }
     }
 

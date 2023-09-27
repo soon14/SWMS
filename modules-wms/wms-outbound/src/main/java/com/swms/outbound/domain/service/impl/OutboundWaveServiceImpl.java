@@ -1,10 +1,10 @@
 package com.swms.outbound.domain.service.impl;
 
 import com.google.common.collect.Lists;
-import com.swms.extend.outbound.IOutboundWavePickingPlugin;
 import com.swms.outbound.domain.entity.OutboundPlanOrder;
 import com.swms.outbound.domain.service.OutboundWaveService;
 import com.swms.outbound.domain.transfer.OutboundPlanOrderTransfer;
+import com.swms.plugin.extend.wms.outbound.IOutboundWavePickingPlugin;
 import com.swms.plugin.sdk.utils.PluginUtils;
 import com.swms.wms.api.outbound.dto.OutboundPlanOrderDTO;
 import org.apache.commons.collections4.CollectionUtils;
